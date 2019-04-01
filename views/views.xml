@@ -12,6 +12,13 @@
       <field name="res_model">auto_word.wind</field>
       <field name="view_mode">tree,form</field>
     </record>
+
+    <record model="ir.actions.act_window" id="auto_word_wind_turbines_act_window">
+      <field name="name">风机列表</field>
+      <field name="res_model">auto_word_wind.turbines</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
     <!-- server action to the one above -->
     <!--
     <record model="ir.actions.server" id="auto_word.action_server">
@@ -34,11 +41,15 @@
 
     <menuitem name="项目" id="auto_word_project" parent="auto_word.menu_root"/>
     <menuitem name="风能" id="auto_word_wind" parent="auto_word.menu_root"/>
+    <menuitem name="风机信息" id="auto_word_wind_turbines_menu" parent="auto_word.menu_root"/>
     -->
     <!-- actions -->
     <menuitem name="项目详情" id="auto_word_project_detail_list" parent="auto_word_project"
               action="auto_word_project_act_window"/>
-        <menuitem name="风能详情" id="auto_word_wind_detail_list" parent="auto_word_wind"
+    <menuitem name="风能详情" id="auto_word_wind_detail_list" parent="auto_word_wind"
               action="auto_word_wind_act_window"/>
+    <menuitem name="风机详情" id="auto_word_wind_turbines_list" parent="auto_word_wind_turbines_menu"
+              groups="wind_group_user" action="auto_word_wind_turbines_act_window"/>
+
   </data>
 </odoo>

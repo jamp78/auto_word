@@ -1,6 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_auto_word_project,auto_word_project,model_auto_word_project,auto_word_group_manager,1,1,1,1
-access_auto_word_wind,auto_word_wind,model_auto_word_wind,auto_word_group_manager,1,1,1,1
+access_auto_word_project_manager,auto_word_project,model_auto_word_project,auto_word_group_manager,1,1,1,1
+access_auto_word_wind_manager,auto_word_wind,model_auto_word_wind,auto_word_group_manager,1,1,1,1
+access_auto_word_wind_turbines_manager,auto_word_wind_turbines,model_auto_word_wind_turbines,auto_word_group_manager,1,1,1,1
 
-access_auto_word_project,auto_word_project,model_auto_word_project,wind_group_user,1,1,1,1
-access_auto_word_wind,auto_word_wind,model_auto_word_wind,wind_group_user,1,1,1,1
+
+access_auto_word_project_wind_group,auto_word_project,model_auto_word_project,wind_group_user,1,1,1,1
+access_auto_word_wind_wind_group,auto_word_wind,model_auto_word_wind,wind_group_user,1,1,1,1
+access_auto_word_wind_turbines_wind_group,auto_word_wind_turbines,model_auto_word_wind_turbines,wind_group_user,1,1,1,1

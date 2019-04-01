@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
 from . import models
-from . import autowind
+from . import auto_word_wind

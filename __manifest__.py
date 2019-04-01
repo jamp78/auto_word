@@ -31,6 +31,8 @@
         'views/project_view.xml',
         'views/wind_view.xml',
         'views/wind_res_view.xml',
+        'views/wind_turbines_view.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [
