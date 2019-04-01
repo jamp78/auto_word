@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_auto_word_auto_word,auto_word.auto_word,model_auto_word_auto_word,,1,0,0,0
+access_auto_word_project,auto_word_project,model_auto_word_project,,1,1,1,1

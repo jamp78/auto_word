@@ -1,28 +1,11 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="auto_word.list">
-      <field name="name">AutoWord list</field>
-      <field name="model">auto_word.auto_word</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
-      </field>
-    </record>
-    -->
 
-    <!-- actions opening views on models -->
-    <!--
-    <record model="ir.actions.act_window" id="auto_word.action_window">
-      <field name="name">AutoWord window</field>
-      <field name="res_model">auto_word.auto_word</field>
+    <record model="ir.actions.act_window" id="auto_word_project_act_window">
+      <field name="name">项目列表</field>
+      <field name="res_model">auto_word.project</field>
       <field name="view_mode">tree,form</field>
     </record>
-    -->
 
     <!-- server action to the one above -->
     <!--
@@ -40,21 +23,15 @@
     </record>
     -->
 
-    <!-- Top menu item -->
-    <!--
-    <menuitem name="AutoWord" id="auto_word.menu_root"/>
+
+    <menuitem name="自动编制报告系统" id="auto_word.menu_root"/>
     -->
-    <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="auto_word.menu_1" parent="auto_word.menu_root"/>
-    <menuitem name="Menu 2" id="auto_word.menu_2" parent="auto_word.menu_root"/>
+
+    <menuitem name="项目" id="auto_word_project" parent="auto_word.menu_root"/>
+    <menuitem name="风能" id="auto_word_wind" parent="auto_word.menu_root"/>
     -->
     <!-- actions -->
-    <!--
-    <menuitem name="List" id="auto_word.menu_1_list" parent="auto_word.menu_1"
-              action="auto_word.action_window"/>
-    <menuitem name="Server to list" id="auto_word" parent="auto_word.menu_2"
-              action="auto_word.action_server"/>
-    -->
+    <menuitem name="项目详情" id="auto_word_project_detail_list" parent="auto_word_project"
+              action="auto_word_project_act_window"/>
   </data>
 </odoo>

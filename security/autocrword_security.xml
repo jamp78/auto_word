@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="module_auto_word_category" model="ir.module.category">
+        <field name="name">auto_word</field>
+    </record>
+
+    <!-- auto_word User Group -->
+    <record id="auto_word_group_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_auto_word_category" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+
+
+        <!-- auto_word Wind User Group -->
+    <record id="wind_group_user" model="res.groups">
+        <field name="name">WindUser</field>
+        <field name="category_id" ref="module_auto_word_category" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+    
+            <!-- auto_word Project User Group -->
+    <record id="project_group_user" model="res.groups">
+        <field name="name">ProjectUser</field>
+        <field name="category_id" ref="module_auto_word_category" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+    
+            <!-- auto_word Civil User GroCup -->
+    <record id="civil_group_user" model="res.groups">
+        <field name="name">CivilUser</field>
+        <field name="category_id" ref="module_auto_word_category" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+    
+
+        <!-- auto_word Electrical User Group -->
+    <record id="electrical_group_user" model="res.groups">
+        <field name="name">ElectricalUser</field>
+        <field name="category_id" ref="module_auto_word_category" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>    
+
+            <!-- auto_word Economic User Group -->
+    <record id="economic_group_user" model="res.groups">
+        <field name="name">EconomicUser</field>
+        <field name="category_id" ref="module_auto_word_category" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+    
+
+        <!-- auto_word Manager Group -->
+    <record id="auto_word_group_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_auto_word_category" />
+        <field name="implied_ids" eval="[(4, ref('auto_word_group_user'))]" />
+        <field name="users" eval="[
+                    (4, ref('base.user_root')),
+                    (4, ref('base.user_admin'))
+                ]" />
+    </record>
+</odoo>
