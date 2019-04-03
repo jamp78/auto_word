@@ -3,4 +3,5 @@
 from . import models
 from . import auto_word_wind
 from . import auto_word_civil
+from . import auto_word_electrical
 from . import source

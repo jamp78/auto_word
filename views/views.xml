@@ -67,12 +67,8 @@
         </record>
         <record model="ir.actions.act_window" id="auto_word_wind_electric_chapter6_6_act_window">
           <field name="name">集电线路</field>
-          <field name="res_model">auto_word_null.project</field>
+          <field name="res_model">auto_word.electrical</field>
           <field name="view_mode">tree,form</field>
-          <field name="help" type="html">
-                <p class="oe_view_nocontent_create">正在开发，敬请等待！
-                </p>
-          </field>
         </record>
 
     <record model="ir.actions.act_window" id="auto_word_civil_act_window">
@@ -128,6 +124,38 @@
           <field name="view_mode">tree,form</field>
         </record>
 
+
+
+    <!--<record model="ir.actions.act_window" id="auto_word_civil_information_menu">-->
+      <!--<field name="name">土建信息</field>-->
+      <!--<field name="res_model">auto_word.civil</field>-->
+      <!--<field name="view_mode">tree,form</field>-->
+    <!--</record>-->
+
+        <record model="ir.actions.act_window" id="auto_word_civil_windbase_act_window">
+          <field name="name">风机基础数据</field>
+          <field name="res_model">auto_word_civil.windbase</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_civil_convertbase_act_window">
+          <field name="name">箱变基础数据表</field>
+          <field name="res_model">auto_word_civil.convertbase</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_civil_boosterstation_act_window">
+          <field name="name">升压站基础数据表</field>
+          <field name="res_model">auto_word_civil.boosterstation</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_civil_road_act_window">
+          <field name="name">道路基础数据表</field>
+          <field name="res_model">auto_word_civil.road4</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
     <!-- server action to the one above -->
     <!--
     <record model="ir.actions.server" id="auto_word.action_server">
@@ -170,13 +198,23 @@
         <menuitem name="道路设计" id="auto_word_civil_chapter8_5_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_5_act_window"/>
 
 
-
-
-
     <menuitem name="风机信息" id="auto_word_wind_turbines_menu" parent="auto_word.menu_root"/>
+      <menuitem name="风机详情" id="auto_word_wind_turbines_list" parent="auto_word_wind_turbines_menu"
+              groups="wind_group_user" action="auto_word_wind_turbines_act_window" sequence="1"/>
       <menuitem name="风机功率" id="auto_word_wind_turbines_power_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_turbines_power_act_window"/>
       <menuitem name="风机效率" id="auto_word_wind_turbines_efficiency_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_turbines_efficiency_act_window"/>
-    -->
+
+    <menuitem name="土建信息" id="auto_word_civil_information_menu" parent="auto_word.menu_root" />
+      <menuitem name="风机基础数据表" id="auto_word_civil_windbase_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_windbase_act_window" sequence="1"/>
+      <menuitem name="箱变基础数据表" id="auto_word_civil_convertbase_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_convertbase_act_window" sequence="2"/>
+      <menuitem name="升压站基础数据表" id="auto_word_civil_boosterstation_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_boosterstation_act_window" sequence="3"/>
+      <menuitem name="道路基础数据表" id="auto_word_civil_road_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_road_act_window" sequence="4"/>
+
+
     <!-- actions -->
     <menuitem name="项目详情" id="auto_word_project_detail_list" parent="auto_word_project"
               action="auto_word_project_act_window" sequence="1"/>
@@ -188,8 +226,7 @@
 
 
 
-    <menuitem name="风机详情" id="auto_word_wind_turbines_list" parent="auto_word_wind_turbines_menu"
-              groups="wind_group_user" action="auto_word_wind_turbines_act_window" sequence="1"/>
+
         <!--<menuitem name="风机功率" id="auto_word_wind_turbines_power_list" parent="auto_word_wind_turbines_menu"-->
               <!--groups="wind_group_user" action="auto_word_wind_turbines_power_act_window"/>-->
         <!--<menuitem name="风机效率" id="auto_word_wind_turbines_efficiency_list" parent="auto_word_wind_turbines_menu"-->

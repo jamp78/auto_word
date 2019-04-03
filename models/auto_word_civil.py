@@ -3,7 +3,6 @@
 from doc_8 import generate_civil_docx, get_dict_8
 import base64
 import numpy
-from . import auto_word_wind
 from odoo import models, fields, api
 
 
@@ -13,7 +12,8 @@ class auto_word_civil(models.Model):
     _rec_name = 'project_id'
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
+    # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
+    turbine_numbers = fields.Char(u'机位数', compute='_get_turbines', store=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
         [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
@@ -62,7 +62,12 @@ class auto_word_civil(models.Model):
     direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="待提交", readonly=True)
     main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
 
-    @api.multi
+    @api.one
+    @api.depends("project_id")
+    def _get_turbines(self):
+        self.turbine_numbers=self.project_id.turbine_numbers_wind
+
+
     def button_civil(self):
         projectname = self.project_id
         projectname.civil_attachment_id = self
@@ -157,8 +162,9 @@ class auto_word_civil(models.Model):
 
 
 class civil_windbase(models.Model):
-    _name = 'civil.windbase'
+    _name = 'auto_word_civil.windbase'
     _description = 'Civil windbase'
+    _rec_name = 'BasicType'
     FortificationIntensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=True)
     BearingCapacity = fields.Selection(
         [(60, "60"), (80, "80"), (100, "100"), (120, "120"), (140, "140"), (160, "160"), (180, "180"), (200, "200"),
@@ -187,8 +193,9 @@ class civil_windbase(models.Model):
 
 
 class civil_convertbase(models.Model):
-    _name = 'civil.convertbase'
+    _name = 'auto_word_civil.convertbase'
     _description = 'Civil convertbase'
+    _rec_name = 'TurbineCapacity'
     TurbineCapacity = fields.Selection(
         [(2, "2MW"), (2.2, "2.2MW"), (2.5, "2.5MW"), (3, "3MW"), (3.2, "3.2MW"), (3.3, "3.3MW"), (3.4, "3.4MW"),
          (3.6, "3.6MW")], string=u"风机容量", required=True)
@@ -209,10 +216,11 @@ class civil_convertbase(models.Model):
 
 
 class civil_boosterstation(models.Model):
-    _name = 'civil.boosterstation'
+    _name = 'auto_word_civil.boosterstation'
     _description = 'Civil boosterstation'
+    _rec_name = 'Grade'
     Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"状态", required=True)
-    Grade = fields.Selection([(110, "110"), (220, "220")], string=u"等级", required=True)
+    Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", required=True)
     Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"容量", required=True)
     Long = fields.Float(u'长')
     Width = fields.Float(u'宽')
@@ -237,9 +245,10 @@ class civil_boosterstation(models.Model):
     LightningRod = fields.Float(u'避雷针')
 
 
-class civil_road1(models.Model):
-    _name = 'civil.road1'
+class auto_word_civil_road1(models.Model):
+    _name = 'auto_word_civil.road1'
     _description = 'Civil road1'
+    _rec_name = 'TerrainType'
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
@@ -251,8 +260,9 @@ class civil_road1(models.Model):
     TurfSlopeProtection_1 = fields.Float(u'草皮护坡')
 
 
-class civil_road2(models.Model):
-    _name = 'civil.road2'
+class auto_word_civil_road2(models.Model):
+    _inherit = 'auto_word_civil.road1'
+    _name = 'auto_word_civil.road2'
     _description = 'Civil road2'
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
@@ -267,8 +277,9 @@ class civil_road2(models.Model):
     WaveGuardrail_2 = fields.Float(u'波形护栏')
 
 
-class civil_road3(models.Model):
-    _name = 'civil.road3'
+class auto_word_civil_road3(models.Model):
+    _inherit = 'auto_word_civil.road2'
+    _name = 'auto_word_civil.road3'
     _description = 'Civil road3'
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
@@ -284,8 +295,9 @@ class civil_road3(models.Model):
     LandUse_3 = fields.Float(u'用地')
 
 
-class civil_road4(models.Model):
-    _name = 'civil.road4'
+class auto_word_civil_road4(models.Model):
+    _inherit = 'auto_word_civil.road3'
+    _name = 'auto_word_civil.road4'
     _description = 'Civil road4'
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),

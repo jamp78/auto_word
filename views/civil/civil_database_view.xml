@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="auto_word_civil_windbase_form" model="ir.ui.view">
+        <field name="name">风机基础数据</field>
+        <field name="model">auto_word_civil.windbase</field>
+        <field name="arch" type="xml">
+            <form string="风机基础数据表">
+                <sheet>
+                    <group name="group_top">
+                         <group name="group_left">
+                            <field name="FortificationIntensity" />
+                            <field name="BearingCapacity" />
+                            <field name="BasicType" />
+                            <field name="UltimateLoad" />
+                            <field name="FloorRadiusR" />
+                            <field name="PileDiameter" />
+                            <field name="M48PreStressedAnchor" />
+                            <field name="C80SecondaryGrouting" />
+                            <field name="Cushion" />
+                         </group>
+                         <group name="group_right">
+                            <field name="R1" />
+                            <field name="R2" />
+                            <field name="H1" />
+                            <field name="H2" />
+                            <field name="H3" />
+                            <field name="Number" />
+                            <field name="Length" />
+                            <field name="SinglePileLength" />
+                            <field name="Area" />
+                            <field name="Volume" />
+                        </group>
+                    </group>
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_civil_convertbase_form" model="ir.ui.view">
+        <field name="name">箱变基础</field>
+        <field name="model">auto_word_civil.convertbase</field>
+        <field name="arch" type="xml">
+            <form string="箱变基础表">
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="TurbineCapacity" />
+                            <field name="ConvertStation" />
+                            <field name="Long" />
+                            <field name="Width" />
+                            <field name="High" />
+                            <field name="WallThickness" />
+                        </group>
+                         <group name="group_right">
+                            <field name="HighPressure" />
+                            <field name="C35ConcreteTop" />
+                            <field name="C15Cushion" />
+                            <field name="MU10Brick" />
+                            <field name="Reinforcement" />
+                            <field name="Area" />
+                        </group>
+                    </group>
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_civil_boosterstation_form" model="ir.ui.view">
+        <field name="name">升压站基础数据表</field>
+        <field name="model">auto_word_civil.boosterstation</field>
+        <field name="arch" type="xml">
+            <form string="升压站基础数据表">
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="Status" />
+                            <field name="Grade" />
+                            <field name="Capacity" />
+                            <field name="Long" />
+                            <field name="Width" />
+                            <field name="InnerWallArea" />
+                            <field name="WallLength" />
+                            <field name="StoneMasonryFoot" />
+                            <field name="StoneMasonryDrainageDitch" />
+                            <field name="RoadArea" />
+                            <field name="GreenArea" />
+                            <field name="LightningRod" />
+                        </group>
+                         <group name="group_right">
+                            <field name="ComprehensiveBuilding" />
+                            <field name="EquipmentBuilding" />
+                            <field name="AffiliatedBuilding" />
+                            <field name="C30Concrete" />
+                             <field name="C15ConcreteCushion" />
+                             <field name="MainTransformerFoundation" />
+                             <field name="AccidentOilPoolC30Concrete" />
+                             <field name="AccidentOilPoolC15Cushion" />
+                             <field name="AccidentOilPoolReinforcement" />
+                             <field name="FoundationC25Concrete" />
+                             <field name="OutdoorStructure" />
+                             <field name="PrecastConcretePole" />
+                        </group>
+                    </group>
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_civil_road_form" model="ir.ui.view">
+        <field name="name">道路基础数据</field>
+        <field name="model">auto_word_civil.road4</field>
+        <field name="arch" type="xml">
+            <form string="道路基础数据表">
+                <sheet>
+                    <notebook>
+                        <page string="场外改扩建道路">
+                            <group name="group_top">
+                                <group name="group_left">
+                                    <field name="TerrainType" />
+                                    <field name="GradedGravelPavement_1" />
+                                    <field name="RoundTubeCulvert_1" />
+                                </group>
+                                <group name="group_right">
+                                    <field name="StoneMasonryDrainageDitch_1" />
+                                    <field name="MortarStoneRetainingWall_1" />
+                                    <field name="TurfSlopeProtection_1" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="进站道路">
+                            <group name="group_top">
+                                <group name="group_left">
+                                    <field name="TerrainType" />
+                                    <field name="GradedGravelBase_2" />
+                                    <field name="C30ConcretePavement_2" />
+                                    <field name="RoundTubeCulvert_2" />
+                                </group>
+                                <group name="group_right">
+                                    <field name="StoneMasonryDrainageDitch_2" />
+                                    <field name="MortarStoneRetainingWall_2" />
+                                    <field name="TurfSlopeProtection_2" />
+                                    <field name="Signage_2" />
+                                    <field name="WaveGuardrail_2" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="施工检修道路工程">
+                            <group name="group_top">
+                                <group name="group_left">
+                                    <field name="TerrainType" />
+                                    <field name="MountainPavement_3" />
+                                    <field name="C30ConcretePavement_3" />
+                                    <field name="RoundTubeCulvert_3" />
+                                    <field name="StoneMasonryDrainageDitch_3" />
+                                </group>
+                                <group name="group_right">
+                                    <field name="MortarStoneRetainingWall_3" />
+                                    <field name="TurfSlopeProtection_3" />
+                                    <field name="Signage_3" />
+                                    <field name="WaveGuardrail_3" />
+                                    <field name="LandUse_3" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="吊装平台工程">
+                            <group name="group_right">
+                                <group name="group_left">
+                                    <field name="TerrainType" />
+                                    <field name="GeneralSiteLeveling_4" />
+                                    <field name="StoneMasonryDrainageDitch_4" />
+                                </group>
+                                <group name="group_right">
+                                    <field name="MortarStoneProtectionSlope_4" />
+                                    <field name="TurfSlopeProtection_4" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
+
+

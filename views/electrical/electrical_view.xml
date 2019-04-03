@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_tree_electrical" model="ir.ui.view">
+        <field name="name">Electrical_Information tree</field>
+        <field name="model">auto_word.electrical</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name = "project_id"/>
+                <field name = "version_id"/>
+                <field name = "write_date"/>
+                <field name = "write_uid"/>
+            </tree>
+
+        </field>
+    </record>
+    <record id="view_form_electrical" model="ir.ui.view">
+        <field name="name">Electrical_Information Form</field>
+        <field name="model">auto_word.electrical</field>
+        <field name="arch" type="xml">
+            <form string="Electrical">
+                <header>
+                  <button name="electrical_generate" type="object" groups="auto_word.electrical_group_user"
+                           string="生成报告" />
+                  <button name="button_electrical" type="object"  groups="auto_word.electrical_group_user"
+                           string="提交报告" confirm="是否确认提交该项目电气资料？" />
+                  <button name="electrical_refresh" type="object" groups="auto_word.civil_group_user"
+                           string="刷新" class="btn btn-info"/>
+               </header>
+                <sheet>
+                    <group name="group_top">
+                         <group name="group_left">
+                            <field name="project_id" />
+                            <field name="version_id" />
+                         </group>
+                         <group name="group_right">
+                            <field name="turbine_numbers" />
+                         </group>
+                    </group>
+                    <group name="group_mid">
+                        <group name="group_electrical_left">
+                            <field name="voltage_class" />
+                            <field name="lenth_singlejL240" />
+                            <field name="lenth_doublejL240" />
+                        </group>
+                        <group name="group_electrical_right">
+                            <field name="yjlv95" />
+                            <field name="yjv300" />
+                            <field name="circuit_number" />
+                        </group>
+
+                        <group name="group_road">
+                            <field name="line_1" />
+                            <field name="line_2" />
+                            <field name="overhead_line" />
+                            <field name="direct_buried_cable" />
+                            <field name="overhead_line_num" />
+                            <field name="direct_buried_cable_num" />
+                            <field name="main_booster_station_num" />
+                        </group>
+                    </group>
+                    <group name="group_buttom">
+                        <field name="report_attachment_id" />
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+</odoo>

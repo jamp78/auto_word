@@ -21,15 +21,15 @@ class auto_word_project(models.Model):
     contacts_ids = fields.Many2many('res.partner', string=u'项目联系人')
     favorite_user_ids = fields.Many2many('res.users', string=u'项目组成员')
     message_main_attachment_id = fields.Many2many('ir.attachment', string=u'任务资料')
-    wind_attachment_id = fields.Many2one('autoreport.windenergy', string=u'风能数据', groups='autocrword.wind_group_user')
+    wind_attachment_id = fields.Many2one('auto_word.wind', string=u'风能数据', groups='auto_word.wind_group_user')
     wind_attachment_ok = fields.Char(u'风能数据', default="待提交", readonly=True)
-    electrical_attachment_id = fields.Many2one('autoreport.electrical', string=u'电气数据',
-                                               groups='autocrword.electrical_group_user')
+    electrical_attachment_id = fields.Many2one('auto_word.electrical', string=u'电气数据',
+                                               groups='auto_word.electrical_group_user')
     electrical_attachment_ok = fields.Char(u'电气数据', default="待提交", readonly=True)
-    civil_attachment_id = fields.Many2one('autoreport.civil', string=u'土建数据', groups='autocrword.civil_group_user')
+    civil_attachment_id = fields.Many2one('auto_word.civil', string=u'土建数据', groups='auto_word.civil_group_user')
     civil_attachment_ok = fields.Char(u'土建数据', default="待提交", readonly=True)
-    economic_attachment_id = fields.Many2one('autoreport.economic', string=u'经评数据',
-                                             groups='autocrword.economic_group_user')
+    economic_attachment_id = fields.Many2one('auto_word.economic', string=u'经评数据',
+                                             groups='auto_word.economic_group_user')
     economic_attachment_ok = fields.Char(u'经评数据', default="待提交", readonly=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告成果')
 
