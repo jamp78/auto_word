@@ -28,11 +28,12 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'views/project_view.xml',
-        'views/project_null_view.xml',
-        'views/wind_view.xml',
-        'views/wind_res_view.xml',
-        'views/wind_turbines_view.xml',
+        'views/project/project_view.xml',
+        'views/project/project_null_view.xml',
+        'views/wind/wind_view.xml',
+        'views/wind/wind_res_view.xml',
+        'views/wind/wind_turbines_view.xml',
+        'views/civil/civil_view.xml',
 
     ],
     # only loaded in demonstration mode

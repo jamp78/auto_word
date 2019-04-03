@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<odoo>
+    <!--<record id="auto_word_null_project_list" model="ir.ui.view">-->
+        <!--<field name="name">待开发模块</field>-->
+        <!--<field name="model">auto_word_null.project</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<tree>-->
+                <!--<field name="project_name" />-->
+            <!--</tree>-->
+        <!--</field>-->
+    <!--</record>-->
+</odoo>

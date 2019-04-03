@@ -18,7 +18,6 @@
           <field name="res_model">auto_word.wind</field>
           <field name="view_mode">tree,form</field>
         </record>
-
         <record model="ir.actions.act_window" id="auto_word_wind_chapter5_3_act_window">
           <field name="name">机型比选</field>
           <field name="res_model">auto_word_null.project</field>
@@ -78,12 +77,8 @@
 
     <record model="ir.actions.act_window" id="auto_word_civil_act_window">
       <field name="name">土建详情</field>
-      <field name="res_model">auto_word_null.project</field>
+      <field name="res_model">auto_word.civil</field>
       <field name="view_mode">tree,form</field>
-          <field name="help" type="html">
-                <p class="oe_view_nocontent_create">正在开发，敬请等待！
-                </p>
-          </field>
     </record>
 
         <record model="ir.actions.act_window" id="auto_word_wind_civil_chapter8_3_act_window">
@@ -167,6 +162,8 @@
         <menuitem name="集电线路" id="auto_word_electric_chapter6_6_menu" parent="auto_word_electric" action="auto_word_wind_electric_chapter6_6_act_window"/>
 
     <menuitem name="土建部分" id="auto_word_civil" parent="auto_word.menu_root"/>
+        <menuitem name="土建详情" id="auto_word_civil_detail_list" parent="auto_word_civil"
+                action="auto_word_civil_act_window" sequence="1" />
       <!--<menuitem name="风机设备选型布置及发电量估算" id="auto_word_wind_chapter5_menu" parent="auto_word_wind"/>-->
         <menuitem name="风机基础、箱变基础及集电线路基础设计" id="auto_word_civil_chapter8_3_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_3_act_window"/>
         <menuitem name="变电站设计" id="auto_word_civil_chapter8_4_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_4_act_window"/>
@@ -187,8 +184,7 @@
               action="auto_word_wind_act_window" sequence="1" />
     <menuitem name="电气详情" id="auto_word_electric_detail_list" parent="auto_word_electric"
               action="auto_word_electric_act_window" sequence="1" />
-    <menuitem name="土建详情" id="auto_word_civil_detail_list" parent="auto_word_civil"
-              action="auto_word_civil_act_window" sequence="1" />
+
 
 
 
