@@ -19,8 +19,8 @@
         <field name="arch" type="xml">
             <form string="Wind">
                 <header>
-                  <!--<button name="wind_generate" type="object" groups="auto_word.wind_group_user"-->
-                           <!--string="生成报告" />-->
+                  <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
+                           string="生成报告" />
                   <button name="button_wind" type="object" groups="auto_word.wind_group_user"
                            string="提交报告" confirm="是否确认提交该项目风资源资料？" />
                </header>

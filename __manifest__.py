@@ -29,6 +29,7 @@
         'views/views.xml',
         'views/templates.xml',
         'views/project_view.xml',
+        'views/project_null_view.xml',
         'views/wind_view.xml',
         'views/wind_res_view.xml',
         'views/wind_turbines_view.xml',

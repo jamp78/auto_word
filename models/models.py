@@ -74,6 +74,7 @@ class auto_word_project(models.Model):
     turbine_numbers_civil = fields.Char(u'机位数', default="待提交", readonly=True)
     turbine_numbers_electric = fields.Char(u'机位数', default="待提交", readonly=True)
 
+
     # @api.multi
     # def button_project(self):
     #
@@ -128,3 +129,8 @@ class auto_word_project(models.Model):
 # @api.depends('value')
 # def _value_pc(self):
 #     self.value2 = float(self.value) / 100
+
+class auto_word_null_project(models.Model):
+    _name = 'auto_word_null.project'
+    _description = 'null Project'
+
