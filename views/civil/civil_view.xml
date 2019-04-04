@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_form_civil" model="ir.ui.view">
+        <field name="name">Civil_Information Form</field>
+        <field name="model">auto_word.civil</field>
+        <field name="arch" type="xml">
+            <form string="Civil">
+                <header>
+                  <button name="civil_generate" type="object" groups="auto_word.civil_group_user"
+                           string="生成报告" />
+                  <button name="button_civil" type="object"  groups="auto_word.civil_group_user"
+                           string="提交报告" confirm="是否确认提交该项目土建资料？" />
+                  <button name="civil_refresh" type="object" groups="auto_word.civil_group_user"
+                           string="刷新" class="btn btn-info"/>
+               </header>
+               <sheet>
+                    <group name="group_top">
+                         <group name="group_left">
+                            <field name="project_id" />
+                            <field name="version_id" />
+                         </group>
+                         <group name="group_right">
+                            <field name="turbine_numbers" />
+                            <field name="road_1_num" />
+                            <field name="road_2_num" />
+                            <field name="road_3_num" />
+                         </group>
+                         <group name="group_left">
+                            <field name="line_1" />
+                            <field name="line_2" />
+                            <field name="overhead_line" />
+                            <field name="direct_buried_cable" />
+                            <field name="overhead_line_num" />
+                            <field name="direct_buried_cable_num" />
+                            <field name="main_booster_station_num" />
+                         </group>
+                         <group name="group_right">
+                            <field name="basic_type" />
+                            <field name="ultimate_load" />
+                            <field name="fortification_intensity" />
+                            <field name="basic_earthwork_ratio" />
+                            <field name="basic_stone_ratio" />
+                            <field name="TurbineCapacity" />
+                            <field name="road_earthwork_ratio" />
+                            <field name="road_stone_ratio" />
+                            <field name="Status" />
+                            <field name="Grade" />
+                            <field name="Capacity" />
+                            <field name="TerrainType" />
+                        </group>
+                    </group>
+                    <group name="group_buttom">
+                        <field name="report_attachment_id" />
+                    </group>
+               </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tree_civil" model="ir.ui.view">
+        <field name="name">Civil_Information Form</field>
+        <field name="domain_force">['|', '|', ('company_id', '=', False), ('company_id','child_of',[user.company_id.id]),('company_id','in',[c.id for c in user.company_ids])]</field>
+        <field name="model">auto_word.civil</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name = "project_id"/>
+                <field name = "version_id"/>
+                <field name = "write_date"/>
+                <field name = "write_uid"/>
+            </tree>
+
+        </field>
+    </record>
+
+</odoo>
