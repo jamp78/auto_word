@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="auto_word_wind_turbines_compare_form" model="ir.ui.view">
+        <field name="name">机型比选表</field>
+        <field name="model">auto_word_wind_turbines.compare</field>
+        <field name="arch" type="xml">
+            <form string="机型比选表">
+                <sheet>
+                    <group name="group_top">
+                         <group name="group_left">
+                            <field name="name_tur" />
+                            <field name="auto_word_wind.turbine_numbers" />
+                            <field name="capacity" />
+                            <field name="installed_capacity" />
+                            <field name="rotor_diameter" />
+                            <field name="hub_height" />
+                             <field name="power_generation" />
+                             <field name="weak" />
+                             <field name="power_hours" />
+                         </group>
+                         <group name="group_right">
+                            <field name="tower_weight" />
+                            <field name="investment_turbines_kw" />
+                            <field name="investment_e1" />
+                            <field name="cut_in_wind_speed" />
+                            <field name="cut_out_wind_speed" />
+                             <field name="three_second_maximum" />
+                        </group>
+                    </group>
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_wind_turbines_power_form" model="ir.ui.view">
+        <field name="name">风机功率表</field>
+        <field name="model">auto_word_wind_turbines.power</field>
+        <field name="arch" type="xml">
+            <form string="风机功率表">
+                <sheet>
+                    <group name="group_top">
+                        <field name="name_power" />
+                        <field name="speed2p5" />
+                        <field name="speed3" />
+                        <field name="speed4" />
+                        <field name="speed5" />
+                        <field name="speed6" />
+                        <field name="speed7" />
+                        <field name="speed8" />
+                        <field name="speed9" />
+                        <field name="speed10" />
+                        <field name="speed11" />
+                        <field name="speed12" />
+                        <field name="speed13" />
+                        <field name="speed14" />
+                        <field name="speed15" />
+                        <field name="speed16" />
+                        <field name="speed17" />
+                        <field name="speed18" />
+                        <field name="speed19" />
+                        <field name="speed20" />
+                        <field name="speed21" />
+                        <field name="speed22" />
+                        <field name="speed23" />
+                        <field name="speed24" />
+                        <field name="speed25" />
+                    </group>
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_wind_turbines_efficiency_form" model="ir.ui.view">
+        <field name="name">风机效率表</field>
+        <field name="model">auto_word_wind_turbines.efficiency</field>
+        <field name="arch" type="xml">
+            <form string="风机效率表">
+                <sheet>
+                    <group name="group_top">
+                        <field name="name_efficiency" />
+                        <field name="speed2p5" />
+                        <field name="speed3" />
+                        <field name="speed4" />
+                        <field name="speed5" />
+                        <field name="speed6" />
+                        <field name="speed7" />
+                        <field name="speed8" />
+                        <field name="speed9" />
+                        <field name="speed10" />
+                        <field name="speed11" />
+                        <field name="speed12" />
+                        <field name="speed13" />
+                        <field name="speed14" />
+                        <field name="speed15" />
+                        <field name="speed16" />
+                        <field name="speed17" />
+                        <field name="speed18" />
+                        <field name="speed19" />
+                        <field name="speed20" />
+                        <field name="speed21" />
+                        <field name="speed22" />
+                        <field name="speed23" />
+                        <field name="speed24" />
+                        <field name="speed25" />
+                    </group>
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
+

@@ -6,6 +6,7 @@ import doc_5
 from . import auto_word_electrical
 from . import auto_word_civil
 
+
 class auto_word_wind(models.Model):
     _name = 'auto_word.wind'
     _description = 'Wind energy input'
@@ -222,6 +223,9 @@ class auto_word_wind_turbines_compare(models.Model):
     investment_e6 = fields.Float(string=u'箱变投资', readonly=True, compute='_compute_investment_e6')
     investment_e7 = fields.Float(string=u'集电线路', readonly=True, compute='_compute_investment_e7')
 
+    investment = fields.Float(string=u'发电部分投资', readonly=True, compute='_compute_investment')
+    investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_investment_unit')
+
     @api.depends('auto_word_wind.turbine_numbers', 'auto_word_wind_turbines.capacity')
     def _compute_installed_capacity(self):
         for re in self:
@@ -288,3 +292,14 @@ class auto_word_wind_turbines_compare(models.Model):
         for re in self:
             re.investment_e7 = auto_word_electrical.auto_word_electrical.length_single_jL240 * 50
 
+    @api.depends('investment_e1', 'investment_e2', 'investment_e3', 'investment_e4', 'investment_e5', 'investment_e6',
+                 'investment_e7')
+    def _compute_investment(self):
+        for re in self:
+            re.investment = re.investment_e1 + re.investment_e2 + re.investment_e3 + re.investment_e4 + \
+                            re.investment_e5 + re.investment_e6 + re.investment_e7
+
+    @api.depends('investment')
+    def _compute_investment(self):
+        for re in self:
+            re.investment_unit = re.investment / re.power_generation * 10
