@@ -131,7 +131,7 @@ class outputcurve(models.Model):
     speed25 = fields.Float(u'25m/s（kW）', required=True)
 
 
-class wind_turbines(models.Model):
+class auto_word_wind_turbines(models.Model):
     _name = 'auto_word_wind.turbines'
     _description = 'Generator'
     _rec_name = 'name_tur'
@@ -180,7 +180,7 @@ class windres(models.Model):
     TurbulenceEnv_StrongWind = fields.Float(u'强风状态下的平均环境湍流强度')
     Turbulence_StrongWind = fields.Float(u'强风状态下的平均总体湍流强度', required=True)
     AverageWindSpeed_Weak = fields.Float(u'考虑尾流效应的平均风速', required=True)
-    Weak = fields.Float(u'尾流效应导致的平均折减率',required=True)
+    Weak = fields.Float(u'尾流效应导致的平均折减率', required=True)
     AirDensity = fields.Float(u'该点的空气密度')
     WindShear_Avg = fields.Float(u'平均风切变指数')
     WindShear_Max = fields.Float(u'最大风切变指数')
@@ -194,3 +194,13 @@ class windres(models.Model):
     NextLength_D = fields.Char(u'以叶轮直径为单位的相邻风机最近距离')
     NextDeg = fields.Char(u'最近相邻风机的方位角')
     Sectors = fields.Char(u'扇区数量', required=True)
+
+
+class auto_word_wind_turbines_compare(models.Model):
+    _inherit = 'auto_word_wind.turbines'
+    _name = 'auto_word_wind_turbines.compare'
+    _description = 'turbines_compare'
+    power_generation = fields.Float(u'上网电量', required=True)
+    weak = fields.Float(u'尾流衰减', required=True)
+    power_hours = fields.Float(u'满发小时', required=True)
+    investment_turbines_kw = fields.Float(u'风机kw投资', required=True)
