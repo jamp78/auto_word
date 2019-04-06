@@ -72,8 +72,7 @@ class auto_word_civil(models.Model):
     @api.one
     @api.depends("project_id")
     def _get_turbines(self):
-        self.turbine_numbers=self.project_id.turbine_numbers_wind
-
+        self.turbine_numbers = self.project_id.turbine_numbers_wind
 
     def button_civil(self):
         projectname = self.project_id

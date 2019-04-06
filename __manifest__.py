@@ -36,7 +36,7 @@
         'views/electrical/electrical_view.xml',
         'views/civil/civil_view.xml',
         'views/civil/civil_database_view.xml',
-
+        'views/wind/wind_turbines_compare_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
