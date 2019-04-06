@@ -39,8 +39,8 @@
                     <group name="group_mid">
                         <group name="group_electrical_left">
                             <field name="voltage_class" />
-                            <field name="lenth_singlejL240" />
-                            <field name="lenth_doublejL240" />
+                            <field name="length_single_jL240" />
+                            <field name="length_double_jL240" />
                         </group>
                         <group name="group_electrical_right">
                             <field name="yjlv95" />

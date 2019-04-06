@@ -12,11 +12,13 @@ class auto_word_electrical(models.Model):
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     voltage_class = fields.Selection([(0, u"平原"), (1, u"山地")], string=u"地形", required=True)
-    lenth_singlejL240 = fields.Float(u'单回线路JL/G1A-240/30长度（km）', required=True)
-    lenth_doublejL240 = fields.Float(u'双回线路JL/G1A-240/30长度（km）', required=True)
+    length_single_jL240 = fields.Float(u'单回线路JL/G1A-240/30长度（km）', required=True)
+    length_double_jL240 = fields.Float(u'双回线路JL/G1A-240/30长度（km）', required=True)
     yjlv95 = fields.Float(u'直埋电缆YJLV22-26/35-3×95（km）', required=True)
     yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=True)
     turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
+
+    # total_electrical_length = fields.Float(compute='_compute_electrical_total_length', string=u'线路总长度')
 
     circuit_number = fields.Integer(u'线路回路数', required=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气章节')
@@ -28,6 +30,11 @@ class auto_word_electrical(models.Model):
     overhead_line_num = fields.Float(u'架空线路塔基数量', required=True)
     direct_buried_cable_num = fields.Float(u'直埋电缆长度', required=True)
     main_booster_station_num = fields.Float(u'主变数量', required=True)
+
+    # @api.depends('length_singlejL240', 'length_doublejL240')
+    # def _compute_total_length(self):
+    #     for re in self:
+    #         re.total_length = re.length_singlejL240 + re.length_doublejL240 * 2
 
     @api.multi
     def electrical_generate(self):

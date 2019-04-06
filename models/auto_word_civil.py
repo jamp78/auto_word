@@ -52,6 +52,8 @@ class auto_word_civil(models.Model):
     road_2_num = fields.Float(u'进站道路', required=True, default=0)
     road_3_num = fields.Float(u'施工检修道路工程', required=True, default=0)
 
+    total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路线路总长度')
+
     ####线路
 
     line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
@@ -61,6 +63,11 @@ class auto_word_civil(models.Model):
     overhead_line_num = fields.Char(u'架空线路塔基数量', default="待提交", readonly=True)
     direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="待提交", readonly=True)
     main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
+
+    @api.depends('road_1_num', 'road_2_num', 'road_3_num')
+    def _compute_total_length(self):
+        for re in self:
+            re.total_civil_length = re.road_1_num + re.road_2_num + re.road_3_num
 
     @api.one
     @api.depends("project_id")

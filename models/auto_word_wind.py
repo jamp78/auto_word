@@ -3,7 +3,8 @@
 from odoo import models, fields, api
 import base64
 import doc_5
-
+from . import auto_word_electrical
+from . import auto_word_civil
 
 class auto_word_wind(models.Model):
     _name = 'auto_word.wind'
@@ -100,7 +101,7 @@ class outputcurve(models.Model):
     speed25 = fields.Float(u'25m/s（kW）', required=True)
 
 
-class outputcurve(models.Model):
+class auto_word_wind_turbines_efficiency(models.Model):
     _name = 'auto_word_wind_turbines.efficiency'
     _description = 'Generator efficiency'
     _rec_name = 'name_efficiency'
@@ -150,7 +151,7 @@ class auto_word_wind_turbines(models.Model):
     voltage = fields.Float(u'额定电压', required=True)
     frequency = fields.Float(u'频率', required=True)
     tower_type = fields.Char(u'塔筒类型')
-    tower_weight = fields.Float(u'塔筒重量', )
+    tower_weight = fields.Float(u'塔筒重量')
     pneumatic_brake = fields.Char(u'安全制动类型')
     mechanical_brake = fields.Char(u'机械制动类型')
     three_second_maximum = fields.Char(u'生存风速', required=True)
@@ -210,10 +211,80 @@ class auto_word_wind_turbines_compare(models.Model):
     power_hours = fields.Float(u'满发小时', required=True)
     investment_turbines_kw = fields.Float(u'风机kw投资', required=True)
 
-    @api.depends('turbine_numbers', 'capacity')
+    TerrainType_turbines_compare = fields.Selection(
+        [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True)
+
+    investment_e1 = fields.Float(compute='_compute_investment_e1', string=u'塔筒投资')
+    investment_e2 = fields.Float(compute='_compute_investment_e2', string=u'风机设备投资')
+    investment_e3 = fields.Float(string=u'基础投资', readonly=True)
+    investment_e4 = fields.Float(string=u'道路投资', readonly=True, compute='_compute_investment_e4')
+    investment_e5 = fields.Float(string=u'吊装费用', readonly=True, compute='_compute_investment_e5')
+    investment_e6 = fields.Float(string=u'箱变投资', readonly=True, compute='_compute_investment_e6')
+    investment_e7 = fields.Float(string=u'集电线路', readonly=True, compute='_compute_investment_e7')
+
+    @api.depends('auto_word_wind.turbine_numbers', 'auto_word_wind_turbines.capacity')
     def _compute_installed_capacity(self):
         for re in self:
             if re.mixed_turbines_bool:
-                re.installed_capacity = auto_word_wind.turbine_numbers
+                re.installed_capacity = auto_word_wind.turbine_numbers * auto_word_wind_turbines.capacity
+                re.tower_weight = auto_word_wind_turbines.tower_weight
             else:
                 re.installed_capacity = auto_word_wind.turbine_numbers * auto_word_wind_turbines.capacity
+
+    @api.depends('auto_word_wind.turbine_numbers', 'tower_weight')
+    def _compute_investment_e1(self):
+        for re in self:
+            re.investment_e1 = auto_word_wind.turbine_numbers * re.tower_weight * 1.05
+
+    @api.depends('installed_capacity', 'investment_turbines_kw')
+    def _compute_investment_e2(self):
+        for re in self:
+            re.investment_e1 = re.installed_capacity * re.investment_turbines_kw * 1000 / 10000
+
+    @api.depends('TerrainType_turbines_compare')
+    def _compute_investment_e4(self):
+        for re in self:
+            if re.TerrainType_turbines_compare == "平原":
+                re.investment_e4 = auto_word_civil.auto_word_civil.total_civil_length * 50
+
+            elif re.TerrainType_turbines_compare == "丘陵":
+                re.investment_e4 = auto_word_civil.auto_word_civil.total_civil_length * 80
+
+            elif re.TerrainType_turbines_compare == "山地":
+                re.investment_e4 = auto_word_civil.auto_word_civil.total_civil_length * 140
+
+    @api.depends('auto_word_wind.turbine_numbers', 'hub_height')
+    def _compute_investment_e5(self):
+        for re in self:
+            if re.hub_height <= 90:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 38
+
+            elif 90 < re.hub_height <= 100:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 45
+
+            elif 100 < re.hub_height <= 120:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 55
+
+            elif 120 < re.hub_height <= 140:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 65
+
+    @api.depends('auto_word_wind.turbine_numbers', 'auto_word_wind_turbines.capacity')
+    def _compute_investment_e6(self):
+        for re in self:
+            if auto_word_wind_turbines.capacity <= 2000:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 23
+
+            elif 2000 < auto_word_wind_turbines.capacity <= 2200:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 25
+
+            elif 2200 < auto_word_wind_turbines.capacity <= 2500:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 28
+
+            elif 2500 < auto_word_wind_turbines.capacity <= 4000:
+                re.investment_e4 = auto_word_wind.turbine_numbers * 32
+
+    @api.depends('TerrainType_turbines_compare')
+    def _compute_investment_e7(self):
+        for re in self:
+            re.investment_e7 = auto_word_electrical.auto_word_electrical.length_single_jL240 * 50
+
