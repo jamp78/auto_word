@@ -200,7 +200,20 @@ class auto_word_wind_turbines_compare(models.Model):
     _inherit = 'auto_word_wind.turbines'
     _name = 'auto_word_wind_turbines.compare'
     _description = 'turbines_compare'
+
+    mixed_turbines_bool = fields.Boolean(string=u'是否为混排方案',
+                                         help='若是混排方案请勾选')
+
+    installed_capacity = fields.Float(compute='_compute_installed_capacity', string=u'装机容量')
     power_generation = fields.Float(u'上网电量', required=True)
     weak = fields.Float(u'尾流衰减', required=True)
     power_hours = fields.Float(u'满发小时', required=True)
     investment_turbines_kw = fields.Float(u'风机kw投资', required=True)
+
+    @api.depends('turbine_numbers', 'capacity')
+    def _compute_installed_capacity(self):
+        for re in self:
+            if re.mixed_turbines_bool:
+                re.installed_capacity = auto_word_wind.turbine_numbers
+            else:
+                re.installed_capacity = auto_word_wind.turbine_numbers * auto_word_wind_turbines.capacity
