@@ -16,6 +16,7 @@ class auto_word_wind(models.Model):
     turbine_numbers = fields.Integer(u'机位数', required=True)
     generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
+    Dict_5 = {}
 
     # project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
 
@@ -36,7 +37,7 @@ class auto_word_wind(models.Model):
             tur_name.append(self.generator_ids[i].name_tur)
         path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_5"
 
-        doc_5.generate_wind_docx(tur_name, path_images)
+        self.Dict_5 = doc_5.generate_wind_docx(tur_name, path_images)
         ###########################
 
         reportfile_name = open(
@@ -247,7 +248,7 @@ class auto_word_wind_turbines_compare(models.Model):
             if re.mixed_turbines_bool:
                 re.installed_capacity = int(self.turbine_numbers) * float(self.capacity)
             else:
-                re.installed_capacity = int(self.turbine_numbers) * float(self.capacity)+1
+                re.installed_capacity = int(self.turbine_numbers) * float(self.capacity) + 1
     # def _compute_investment_e1(self):
     #     for re in self:
     #         re.investment_e1 = auto_word_wind.turbine_numbers * re.generator_id.tower_weight * 1.05

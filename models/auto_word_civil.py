@@ -136,7 +136,7 @@ class auto_word_civil(models.Model):
         print(dict_8)
         generate_civil_docx(**dict_8)
         reportfile_name = open(
-            file=r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB2\autocrword\models\source\chapter_8\result_chapter8.docx',
+            file=r'D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_8\result_chapter8.docx',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()
@@ -267,9 +267,9 @@ class auto_word_civil_road1(models.Model):
 
 
 class auto_word_civil_road2(models.Model):
-    _inherit = 'auto_word_civil.road1'
     _name = 'auto_word_civil.road2'
     _description = 'Civil road2'
+    _rec_name = 'TerrainType'
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
@@ -284,9 +284,9 @@ class auto_word_civil_road2(models.Model):
 
 
 class auto_word_civil_road3(models.Model):
-    _inherit = 'auto_word_civil.road2'
     _name = 'auto_word_civil.road3'
     _description = 'Civil road3'
+    _rec_name = 'TerrainType'
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
@@ -302,9 +302,9 @@ class auto_word_civil_road3(models.Model):
 
 
 class auto_word_civil_road4(models.Model):
-    _inherit = 'auto_word_civil.road3'
     _name = 'auto_word_civil.road4'
     _description = 'Civil road4'
+    _rec_name = 'TerrainType'
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)

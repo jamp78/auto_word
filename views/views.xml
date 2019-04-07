@@ -146,8 +146,26 @@
           <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window" id="auto_word_civil_road_act_window">
-          <field name="name">道路基础数据表</field>
+        <record model="ir.actions.act_window" id="auto_word_civil_road1_act_window">
+          <field name="name">道路基础数据表1</field>
+          <field name="res_model">auto_word_civil.road1</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+      <record model="ir.actions.act_window" id="auto_word_civil_road2_act_window">
+          <field name="name">道路基础数据表2</field>
+          <field name="res_model">auto_word_civil.road2</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+      <record model="ir.actions.act_window" id="auto_word_civil_road3_act_window">
+          <field name="name">道路基础数据表3</field>
+          <field name="res_model">auto_word_civil.road3</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+      <record model="ir.actions.act_window" id="auto_word_civil_road4_act_window">
+          <field name="name">道路基础数据表4</field>
           <field name="res_model">auto_word_civil.road4</field>
           <field name="view_mode">tree,form</field>
         </record>
@@ -207,8 +225,17 @@
               groups="civil_group_user" action="auto_word_civil_convertbase_act_window" sequence="2"/>
       <menuitem name="升压站基础数据表" id="auto_word_civil_boosterstation_list" parent="auto_word_civil_information_menu"
               groups="civil_group_user" action="auto_word_civil_boosterstation_act_window" sequence="3"/>
-      <menuitem name="道路基础数据表" id="auto_word_civil_road_list" parent="auto_word_civil_information_menu"
-              groups="civil_group_user" action="auto_word_civil_road_act_window" sequence="4"/>
+      <menuitem name="道路基础数据表1" id="auto_word_civil_road1_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_road1_act_window" sequence="4"/>
+
+       <menuitem name="道路基础数据表2" id="auto_word_civil_road2_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_road2_act_window" sequence="5"/>
+
+       <menuitem name="道路基础数据表3" id="auto_word_civil_road3_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_road3_act_window" sequence="6"/>
+
+       <menuitem name="道路基础数据表4" id="auto_word_civil_road4_list" parent="auto_word_civil_information_menu"
+              groups="civil_group_user" action="auto_word_civil_road4_act_window" sequence="7"/>
 
 
     <!-- actions -->

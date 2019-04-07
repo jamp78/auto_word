@@ -36,3 +36,4 @@ def generate_wind_docx(tur_name, path_images):
 
     tpl.render(context_5)
     tpl.save(save_path)
+    return Dict_5

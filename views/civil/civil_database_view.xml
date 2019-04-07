@@ -117,12 +117,11 @@
 
     <record id="auto_word_civil_road_form" model="ir.ui.view">
         <field name="name">道路基础数据</field>
-        <field name="model">auto_word_civil.road4</field>
+        <field name="model">auto_word_civil.road1</field>
         <field name="arch" type="xml">
             <form string="道路基础数据表">
                 <sheet>
-                    <notebook>
-                        <page string="场外改扩建道路">
+                    <group string="场外改扩建道路">
                             <group name="group_top">
                                 <group name="group_left">
                                     <field name="TerrainType" />
@@ -135,8 +134,19 @@
                                     <field name="TurfSlopeProtection_1" />
                                 </group>
                             </group>
-                        </page>
-                        <page string="进站道路">
+                        </group>
+                  </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_civil_road_form" model="ir.ui.view">
+        <field name="name">道路基础数据</field>
+        <field name="model">auto_word_civil.road2</field>
+        <field name="arch" type="xml">
+            <form string="道路基础数据表">
+                <sheet>
+                        <group string="进站道路">
                             <group name="group_top">
                                 <group name="group_left">
                                     <field name="TerrainType" />
@@ -152,8 +162,19 @@
                                     <field name="WaveGuardrail_2" />
                                 </group>
                             </group>
-                        </page>
-                        <page string="施工检修道路工程">
+                        </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_civil_road_form" model="ir.ui.view">
+        <field name="name">道路基础数据</field>
+        <field name="model">auto_word_civil.road3</field>
+        <field name="arch" type="xml">
+            <form string="道路基础数据表">
+                <sheet>
+                        <group string="施工检修道路工程">
                             <group name="group_top">
                                 <group name="group_left">
                                     <field name="TerrainType" />
@@ -170,8 +191,19 @@
                                     <field name="LandUse_3" />
                                 </group>
                             </group>
-                        </page>
-                        <page string="吊装平台工程">
+                        </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_civil_road_form" model="ir.ui.view">
+        <field name="name">道路基础数据</field>
+        <field name="model">auto_word_civil.road4</field>
+        <field name="arch" type="xml">
+            <form string="道路基础数据表">
+                <sheet>
+                        <group string="吊装平台工程">
                             <group name="group_right">
                                 <group name="group_left">
                                     <field name="TerrainType" />
@@ -183,10 +215,8 @@
                                     <field name="TurfSlopeProtection_4" />
                                 </group>
                             </group>
-                        </page>
-                    </notebook>
-
-                    <!--<group name="group_bottom">-->
+                        </group>
+                                <!--<group name="group_bottom">-->
                         <!--<field name="generator_Output" />-->
                     <!--</group>-->
                 </sheet>
