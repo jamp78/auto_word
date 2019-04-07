@@ -28,7 +28,7 @@ class BoxVoltageDatabase:
         #     r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8\chapter8database.xlsx',
         #     header=2, sheet_name='箱变基础数据', usecols=col_name)
 
-        sql = "SELECT * FROM civil_convertbase"
+        sql = "SELECT * FROM auto_word_civil_convertbase"
         self.DataBoxVoltage = connect_sql_pandas(sql)
 
         self.data_box_voltage = self.DataBoxVoltage.loc[self.DataBoxVoltage['TurbineCapacity'] == self.TurbineCapacity]

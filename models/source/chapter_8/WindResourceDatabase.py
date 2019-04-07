@@ -35,7 +35,7 @@ class WindResourceDatabase:
         #     r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8\chapter8database.xlsx',
         #     header=1, sheet_name='风机基础数据', usecols=col_name)
 
-        sql = "SELECT * FROM civil_windbase"
+        sql = "SELECT * FROM auto_word_civil_windbase"
         self.DataWindResource = connect_sql_pandas(sql)
         self.data_wind_resource = \
             self.DataWindResource.loc[

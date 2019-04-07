@@ -36,7 +36,7 @@ class BoosterStationDatabase:
         #     r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8\chapter8database.xlsx',
         #     header=2, sheet_name='升压站基础数据', usecols=col_name)
 
-        sql = "SELECT * FROM civil_boosterstation"
+        sql = "SELECT * FROM auto_word_civil_boosterstation"
         self.DataBoosterStation = connect_sql_pandas(sql)
 
         self.data_booster_station = self.DataBoosterStation.loc[self.DataBoosterStation['Status'] == self.Status].loc[

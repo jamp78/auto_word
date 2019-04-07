@@ -64,13 +64,13 @@ class RoadBasementDatabase:
         # self.DataRoadBasement_4 = pd.read_excel(
         #     r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8\chapter8database.xlsx',
         #     header=2, sheet_name='道路基础数据4', usecols=col_name_4)
-        sql1 = "SELECT * FROM civil_road1"
+        sql1 = "SELECT * FROM auto_word_civil_road1"
         self.DataRoadBasement_1 = connect_sql_pandas(sql1)
-        sql2 = "SELECT * FROM civil_road2"
+        sql2 = "SELECT * FROM auto_word_civil_road2"
         self.DataRoadBasement_2 = connect_sql_pandas(sql2)
-        sql3 = "SELECT * FROM civil_road3"
+        sql3 = "SELECT * FROM auto_word_civil_road3"
         self.DataRoadBasement_3 = connect_sql_pandas(sql3)
-        sql4= "SELECT * FROM civil_road4"
+        sql4= "SELECT * FROM auto_word_civil_road4"
         self.DataRoadBasement_4 = connect_sql_pandas(sql4)
 
         self.data_road_base_1 = self.DataRoadBasement_1.loc[self.DataRoadBasement_1['TerrainType'] == self.TerrainType]
