@@ -208,17 +208,19 @@ class auto_word_wind_turbines_compare(models.Model):
 
     generator_id = fields.Many2one('auto_word_wind.turbines', required=True, string=u'风机型号')
     installed_capacity = fields.Float(compute='_compute_installed_capacity', string=u'装机容量')
-    hub_height = fields.Float(compute='_compute_turbine', string=u'塔筒高度')
+    hub_height = fields.Char(compute='_compute_turbine', string=u'塔筒高度')
     turbine_numbers = fields.Char(string=u'风机数量')
-    capacity = fields.Float(compute='_compute_turbine', string=u'风机容量')
+    capacity = fields.Char(compute='_compute_turbine', string=u'风机容量')
+    tower_weight = fields.Char(compute='_compute_turbine', string=u'塔筒重量')
+    rotor_diameter = fields.Char(compute='_compute_turbine', string=u'叶轮直径')
 
-    # power_generation = fields.Float(u'上网电量', required=True)
-    # weak = fields.Float(u'尾流衰减', required=True)
-    # power_hours = fields.Float(u'满发小时', required=True)
-    # investment_turbines_kw = fields.Float(u'风机kw投资', required=True)
-    #
-    # TerrainType_turbines_compare = fields.Selection(
-    #     [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True)
+    power_generation = fields.Float(u'上网电量', required=True)
+    weak = fields.Float(u'尾流衰减', required=True)
+    power_hours = fields.Float(u'满发小时', required=True)
+    investment_turbines_kw = fields.Float(u'风机kw投资', required=True)
+
+    TerrainType_turbines_compare = fields.Selection(
+        [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True)
 
     investment_e1 = fields.Float(compute='_compute_investment_e1', string=u'塔筒投资')
     investment_e2 = fields.Float(compute='_compute_investment_e2', string=u'风机设备投资')
@@ -232,21 +234,20 @@ class auto_word_wind_turbines_compare(models.Model):
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_investment_unit')
 
     @api.one
-    @api.depends("generator_id")
+    @api.depends("generator_id", "project_id")
     def _compute_turbine(self):
-            self.hub_height = self.generator_id.hub_height
-            # self.turbine_numbers = auto_word_wind.turbine_numbers
-            # re.capacity = re.generator_id.capacity
+        self.hub_height = self.generator_id.hub_height
+        self.turbine_numbers = self.project_id.turbine_numbers_wind
+        self.capacity = self.generator_id.capacity
+        self.tower_weight = self.generator_id.tower_weight
+        self.rotor_diameter = self.generator_id.rotor_diameter
 
-
-
-    # def _compute_installed_capacity(self):
-    #     for re in self:
-    #         if re.mixed_turbines_bool:
-    #             re.installed_capacity = auto_word_wind.turbine_numbers * re.generator_id.capacity
-    #         else:
-    #             re.installed_capacity = re.turbine_numbers * re.generator_id.capacity
-    #
+    def _compute_installed_capacity(self):
+        for re in self:
+            if re.mixed_turbines_bool:
+                re.installed_capacity = int(self.turbine_numbers) * float(self.capacity)
+            else:
+                re.installed_capacity = int(self.turbine_numbers) * float(self.capacity)+1
     # def _compute_investment_e1(self):
     #     for re in self:
     #         re.investment_e1 = auto_word_wind.turbine_numbers * re.generator_id.tower_weight * 1.05

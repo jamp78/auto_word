@@ -5,19 +5,27 @@
         <field name="model">auto_word_wind_turbines.compare</field>
         <field name="arch" type="xml">
             <form string="机型比选表">
+                <!--<header>-->
+                 <!--<button name="wind_turbines_compare_form_refresh" type="object" groups="auto_word.wind_group_user"-->
+                           <!--string="刷新" class="btn btn-info"/>-->
+               <!--</header>-->
                 <sheet>
                     <group name="group_top">
                          <group name="group_left">
+                            <field name="project_id" ref='auto_word.project'/>
+                            <!--<field name="project_id" />-->
                             <field name="generator_id" />
                             <field name="hub_height" />
-                            <!--<field name="capacity" />-->
-                            <!--<field name="installed_capacity" />-->
-                            <!--<field name="rotor_diameter" />-->
-                            <!--<field name="hub_height" />-->
-                             <!--<field name="power_generation" />-->
-                             <!--<field name="weak" />-->
-                             <!--<field name="power_hours" />-->
-                             <!--<field name="tower_weight" />-->
+                            <field name="turbine_numbers" />
+                            <field name="capacity" />
+                            <field name="installed_capacity" />
+                            <field name="mixed_turbines_bool" />
+                            <field name="rotor_diameter" />
+                            <field name="hub_height" />
+                            <field name="power_generation" />
+                            <field name="weak" />
+                            <field name="power_hours" />
+                            <field name="tower_weight" />
                          </group>
                          <group name="group_right">
                             <!--<field name="investment_turbines_kw" />-->

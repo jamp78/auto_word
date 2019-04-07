@@ -89,8 +89,8 @@ class auto_word_electrical(models.Model):
 
         projectname.turbine_numbers = self.turbine_numbers
         projectname.voltage_class = self.voltage_class
-        projectname.lenth_singlejL240 = self.lenth_singlejL240
-        projectname.lenth_doublejL240 = self.lenth_doublejL240
+        projectname.length_single_jL240 = self.length_single_jL240
+        projectname.length_double_jL240 = self.length_double_jL240
         projectname.yjlv95 = self.yjlv95
         projectname.yjv300 = self.yjv300
         projectname.circuit_number = self.circuit_number
