@@ -47,6 +47,7 @@
                     </group>
                     <group name="group_wind" string="风资源提交明细">
                         <field name="turbine_numbers_wind"/>
+                        <field name="select_hub_height_wind"/>
                     </group>
                     <group name="group_electrical" string="电气提交明细">
                         <group name="group_left">

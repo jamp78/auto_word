@@ -21,6 +21,7 @@ class auto_word_project(models.Model):
     contacts_ids = fields.Many2many('res.partner', string=u'项目联系人')
     favorite_user_ids = fields.Many2many('res.users', string=u'项目组成员')
     message_main_attachment_id = fields.Many2many('ir.attachment', string=u'任务资料')
+
     wind_attachment_id = fields.Many2one('auto_word.wind', string=u'风能数据', groups='auto_word.wind_group_user')
     wind_attachment_ok = fields.Char(u'风能数据', default="待提交", readonly=True)
     electrical_attachment_id = fields.Many2one('auto_word.electrical', string=u'电气数据',
@@ -37,6 +38,7 @@ class auto_word_project(models.Model):
 
     ###风能
     turbine_numbers_wind = fields.Char(u'机位数', default="待提交", readonly=True)
+    select_hub_height_wind = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
     line_2 = fields.Char(u'线路总填方', default="待提交", readonly=True)

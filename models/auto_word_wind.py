@@ -16,6 +16,8 @@ class auto_word_wind(models.Model):
     turbine_numbers = fields.Integer(u'机位数', required=True)
     generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
+    select_hub_height=fields.Integer(u'推荐轮毂高度', required=True)
+
     Dict_5 = {}
 
     # project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
@@ -27,6 +29,7 @@ class auto_word_wind(models.Model):
         projectname.wind_attachment_id = myself
         projectname.wind_attachment_ok = u"已提交,版本：" + self.version_id
         projectname.turbine_numbers_wind = self.turbine_numbers
+        projectname.select_hub_height_wind = self.select_hub_height
 
         return True
 

@@ -13,7 +13,8 @@ class auto_word_civil(models.Model):
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
-    turbine_numbers = fields.Char(u'机位数', compute='_get_turbines', store=True)
+    turbine_numbers = fields.Char(u'机位数', readonly=True)
+    select_hub_height = fields.Char(u'推荐轮毂高度', readonly=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
         [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
@@ -69,10 +70,11 @@ class auto_word_civil(models.Model):
         for re in self:
             re.total_civil_length = re.road_1_num + re.road_2_num + re.road_3_num
 
-    @api.one
-    @api.depends("project_id")
-    def _get_turbines(self):
-        self.turbine_numbers = self.project_id.turbine_numbers_wind
+    # @api.one
+    # @api.depends("project_id")
+    # def _get_turbines(self):
+    #     self.turbine_numbers = self.project_id.turbine_numbers_wind
+    #     self.select_hub_height_wind = self.project_id.select_hub_height_wind
 
     def button_civil(self):
         projectname = self.project_id
@@ -111,7 +113,8 @@ class auto_word_civil(models.Model):
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
-
+        print("sadasdasd")
+        self.select_hub_height = projectname.select_hub_height_wind
         return True
 
     def civil_generate(self):
