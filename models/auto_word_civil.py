@@ -315,3 +315,34 @@ class auto_word_civil_road4(models.Model):
     StoneMasonryDrainageDitch_4 = fields.Float(u'浆砌石排水沟')
     MortarStoneProtectionSlope_4 = fields.Float(u'M7.5浆砌片石护坡')
     TurfSlopeProtection_4 = fields.Float(u'草皮护坡')
+
+
+class auto_word_civil_DesignSafetyStandard(models.Model):
+    _name = 'auto_word_civil.DesignSafetyStandard'
+    _description = 'Civil Design Safety Standard'
+    _rec_name = 'TerrainType'
+    ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
+                                    string=u"项目工程等别")
+    ProjectSize = fields.Selection([("大型", u"大型"), ("中型", u"中型"), ("小型", u"小型")],
+                                   string=u"工程规模")
+    BuildingLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                     string=u"建筑物级别")
+    StructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                             string=u"结构安全等级")
+    FloodDesignLevel = fields.Float(u'洪水设计标准', defult=50)
+    StructuralSafetyLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
+                                             string=u"重现期洪水位")
+    TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
+                                          ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
+    TurbineTowerDesignLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                             string=u"机组塔架地基设计级别")
+
+    #抗震
+
+    BuildingEarthquakeDesignLevel = fields.Selection([("甲类", u"甲类"), ("乙类", u"乙类"), ("丙类", u"丙类")],
+                                               string=u"建筑物抗震设防类别")
+    DesignEarthquakeLevel = fields.Selection([("第一组", u"第一组"), ("第二组", u"第二组"), ("第三组", u"第三组")],
+                                               string=u"设计地震分组")
+    Earthquake_g = fields.Float(u'设计基本地震加速度值')
+    BuildingYardLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
+                                             string=u"建筑物场地类别")
