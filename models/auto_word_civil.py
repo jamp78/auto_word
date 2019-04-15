@@ -5,11 +5,42 @@ import base64
 import numpy
 from odoo import models, fields, api
 
+class auto_word_civil_design_safety_standard(models.Model):
+    _name = 'auto_word_civil.design_safety_standard'
+    _description = 'Civil Design Safety Standard'
+    _rec_name = 'ProjectLevel'
+    ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
+                                    string=u"项目工程等别")
+    ProjectSize = fields.Selection([("大型", u"大型"), ("中型", u"中型"), ("小型", u"小型")],
+                                   string=u"工程规模")
+    BuildingLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                     string=u"建筑物级别")
+    StructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                             string=u"结构安全等级")
+    FloodDesignLevel = fields.Float(u'洪水设计标准', defult=50)
+    StructuralSafetyLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
+                                             string=u"重现期洪水位")
+    TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
+                                          ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
+    TurbineTowerDesignLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                               string=u"机组塔架地基设计级别")
+
+    # 抗震
+
+    BuildingEarthquakeDesignLevel = fields.Selection([("甲类", u"甲类"), ("乙类", u"乙类"), ("丙类", u"丙类")],
+                                                     string=u"建筑物抗震设防类别")
+    DesignEarthquakeLevel = fields.Selection([("第一组", u"第一组"), ("第二组", u"第二组"), ("第三组", u"第三组")],
+                                             string=u"设计地震分组")
+    Earthquake_g = fields.Float(u'设计基本地震加速度值')
+    BuildingYardLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
+                                         string=u"建筑物场地类别")
+
 
 class auto_word_civil(models.Model):
     _name = 'auto_word.civil'
     _description = 'Civil input'
     _rec_name = 'project_id'
+    _inherit = ['auto_word_civil.design_safety_standard']
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
@@ -65,6 +96,7 @@ class auto_word_civil(models.Model):
     direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="待提交", readonly=True)
     main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
 
+    ProjectLevel = fields.Many2one('auto_word_civil.design_safety_standard')
     @api.depends('road_1_num', 'road_2_num', 'road_3_num')
     def _compute_total_length(self):
         for re in self:
@@ -100,6 +132,7 @@ class auto_word_civil(models.Model):
 
         projectname.turbine_numbers_civil = self.turbine_numbers
 
+        projectname.ProjectLevel = self.ProjectLevel.ProjectLevel
         return True
 
     def civil_refresh(self):
@@ -317,32 +350,3 @@ class auto_word_civil_road4(models.Model):
     TurfSlopeProtection_4 = fields.Float(u'草皮护坡')
 
 
-class auto_word_civil_DesignSafetyStandard(models.Model):
-    _name = 'auto_word_civil.DesignSafetyStandard'
-    _description = 'Civil Design Safety Standard'
-    _rec_name = 'TerrainType'
-    ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
-                                    string=u"项目工程等别")
-    ProjectSize = fields.Selection([("大型", u"大型"), ("中型", u"中型"), ("小型", u"小型")],
-                                   string=u"工程规模")
-    BuildingLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                     string=u"建筑物级别")
-    StructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                             string=u"结构安全等级")
-    FloodDesignLevel = fields.Float(u'洪水设计标准', defult=50)
-    StructuralSafetyLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
-                                             string=u"重现期洪水位")
-    TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
-                                          ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
-    TurbineTowerDesignLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                             string=u"机组塔架地基设计级别")
-
-    #抗震
-
-    BuildingEarthquakeDesignLevel = fields.Selection([("甲类", u"甲类"), ("乙类", u"乙类"), ("丙类", u"丙类")],
-                                               string=u"建筑物抗震设防类别")
-    DesignEarthquakeLevel = fields.Selection([("第一组", u"第一组"), ("第二组", u"第二组"), ("第三组", u"第三组")],
-                                               string=u"设计地震分组")
-    Earthquake_g = fields.Float(u'设计基本地震加速度值')
-    BuildingYardLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
-                                             string=u"建筑物场地类别")

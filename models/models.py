@@ -75,6 +75,8 @@ class auto_word_project(models.Model):
 
     turbine_numbers_civil = fields.Char(u'机位数', default="待提交", readonly=True)
     turbine_numbers_electric = fields.Char(u'机位数', default="待提交", readonly=True)
+    ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
+
 
 
     # @api.multi

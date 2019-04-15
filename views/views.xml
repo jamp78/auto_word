@@ -75,7 +75,7 @@
 
         <record model="ir.actions.act_window" id="auto_word_wind_civil_chapter8_1_act_window">
           <field name="name">设计安全标准</field>
-          <field name="res_model">auto_word_null.project</field>
+          <field name="res_model">auto_word_civil.design_safety_standard</field>
           <field name="view_mode">tree,form</field>
           <field name="help" type="html">
                 <p class="oe_view_nocontent_create">正在开发，敬请等待！
