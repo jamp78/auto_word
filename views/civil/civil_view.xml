@@ -27,6 +27,7 @@
                             <field name="road_2_num" />
                             <field name="road_3_num" />
                              <field name="ProjectLevel" />
+                              <field name="ProjectSize" />
                          </group>
                          <group name="group_left">
                             <field name="line_1" />

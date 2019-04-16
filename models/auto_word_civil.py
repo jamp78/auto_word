@@ -3,12 +3,17 @@
 from doc_8 import generate_civil_docx, get_dict_8
 import base64
 import numpy
+from . import auto_word_project
 from odoo import models, fields, api
 
 class auto_word_civil_design_safety_standard(models.Model):
     _name = 'auto_word_civil.design_safety_standard'
     _description = 'Civil Design Safety Standard'
-    _rec_name = 'ProjectLevel'
+    _rec_name = 'project_civil_id'
+    _inherit = ['auto_word.project']
+    # project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    project_civil_id = fields.Many2one('auto_word.civil', string=u'civil', required=True)
+
     ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
                                     string=u"项目工程等别")
     ProjectSize = fields.Selection([("大型", u"大型"), ("中型", u"中型"), ("小型", u"小型")],
@@ -35,13 +40,19 @@ class auto_word_civil_design_safety_standard(models.Model):
     BuildingYardLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
                                          string=u"建筑物场地类别")
 
+    def button_civil_design_safety_standard(self):
+        projectcivil = self.project_civil_id
+        projectcivil.ProjectLevel = self.ProjectLevel
+        projectcivil.ProjectSize = self.ProjectSize
+        return True
+
 
 class auto_word_civil(models.Model):
     _name = 'auto_word.civil'
     _description = 'Civil input'
     _rec_name = 'project_id'
     _inherit = ['auto_word_civil.design_safety_standard']
-    project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
+    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
     turbine_numbers = fields.Char(u'机位数', readonly=True)
@@ -96,11 +107,21 @@ class auto_word_civil(models.Model):
     direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="待提交", readonly=True)
     main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
 
-    ProjectLevel = fields.Many2one('auto_word_civil.design_safety_standard')
+    ####设计安全标准
+    # civil_design_safety_standard = fields.Char(compute='_compute_civil_design_safety_standard', string=u'设计安全标准')
+
+    ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
+    ProjectSize = fields.Char(u'工程规模', default="待提交", readonly=True)
+
+    # ProjectLevel = fields.Char(compute='_compute_civil_design_safety_standard',string=u'项目工程等别', default="待提交", readonly=True)
+    # ProjectSize = fields.Char(compute='_compute_civil_design_safety_standard',string=u'工程规模', default="待提交", readonly=True)
+
+
     @api.depends('road_1_num', 'road_2_num', 'road_3_num')
     def _compute_total_length(self):
         for re in self:
             re.total_civil_length = re.road_1_num + re.road_2_num + re.road_3_num
+
 
     # @api.one
     # @api.depends("project_id")
@@ -132,7 +153,7 @@ class auto_word_civil(models.Model):
 
         projectname.turbine_numbers_civil = self.turbine_numbers
 
-        projectname.ProjectLevel = self.ProjectLevel.ProjectLevel
+        projectname.ProjectLevel = self.ProjectLevel
         return True
 
     def civil_refresh(self):

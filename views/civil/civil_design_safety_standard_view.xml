@@ -4,10 +4,16 @@
         <field name="name">设计安全标准</field>
         <field name="model">auto_word_civil.design_safety_standard</field>
         <field name="arch" type="xml">
-            <form string="风机基础数据表">
+            <form string="设计安全标准">
+                <header>
+                  <button name="button_civil_design_safety_standard" type="object" groups="auto_word.civil_group_user"
+                           string="提交设计安全标准" confirm="是否确认提交该项目设计安全标准？" />
+                </header>
+
                 <sheet>
                     <group name="group_top">
                          <group name="group_left">
+                             <field name="project_civil_id" />
                             <field name="ProjectLevel" />
                          </group>
                          <group name="group_right">
