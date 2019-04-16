@@ -207,6 +207,8 @@ class auto_word_civil(models.Model):
 
         dict_8_word = {
 
+
+
             # '项目工程等别': self.project_id.ProjectLevel,
             '项目工程等别': self.ProjectLevel,
             '工程规模': self.ProjectSize,
