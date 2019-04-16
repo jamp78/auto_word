@@ -62,8 +62,12 @@ class auto_word_civil(models.Model):
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
+
+    #风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
     select_hub_height = fields.Char(u'推荐轮毂高度', readonly=True)
+
+
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
         [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
@@ -171,7 +175,9 @@ class auto_word_civil(models.Model):
 
     def civil_refresh(self):
         projectname = self.project_id
-        self.turbine_numbers = projectname.turbine_numbers_wind
+        self.turbine_numbers = projectname.turbine_numbers
+        self.select_hub_height = projectname.select_hub_height
+
 
         self.line_1 = projectname.line_1
         self.line_2 = projectname.line_2

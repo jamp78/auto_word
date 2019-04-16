@@ -28,8 +28,8 @@ class auto_word_wind(models.Model):
         myself = self
         projectname.wind_attachment_id = myself
         projectname.wind_attachment_ok = u"已提交,版本：" + self.version_id
-        projectname.turbine_numbers_wind = self.turbine_numbers
-        projectname.select_hub_height_wind = self.select_hub_height
+        projectname.turbine_numbers = self.turbine_numbers
+        projectname.select_hub_height = self.select_hub_height
 
         return True
 

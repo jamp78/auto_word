@@ -46,12 +46,11 @@
                         <field name="economic_attachment_ok"/>
                     </group>
                     <group name="group_wind" string="风资源提交明细">
-                        <field name="turbine_numbers_wind"/>
-                        <field name="select_hub_height_wind"/>
+                        <field name="turbine_numbers"/>
+                        <field name="select_hub_height"/>
                     </group>
                     <group name="group_electrical" string="电气提交明细">
                         <group name="group_left">
-                            <field name="turbine_numbers_electric"/>
                             <field name="voltage_class"/>
                             <field name="lenth_singlejL240"/>
                             <field name="lenth_doublejL240"/>
@@ -70,9 +69,8 @@
                         </group>
                     </group>
                     <group name="group_road" string="土建提交明细">
-                        <group name="group_left" decoration-bf="turbine_numbers_civil!=turbine_numbers_wind" >
-
-                            <field name="turbine_numbers_civil"/>
+                        <!--<group name="group_left" decoration-bf="turbine_numbers_civil!=turbine_numbers" >-->
+                        <group name="group_left">
                             <field name="road_1_num"/>
                             <field name="road_2_num"/>
                             <field name="road_3_num"/>
