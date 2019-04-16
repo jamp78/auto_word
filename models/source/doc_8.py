@@ -37,7 +37,7 @@ def get_dict_8(np, dict_keys):
     return dict
 
 
-def generate_civil_docx(turbine_numbers=0, basic_type='', ultimate_load=0, fortification_intensity=0,
+def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, fortification_intensity=0,
                         basic_earthwork_ratio=0, basic_stone_ratio=0, TurbineCapacity=0, road_earthwork_ratio=0,
                         road_stone_ratio=0, Status='', Grade=0, Capacity=0, TerrainType='', numbers_list_road=[],
                         overhead_line=0, direct_buried_cable=0, line_data=[], main_booster_station_num=0,
@@ -47,6 +47,7 @@ def generate_civil_docx(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     Doc_word = {
         '风电场总装机容量': TurbineCapacity * turbine_numbers,
         '变电站电压等级': Grade
+
     }
 
     project10 = MainConstructionQuantitySummarySheet()
@@ -106,8 +107,9 @@ def generate_civil_docx(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     project10.extraction_data_main_construction_quantity_summary(main_booster_station_num, overhead_line_num,
                                                                  direct_buried_cable_num)
     Dict10 = RoundUp.round_dict(project10.generate_dict_main_construction_quantity_summary())
-    Dict = dict(Doc_word, **Dict1, **Dict2, **Dict3, **Dict4, **Dict5, **Dict6, **Dict7, **Dict8, **Dict9, **Dict10)
-    print(Dict)
+    Dict = dict(Doc_word,**Dict1, **Dict2, **Dict3, **Dict4, **Dict5, **Dict6, **Dict7, **Dict8, **Dict9, **Dict10)
+    return Dict
+def generate_civil_docx(Dict):
     filename_box = ['cr8', 'result_chapter8']
     save_path = r'D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_8'
     read_path = os.path.join(save_path, '%s.docx') % filename_box[0]

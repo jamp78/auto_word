@@ -11,14 +11,30 @@
                 </header>
 
                 <sheet>
-                    <group name="group_top">
+                     <group name="group_top">
+                         <field name="civil_id" />
+                     </group>
+
+                    <group string="工程等别和建筑物级别、结构安全等级">
                          <group name="group_left">
-                             <field name="project_civil_id" />
-                            <field name="ProjectLevel" />
+                             <field name="ProjectLevel" />
+                             <field name="ProjectSize" />
+                             <field name="BuildingLevel" />
+                             <field name="StructuralSafetyLevel" />
                          </group>
                          <group name="group_right">
-                            <field name="ProjectSize" />
+                             <field name="FloodDesignLevel" />
+                             <field name="ReFloodDesignLevel" />
+                             <field name="TerrainType_words" />
+                             <field name="TurbineTowerDesignLevel" />
                         </group>
+                    </group>
+                    <group string="抗震设计标准">
+                        <field name="BuildingEarthquakeDesignLevel" />
+                        <field name="DesignEarthquakeLevel" />
+                        <field name="Earthquake_g" />
+                        <field name="BuildingYardLevel" />
+
                     </group>
                     <!--<group name="group_bottom">-->
                         <!--<field name="generator_Output" />-->

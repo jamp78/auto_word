@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from doc_8 import generate_civil_docx, get_dict_8
+from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
 import base64
 import numpy
 from . import auto_word_project
 from odoo import models, fields, api
 
+
 class auto_word_civil_design_safety_standard(models.Model):
     _name = 'auto_word_civil.design_safety_standard'
     _description = 'Civil Design Safety Standard'
-    _rec_name = 'project_civil_id'
-    _inherit = ['auto_word.project']
-    # project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
-    project_civil_id = fields.Many2one('auto_word.civil', string=u'civil', required=True)
-
+    _rec_name = 'civil_id'
+    civil_id = fields.Many2one('auto_word.civil', string=u'项目名称', required=True)
     ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
                                     string=u"项目工程等别")
     ProjectSize = fields.Selection([("大型", u"大型"), ("中型", u"中型"), ("小型", u"小型")],
@@ -22,16 +20,14 @@ class auto_word_civil_design_safety_standard(models.Model):
                                      string=u"建筑物级别")
     StructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
                                              string=u"结构安全等级")
-    FloodDesignLevel = fields.Float(u'洪水设计标准', defult=50)
-    StructuralSafetyLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
-                                             string=u"重现期洪水位")
+    FloodDesignLevel = fields.Integer(u'洪水设计标准', defult=50)
+    ReFloodDesignLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
+                                          string=u"重现期洪水位")
     TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
                                           ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
     TurbineTowerDesignLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
                                                string=u"机组塔架地基设计级别")
-
     # 抗震
-
     BuildingEarthquakeDesignLevel = fields.Selection([("甲类", u"甲类"), ("乙类", u"乙类"), ("丙类", u"丙类")],
                                                      string=u"建筑物抗震设防类别")
     DesignEarthquakeLevel = fields.Selection([("第一组", u"第一组"), ("第二组", u"第二组"), ("第三组", u"第三组")],
@@ -41,9 +37,20 @@ class auto_word_civil_design_safety_standard(models.Model):
                                          string=u"建筑物场地类别")
 
     def button_civil_design_safety_standard(self):
-        projectcivil = self.project_civil_id
-        projectcivil.ProjectLevel = self.ProjectLevel
-        projectcivil.ProjectSize = self.ProjectSize
+        self.civil_id.ProjectLevel = self.ProjectLevel
+        self.civil_id.ProjectSize = self.ProjectSize
+        self.civil_id.BuildingLevel = self.BuildingLevel
+        self.civil_id.StructuralSafetyLevel = self.StructuralSafetyLevel
+        self.civil_id.FloodDesignLevel = self.FloodDesignLevel
+        self.civil_id.ReFloodDesignLevel = self.ReFloodDesignLevel
+        self.civil_id.TerrainType_words = self.TerrainType_words
+        self.civil_id.TurbineTowerDesignLevel = self.TurbineTowerDesignLevel
+        # 抗震
+        self.civil_id.BuildingEarthquakeDesignLevel = self.BuildingEarthquakeDesignLevel
+        self.civil_id.DesignEarthquakeLevel = self.DesignEarthquakeLevel
+        self.civil_id.Earthquake_g = self.Earthquake_g
+        self.civil_id.BuildingYardLevel = self.BuildingYardLevel
+
         return True
 
 
@@ -51,7 +58,7 @@ class auto_word_civil(models.Model):
     _name = 'auto_word.civil'
     _description = 'Civil input'
     _rec_name = 'project_id'
-    _inherit = ['auto_word_civil.design_safety_standard']
+    # _inherit = ['auto_word_civil.design_safety_standard']
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
@@ -112,16 +119,22 @@ class auto_word_civil(models.Model):
 
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
     ProjectSize = fields.Char(u'工程规模', default="待提交", readonly=True)
+    BuildingLevel = fields.Char(u'建筑物级别', default="待提交", readonly=True)
+    StructuralSafetyLevel = fields.Char(u'结构安全等级', default="待提交", readonly=True)
+    FloodDesignLevel = fields.Char(u'洪水设计标准', default="待提交", readonly=True)
+    ReFloodDesignLevel = fields.Char(u'重现期洪水位', default="待提交", readonly=True)
+    TerrainType_words = fields.Char(u'地形描述', default="待提交", readonly=True)
+    TurbineTowerDesignLevel = fields.Char(u'机组塔架地基设计级别', default="待提交", readonly=True)
 
-    # ProjectLevel = fields.Char(compute='_compute_civil_design_safety_standard',string=u'项目工程等别', default="待提交", readonly=True)
-    # ProjectSize = fields.Char(compute='_compute_civil_design_safety_standard',string=u'工程规模', default="待提交", readonly=True)
-
+    BuildingEarthquakeDesignLevel = fields.Char(u'建筑物抗震设防类别', default="待提交", readonly=True)
+    DesignEarthquakeLevel = fields.Char(u'设计地震分组', default="待提交", readonly=True)
+    Earthquake_g = fields.Char(u'设计基本地震加速度值', default="待提交", readonly=True)
+    BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num')
     def _compute_total_length(self):
         for re in self:
             re.total_civil_length = re.road_1_num + re.road_2_num + re.road_3_num
-
 
     # @api.one
     # @api.depends("project_id")
@@ -167,7 +180,6 @@ class auto_word_civil(models.Model):
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
-        print("sadasdasd")
         self.select_hub_height = projectname.select_hub_height_wind
         return True
 
@@ -191,7 +203,28 @@ class auto_word_civil(models.Model):
 
         dict_8 = get_dict_8(np, dict_keys)
         print(dict_8)
-        generate_civil_docx(**dict_8)
+        dict8 = generate_civil_dict(**dict_8)
+
+        dict_8_word = {
+
+            # '项目工程等别': self.project_id.ProjectLevel,
+            '项目工程等别': self.ProjectLevel,
+            '工程规模': self.ProjectSize,
+            '建筑物级别': self.BuildingLevel,
+            '结构安全等级': self.StructuralSafetyLevel,
+            '洪水设计标准': self.FloodDesignLevel,
+            '重现期洪水位': self.ReFloodDesignLevel,
+            '地形描述': self.TerrainType_words,
+            '机组塔架地基设计级别': self.TurbineTowerDesignLevel,
+
+            '建筑物抗震设防类别': self.BuildingEarthquakeDesignLevel,
+            '设计地震分组': self.DesignEarthquakeLevel,
+            '设计基本地震加速度值': self.Earthquake_g,
+            '建筑物场地类别': self.BuildingYardLevel,
+        }
+        Dict8 = dict(dict_8_word, **dict8)
+        print(Dict8)
+        generate_civil_docx(Dict8)
         reportfile_name = open(
             file=r'D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_8\result_chapter8.docx',
             mode='rb')
@@ -369,5 +402,3 @@ class auto_word_civil_road4(models.Model):
     StoneMasonryDrainageDitch_4 = fields.Float(u'浆砌石排水沟')
     MortarStoneProtectionSlope_4 = fields.Float(u'M7.5浆砌片石护坡')
     TurfSlopeProtection_4 = fields.Float(u'草皮护坡')
-
-
