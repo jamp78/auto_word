@@ -33,6 +33,52 @@
         </field>
     </record>
 
+     <record id="wind_turbines_selection_form" model="ir.ui.view">
+        <field name="name">风机选型表</field>
+        <field name="model">wind_turbines.selection</field>
+        <field name="arch" type="xml">
+            <form string="风机选型表">
+                <sheet>
+                    <group name="group_top">
+                         <group name="group_left">
+                            <field name="name_tur" />
+                            <field name="turbine_numbers" />
+                            <field name="capacity" />
+                            <field name="rotor_diameter" />
+                            <field name="rotor_swept_area" />
+                            <field name="hub_height" />
+                            <field name="tower_type" />
+                            <field name="tower_weight" />
+                         </group>
+                         <group name="group_right">
+                            <field name="power_regulation" />
+                            <field name="generator_type" />
+                            <field name="rated_wind_speed" />
+                            <field name="cut_in_wind_speed" />
+                            <field name="cut_out_wind_speed" />
+                             <field name="three_second_maximum" />
+                        </group>
+                    </group>
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wind_turbines_selection_list" model="ir.ui.view">
+        <field name="name">风机选型表</field>
+        <field name="model">wind_turbines.selection</field>
+        <field name="arch" type="xml">
+            <tree>
+                  <field name="name_tur" />
+                  <field name="turbine_numbers" />
+                  <field name="capacity" />
+            </tree>
+        </field>
+    </record>
+
     <record id="auto_word_wind_turbines_power_form" model="ir.ui.view">
         <field name="name">风机功率表</field>
         <field name="model">auto_word_wind_turbines.power</field>

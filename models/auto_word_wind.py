@@ -13,13 +13,23 @@ class auto_word_wind(models.Model):
     _rec_name = 'project_id'
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    turbine_numbers = fields.Integer(u'机位数', required=True)
+    turbine_numbers = fields.Integer(string=u'机位数', readonly=True,compute='_compute_turbine_numbers')
+    farm_capacity = fields.Float(string=u'风电场容量', readonly=True, compute='_compute_turbine_numbers')
     generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
+    select_ids = fields.Many2many('wind_turbines.selection', required=True, string=u'机型推荐')
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
     select_hub_height=fields.Integer(u'推荐轮毂高度', required=True)
 
     Dict_5 = {}
 
+    @api.depends('select_ids')
+    def _compute_turbine_numbers(self):
+        self.turbine_numbers=0
+        self.farm_capacity=0
+        for i in range(0, len(self.select_ids)):
+            self.turbine_numbers = self.select_ids[i].turbine_numbers + self.turbine_numbers
+            self.farm_capacity = self.select_ids[i].turbine_numbers*self.select_ids[i].capacity + self.farm_capacity
+        self.farm_capacity= self.farm_capacity/1000
     # project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
 
     @api.multi
@@ -30,7 +40,6 @@ class auto_word_wind(models.Model):
         projectname.wind_attachment_ok = u"已提交,版本：" + self.version_id
         projectname.turbine_numbers = self.turbine_numbers
         projectname.select_hub_height = self.select_hub_height
-
         return True
 
     @api.multi
@@ -137,12 +146,13 @@ class auto_word_wind_turbines_efficiency(models.Model):
     speed25 = fields.Float(u'25m/s（kW）', required=True)
 
 
+
 class auto_word_wind_turbines(models.Model):
     _name = 'auto_word_wind.turbines'
     _description = 'Generator'
     _rec_name = 'name_tur'
     name_tur = fields.Char(u'风机型号', required=True)
-    capacity = fields.Float(u'额定功率(kW)', required=True)
+    capacity = fields.Integer(u'额定功率(kW)', required=True)
     blade_number = fields.Integer(u'叶片数', required=True)
     rotor_diameter = fields.Float(u'叶轮直径', required=True)
     rotor_swept_area = fields.Float(u'扫风面积', required=True)
@@ -161,7 +171,31 @@ class auto_word_wind_turbines(models.Model):
     mechanical_brake = fields.Char(u'机械制动类型')
     three_second_maximum = fields.Char(u'生存风速', required=True)
 
-
+class auto_word_wind_turbines_selection(models.Model):
+    _name = 'wind_turbines.selection'
+    _description = 'Generator'
+    _rec_name = 'name_tur'
+    _inherit = ['auto_word_wind.turbines']
+    name_tur = fields.Char(u'风机型号')
+    turbine_numbers = fields.Integer(u'机位数', required=True)
+    capacity = fields.Integer(u'额定功率(kW)', readonly=True)
+    blade_number = fields.Integer(u'叶片数', readonly=True)
+    rotor_diameter = fields.Float(u'叶轮直径', readonly=True)
+    rotor_swept_area = fields.Float(u'扫风面积', readonly=True)
+    hub_height = fields.Char(u'轮毂高度',readonly=True)
+    power_regulation = fields.Char(u'风机类型', readonly=True)
+    cut_in_wind_speed = fields.Float(u'切入风速', readonly=True)
+    cut_out_wind_speed = fields.Float(u'切出风速', readonly=True)
+    rated_wind_speed = fields.Float(u'额定风速', readonly=True)
+    generator_type = fields.Char(u'发电机类型', readonly=True)
+    rated_power = fields.Float(u'额定功率',readonly=True)
+    voltage = fields.Float(u'额定电压', readonly=True)
+    frequency = fields.Float(u'频率', readonly=True)
+    tower_type = fields.Char(u'塔筒类型',readonly=True)
+    tower_weight = fields.Float(u'塔筒重量',readonly=True)
+    pneumatic_brake = fields.Char(u'安全制动类型',readonly=True)
+    mechanical_brake = fields.Char(u'机械制动类型',readonly=True)
+    three_second_maximum = fields.Char(u'生存风速', readonly=True)
 class windres(models.Model):
     _name = 'auto_word.windres'
     _description = 'Wind energy result input'

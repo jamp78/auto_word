@@ -77,6 +77,7 @@
                         <field name="DesignEarthquakeLevel" />
                         <field name="Earthquake_g" />
                         <field name="BuildingYardLevel" />
+                        <field name="BuildingYardLevel_word" />
                    </group>
 
                     <group name="group_buttom">

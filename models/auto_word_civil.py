@@ -55,6 +55,7 @@ class auto_word_civil_design_safety_standard(models.Model):
         self.civil_id.DesignEarthquakeLevel = self.DesignEarthquakeLevel
         self.civil_id.Earthquake_g = self.Earthquake_g
         self.civil_id.BuildingYardLevel = self.BuildingYardLevel
+        self.civil_id.BuildingYardLevel_word = self.BuildingYardLevel_word
 
         return True
 
@@ -140,6 +141,7 @@ class auto_word_civil(models.Model):
     DesignEarthquakeLevel = fields.Char(u'设计地震分组', default="待提交", readonly=True)
     Earthquake_g = fields.Char(u'设计基本地震加速度值', default="待提交", readonly=True)
     BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
+    BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num')
     def _compute_total_length(self):
@@ -234,6 +236,7 @@ class auto_word_civil(models.Model):
             '设计地震分组': self.DesignEarthquakeLevel,
             '设计基本地震加速度值': self.Earthquake_g,
             '建筑物场地类别': self.BuildingYardLevel,
+            '建筑物场地抗震类别': self.BuildingYardLevel_word,
         }
         Dict8 = dict(dict_8_word, **dict8)
         print(Dict8)

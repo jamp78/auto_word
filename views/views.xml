@@ -118,6 +118,12 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+    <record model="ir.actions.act_window" id="wind_turbines_selection_act_window">
+      <field name="name">风机推荐</field>
+      <field name="res_model">wind_turbines.selection</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
         <record model="ir.actions.act_window" id="auto_word_wind_turbines_power_act_window">
           <field name="name">风机功率</field>
           <field name="res_model">auto_word_wind_turbines.power</field>
@@ -201,6 +207,9 @@
 
     <menuitem name="项目" id="auto_word_project" parent="auto_word.menu_root" />
     <menuitem name="风能部分" id="auto_word_wind" parent="auto_word.menu_root" />
+      <menuitem name="风能详情" id="auto_word_wind_detail_list" parent="auto_word_wind"
+              action="auto_word_wind_act_window" sequence="1" />
+
       <menuitem name="风机设备选型布置及发电量估算" id="auto_word_wind_chapter5_menu" parent="auto_word_wind"/>
         <menuitem name="机组选型" id="auto_word_wind_chapter5_1_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_1_act_window"/>
         <menuitem name="机型比选" id="auto_word_wind_chapter5_3_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_3_act_window"/>
@@ -226,8 +235,11 @@
 
 
     <menuitem name="风机信息" id="auto_word_wind_turbines_menu" parent="auto_word.menu_root"/>
-      <menuitem name="风机详情" id="auto_word_wind_turbines_list" parent="auto_word_wind_turbines_menu"
+      <menuitem name="风机详情" id="auto_word_wind_turbines_list_menu" parent="auto_word_wind_turbines_menu"
               groups="wind_group_user" action="auto_word_wind_turbines_act_window" sequence="1"/>
+      <menuitem name="风机推荐" id="wind_turbines_selection_list_menu" parent="auto_word_wind_turbines_menu"
+              groups="wind_group_user" action="wind_turbines_selection_act_window" sequence="2"/>
+
       <menuitem name="风机功率" id="auto_word_wind_turbines_power_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_turbines_power_act_window"/>
       <menuitem name="风机效率" id="auto_word_wind_turbines_efficiency_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_turbines_efficiency_act_window"/>
 
@@ -254,8 +266,7 @@
     <!-- actions -->
     <menuitem name="项目详情" id="auto_word_project_detail_list" parent="auto_word_project"
               action="auto_word_project_act_window" sequence="1"/>
-    <menuitem name="风能详情" id="auto_word_wind_detail_list" parent="auto_word_wind"
-              action="auto_word_wind_act_window" sequence="1" />
+
     <menuitem name="电气详情" id="auto_word_electric_detail_list" parent="auto_word_electric"
               action="auto_word_electric_act_window" sequence="1" />
 
