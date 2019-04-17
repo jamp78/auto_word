@@ -14,20 +14,23 @@
                            string="刷新" class="btn btn-info"/>
                </header>
                <sheet>
-                    <group name="group_top">
-                         <group name="group_left">
+                   <group name="group_top">
+                       <group string="项目详情">
                             <field name="project_id" />
                             <field name="version_id" />
+                       </group>
+
+                       <group string="风资源参数">
                             <field name="turbine_numbers" />
                             <field name="select_hub_height" />
-                         </group>
-                         <group name="group_right">
-
+                       </group>
+                   </group>
+                   <group string="土建输入参数">
+                        <group name="group_left">
                             <field name="road_1_num" />
                             <field name="road_2_num" />
                             <field name="road_3_num" />
-                         </group>
-                         <group name="group_left">
+                            <separator/>
                             <field name="line_1" />
                             <field name="line_2" />
                             <field name="overhead_line" />
@@ -35,8 +38,8 @@
                             <field name="overhead_line_num" />
                             <field name="direct_buried_cable_num" />
                             <field name="main_booster_station_num" />
-                         </group>
-                         <group name="group_right">
+                        </group>
+                        <group name="group_right">
                             <field name="basic_type" />
                             <field name="ultimate_load" />
                             <field name="fortification_intensity" />
@@ -50,14 +53,16 @@
                             <field name="Capacity" />
                             <field name="TerrainType" />
                         </group>
-                    </group>
+                   </group>
+
 
                    <group string="工程等别和建筑物级别、结构安全等级">
                        <group name="group_right">
                             <field name="ProjectLevel" />
                             <field name="ProjectSize" />
                             <field name="BuildingLevel" />
-                            <field name="StructuralSafetyLevel" />
+                            <field name="EStructuralSafetyLevel" />
+                            <field name="TStructuralSafetyLevel" />
                        </group>
                        <group name="group_left">
                             <field name="FloodDesignLevel" />

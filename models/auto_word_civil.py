@@ -3,7 +3,6 @@
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
 import base64
 import numpy
-from . import auto_word_project
 from odoo import models, fields, api
 
 
@@ -18,8 +17,10 @@ class auto_word_civil_design_safety_standard(models.Model):
                                    string=u"工程规模")
     BuildingLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
                                      string=u"建筑物级别")
-    StructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                             string=u"结构安全等级")
+    EStructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                             string=u"变电站结构安全等级")
+    TStructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
+                                             string=u"风机结构安全等级")
     FloodDesignLevel = fields.Integer(u'洪水设计标准', defult=50)
     ReFloodDesignLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
                                           string=u"重现期洪水位")
@@ -36,11 +37,15 @@ class auto_word_civil_design_safety_standard(models.Model):
     BuildingYardLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
                                          string=u"建筑物场地类别")
 
+    BuildingYardLevel_word = fields.Selection([("抗震不利地段", u"抗震不利地段"), ("抗震有利地段", u"抗震有利地段")],
+                                         string=u"建筑物场地抗震类别")
+
     def button_civil_design_safety_standard(self):
         self.civil_id.ProjectLevel = self.ProjectLevel
         self.civil_id.ProjectSize = self.ProjectSize
         self.civil_id.BuildingLevel = self.BuildingLevel
-        self.civil_id.StructuralSafetyLevel = self.StructuralSafetyLevel
+        self.civil_id.EStructuralSafetyLevel = self.EStructuralSafetyLevel
+        self.civil_id.TStructuralSafetyLevel = self.TStructuralSafetyLevel
         self.civil_id.FloodDesignLevel = self.FloodDesignLevel
         self.civil_id.ReFloodDesignLevel = self.ReFloodDesignLevel
         self.civil_id.TerrainType_words = self.TerrainType_words
@@ -66,7 +71,6 @@ class auto_word_civil(models.Model):
     #风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
     select_hub_height = fields.Char(u'推荐轮毂高度', readonly=True)
-
 
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
@@ -124,7 +128,9 @@ class auto_word_civil(models.Model):
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
     ProjectSize = fields.Char(u'工程规模', default="待提交", readonly=True)
     BuildingLevel = fields.Char(u'建筑物级别', default="待提交", readonly=True)
-    StructuralSafetyLevel = fields.Char(u'结构安全等级', default="待提交", readonly=True)
+    EStructuralSafetyLevel = fields.Char(u'变电站结构安全等级', default="待提交", readonly=True)
+    TStructuralSafetyLevel = fields.Char(u'风机结构安全等级', default="待提交", readonly=True)
+
     FloodDesignLevel = fields.Char(u'洪水设计标准', default="待提交", readonly=True)
     ReFloodDesignLevel = fields.Char(u'重现期洪水位', default="待提交", readonly=True)
     TerrainType_words = fields.Char(u'地形描述', default="待提交", readonly=True)
@@ -168,8 +174,6 @@ class auto_word_civil(models.Model):
         projectname.Capacity = self.Capacity
         projectname.TerrainType = self.TerrainType
 
-        projectname.turbine_numbers_civil = self.turbine_numbers
-
         projectname.ProjectLevel = self.ProjectLevel
         return True
 
@@ -186,7 +190,7 @@ class auto_word_civil(models.Model):
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
-        self.select_hub_height = projectname.select_hub_height_wind
+        self.select_hub_height = projectname.select_hub_height
         return True
 
     def civil_generate(self):
@@ -212,14 +216,15 @@ class auto_word_civil(models.Model):
         dict8 = generate_civil_dict(**dict_8)
 
         dict_8_word = {
-
-
-
-            # '项目工程等别': self.project_id.ProjectLevel,
+            # 风能
+            '推荐轮毂高度': self.select_hub_height,
+            # 设计安全标准
             '项目工程等别': self.ProjectLevel,
             '工程规模': self.ProjectSize,
             '建筑物级别': self.BuildingLevel,
-            '结构安全等级': self.StructuralSafetyLevel,
+            '变电站结构安全等级': self.EStructuralSafetyLevel,
+            '风机结构安全等级': self.TStructuralSafetyLevel,
+
             '洪水设计标准': self.FloodDesignLevel,
             '重现期洪水位': self.ReFloodDesignLevel,
             '地形描述': self.TerrainType_words,
@@ -298,7 +303,7 @@ class civil_windbase(models.Model):
 
 class civil_convertbase(models.Model):
     _name = 'auto_word_civil.convertbase'
-    _description = 'Civil convertbase'
+    _description = 'Civil ConvertBase'
     _rec_name = 'TurbineCapacity'
     TurbineCapacity = fields.Selection(
         [(2, "2MW"), (2.2, "2.2MW"), (2.5, "2.5MW"), (3, "3MW"), (3.2, "3.2MW"), (3.3, "3.3MW"), (3.4, "3.4MW"),

@@ -45,6 +45,9 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     # turbine_numbers = 15
 
     Doc_word = {
+        'turbine_numbers': turbine_numbers,
+        'TurbineCapacity': TurbineCapacity,
+        'fortification_intensity': fortification_intensity,
         '风电场总装机容量': TurbineCapacity * turbine_numbers,
         '变电站电压等级': Grade
 

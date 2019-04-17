@@ -20,7 +20,8 @@
                              <field name="ProjectLevel" />
                              <field name="ProjectSize" />
                              <field name="BuildingLevel" />
-                             <field name="StructuralSafetyLevel" />
+                             <field name="EStructuralSafetyLevel" />
+                             <field name="TStructuralSafetyLevel" />
                          </group>
                          <group name="group_right">
                              <field name="FloodDesignLevel" />
