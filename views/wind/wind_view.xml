@@ -37,6 +37,9 @@
                             <field name="turbine_numbers" />
                             <field name="farm_capacity" />
                             <field name="select_hub_height" />
+                            <field name="string_speed_words" />
+                            <field name="string_deg_words" />
+
                          </group>
                          <!--<field name="project_res" />-->
                     </group>
