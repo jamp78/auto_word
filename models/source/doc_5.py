@@ -4,7 +4,7 @@ import generate_images, generate_dict
 import os
 
 
-def generate_wind_docx(tur_name, path_images):
+def generate_wind_dict(tur_name, path_images):
     data_tur_np, data_power_np, data_efficiency_np = connect_sql.connect_sql_chapter5(*tur_name)
 
     #####################
@@ -23,7 +23,10 @@ def generate_wind_docx(tur_name, path_images):
     print("---------开始 chapter 5--------")
     # chapter 5
     Dict_5 = generate_dict.get_dict(data_tur_np, dict_keys_chapter5)
-    context_5 = generate_dict.write_context(Dict_5, *context_keys_chapter5)
+    Dict = generate_dict.write_context(Dict_5, *context_keys_chapter5)
+    return Dict
+
+def generate_wind_docx(Dict, path_images):
     filename_box = ['cr5', 'result_chapter5']
     read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
     save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
@@ -32,8 +35,7 @@ def generate_wind_docx(tur_name, path_images):
     for i in range(0, 2):
         key = 'myimage' + str(i)
         value = InlineImage(tpl, os.path.join(path_images, '%s.png') % png_box[i])
-        context_5[key] = value
+        Dict[key] = value
 
-    tpl.render(context_5)
+    tpl.render(Dict)
     tpl.save(save_path)
-    return Dict_5
