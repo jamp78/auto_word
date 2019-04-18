@@ -30,7 +30,6 @@
         'views/templates.xml',
         'views/project/project_view.xml',
         'views/project/project_null_view.xml',
-        'views/wind/wind_cft_infor_view.xml',
         'views/wind/wind_turbines_view.xml',
         'views/wind/wind_view.xml',
         'views/wind/wind_res_view.xml',
@@ -39,6 +38,7 @@
         'views/civil/civil_database_view.xml',
         'views/civil/civil_design_safety_standard_view.xml',
         'views/wind/wind_turbines_compare_view.xml',
+        'views/wind/wind_cft_infor_view.xml',
 
     ],
     # only loaded in demonstration mode
