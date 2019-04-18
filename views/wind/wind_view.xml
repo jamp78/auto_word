@@ -39,7 +39,7 @@
                             <field name="select_hub_height" />
                             <field name="string_speed_words" />
                             <field name="string_deg_words" />
-
+                            <field name="IECLevel" />
                          </group>
                          <!--<field name="project_res" />-->
                     </group>
@@ -49,7 +49,7 @@
                     </group>
 
                     <group name="group_bottom">
-                        <field name="generator_ids" />
+                        <!--<field name="generator_ids" />-->
                         <!--<field name="project_res" />-->
                         <field name="report_attachment_id" />
                     </group>

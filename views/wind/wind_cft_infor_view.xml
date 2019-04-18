@@ -46,6 +46,7 @@
                     <field name="string_speed_words"/>
                     <field name="string_deg_words"/>
                     <field name="select_cft_ids"/>
+                    <field name="generator_ids"/>
                 </group>
             </form>
         </field>

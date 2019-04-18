@@ -17,12 +17,18 @@ class auto_word_wind(models.Model):
     turbine_numbers = fields.Integer(string=u'机位数', readonly=True, compute='_compute_turbine_numbers')
     farm_capacity = fields.Float(string=u'风电场容量', readonly=True, compute='_compute_turbine_numbers')
     generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
+
     select_ids = fields.Many2many('wind_turbines.selection', required=True, string=u'机型推荐')
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
     select_hub_height = fields.Integer(u'推荐轮毂高度', required=True)
 
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
+
+    IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
+                                 ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
+                                 ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
+                                 ],string=u"IEC等级",default="IIIB")
 
     @api.depends('select_ids')
     def _compute_turbine_numbers(self):
@@ -56,6 +62,8 @@ class auto_word_wind(models.Model):
         dict_5_word = {
             '测风塔风速信息': self.string_speed_words,
             '测风塔风向信息': self.string_deg_words,
+            '推荐轮毂高度': self.select_hub_height,
+            'IEC等级': self.IECLevel,
         }
         Dict5 = dict(dict_5_word, **dict5)
         print(Dict5)
@@ -386,6 +394,7 @@ class auto_word_wind_cft(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', compute='_compute_cft')
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', compute='_compute_cft')
+    generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
 
     # cft_height = fields.Char(string=u'选定高程', readonly=True, compute='_compute_cft')
     # cft_speed = fields.Char(string=u'风速', readonly=True, compute='_compute_cft')
@@ -426,5 +435,6 @@ class auto_word_wind_cft(models.Model):
             print(re.wind_id.string_speed_words)
             re.wind_id.string_speed_words = re.string_speed_words
             re.wind_id.string_deg_words = re.string_deg_words
+            re.wind_id.generator_ids = re.generator_ids
 
         return True
