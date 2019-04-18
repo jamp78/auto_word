@@ -13,7 +13,7 @@ def generate_wind_dict(tur_name, path_images):
     #####################
     #  chapter 5
 
-    dict_keys_chapter5 = ['id', '机组类型', 'none', '叶片数', '风轮直径', '扫风面积', '轮毂高度',
+    dict_keys_chapter5 = ['id', '机组类型', 'None', '叶片数', '风轮直径', '扫风面积', '轮毂高度',
                           '功率调节', '切入风速', '切出风速', '额定风速', '发电机型式', '额定功率', '电压', '频率',
                           '塔架型式', '塔筒重量', '主制动系统', '第二制动', '三秒最大值', 'datetime1id', 'datetime1',
                           'datetime2id', 'datetime2','功率']

@@ -6,6 +6,7 @@ import doc_5
 from . import auto_word_electrical
 from . import auto_word_civil
 
+
 class wind_cft_infor(models.Model):
     _name = 'wind_cft.infor'
     _description = 'Wind cft information input'
@@ -27,6 +28,7 @@ class auto_word_wind_cft(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', compute='_compute_cft')
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', compute='_compute_cft')
+    cft_name_words = fields.Char(string=u'测风塔名字', compute='_compute_cft')
     generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
 
     # cft_height = fields.Char(string=u'选定高程', readonly=True, compute='_compute_cft')
@@ -44,7 +46,7 @@ class auto_word_wind_cft(models.Model):
 
         string_deg_word = ""
         string_deg_words_final = ""
-
+        cft_name_words_final = ""
         for i in range(0, len(self.select_cft_ids)):
             self.cft_name = self.select_cft_ids[i].cft_name
             self.cft_height = self.select_cft_ids[i].cft_height
@@ -60,6 +62,9 @@ class auto_word_wind_cft(models.Model):
             string_deg_word = str(self.cft_name) + "测风塔" + str(self.cft_height) + "m测层风向" + str(self.cft_deg_main) + \
                               "；主风能风向" + str(self.cft_deg_pwd_main) + "。"
             string_deg_words_final = string_deg_word + string_deg_words_final
+            cft_name_words_final = self.cft_name + "  " + cft_name_words_final
+
+        self.cft_name_words = cft_name_words_final
         self.string_speed_words = string_speed_words_final
         self.string_deg_words = string_deg_words_final
 
@@ -69,5 +74,5 @@ class auto_word_wind_cft(models.Model):
             re.wind_id.string_speed_words = re.string_speed_words
             re.wind_id.string_deg_words = re.string_deg_words
             re.wind_id.generator_ids = re.generator_ids
-
+            re.wind_id.cft_name_words = re.cft_name_words
         return True

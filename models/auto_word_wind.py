@@ -24,6 +24,7 @@ class auto_word_wind(models.Model):
 
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
+    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
 
     IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
                                  ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
@@ -60,6 +61,7 @@ class auto_word_wind(models.Model):
 
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
+            '测风塔名字': self.cft_name_words,
             '测风塔风速信息': self.string_speed_words,
             '测风塔风向信息': self.string_deg_words,
             '推荐轮毂高度': self.select_hub_height,
@@ -264,7 +266,7 @@ class auto_word_wind_turbines_compare(models.Model):
     mixed_turbines_bool = fields.Boolean(string=u'是否为混排方案',
                                          help='若是混排方案请勾选')
 
-    generator_id = fields.Many2one('auto_word_wind.turbines', required=True, string=u'风机型号')
+    generator_id = fields.Many2one('auto_word_wind.turbines', string=u'风机型号')
     installed_capacity = fields.Float(compute='_compute_installed_capacity', string=u'装机容量')
     hub_height = fields.Char(compute='_compute_turbine', string=u'塔筒高度')
     turbine_numbers = fields.Char(string=u'风机数量')
