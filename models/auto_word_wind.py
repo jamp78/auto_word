@@ -425,6 +425,6 @@ class auto_word_wind_cft(models.Model):
         for re in self:
             print(re.wind_id.string_speed_words)
             re.wind_id.string_speed_words = re.string_speed_words
-            re.wind_id.string_deg_words = re.string_deg_words_final
+            re.wind_id.string_deg_words = re.string_deg_words
 
         return True
