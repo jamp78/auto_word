@@ -29,7 +29,11 @@ class auto_word_wind(models.Model):
     IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
                                  ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
                                  ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
-                                 ],string=u"IEC等级",default="IIIB")
+                                 ], string=u"IEC等级", default="IIIB")
+
+    farm_elevation = fields.Char(string=u'海拔高程', default="待提交")
+    farm_area = fields.Char(string=u'区域面积', default="待提交")
+    farm_speed_range = fields.Char(string=u'风速区间', default="待提交")
 
     @api.depends('select_ids')
     def _compute_turbine_numbers(self):
@@ -61,6 +65,9 @@ class auto_word_wind(models.Model):
 
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
+            "海拔高程": self.farm_elevation,
+            "区域面积": self.farm_area,
+            "平均风速区间": self.farm_speed_range,
             '测风塔名字': self.cft_name_words,
             '测风塔风速信息': self.string_speed_words,
             '测风塔风向信息': self.string_deg_words,
@@ -191,6 +198,7 @@ class auto_word_wind_turbines(models.Model):
     three_second_maximum = fields.Char(u'生存风速', required=True)
 
 
+# 推荐机组
 class auto_word_wind_turbines_selection(models.Model):
     _name = 'wind_turbines.selection'
     _description = 'Generator'
@@ -198,24 +206,24 @@ class auto_word_wind_turbines_selection(models.Model):
     _inherit = ['auto_word_wind.turbines']
     name_tur = fields.Char(u'风机型号')
     turbine_numbers = fields.Integer(u'机位数', required=True)
-    capacity = fields.Integer(u'额定功率(kW)', readonly=True)
-    blade_number = fields.Integer(u'叶片数', readonly=True)
-    rotor_diameter = fields.Float(u'叶轮直径', readonly=True)
-    rotor_swept_area = fields.Float(u'扫风面积', readonly=True)
-    hub_height = fields.Char(u'轮毂高度', readonly=True)
-    power_regulation = fields.Char(u'风机类型', readonly=True)
-    cut_in_wind_speed = fields.Float(u'切入风速', readonly=True)
-    cut_out_wind_speed = fields.Float(u'切出风速', readonly=True)
-    rated_wind_speed = fields.Float(u'额定风速', readonly=True)
-    generator_type = fields.Char(u'发电机类型', readonly=True)
-    rated_power = fields.Float(u'额定功率', readonly=True)
-    voltage = fields.Float(u'额定电压', readonly=True)
-    frequency = fields.Float(u'频率', readonly=True)
-    tower_type = fields.Char(u'塔筒类型', readonly=True)
-    tower_weight = fields.Float(u'塔筒重量', readonly=True)
-    pneumatic_brake = fields.Char(u'安全制动类型', readonly=True)
-    mechanical_brake = fields.Char(u'机械制动类型', readonly=True)
-    three_second_maximum = fields.Char(u'生存风速', readonly=True)
+    capacity = fields.Integer(u'额定功率(kW)', readonly=False)
+    blade_number = fields.Integer(u'叶片数', readonly=False)
+    rotor_diameter = fields.Float(u'叶轮直径', readonly=False)
+    rotor_swept_area = fields.Float(u'扫风面积', readonly=False)
+    hub_height = fields.Char(u'轮毂高度', readonly=False)
+    power_regulation = fields.Char(u'风机类型', readonly=False)
+    cut_in_wind_speed = fields.Float(u'切入风速', readonly=False)
+    cut_out_wind_speed = fields.Float(u'切出风速', readonly=False)
+    rated_wind_speed = fields.Float(u'额定风速', readonly=False)
+    generator_type = fields.Char(u'发电机类型', readonly=False)
+    rated_power = fields.Float(u'额定功率', readonly=False)
+    voltage = fields.Float(u'额定电压', readonly=False)
+    frequency = fields.Float(u'频率', readonly=False)
+    tower_type = fields.Char(u'塔筒类型', readonly=False)
+    tower_weight = fields.Float(u'塔筒重量', readonly=False)
+    pneumatic_brake = fields.Char(u'安全制动类型', readonly=False)
+    mechanical_brake = fields.Char(u'机械制动类型', readonly=False)
+    three_second_maximum = fields.Char(u'生存风速', readonly=False)
 
 
 class windres(models.Model):
@@ -258,21 +266,23 @@ class windres(models.Model):
     Sectors = fields.Char(u'扇区数量', required=True)
 
 
+# 机型比选
 class auto_word_wind_turbines_compare(models.Model):
-    _inherit = 'auto_word.wind'
+    # _inherit = 'auto_word.wind'
     _name = 'auto_word_wind_turbines.compare'
     _description = 'turbines_compare'
-
-    mixed_turbines_bool = fields.Boolean(string=u'是否为混排方案',
-                                         help='若是混排方案请勾选')
-
-    generator_id = fields.Many2one('auto_word_wind.turbines', string=u'风机型号')
-    installed_capacity = fields.Float(compute='_compute_installed_capacity', string=u'装机容量')
-    hub_height = fields.Char(compute='_compute_turbine', string=u'塔筒高度')
-    turbine_numbers = fields.Char(string=u'风机数量')
-    capacity = fields.Char(compute='_compute_turbine', string=u'风机容量')
-    tower_weight = fields.Char(compute='_compute_turbine', string=u'塔筒重量')
-    rotor_diameter = fields.Char(compute='_compute_turbine', string=u'叶轮直径')
+    _rec_name = 'case_name'
+    # mixed_turbines_bool = fields.Boolean(string=u'是否为混排方案',
+    #                                      help='若是混排方案请勾选')
+    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    case_name = fields.Char(u'方案名称', required=True, default="方案1")
+    case_ids = fields.Many2many('wind_turbines.selection', string=u'比选方案')
+    hub_height = fields.Char(compute='_compute_turbine', string=u'塔筒高度', default="待提交")
+    turbine_numbers = fields.Char(string=u'风机数量', readonly=True, compute='_compute_turbine', default="待提交")
+    farm_capacity = fields.Char(string=u'风机容量', readonly=True, compute='_compute_turbine', default="待提交")
+    tower_weight = fields.Char(compute='_compute_turbine', string=u'塔筒重量', default="待提交")
+    rotor_diameter = fields.Char(compute='_compute_turbine', string=u'叶轮直径', default="待提交")
+    case_hub_height = fields.Integer(u'轮毂高度', required=True)
 
     power_generation = fields.Float(u'上网电量', required=True)
     weak = fields.Float(u'尾流衰减', required=True)
@@ -282,40 +292,51 @@ class auto_word_wind_turbines_compare(models.Model):
     TerrainType_turbines_compare = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True)
 
-    investment_e1 = fields.Float(compute='_compute_investment_e1', string=u'塔筒投资')
-    investment_e2 = fields.Float(compute='_compute_investment_e2', string=u'风机设备投资')
-    investment_e3 = fields.Float(string=u'基础投资', readonly=True)
-    investment_e4 = fields.Float(string=u'道路投资', readonly=True, compute='_compute_investment_e4')
-    investment_e5 = fields.Float(string=u'吊装费用', readonly=True, compute='_compute_investment_e5')
-    investment_e6 = fields.Float(string=u'箱变投资', readonly=True, compute='_compute_investment_e6')
-    investment_e7 = fields.Float(string=u'集电线路', readonly=True, compute='_compute_investment_e7')
+    investment_E1 = fields.Float(compute='_compute_turbine', string=u'塔筒投资(万元)')
+    investment_E2 = fields.Float(compute='_compute_turbine', string=u'风机设备投资(万元)')
+    investment_E3 = fields.Float(string=u'基础投资(万元)', readonly=True)
+    investment_E4 = fields.Float(string=u'道路投资(万元)', readonly=True, compute='_compute_turbine')
+    investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, compute='_compute_turbine')
+    investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, compute='_compute_turbine')
+    investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, compute='_compute_turbine')
 
-    investment = fields.Float(string=u'发电部分投资', readonly=True, compute='_compute_investment')
+    investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, compute='_compute_investment')
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_investment_unit')
 
-    @api.one
-    @api.depends("generator_id", "project_id")
+    @api.depends('case_ids')
     def _compute_turbine(self):
-        self.hub_height = self.generator_id.hub_height
-        self.turbine_numbers = self.project_id.turbine_numbers_wind
-        self.capacity = self.generator_id.capacity
-        self.tower_weight = self.generator_id.tower_weight
-        self.rotor_diameter = self.generator_id.rotor_diameter
+        self.turbine_numbers = 0
+        self.farm_capacity, investment_e1_sum = 0, 0
 
-    def _compute_installed_capacity(self):
-        for re in self:
-            if re.mixed_turbines_bool:
-                re.installed_capacity = int(self.turbine_numbers) * float(self.capacity)
+        tower_weight_word, tower_weight_words = '', ''
+        rotor_diameter_word, rotor_diameter_words = '', ''
+        for i in range(0, len(self.case_ids)):
+
+            tower_weight_word = str(self.case_ids[i].tower_weight)
+            rotor_diameter_word = str(self.case_ids[i].rotor_diameter)
+
+            self.turbine_numbers = int(self.case_ids[i].turbine_numbers) + int(self.turbine_numbers)
+            self.farm_capacity = int(self.case_ids[i].turbine_numbers) * int(self.case_ids[i].capacity) + int(
+                self.farm_capacity)
+            investment_e1 = self.case_ids[i].tower_weight * self.case_ids[i].turbine_numbers * 1.05
+            investment_e1_sum = investment_e1_sum + investment_e1
+
+            if i != len(self.case_ids) - 1:
+                tower_weight_words = tower_weight_word + "/" + tower_weight_words
+                rotor_diameter_words = rotor_diameter_word + "/" + rotor_diameter_words
             else:
-                re.installed_capacity = int(self.turbine_numbers) * float(self.capacity) + 1
-    # def _compute_investment_e1(self):
-    #     for re in self:
-    #         re.investment_e1 = auto_word_wind.turbine_numbers * re.generator_id.tower_weight * 1.05
-    #
-    # @api.depends('installed_capacity', 'investment_turbines_kw')
+                tower_weight_words = tower_weight_words + tower_weight_word
+                rotor_diameter_words = rotor_diameter_words + rotor_diameter_word
+
+        self.tower_weight = tower_weight_words
+        self.rotor_diameter = rotor_diameter_words
+        self.farm_capacity = int(self.farm_capacity) / 1000
+        self.investment_E1 = investment_e1_sum
+
+    # @api.depends('farm_capacity', 'investment_turbines_kw')
     # def _compute_investment_e2(self):
     #     for re in self:
-    #         re.investment_e1 = re.installed_capacity * re.investment_turbines_kw * 1000 / 10000
+    #         re.investment_e1 = re.farm_capacity * re.investment_turbines_kw * 1000 / 10000
     #
     # @api.depends('TerrainType_turbines_compare')
     # def _compute_investment_e4(self):
@@ -373,5 +394,3 @@ class auto_word_wind_turbines_compare(models.Model):
     # def _compute_investment(self):
     #     for re in self:
     #         re.investment_unit = re.investment / re.power_generation * 10
-
-

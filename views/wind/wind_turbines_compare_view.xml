@@ -12,24 +12,25 @@
                 <sheet>
                     <group name="group_top">
                          <group name="group_left">
-                            <field name="project_id" ref='auto_word.project'/>
+                            <field name="project_id" />
                             <!--<field name="project_id" />-->
-                            <field name="generator_id" />
-                            <field name="hub_height" />
+                            <field name="case_name" />
                             <field name="turbine_numbers" />
-                            <field name="capacity" />
-                            <field name="installed_capacity" />
-                            <field name="mixed_turbines_bool" />
+                            <field name="farm_capacity" />
+                            <!--<field name="mixed_turbines_bool" />-->
                             <field name="rotor_diameter" />
-                            <field name="hub_height" />
+                            <field name="case_hub_height" />
                             <field name="power_generation" />
                             <field name="weak" />
                             <field name="power_hours" />
                             <field name="tower_weight" />
+
                          </group>
                          <group name="group_right">
-                            <!--<field name="investment_turbines_kw" />-->
-                            <!--<field name="investment_e1" />-->
+                            <field name="case_ids" />
+                            <field name="investment_turbines_kw" />
+                            <field name="TerrainType_turbines_compare" />
+                            <field name="investment_E1" />
                             <!--<field name="investment_e2" />-->
                             <!--<field name="investment_e3" />-->
                             <!--<field name="investment_e4" />-->
@@ -46,6 +47,23 @@
                     <!--</group>-->
                 </sheet>
             </form>
+        </field>
+    </record>
+
+
+    <record id="auto_word_wind_turbines_compare_list" model="ir.ui.view">
+        <field name="name">机型比选表</field>
+        <field name="model">auto_word_wind_turbines.compare</field>
+        <field name="arch" type="xml">
+            <tree>
+
+                <field name="project_id" ref='auto_word.project'/>
+                <field name="case_name" />
+                <field name="case_ids" />
+                <field name="turbine_numbers" />
+                <field name="farm_capacity" />
+
+            </tree>
         </field>
     </record>
 </odoo>

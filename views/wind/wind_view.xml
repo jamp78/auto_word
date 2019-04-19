@@ -41,6 +41,9 @@
                             <field name="string_speed_words" />
                             <field name="string_deg_words" />
                             <field name="IECLevel" />
+                            <field name="farm_elevation" />
+                            <field name="farm_area" />
+                            <field name="farm_speed_range" />
 
                          </group>
                          <!--<field name="project_res" />-->

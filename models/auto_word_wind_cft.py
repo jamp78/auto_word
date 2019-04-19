@@ -63,7 +63,7 @@ class auto_word_wind_cft(models.Model):
                               "；主风能风向" + str(self.cft_deg_pwd_main) + "。"
             string_deg_words_final = string_deg_word + string_deg_words_final
             if i != len(self.select_cft_ids)-1:
-                cft_name_words_final = self.cft_name + "、" + cft_name_words_final
+                cft_name_words_final = self.cft_name + "/" + cft_name_words_final
             else:
                 cft_name_words_final = cft_name_words_final+self.cft_name
 
