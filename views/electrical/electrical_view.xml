@@ -46,6 +46,9 @@
                             <field name="yjlv95" />
                             <field name="yjv300" />
                             <field name="circuit_number" />
+                            <separator/>
+                            <field name="jidian_air_wind" />
+                            <field name="jidian_cable_wind" />
                         </group>
 
                         <group name="group_road">

@@ -54,10 +54,14 @@ class auto_word_project(models.Model):
     yjv300 = fields.Char(u'直埋电缆YJV22-26/35-1×300（km）', default="待提交", readonly=True)
     circuit_number = fields.Char(u'线路回路数', default="待提交", readonly=True)
 
+    jidian_air_wind = fields.Char(u'架空长度', readonly=True,default="0")
+    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True,default="0")
+
     ###土建
     road_1_num = fields.Char(u'场外改扩建道路', default="待提交", readonly=True)
     road_2_num = fields.Char(u'进站道路', default="待提交", readonly=True)
     road_3_num = fields.Char(u'施工检修道路工程', default="待提交", readonly=True)
+    total_civil_length = fields.Float(u'道路工程长度', default="0", readonly=True)
 
     basic_type = fields.Char(u'基础形式', default="待提交", readonly=True)
     ultimate_load = fields.Char(u'极限载荷', default="待提交", readonly=True)

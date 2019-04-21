@@ -30,6 +30,7 @@
                             <field name="road_1_num" />
                             <field name="road_2_num" />
                             <field name="road_3_num" />
+                            <field name="total_civil_length" />
                             <separator/>
                             <field name="line_1" />
                             <field name="line_2" />

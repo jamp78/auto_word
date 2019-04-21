@@ -225,6 +225,9 @@ class auto_word_wind_turbines_selection(models.Model):
     mechanical_brake = fields.Char(u'机械制动类型', readonly=False)
     three_second_maximum = fields.Char(u'生存风速', readonly=False)
 
+    investment_turbines_kw = fields.Float(u'风机kw投资', required=True)
+    case_hub_height = fields.Integer(u'采用轮毂高度', required=True)
+
 
 class windres(models.Model):
     _name = 'auto_word.windres'
@@ -277,43 +280,48 @@ class auto_word_wind_turbines_compare(models.Model):
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     case_name = fields.Char(u'方案名称', required=True, default="方案1")
     case_ids = fields.Many2many('wind_turbines.selection', string=u'比选方案')
-    hub_height = fields.Char(compute='_compute_turbine', string=u'塔筒高度', default="待提交")
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, compute='_compute_turbine', default="待提交")
     farm_capacity = fields.Char(string=u'风机容量', readonly=True, compute='_compute_turbine', default="待提交")
     tower_weight = fields.Char(compute='_compute_turbine', string=u'塔筒重量', default="待提交")
     rotor_diameter = fields.Char(compute='_compute_turbine', string=u'叶轮直径', default="待提交")
-    case_hub_height = fields.Integer(u'轮毂高度', required=True)
 
     power_generation = fields.Float(u'上网电量', required=True)
     weak = fields.Float(u'尾流衰减', required=True)
     power_hours = fields.Float(u'满发小时', required=True)
-    investment_turbines_kw = fields.Float(u'风机kw投资', required=True)
 
     TerrainType_turbines_compare = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True)
 
     investment_E1 = fields.Float(compute='_compute_turbine', string=u'塔筒投资(万元)')
     investment_E2 = fields.Float(compute='_compute_turbine', string=u'风机设备投资(万元)')
-    investment_E3 = fields.Float(string=u'基础投资(万元)', readonly=True)
+    investment_E3 = fields.Float(string=u'基础投资(万元)')
     investment_E4 = fields.Float(string=u'道路投资(万元)', readonly=True, compute='_compute_turbine')
     investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, compute='_compute_turbine')
     investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, compute='_compute_turbine')
     investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, compute='_compute_turbine')
 
+    investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True, compute='_compute_turbine')
+    case_hub_height = fields.Char(u'推荐轮毂高度', readonly=True, compute='_compute_turbine')
+
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, compute='_compute_investment')
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_investment_unit')
 
-    @api.depends('case_ids')
+    @api.depends('case_ids', 'TerrainType_turbines_compare')
     def _compute_turbine(self):
         self.turbine_numbers = 0
-        self.farm_capacity, investment_e1_sum = 0, 0
+        self.farm_capacity, investment_e1_sum, investment_e2_sum = 0, 0, 0
+        investment_e5_sum, investment_e6_sum = 0, 0
 
         tower_weight_word, tower_weight_words = '', ''
         rotor_diameter_word, rotor_diameter_words = '', ''
+        investment_turbines_kw_word, investment_turbines_kw_words = '', ''
+        case_hub_height_word, case_hub_height_words = '', ''
         for i in range(0, len(self.case_ids)):
 
             tower_weight_word = str(self.case_ids[i].tower_weight)
             rotor_diameter_word = str(self.case_ids[i].rotor_diameter)
+            investment_turbines_kw_word = str(self.case_ids[i].investment_turbines_kw)
+            case_hub_height_word = str(self.case_ids[i].case_hub_height)
 
             self.turbine_numbers = int(self.case_ids[i].turbine_numbers) + int(self.turbine_numbers)
             self.farm_capacity = int(self.case_ids[i].turbine_numbers) * int(self.case_ids[i].capacity) + int(
@@ -321,76 +329,76 @@ class auto_word_wind_turbines_compare(models.Model):
             investment_e1 = self.case_ids[i].tower_weight * self.case_ids[i].turbine_numbers * 1.05
             investment_e1_sum = investment_e1_sum + investment_e1
 
+            investment_e2 = int(self.case_ids[i].turbine_numbers) * int(self.case_ids[i].capacity) * int(
+                self.case_ids[i].investment_turbines_kw)
+            investment_e2_sum = investment_e2_sum + investment_e2
+
+            if self.case_ids[i].case_hub_height <= 90:
+                investment_e5 = self.case_ids[i].turbine_numbers * 38
+            elif 90 < self.case_ids[i].case_hub_height <= 100:
+                investment_e5 = self.case_ids[i].turbine_numbers * 45
+            elif 100 < self.case_ids[i].case_hub_height <= 120:
+                investment_e5 = self.case_ids[i].turbine_numbers * 55
+            elif 120 < self.case_ids[i].case_hub_height <= 140:
+                investment_e5 = self.case_ids[i].turbine_numbers * 65
+
+            if self.case_ids[i].capacity <= 2000:
+                investment_e6 = self.case_ids[i].turbine_numbers * 23
+            elif 2000 < self.case_ids[i].capacity <= 2200:
+                investment_e6 = self.case_ids[i].turbine_numbers * 25
+            elif 2200 < self.case_ids[i].capacity <= 2500:
+                investment_e6 = self.case_ids[i].turbine_numbers * 28
+            elif 2500 < self.case_ids[i].capacity <= 4000:
+                investment_e6 = self.case_ids[i].turbine_numbers * 32
+
+
+            investment_e5_sum = investment_e5_sum + investment_e5
+            investment_e6_sum = investment_e6_sum + investment_e6
             if i != len(self.case_ids) - 1:
                 tower_weight_words = tower_weight_word + "/" + tower_weight_words
                 rotor_diameter_words = rotor_diameter_word + "/" + rotor_diameter_words
+                investment_turbines_kw_words = investment_turbines_kw_word + "/" + investment_turbines_kw_words
+                case_hub_height_words = case_hub_height_word + "/" + case_hub_height_words
+
             else:
                 tower_weight_words = tower_weight_words + tower_weight_word
                 rotor_diameter_words = rotor_diameter_words + rotor_diameter_word
+                investment_turbines_kw_words = investment_turbines_kw_words + investment_turbines_kw_word
+                case_hub_height_words = case_hub_height_words + case_hub_height_word
 
         self.tower_weight = tower_weight_words
         self.rotor_diameter = rotor_diameter_words
+        self.investment_turbines_kws = investment_turbines_kw_words
+        self.case_hub_height = case_hub_height_words
+
         self.farm_capacity = int(self.farm_capacity) / 1000
         self.investment_E1 = investment_e1_sum
+        self.investment_E2 = investment_e2_sum
 
-    # @api.depends('farm_capacity', 'investment_turbines_kw')
-    # def _compute_investment_e2(self):
-    #     for re in self:
-    #         re.investment_e1 = re.farm_capacity * re.investment_turbines_kw * 1000 / 10000
-    #
-    # @api.depends('TerrainType_turbines_compare')
-    # def _compute_investment_e4(self):
-    #     for re in self:
-    #         if re.TerrainType_turbines_compare == "平原":
-    #             re.investment_e4 = auto_word_civil.auto_word_civil.total_civil_length * 50
-    #
-    #         elif re.TerrainType_turbines_compare == "丘陵":
-    #             re.investment_e4 = auto_word_civil.auto_word_civil.total_civil_length * 80
-    #
-    #         elif re.TerrainType_turbines_compare == "山地":
-    #             re.investment_e4 = auto_word_civil.auto_word_civil.total_civil_length * 140
-    #
-    # def _compute_investment_e5(self):
-    #     for re in self:
-    #         if re.hub_height <= 90:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 38
-    #
-    #         elif 90 < re.hub_height <= 100:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 45
-    #
-    #         elif 100 < re.hub_height <= 120:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 55
-    #
-    #         elif 120 < re.hub_height <= 140:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 65
-    #
-    # def _compute_investment_e6(self):
-    #     for re in self:
-    #         if re.generator_id.capacity <= 2000:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 23
-    #
-    #         elif 2000 < re.generator_id.capacity <= 2200:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 25
-    #
-    #         elif 2200 < re.generator_id.capacity <= 2500:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 28
-    #
-    #         elif 2500 < re.generator_id.capacity <= 4000:
-    #             re.investment_e4 = auto_word_wind.turbine_numbers * 32
-    #
-    # @api.depends('TerrainType_turbines_compare')
-    # def _compute_investment_e7(self):
-    #     for re in self:
-    #         re.investment_e7 = auto_word_electrical.auto_word_electrical.length_single_jL240 * 50
-    #
-    # @api.depends('investment_e1', 'investment_e2', 'investment_e3', 'investment_e4', 'investment_e5', 'investment_e6',
-    #              'investment_e7')
-    # def _compute_investment(self):
-    #     for re in self:
-    #         re.investment = re.investment_e1 + re.investment_e2 + re.investment_e3 + re.investment_e4 + \
-    #                         re.investment_e5 + re.investment_e6 + re.investment_e7
-    #
-    # @api.depends('investment')
-    # def _compute_investment(self):
-    #     for re in self:
-    #         re.investment_unit = re.investment / re.power_generation * 10
+        if self.TerrainType_turbines_compare == "平原":
+            self.investment_E4 = float(self.project_id.total_civil_length) * 50
+        elif self.TerrainType_turbines_compare == "丘陵":
+            self.investment_E4 = float(self.project_id.total_civil_length) * 80
+        elif self.TerrainType_turbines_compare == "山地":
+            self.investment_E4 = float(self.project_id.total_civil_length) * 140
+
+        self.investment_E5 = investment_e5_sum
+        self.investment_E6 = investment_e6_sum
+        self.investment_E7 = float(self.project_id.jidian_air_wind)* 40+float(self.project_id.jidian_cable_wind)*50
+#
+# @api.depends('TerrainType_turbines_compare')
+# def _compute_investment_e7(self):
+#     for re in self:
+#         re.investment_e7 = auto_word_electrical.auto_word_electrical.length_single_jL240 * 50
+#
+# @api.depends('investment_e1', 'investment_e2', 'investment_e3', 'investment_e4', 'investment_e5', 'investment_e6',
+#              'investment_e7')
+# def _compute_investment(self):
+#     for re in self:
+#         re.investment = re.investment_e1 + re.investment_e2 + re.investment_e3 + re.investment_e4 + \
+#                         re.investment_e5 + re.investment_e6 + re.investment_e7
+#
+# @api.depends('investment')
+# def _compute_investment(self):
+#     for re in self:
+#         re.investment_unit = re.investment / re.power_generation * 10
