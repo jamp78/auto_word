@@ -38,6 +38,7 @@ class auto_word_wind(models.Model):
     farm_speed_range = fields.Char(string=u'风速区间', default="待提交")
 
     rotor_diameter = fields.Char(string=u'叶轮直径', default="待提交")
+    case_number = fields.Char(string=u'方案数', default="待提交")
 
     @api.depends('select_ids')
     def _compute_turbine_numbers(self):
@@ -69,6 +70,8 @@ class auto_word_wind(models.Model):
 
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
+            "叶轮直径": self.rotor_diameter,
+            "方案数": self.case_number,
             "海拔高程": self.farm_elevation,
             "区域面积": self.farm_area,
             "平均风速区间": self.farm_speed_range,
@@ -290,6 +293,7 @@ class auto_word_wind_turbines_compare(models.Model):
     farm_capacity = fields.Char(string=u'风机容量', readonly=True, compute='_compute_turbine', default="待提交")
     tower_weight = fields.Char(compute='_compute_turbine', string=u'塔筒重量', default="待提交")
     rotor_diameter = fields.Char(compute='_compute_turbine', string=u'叶轮直径', default="待提交")
+    case_number = fields.Char(compute='_compute_turbine', string=u'方案数')
 
     power_generation = fields.Float(u'上网电量')
     weak = fields.Float(u'尾流衰减')
@@ -322,6 +326,7 @@ class auto_word_wind_turbines_compare(models.Model):
         rotor_diameter_word, rotor_diameter_words = '', ''
         investment_turbines_kw_word, investment_turbines_kw_words = '', ''
         case_hub_height_word, case_hub_height_words = '', ''
+        self.case_number=str(len(self.case_ids))
         for i in range(0, len(self.case_ids)):
 
             tower_weight_word = str(self.case_ids[i].tower_weight)
@@ -399,3 +404,5 @@ class auto_word_wind_turbines_compare(models.Model):
     def wind_turbines_compare_form_refresh(self):
         for re in self:
             re.wind_ids.rotor_diameter = re.rotor_diameter
+            re.wind_ids.case_number = re.case_number
+
