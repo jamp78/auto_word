@@ -13,7 +13,7 @@
                     <group name="group_top">
 
                         <group name="group_left">
-                            <field name="project_id" />
+                            <field name="wind_ids" />
                             <field name="case_name" />
                             <field name="turbine_numbers" />
                             <field name="farm_capacity" />

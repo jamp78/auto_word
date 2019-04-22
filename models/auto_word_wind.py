@@ -39,7 +39,6 @@ class auto_word_wind(models.Model):
 
     rotor_diameter = fields.Char(string=u'叶轮直径', default="待提交")
 
-
     @api.depends('select_ids')
     def _compute_turbine_numbers(self):
         self.turbine_numbers = 0
@@ -284,8 +283,7 @@ class auto_word_wind_turbines_compare(models.Model):
     #                                      help='若是混排方案请勾选')
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     case_ids = fields.Many2many('wind_turbines.selection', string=u'比选方案')
-    wind_ids = fields.Many2one('auto_word.wind', string=u'风能信息结果')
-
+    wind_ids = fields.Many2one('auto_word.wind', string=u'项目名')
 
     case_name = fields.Char(u'方案名称', required=True, default="方案1")
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, compute='_compute_turbine', default="待提交")
@@ -399,4 +397,5 @@ class auto_word_wind_turbines_compare(models.Model):
         self.investment_unit = self.investment / self.power_generation * 10
 
     def wind_turbines_compare_form_refresh(self):
-        self.wind_ids.rotor_diameter=self.rotor_diameter
+        for re in self:
+            re.wind_ids.rotor_diameter = re.rotor_diameter
