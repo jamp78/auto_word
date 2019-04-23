@@ -53,6 +53,9 @@
                         <field name="select_ids" />
                     </group>
 
+                    <group string="方案比选">
+                        <field name="case_names" />
+                    </group>
                     <group name="group_bottom">
                         <!--<field name="generator_ids" />-->
                         <!--<field name="project_res" />-->

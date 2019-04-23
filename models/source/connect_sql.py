@@ -25,6 +25,7 @@ def connect_sql_chapter5(*turbine_list):
     selectsql_tur = "SELECT * FROM auto_word_wind_turbines WHERE name_tur in " + sql_str
     selectsql_power = "SELECT * FROM auto_word_wind_turbines_power WHERE name_power in " + sql_str
     selectsql_efficiency = "SELECT * FROM auto_word_wind_turbines_efficiency WHERE name_efficiency in " + sql_str
+    selectsql_compare = "SELECT * FROM auto_word_wind_turbines_compare WHERE case_name in " + sql_str
 
     cur.execute(selectsql_tur % turbine_list)
     data_tur = cur.fetchall()  # 所有
@@ -32,11 +33,16 @@ def connect_sql_chapter5(*turbine_list):
     data_power = cur.fetchall()  # 所有
     cur.execute(selectsql_efficiency % turbine_list)
     data_efficiency = cur.fetchall()  # 所有
+    cur.execute(selectsql_compare % turbine_list)
+    data_compare = cur.fetchall()  # 所有
+
     db.close()
     data_tur_np = np.array(data_tur)
     data_power_np = np.array(data_power)
     data_efficiency_np = np.array(data_efficiency)
-    return data_tur_np, data_power_np, data_efficiency_np
+    data_compare_np = np.array(data_compare)
+
+    return data_tur_np, data_power_np, data_efficiency_np,data_compare_np
 
 
 

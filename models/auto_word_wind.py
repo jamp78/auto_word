@@ -40,6 +40,8 @@ class auto_word_wind(models.Model):
     rotor_diameter = fields.Char(string=u'叶轮直径', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交")
 
+    case_names = fields.Many2many('auto_word_wind_turbines.compare', required=True)
+
     @api.depends('select_ids')
     def _compute_turbine_numbers(self):
         self.turbine_numbers = 0
@@ -68,7 +70,12 @@ class auto_word_wind(models.Model):
             tur_name.append(self.generator_ids[i].name_tur)
         path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_5"
 
-        dict5 = doc_5.generate_wind_dict(tur_name, path_images)
+        case_name = []
+        for i in range(0, len(self.case_names)):
+            case_name.append(self.case_names[i].case_name)
+
+        dict5 = doc_5.generate_wind_dict(case_name, path_images)
+
         dict_5_word = {
             "叶轮直径": self.rotor_diameter,
             "方案数": self.case_number,
