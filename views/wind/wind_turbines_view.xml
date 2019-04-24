@@ -42,23 +42,22 @@
                     <group name="group_top">
                          <group name="group_left">
                             <field name="name_tur" />
-                            <field name="turbine_numbers" />
                             <field name="capacity" />
-                            <field name="rotor_diameter" />
-                            <field name="rotor_swept_area" />
-                            <field name="hub_height" />
                             <field name="tower_weight" />
-                            <field name="case_hub_height" />
-                         </group>
-                         <group name="group_right">
-                            <field name="power_regulation" />
-                            <field name="generator_type" />
                             <field name="rated_wind_speed" />
                             <field name="cut_in_wind_speed" />
                             <field name="cut_out_wind_speed" />
                             <field name="three_second_maximum" />
+                            <field name="hub_height" />
+                         </group>
+                         <group name="group_right">
+                            <field name="power_regulation" />
+                            <field name="generator_type" />
+                            <field name="rotor_diameter" />
+                            <field name="rotor_swept_area" />
+                            <field name="turbine_numbers" />
                             <field name="investment_turbines_kw" />
-
+                            <field name="case_hub_height" />
                         </group>
                     </group>
                     <!--<group name="group_bottom">-->
