@@ -37,7 +37,7 @@
         <field name="model">auto_word_wind.cft</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="wind_id"/>
+                <field name="project_id"/>
                 <!--<field name="string_speed_words"/>-->
                 <!--<field name="string_deg_words"/>-->
                 <!--<field name="select_cft_ids"/>-->
@@ -57,6 +57,7 @@
             </header>
 
                 <group string="测风塔信息">
+                    <field name="project_id"/>
                     <field name="wind_id"/>
                     <field name="cft_name_words"/>
                     <field name="string_speed_words"/>

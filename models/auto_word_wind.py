@@ -3,6 +3,7 @@
 from odoo import models, fields, api
 import base64
 import doc_5
+import RoundUp
 import numpy as np
 from . import auto_word_electrical
 from . import auto_word_civil
@@ -12,47 +13,65 @@ from . import auto_word_wind_cft
 class auto_word_wind(models.Model):
     _name = 'auto_word.wind'
     _description = 'Wind energy input'
-    _rec_name = 'project_id'
+    _rec_name = 'content_id'
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),
+                                   ("其他", u"其他")], string=u"章节分类", required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    turbine_numbers = fields.Integer(string=u'机位数', readonly=True, compute='_compute_turbine_numbers')
-    farm_capacity = fields.Float(string=u'风电场容量', readonly=True, compute='_compute_turbine_numbers')
-    generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
 
+    IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
+                                 ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
+                                 ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
+                                 ], string=u"IEC等级", default="IIIB", required=True)
+    farm_elevation = fields.Char(string=u'海拔高程', default="待提交", required=True)
+    farm_area = fields.Char(string=u'区域面积', default="待提交", required=True)
+    farm_speed_range = fields.Char(string=u'风速区间', default="待提交", required=True)
     select_ids = fields.Many2many('wind_turbines.selection', required=True, string=u'机型推荐')
-    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
-
     select_hub_height = fields.Integer(u'推荐轮毂高度', required=True)
-    rotor_diameter = fields.Char(string=u'叶轮直径', default="待提交")
+
+    turbine_numbers = fields.Char(string=u'机位数', readonly=True, compute='_compute_turbine_numbers', default="待提交")
+    farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_turbine_numbers', default="待提交")
+    rotor_diameter_selection = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
+                                           compute='_compute_turbine_numbers')
+
+    rotor_diameter_case = fields.Char(string=u'叶轮直径', default="待提交")
+
+    name_tur_selection = fields.Char(string=u'风机型号', readonly=True, default="待提交",
+                                           compute='_compute_turbine_numbers')
+
+    generator_ids = fields.Many2many('auto_word_wind.turbines', string=u'比选机型')
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
 
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
 
-    IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
-                                 ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
-                                 ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
-                                 ], string=u"IEC等级", default="IIIB")
-
-    farm_elevation = fields.Char(string=u'海拔高程', default="待提交")
-    farm_area = fields.Char(string=u'区域面积', default="待提交")
-    farm_speed_range = fields.Char(string=u'风速区间', default="待提交")
-
-    rotor_diameter = fields.Char(string=u'叶轮直径', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交")
 
-    case_names = fields.Many2many('auto_word_wind_turbines.compare', required=True)
+    case_names = fields.Many2many('auto_word_wind_turbines.compare')
 
     @api.depends('select_ids')
     def _compute_turbine_numbers(self):
-        self.turbine_numbers = 0
-        self.farm_capacity = 0
-        for i in range(0, len(self.select_ids)):
-            self.turbine_numbers = self.select_ids[i].turbine_numbers + self.turbine_numbers
-            self.farm_capacity = self.select_ids[i].turbine_numbers * self.select_ids[i].capacity + self.farm_capacity
-        self.farm_capacity = self.farm_capacity / 1000
+        rotor_diameter_words,name_tur_selction_words = '',''
+        for re in self:
+            for i in range(0, len(re.select_ids)):
+                re.turbine_numbers = str(int(re.select_ids[i].turbine_numbers) + int(re.turbine_numbers))
+                re.farm_capacity = str(
+                    int(re.select_ids[i].turbine_numbers) * int(re.select_ids[i].capacity) + int(re.farm_capacity))
 
-    # project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
+                if i != len(re.select_ids) - 1:
+                    rotor_diameter_words = str(re.select_ids[i].rotor_diameter) + "/" + rotor_diameter_words
+                    name_tur_selction_words = str(re.select_ids[i].name_tur) + "/" + name_tur_selction_words
+                else:
+                    rotor_diameter_words = rotor_diameter_words + str(re.select_ids[i].rotor_diameter)
+                    name_tur_selction_words = name_tur_selction_words + str(re.select_ids[i].name_tur)
+
+            re.farm_capacity = str(int(re.farm_capacity) / 1000)
+            re.rotor_diameter_selection = rotor_diameter_words
+            re.name_tur_selection = name_tur_selction_words
+
+
+# project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
 
     @api.multi
     def button_wind(self):
@@ -62,7 +81,11 @@ class auto_word_wind(models.Model):
         projectname.wind_attachment_ok = u"已提交,版本：" + self.version_id
         projectname.turbine_numbers = self.turbine_numbers
         projectname.select_hub_height = self.select_hub_height
+        projectname.project_capacity = self.farm_capacity
+        projectname.name_tur_selection = self.name_tur_selection
+
         return True
+
 
     @api.multi
     def wind_generate(self):
@@ -71,20 +94,20 @@ class auto_word_wind(models.Model):
             tur_name.append(self.generator_ids[i].name_tur)
         path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_5"
 
-        case_name_dict, turbine_numbers_dict, capacity_dict = [], [], []
+        case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
         farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
         case_hub_height_dict, power_generation_dict, weak_dict = [], [], []
-        power_hours_dict = []
+        power_hours_dict, investment_dict, investment_unit_dict = [], [], []
         investment_E1_dict, investment_E2_dict, investment_E3_dict = [], [], []
         investment_E4_dict, investment_E5_dict, investment_E6_dict, investment_E7_dict = [], [], [], []
         investment_turbines_kws_dict = []
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
-
+            name_tur_dict.append('WTG' + str(int(i + 1)))
             turbine_numbers_dict.append(self.case_names[i].turbine_numbers)
             capacity_dict.append(self.case_names[i].capacity)
             farm_capacity_dict.append(self.case_names[i].farm_capacity)
-            rotor_diameter_dict.append(self.case_names[i].rotor_diameter)
+            rotor_diameter_dict.append(self.case_names[i].rotor_diameter_case)
             case_hub_height_dict.append(self.case_names[i].case_hub_height)
             power_generation_dict.append(self.case_names[i].power_generation)
             weak_dict.append(self.case_names[i].weak)
@@ -98,10 +121,14 @@ class auto_word_wind(models.Model):
             investment_E6_dict.append(str(self.case_names[i].investment_E6))
             investment_E7_dict.append(str(self.case_names[i].investment_E7))
 
+            investment_dict.append(str(self.case_names[i].investment))
+            investment_unit_dict.append(str(self.case_names[i].investment_unit))
+
             investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
             "方案e": case_name_dict,
+            "风机类型e": name_tur_dict,
             "风机台数e": turbine_numbers_dict,
             "单机容量e": capacity_dict,
             "装机容量e": farm_capacity_dict,
@@ -119,8 +146,10 @@ class auto_word_wind(models.Model):
             "吊装费用e": investment_E5_dict,
             "箱变投资e": investment_E6_dict,
             "集电线路e": investment_E7_dict,
+            "发电部分投资e": investment_dict,
+            "单位度电投资e": investment_unit_dict,
 
-            "叶轮直径": self.rotor_diameter,
+            "叶轮直径": self.rotor_diameter_selection,
             "方案数": self.case_number,
             "海拔高程": self.farm_elevation,
             "区域面积": self.farm_area,
@@ -332,30 +361,31 @@ class auto_word_wind_turbines_compare(models.Model):
     _name = 'auto_word_wind_turbines.compare'
     _description = 'turbines_compare'
     _rec_name = 'case_name'
-    # mixed_turbines_bool = fields.Boolean(string=u'是否为混排方案',
-    #                                      help='若是混排方案请勾选')
-    project_id = fields.Many2one('auto_word.project', string=u'项目名')
-    case_ids = fields.Many2many('wind_turbines.selection', string=u'比选方案')
-    wind_ids = fields.Many2one('auto_word.wind', string=u'项目名')
-
+    # mixed_turbines_bool = fields.Boolean(string=u'是否为混排方案',help='若是混排方案请勾选')
+    #
     case_name = fields.Char(u'方案名称', required=True, default="方案1")
+    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
+    power_generation = fields.Float(u'上网电量', default=1, required=True)
+    weak = fields.Float(u'尾流衰减', required=True)
+    power_hours = fields.Float(u'满发小时', required=True)
+    TerrainType_turbines_compare = fields.Selection(
+        [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True)
+    jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
+    jidian_cable_wind = fields.Float(u'电缆长度', default=0, help='若不填写即采用电气集电线路')
+
+    case_ids = fields.Many2many('wind_turbines.selection', string=u'比选方案')
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, compute='_compute_turbine', default="待提交")
+    name_tur = fields.Char(string=u'风机类型', readonly=True, compute='_compute_turbine', default="待提交")
     capacity = fields.Char(string=u'风机容量', readonly=True, compute='_compute_turbine', default="待提交")
     farm_capacity = fields.Char(string=u'装机容量', readonly=True, compute='_compute_turbine', default="待提交")
     tower_weight = fields.Char(compute='_compute_turbine', string=u'塔筒重量', default="待提交")
-    rotor_diameter = fields.Char(compute='_compute_turbine', string=u'叶轮直径', default="待提交")
+    rotor_diameter_case = fields.Char(compute='_compute_turbine', string=u'叶轮直径', default="待提交")
     case_number = fields.Char(compute='_compute_turbine', string=u'方案数')
-
-    power_generation = fields.Float(u'上网电量', default=1)
-    weak = fields.Float(u'尾流衰减')
-    power_hours = fields.Float(u'满发小时')
-
-    TerrainType_turbines_compare = fields.Selection(
-        [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型")
 
     investment_E1 = fields.Float(compute='_compute_turbine', string=u'塔筒投资(万元)')
     investment_E2 = fields.Float(compute='_compute_turbine', string=u'风机设备投资(万元)')
-    investment_E3 = fields.Float(string=u'基础投资(万元)')
+    investment_E3 = fields.Float(string=u'基础投资(万元)', required=True)
     investment_E4 = fields.Float(string=u'道路投资(万元)', readonly=True, compute='_compute_turbine')
     investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, compute='_compute_turbine')
     investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, compute='_compute_turbine')
@@ -367,9 +397,6 @@ class auto_word_wind_turbines_compare(models.Model):
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, compute='_compute_turbine')
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_turbine')
 
-    jidian_air_wind = fields.Float(u'架空长度', default=0)
-    jidian_cable_wind = fields.Float(u'电缆长度', default=0)
-
     @api.depends('case_ids', 'TerrainType_turbines_compare')
     def _compute_turbine(self):
 
@@ -380,6 +407,7 @@ class auto_word_wind_turbines_compare(models.Model):
             rotor_diameter_word, rotor_diameter_words = '', ''
             investment_turbines_kw_word, investment_turbines_kw_words = '', ''
             case_hub_height_word, case_hub_height_words, capacity_words = '', '', ''
+            name_tur_words = ''
             re.case_number = str(len(re.case_ids))
             for i in range(0, len(re.case_ids)):
 
@@ -388,6 +416,7 @@ class auto_word_wind_turbines_compare(models.Model):
                 investment_turbines_kw_word = str(re.case_ids[i].investment_turbines_kw)
                 case_hub_height_word = str(re.case_ids[i].case_hub_height)
                 capacity_word = str(re.case_ids[i].capacity)
+                name_tur_word = str(re.case_ids[i].name_tur)
 
                 re.turbine_numbers = int(re.case_ids[i].turbine_numbers) + int(re.turbine_numbers)
                 re.farm_capacity = int(re.case_ids[i].turbine_numbers) * int(re.case_ids[i].capacity) + int(
@@ -426,6 +455,8 @@ class auto_word_wind_turbines_compare(models.Model):
                         investment_turbines_kw_words = investment_turbines_kw_word + "/" + investment_turbines_kw_words
                         case_hub_height_words = case_hub_height_word + "/" + case_hub_height_words
                         capacity_words = capacity_word + "/" + capacity_words
+                        name_tur_words = name_tur_word + "/" + name_tur_words
+
 
                     else:
                         tower_weight_words = tower_weight_words + tower_weight_word
@@ -433,16 +464,20 @@ class auto_word_wind_turbines_compare(models.Model):
                         investment_turbines_kw_words = investment_turbines_kw_words + investment_turbines_kw_word
                         case_hub_height_words = case_hub_height_words + case_hub_height_word
                         capacity_words = capacity_words + capacity_word
+                        name_tur_words = name_tur_words + name_tur_word
+
                 if len(re.case_ids) == 1:
                     tower_weight_words = tower_weight_word
                     rotor_diameter_words = rotor_diameter_word
                     investment_turbines_kw_words = investment_turbines_kw_word
                     case_hub_height_words = case_hub_height_word
                     capacity_words = capacity_word
+                    name_tur_words = name_tur_word
 
+            re.name_tur = name_tur_words
             re.capacity = capacity_words
             re.tower_weight = tower_weight_words
-            re.rotor_diameter = rotor_diameter_words
+            re.rotor_diameter_case = rotor_diameter_words
             re.investment_turbines_kws = investment_turbines_kw_words
             re.case_hub_height = case_hub_height_words
 
@@ -466,12 +501,12 @@ class auto_word_wind_turbines_compare(models.Model):
             else:
                 re.investment_E7 = float(re.jidian_air_wind) * 40 + float(re.jidian_cable_wind) * 50
 
-            re.investment = re.investment_E1 + re.investment_E2 + re.investment_E3 + re.investment_E4 + \
-                            re.investment_E5 + re.investment_E6 + re.investment_E7
+            re.investment = RoundUp.round_up(re.investment_E1 + re.investment_E2 + re.investment_E3 + re.investment_E4 + \
+                                             re.investment_E5 + re.investment_E6 + re.investment_E7)
 
-            re.investment_unit = re.investment / re.power_generation * 10
+            re.investment_unit = RoundUp.round_up(re.investment / re.power_generation * 10)
 
     def wind_turbines_compare_form_refresh(self):
         for re in self:
-            re.wind_ids.rotor_diameter = re.rotor_diameter
-            re.wind_ids.case_number = re.case_number
+            re.content_ids.rotor_diameter_case = re.rotor_diameter_case
+            re.content_ids.case_number = re.case_number

@@ -11,12 +11,12 @@ class wind_cft_infor(models.Model):
     _name = 'wind_cft.infor'
     _description = 'Wind cft information input'
     _rec_name = 'cft_name'
-    cft_name = fields.Char(string=u'测风塔', required=True)
-    cft_height = fields.Integer(string=u'测风塔选定高程', required=True)
-    cft_speed = fields.Float(string=u'风速', required=True)
-    cft_pwd = fields.Integer(string=u'风功率密度', required=True)
-    cft_deg_main = fields.Char(string=u'主风向', required=True)
-    cft_deg_pwd_main = fields.Char(string=u'风能主风向', required=True)
+    cft_name = fields.Char(string=u'测风塔')
+    cft_height = fields.Integer(string=u'测风塔选定高程')
+    cft_speed = fields.Float(string=u'风速')
+    cft_pwd = fields.Integer(string=u'风功率密度')
+    cft_deg_main = fields.Char(string=u'主风向')
+    cft_deg_pwd_main = fields.Char(string=u'风能主风向')
 
 
 class auto_word_wind_cft(models.Model):
@@ -24,12 +24,12 @@ class auto_word_wind_cft(models.Model):
     _description = 'Wind cft input'
     _rec_name = 'wind_id'
     project_id = fields.Many2one('auto_word.project', string=u'项目名')
-    wind_id = fields.Many2one('auto_word.wind', string=u'风资源', required=True)
-    version_id = fields.Char(u'版本', required=True, default="1.0")
+    wind_id = fields.Many2one('auto_word.wind', string=u'章节分类')
+    version_id = fields.Char(u'版本', default="1.0")
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', compute='_compute_cft')
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', compute='_compute_cft')
     cft_name_words = fields.Char(string=u'测风塔名字', compute='_compute_cft')
-    generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
+    generator_ids = fields.Many2many('auto_word_wind.turbines', string=u'比选机型')
 
     # cft_height = fields.Char(string=u'选定高程', readonly=True, compute='_compute_cft')
     # cft_speed = fields.Char(string=u'风速', readonly=True, compute='_compute_cft')
@@ -37,7 +37,7 @@ class auto_word_wind_cft(models.Model):
     # cft_deg_main = fields.Char(string=u'主风向', readonly=True, compute='_compute_cft')
 
     #     # generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
-    select_cft_ids = fields.Many2many('wind_cft.infor', required=True, string=u'选定测风塔')
+    select_cft_ids = fields.Many2many('wind_cft.infor', string=u'选定测风塔')
 
     @api.depends('select_cft_ids')
     def _compute_cft(self):

@@ -7,6 +7,7 @@
             <tree>
                 <field name = "project_id"/>
                 <field name = "version_id"/>
+                <field name = "content_id"/>
                 <field name="turbine_numbers" />
                 <field name="select_hub_height" />
                 <field name="farm_capacity" />
@@ -31,26 +32,37 @@
                     <group name="group_top">
                          <group name="group_left">
                             <field name="project_id" />
+                            <field name="content_id" />
                             <field name="version_id" />
-                             <field name="IECLevel" />
+                         </group>
+                         <group name="group_right">
+                            <field name="IECLevel" />
                             <field name="farm_elevation" />
                             <field name="farm_area" />
                             <field name="farm_speed_range" />
-                            <field name="rotor_diameter" />
-                         </group>
-                         <group name="group_right">
-                            <field name="turbine_numbers" />
-                            <field name="farm_capacity" />
-                            <field name="cft_name_words" />
-                            <field name="select_hub_height" />
-                            <field name="string_speed_words" />
-                            <field name="string_deg_words" />
                          </group>
                          <!--<field name="project_res" />-->
                     </group>
 
                     <group string="机型推荐">
                         <field name="select_ids" />
+                    </group>
+
+                    <group name="group_mid">
+                        <group name="group_left">
+                            <field name="select_hub_height" />
+                            <field name="farm_capacity" />
+                        </group>
+                        <group name="group_right">
+                            <field name="turbine_numbers" />
+                            <field name="rotor_diameter_selection" />
+                        </group>
+                    </group>
+
+                    <group string="测风塔信息">
+                        <field name="cft_name_words" />
+                        <field name="string_speed_words" />
+                        <field name="string_deg_words" />
                     </group>
 
                     <group string="方案比选">

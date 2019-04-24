@@ -13,34 +13,42 @@
                     <group name="group_top">
 
                         <group name="group_left">
-                            <field name="wind_ids" />
                             <field name="case_name" />
-                            <field name="turbine_numbers" />
-                            <field name="capacity" />
-                            <field name="farm_capacity" />
-                            <field name="rotor_diameter" />
-                        </group>
-                        <group name="group_left">
-                            <field name="tower_weight" />
-                            <field name="case_hub_height" />
+                            <field name="project_id" />
+                            <field name="content_ids" />
                             <field name="power_generation" />
                             <field name="weak" />
                             <field name="power_hours" />
+                        </group>
+                        <group name="group_left">
                             <field name="TerrainType_turbines_compare" />
+                            <field name="investment_E3" />
                             <field name="jidian_air_wind" />
                             <field name="jidian_cable_wind" />
                          </group>
                     </group>
                     <group name="group_mid">
                         <field name="case_ids" />
-
                     </group>
+
+                    <group name="group_mid">
+                        <group name="left">
+                            <field name="tower_weight" />
+                            <field name="case_hub_height" />
+                            <field name="turbine_numbers" />
+                        </group>
+                        <group name="right">
+                            <field name="capacity" />
+                            <field name="farm_capacity" />
+                            <field name="rotor_diameter_case" />
+                        </group>
+                    </group>
+
                     <group name="group_bottom">
                         <group name="group_left">
                             <field name="investment_turbines_kws" />
                             <field name="investment_E1" />
                             <field name="investment_E2" />
-                            <field name="investment_E3" />
                             <field name="investment_E4" />
                         </group>
                         <group name="group_right">
@@ -69,7 +77,7 @@
         <field name="arch" type="xml">
             <tree>
 
-                <field name="wind_ids"/>
+                <field name="project_id"/>
                 <field name="case_name" />
                 <field name="case_ids" />
                 <field name="turbine_numbers" />
