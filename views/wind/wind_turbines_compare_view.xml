@@ -16,16 +16,19 @@
                             <field name="wind_ids" />
                             <field name="case_name" />
                             <field name="turbine_numbers" />
+                            <field name="capacity" />
                             <field name="farm_capacity" />
                             <field name="rotor_diameter" />
-                            <field name="tower_weight" />
                         </group>
                         <group name="group_left">
+                            <field name="tower_weight" />
                             <field name="case_hub_height" />
                             <field name="power_generation" />
                             <field name="weak" />
                             <field name="power_hours" />
                             <field name="TerrainType_turbines_compare" />
+                            <field name="jidian_air_wind" />
+                            <field name="jidian_cable_wind" />
                          </group>
                     </group>
                     <group name="group_mid">
@@ -66,7 +69,7 @@
         <field name="arch" type="xml">
             <tree>
 
-                <field name="project_id" ref='auto_word.project'/>
+                <field name="wind_ids"/>
                 <field name="case_name" />
                 <field name="case_ids" />
                 <field name="turbine_numbers" />
