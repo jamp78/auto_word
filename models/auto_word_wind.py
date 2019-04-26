@@ -27,12 +27,12 @@ class auto_word_wind(models.Model):
     farm_area = fields.Char(string=u'区域面积', default="待提交", required=True)
     farm_speed_range = fields.Char(string=u'风速区间', default="待提交", required=True)
     select_ids = fields.Many2many('wind_turbines.selection', required=True, string=u'机型推荐')
-    select_hub_height = fields.Integer(u'推荐轮毂高度', required=True)
+    select_hub_height = fields.Char(u'推荐轮毂高度', readonly=True)
 
-    turbine_numbers = fields.Char(string=u'机位数', readonly=True, compute='_compute_turbine_numbers', default="待提交")
-    farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_turbine_numbers', default="待提交")
+    turbine_numbers = fields.Char(string=u'机位数', readonly=True, compute='_compute_compare_case', default="待提交")
+    farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
     rotor_diameter_selection = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
-                                           compute='_compute_turbine_numbers')
+                                           compute='_compute_compare_case')
 
     rotor_diameter_case = fields.Char(string=u'叶轮直径', default="待提交")
 
@@ -50,25 +50,38 @@ class auto_word_wind(models.Model):
 
     case_names = fields.Many2many('auto_word_wind_turbines.compare')
 
-    @api.depends('select_ids')
-    def _compute_turbine_numbers(self):
-        rotor_diameter_words,name_tur_selction_words = '',''
+    case_name_selection = fields.Char(u'方案名称',compute='_compute_compare_case', readonly=True)
+    name_tur_selection= fields.Char(u'推荐机型',compute='_compute_compare_case', readonly=True)
+    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
+
+    @api.depends('compare_id')
+    def _compute_compare_case(self):
         for re in self:
-            for i in range(0, len(re.select_ids)):
-                re.turbine_numbers = str(int(re.select_ids[i].turbine_numbers) + int(re.turbine_numbers))
-                re.farm_capacity = str(
-                    int(re.select_ids[i].turbine_numbers) * int(re.select_ids[i].capacity) + int(re.farm_capacity))
+            re.case_name_selection=re.compare_id.case_name
+            re.name_tur_selection = re.compare_id.name_tur
+            re.select_hub_height = re.compare_id.case_hub_height
+            re.farm_capacity = re.compare_id.farm_capacity
+            re.rotor_diameter_selection = re.compare_id.rotor_diameter_case
 
-                if i != len(re.select_ids) - 1:
-                    rotor_diameter_words = str(re.select_ids[i].rotor_diameter) + "/" + rotor_diameter_words
-                    name_tur_selction_words = str(re.select_ids[i].name_tur) + "/" + name_tur_selction_words
-                else:
-                    rotor_diameter_words = rotor_diameter_words + str(re.select_ids[i].rotor_diameter)
-                    name_tur_selction_words = name_tur_selction_words + str(re.select_ids[i].name_tur)
-
-            re.farm_capacity = str(int(re.farm_capacity) / 1000)
-            re.rotor_diameter_selection = rotor_diameter_words
-            re.name_tur_selection = name_tur_selction_words
+    # @api.depends('select_ids')
+    # def _compute_turbine_numbers(self):
+    #     rotor_diameter_words,name_tur_selction_words = '',''
+    #     for re in self:
+    #         for i in range(0, len(re.select_ids)):
+    #             re.turbine_numbers = str(int(re.select_ids[i].turbine_numbers) + int(re.turbine_numbers))
+    #             re.farm_capacity = str(
+    #                 int(re.select_ids[i].turbine_numbers) * int(re.select_ids[i].capacity) + int(re.farm_capacity))
+    #
+    #             if i != len(re.select_ids) - 1:
+    #                 rotor_diameter_words = str(re.select_ids[i].rotor_diameter) + "/" + rotor_diameter_words
+    #                 name_tur_selction_words = str(re.select_ids[i].name_tur) + "/" + name_tur_selction_words
+    #             else:
+    #                 rotor_diameter_words = rotor_diameter_words + str(re.select_ids[i].rotor_diameter)
+    #                 name_tur_selction_words = name_tur_selction_words + str(re.select_ids[i].name_tur)
+    #
+    #         re.farm_capacity = str(int(re.farm_capacity) / 1000)
+    #         re.rotor_diameter_selection = rotor_diameter_words
+    #         re.name_tur_selection = name_tur_selction_words
 
 
 # project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
@@ -510,3 +523,21 @@ class auto_word_wind_turbines_compare(models.Model):
         for re in self:
             re.content_ids.rotor_diameter_case = re.rotor_diameter_case
             re.content_ids.case_number = re.case_number
+
+
+# # 机型比选选定方案
+# class wind_turbines_compare_case(models.Model):
+#     # _inherit = 'auto_word.wind'
+#     _name = 'auto_word_wind_turbines_compare.case'
+#     _description = 'turbines_compare_case'
+#     _rec_name = 'case_name'
+#
+#     case_name_selection = fields.Char(u'方案名称',compute='_compute_compare_case', readonly=True)
+#     name_tur_selection= fields.Char(u'推荐机型',compute='_compute_compare_case', readonly=True)
+#     compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
+#
+#     @api.depends('compare_id')
+#     def _compute_compare_case(self):
+#         for re in self:
+#             re.case_name_selection=re.compare_id.case_name
+#             re.name_tur_selection = re.compare_id.name_tur

@@ -7,6 +7,7 @@
             <tree>
                 <field name = "project_id"/>
                 <field name = "version_id"/>
+                <field name = "name_tur_selection"/>
                 <field name = "content_id"/>
                 <field name="turbine_numbers" />
                 <field name="select_hub_height" />
@@ -45,7 +46,9 @@
                     </group>
 
                     <group string="机型推荐">
-                        <field name="select_ids" />
+                        <field name="compare_id" />
+                        <field name="case_name_selection" />
+                        <field name="name_tur_selection" />
                     </group>
 
                     <group name="group_mid">
