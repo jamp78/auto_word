@@ -19,7 +19,7 @@
           <field name="view_mode">tree,form</field>
         </record>
         <record model="ir.actions.act_window" id="auto_word_wind_chapter5_3_act_window">
-          <field name="name">机型比选</field>
+          <field name="name">机型方案比选</field>
           <field name="res_model">auto_word_wind_turbines.compare</field>
           <field name="view_mode">tree,form</field>
         </record>

@@ -525,19 +525,3 @@ class auto_word_wind_turbines_compare(models.Model):
             re.content_ids.case_number = re.case_number
 
 
-# # 机型比选选定方案
-# class wind_turbines_compare_case(models.Model):
-#     # _inherit = 'auto_word.wind'
-#     _name = 'auto_word_wind_turbines_compare.case'
-#     _description = 'turbines_compare_case'
-#     _rec_name = 'case_name'
-#
-#     case_name_selection = fields.Char(u'方案名称',compute='_compute_compare_case', readonly=True)
-#     name_tur_selection= fields.Char(u'推荐机型',compute='_compute_compare_case', readonly=True)
-#     compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
-#
-#     @api.depends('compare_id')
-#     def _compute_compare_case(self):
-#         for re in self:
-#             re.case_name_selection=re.compare_id.case_name
-#             re.name_tur_selection = re.compare_id.name_tur

@@ -45,6 +45,16 @@
                          <!--<field name="project_res" />-->
                     </group>
 
+                    <group string="测风塔信息">
+                        <field name="cft_name_words" />
+                        <field name="string_speed_words" />
+                        <field name="string_deg_words" />
+                    </group>
+
+                    <group string="方案比选">
+                        <field name="case_names" />
+                    </group>
+
                     <group string="机型推荐">
                         <field name="compare_id" />
                         <field name="case_name_selection" />
@@ -62,15 +72,6 @@
                         </group>
                     </group>
 
-                    <group string="测风塔信息">
-                        <field name="cft_name_words" />
-                        <field name="string_speed_words" />
-                        <field name="string_deg_words" />
-                    </group>
-
-                    <group string="方案比选">
-                        <field name="case_names" />
-                    </group>
                     <group name="group_bottom">
                         <!--<field name="generator_ids" />-->
                         <!--<field name="project_res" />-->

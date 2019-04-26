@@ -4,7 +4,7 @@
         <field name="name">机型比选表</field>
         <field name="model">auto_word_wind_turbines.compare</field>
         <field name="arch" type="xml">
-            <form string="机型比选表">
+            <form string="机型方案比选表">
                 <header>
                  <button name="wind_turbines_compare_form_refresh" type="object" groups="auto_word.wind_group_user"
                            string="提交结果" class="btn btn-info"/>
@@ -72,7 +72,7 @@
 
 
     <record id="auto_word_wind_turbines_compare_list" model="ir.ui.view">
-        <field name="name">机型比选表</field>
+        <field name="name">机型方案比选表</field>
         <field name="model">auto_word_wind_turbines.compare</field>
         <field name="arch" type="xml">
             <tree>
