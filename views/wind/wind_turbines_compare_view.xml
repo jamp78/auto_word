@@ -79,7 +79,8 @@
 
                 <field name="project_id"/>
                 <field name="case_name" />
-                <field name="case_ids" />
+                <field name="name_tur" />
+                <field name="case_hub_height" />
                 <field name="turbine_numbers" />
                 <field name="farm_capacity" />
 

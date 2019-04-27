@@ -5,15 +5,15 @@
         <field name="model">auto_word.wind</field>
         <field name="arch" type="xml">
             <tree>
-                <field name = "project_id"/>
-                <field name = "version_id"/>
-                <field name = "name_tur_selection"/>
-                <field name = "content_id"/>
-                <field name="turbine_numbers" />
-                <field name="select_hub_height" />
-                <field name="farm_capacity" />
-                <field name = "write_date"/>
-                <field name = "write_uid"/>
+                <field name="project_id"/>
+                <field name="content_id"/>
+                <field name="name_tur_selection"/>
+                <field name="turbine_numbers_selection"/>
+                <field name="hub_height_selection"/>
+                <field name="farm_capacity"/>
+                <field name="version_id"/>
+                <field name="write_date"/>
+                <field name="write_uid"/>
             </tree>
 
         </field>
@@ -24,58 +24,59 @@
         <field name="arch" type="xml">
             <form string="Wind">
                 <header>
-                  <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
-                           string="生成报告" />
-                  <button name="button_wind" type="object" groups="auto_word.wind_group_user"
-                           string="提交报告" confirm="是否确认提交该项目风资源资料？" />
-               </header>
+                    <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
+                            string="生成报告"/>
+                    <button name="button_wind" type="object" groups="auto_word.wind_group_user"
+                            string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
+                </header>
                 <sheet>
                     <group name="group_top">
-                         <group name="group_left">
-                            <field name="project_id" />
-                            <field name="content_id" />
-                            <field name="version_id" />
-                         </group>
-                         <group name="group_right">
-                            <field name="IECLevel" />
-                            <field name="farm_elevation" />
-                            <field name="farm_area" />
-                            <field name="farm_speed_range" />
-                         </group>
-                         <!--<field name="project_res" />-->
-                    </group>
-
-                    <group string="测风塔信息">
-                        <field name="cft_name_words" />
-                        <field name="string_speed_words" />
-                        <field name="string_deg_words" />
+                        <group name="group_left">
+                            <field name="project_id"/>
+                            <field name="content_id"/>
+                            <field name="version_id"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="IECLevel"/>
+                            <field name="farm_elevation"/>
+                            <field name="farm_area"/>
+                            <field name="farm_speed_range"/>
+                        </group>
+                        <!--<field name="project_res" />-->
                     </group>
 
                     <group string="方案比选">
-                        <field name="case_names" />
+                        <field name="case_names"/>
                     </group>
 
                     <group string="机型推荐">
-                        <field name="compare_id" />
-                        <field name="case_name_selection" />
-                        <field name="name_tur_selection" />
+                        <field name="compare_id"/>
+                        <field name="case_name_selection"/>
+                        <field name="name_tur_selection"/>
                     </group>
+
+                    <group string="测风塔信息">
+                        <field name="cft_name_words"/>
+                        <field name="string_speed_words"/>
+                        <field name="string_deg_words"/>
+                    </group>
+
 
                     <group name="group_mid">
                         <group name="group_left">
-                            <field name="select_hub_height" />
-                            <field name="farm_capacity" />
+                            <field name="hub_height_selection"/>
+                            <field name="farm_capacity"/>
                         </group>
                         <group name="group_right">
-                            <field name="turbine_numbers" />
-                            <field name="rotor_diameter_selection" />
+                            <field name="turbine_numbers_selection"/>
+                            <field name="rotor_diameter_selection"/>
                         </group>
                     </group>
 
                     <group name="group_bottom">
                         <!--<field name="generator_ids" />-->
                         <!--<field name="project_res" />-->
-                        <field name="report_attachment_id" />
+                        <field name="report_attachment_id"/>
                     </group>
 
                 </sheet>
