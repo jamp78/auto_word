@@ -19,6 +19,8 @@ class auto_word_wind(models.Model):
     generator_ids = fields.Many2many('auto_word_wind.turbines', required=True, string=u'比选机型')
 
     select_ids = fields.Many2many('wind_turbines.selection', required=True, string=u'机型推荐')
+    case_ids = fields.Many2many('auto_word_wind_turbines.compare', required=True, string=u'比选方案')
+
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
     select_hub_height = fields.Integer(u'推荐轮毂高度', required=True)
 
@@ -35,6 +37,8 @@ class auto_word_wind(models.Model):
     farm_area = fields.Char(string=u'区域面积', default="待提交")
     farm_speed_range = fields.Char(string=u'风速区间', default="待提交")
 
+
+
     @api.depends('select_ids')
     def _compute_turbine_numbers(self):
         self.turbine_numbers = 0
@@ -43,6 +47,8 @@ class auto_word_wind(models.Model):
             self.turbine_numbers = self.select_ids[i].turbine_numbers + self.turbine_numbers
             self.farm_capacity = self.select_ids[i].turbine_numbers * self.select_ids[i].capacity + self.farm_capacity
         self.farm_capacity = self.farm_capacity / 1000
+
+
 
     # project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
 
@@ -73,6 +79,7 @@ class auto_word_wind(models.Model):
             '测风塔风向信息': self.string_deg_words,
             '推荐轮毂高度': self.select_hub_height,
             'IEC等级': self.IECLevel,
+
         }
         Dict5 = dict(dict_5_word, **dict5)
         print(Dict5)
@@ -333,10 +340,6 @@ class auto_word_wind_turbines_compare(models.Model):
         self.farm_capacity = int(self.farm_capacity) / 1000
         self.investment_E1 = investment_e1_sum
 
-    # @api.depends('farm_capacity', 'investment_turbines_kw')
-    # def _compute_investment_e2(self):
-    #     for re in self:
-    #         re.investment_e1 = re.farm_capacity * re.investment_turbines_kw * 1000 / 10000
     #
     # @api.depends('TerrainType_turbines_compare')
     # def _compute_investment_e4(self):
