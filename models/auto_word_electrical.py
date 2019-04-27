@@ -18,7 +18,8 @@ class auto_word_electrical(models.Model):
     yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=True)
     turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
 
-    # total_electrical_length = fields.Float(compute='_compute_electrical_total_length', string=u'线路总长度')
+
+
 
     circuit_number = fields.Integer(u'线路回路数', required=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气章节')
@@ -30,6 +31,11 @@ class auto_word_electrical(models.Model):
     overhead_line_num = fields.Float(u'架空线路塔基数量', required=True)
     direct_buried_cable_num = fields.Float(u'直埋电缆长度', required=True)
     main_booster_station_num = fields.Float(u'主变数量', required=True)
+
+    #风能
+    jidian_air_wind = fields.Float(u'架空长度', required=True)
+    jidian_cable_wind = fields.Float(u'电缆长度', required=True)
+
 
     # @api.depends('length_singlejL240', 'length_doublejL240')
     # def _compute_total_length(self):
@@ -94,6 +100,9 @@ class auto_word_electrical(models.Model):
         projectname.yjlv95 = self.yjlv95
         projectname.yjv300 = self.yjv300
         projectname.circuit_number = self.circuit_number
+
+        projectname.jidian_air_wind = self.jidian_air_wind
+        projectname.jidian_cable_wind = self.jidian_cable_wind
 
         return True
 

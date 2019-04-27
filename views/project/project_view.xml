@@ -30,13 +30,12 @@
                         <group name="group_left">
                             <field name="project_name"/>
                             <field name="order_number"/>
-                            <field name="date_start"/>
-                            <field name="dat_end"/>
+                            <field name="staff"/>
                         </group>
                         <group name="group_right">
                             <field name="company_id" options="{'no_create_edit': 1}"/>
-                            <field name="project_capacity"/>
-                            <field name="staff"/>
+                            <field name="date_start"/>
+                            <field name="dat_end"/>
                         </group>
                     </group>
                     <group name="group_sumbit" string="项目提交情况" col="4" colspan="2">
@@ -46,8 +45,10 @@
                         <field name="economic_attachment_ok"/>
                     </group>
                     <group name="group_wind" string="风资源提交明细">
-                        <field name="turbine_numbers"/>
-                        <field name="select_hub_height"/>
+                        <field name="project_capacity"/>
+                        <field name="name_tur_suggestion"/>
+                        <field name="turbine_numbers_suggestion"/>
+                        <field name="hub_height_suggestion"/>
                     </group>
                     <group name="group_electrical" string="电气提交明细">
                         <group name="group_left">
@@ -57,10 +58,12 @@
                             <field name="yjlv95"/>
                             <field name="yjv300"/>
                             <field name="circuit_number"/>
-                        </group>
-                        <group name="group_right">
                             <field name="line_1"/>
                             <field name="line_2"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="jidian_air_wind"/>
+                            <field name="jidian_cable_wind"/>
                             <field name="overhead_line"/>
                             <field name="direct_buried_cable"/>
                             <field name="overhead_line_num"/>
@@ -74,6 +77,7 @@
                             <field name="road_1_num"/>
                             <field name="road_2_num"/>
                             <field name="road_3_num"/>
+                            <field name="total_civil_length"/>
                             <field name="ProjectLevel"/>
                         </group>
                         <group name="group_right">

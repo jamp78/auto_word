@@ -144,9 +144,8 @@ class auto_word_civil(models.Model):
     BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num')
-    def _compute_total_length(self):
-        for re in self:
-            re.total_civil_length = re.road_1_num + re.road_2_num + re.road_3_num
+    def _compute_total_civil_length(self):
+        self.total_civil_length = self.road_1_num + self.road_2_num + self.road_3_num
 
     # @api.one
     # @api.depends("project_id")
@@ -162,6 +161,7 @@ class auto_word_civil(models.Model):
         projectname.road_1_num = self.road_1_num
         projectname.road_2_num = self.road_2_num
         projectname.road_3_num = self.road_3_num
+        projectname.total_civil_length=self.total_civil_length
 
         projectname.basic_type = self.basic_type
         projectname.ultimate_load = self.ultimate_load

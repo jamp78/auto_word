@@ -12,7 +12,7 @@ class auto_word_project(models.Model):
     _rec_name = 'project_name'
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     order_number = fields.Char(u'项目编号', required=True)
-    project_capacity = fields.Float(u'项目容量', required=True)
+
     active = fields.Boolean(u'续存？', default=True)
     date_start = fields.Date(u'项目启动日期', default=fields.date.today())
     dat_end = fields.Date(u'项目要求完成日期', default=fields.date.today() + datetime.timedelta(days=10))
@@ -36,8 +36,14 @@ class auto_word_project(models.Model):
     staff = fields.Integer(u'工程定员', required=True)
 
     ###风能
-    turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
-    select_hub_height = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
+    project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)
+    name_tur_suggestion = fields.Char(u'风机推荐型号', default="待提交", readonly=True)
+    name_tur_selection = fields.Char(u'风机比选型号', default="待提交", readonly=True)
+
+    turbine_numbers_suggestion = fields.Char(u'机位数', default="待提交", readonly=True)
+    hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
+
+
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
     line_2 = fields.Char(u'线路总填方', default="待提交", readonly=True)
@@ -54,10 +60,14 @@ class auto_word_project(models.Model):
     yjv300 = fields.Char(u'直埋电缆YJV22-26/35-1×300（km）', default="待提交", readonly=True)
     circuit_number = fields.Char(u'线路回路数', default="待提交", readonly=True)
 
+    jidian_air_wind = fields.Char(u'架空长度', readonly=True,default="0")
+    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True,default="0")
+
     ###土建
     road_1_num = fields.Char(u'场外改扩建道路', default="待提交", readonly=True)
     road_2_num = fields.Char(u'进站道路', default="待提交", readonly=True)
     road_3_num = fields.Char(u'施工检修道路工程', default="待提交", readonly=True)
+    total_civil_length = fields.Float(u'道路工程长度', default="0", readonly=True)
 
     basic_type = fields.Char(u'基础形式', default="待提交", readonly=True)
     ultimate_load = fields.Char(u'极限载荷', default="待提交", readonly=True)

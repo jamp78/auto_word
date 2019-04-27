@@ -19,7 +19,7 @@
           <field name="view_mode">tree,form</field>
         </record>
         <record model="ir.actions.act_window" id="auto_word_wind_chapter5_3_act_window">
-          <field name="name">机型比选</field>
+          <field name="name">机型方案比选</field>
           <field name="res_model">auto_word_wind_turbines.compare</field>
           <field name="view_mode">tree,form</field>
         </record>
@@ -110,17 +110,9 @@
           </field>
         </record>
 
-
-
     <record model="ir.actions.act_window" id="auto_word_wind_turbines_act_window">
       <field name="name">风机列表</field>
       <field name="res_model">auto_word_wind.turbines</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-
-    <record model="ir.actions.act_window" id="wind_turbines_selection_act_window">
-      <field name="name">风机推荐</field>
-      <field name="res_model">wind_turbines.selection</field>
       <field name="view_mode">tree,form</field>
     </record>
 
@@ -218,7 +210,7 @@
 
       <menuitem name="风机设备选型布置及发电量估算" id="auto_word_wind_chapter5_menu" parent="auto_word_wind"/>
         <menuitem name="机组选型" id="auto_word_wind_chapter5_1_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_1_act_window"/>
-        <menuitem name="机型比选" id="auto_word_wind_chapter5_3_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_3_act_window"/>
+        <menuitem name="方案比选" id="auto_word_wind_chapter5_3_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_3_act_window"/>
         <menuitem name="发电量估算" id="auto_word_wind_chapter5_4_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_4_act_window"/>
 
     <menuitem name="电气部分" id="auto_word_electric" parent="auto_word.menu_root"/>
@@ -243,8 +235,6 @@
     <menuitem name="风场信息" id="auto_word_wind_turbines_menu" parent="auto_word.menu_root"/>
       <menuitem name="风机详情" id="auto_word_wind_turbines_list_menu" parent="auto_word_wind_turbines_menu"
               groups="wind_group_user" action="auto_word_wind_turbines_act_window" sequence="1"/>
-      <menuitem name="风机推荐" id="wind_turbines_selection_list_menu" parent="auto_word_wind_turbines_menu"
-              groups="wind_group_user" action="wind_turbines_selection_act_window" sequence="2"/>
       <menuitem name="测风塔信息" id="wind_cft_infor_list_menu" parent="auto_word_wind_turbines_menu"
               groups="wind_group_user" action="wind_cft_infor_act_window" sequence="3"/>
 
