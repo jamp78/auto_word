@@ -38,10 +38,12 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="project_id"/>
-                <!--<field name="string_speed_words"/>-->
-                <!--<field name="string_deg_words"/>-->
-                <!--<field name="select_cft_ids"/>-->
-                <!--<field name="generator_ids"/>-->
+                <field name="wind_id"/>
+                <field name="cft_name_words"/>
+                <field name="string_speed_words"/>
+                <field name="string_deg_words"/>
+                <field name="select_cft_ids"/>
+                <field name="select_turbine_ids"/>
             </tree>
         </field>
     </record>
@@ -63,7 +65,7 @@
                     <field name="string_speed_words"/>
                     <field name="string_deg_words"/>
                     <field name="select_cft_ids"/>
-                    <field name="generator_ids"/>
+                    <field name="select_turbine_ids"/>
                 </group>
             </form>
         </field>

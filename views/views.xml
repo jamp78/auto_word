@@ -218,7 +218,7 @@
 
       <menuitem name="风机设备选型布置及发电量估算" id="auto_word_wind_chapter5_menu" parent="auto_word_wind"/>
         <menuitem name="机组选型" id="auto_word_wind_chapter5_1_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_1_act_window"/>
-        <menuitem name="机型比选" id="auto_word_wind_chapter5_3_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_3_act_window"/>
+        <menuitem name="方案比选" id="auto_word_wind_chapter5_3_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_3_act_window"/>
         <menuitem name="发电量估算" id="auto_word_wind_chapter5_4_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_4_act_window"/>
 
     <menuitem name="电气部分" id="auto_word_electric" parent="auto_word.menu_root"/>

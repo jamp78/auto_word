@@ -7,9 +7,9 @@
             <tree>
                 <field name="project_id"/>
                 <field name="content_id"/>
-                <field name="name_tur_selection"/>
-                <field name="turbine_numbers_selection"/>
-                <field name="hub_height_selection"/>
+                <field name="name_tur_suggestion"/>
+                <field name="turbine_numbers_suggestion"/>
+                <field name="hub_height_suggestion"/>
                 <field name="farm_capacity"/>
                 <field name="version_id"/>
                 <field name="write_date"/>
@@ -51,8 +51,8 @@
 
                     <group string="机型推荐">
                         <field name="compare_id"/>
-                        <field name="case_name_selection"/>
-                        <field name="name_tur_selection"/>
+                        <field name="case_name_suggestion"/>
+                        <field name="name_tur_suggestion"/>
                     </group>
 
                     <group string="测风塔信息">
@@ -64,12 +64,12 @@
 
                     <group name="group_mid">
                         <group name="group_left">
-                            <field name="hub_height_selection"/>
+                            <field name="hub_height_suggestion"/>
                             <field name="farm_capacity"/>
                         </group>
                         <group name="group_right">
-                            <field name="turbine_numbers_selection"/>
-                            <field name="rotor_diameter_selection"/>
+                            <field name="turbine_numbers_suggestion"/>
+                            <field name="rotor_diameter_suggestion"/>
                         </group>
                     </group>
 
