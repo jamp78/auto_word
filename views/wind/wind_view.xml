@@ -45,6 +45,10 @@
                         <!--<field name="project_res" />-->
                     </group>
 
+                    <group string="机组选型">
+                        <field name="name_tur_selection"/>
+                    </group>
+
                     <group string="方案比选">
                         <field name="case_names"/>
                     </group>

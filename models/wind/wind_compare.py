@@ -11,8 +11,7 @@ class auto_word_wind_turbines_compare(models.Model):
     _name = 'auto_word_wind_turbines.compare'
     _description = 'turbines_compare'
     _rec_name = 'case_name'
-    # mixed_turbines_bool = fields.Boolean(string=u'是否为混排方案',help='若是混排方案请勾选')
-    #
+
     case_name = fields.Char(u'方案名称', required=True, default="方案1")
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)

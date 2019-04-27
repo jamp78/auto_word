@@ -20,14 +20,12 @@ class auto_word_wind(models.Model):
     farm_elevation = fields.Char(string=u'海拔高程', default="待提交", required=True)
     farm_area = fields.Char(string=u'区域面积', default="待提交", required=True)
     farm_speed_range = fields.Char(string=u'风速区间', default="待提交", required=True)
-    select_ids = fields.Many2many('wind_turbines.selection', required=True, string=u'机型推荐')
-
-    farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
-
-    name_tur_selection = fields.Char(string=u'风机型号', readonly=True, default="待提交",
-                                     compute='_compute_turbine_numbers')
 
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
+    name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
+
+
+
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
 
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
@@ -38,14 +36,17 @@ class auto_word_wind(models.Model):
 
     case_names = fields.Many2many('auto_word_wind_turbines.compare',string=u'方案比选')
 
+
+    #机型推荐
+    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
+
     case_name_suggestion = fields.Char(u'方案名称', compute='_compute_compare_case', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
-                                           compute='_compute_compare_case')
-
-    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
+                                            compute='_compute_compare_case')
+    farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
 
     @api.depends('compare_id')
     def _compute_compare_case(self):
@@ -57,27 +58,6 @@ class auto_word_wind(models.Model):
             re.farm_capacity = re.compare_id.farm_capacity
             re.rotor_diameter_suggestion = re.compare_id.rotor_diameter_case
 
-    # @api.depends('select_ids')
-    # def _compute_turbine_numbers(self):
-    #     rotor_diameter_words,name_tur_selction_words = '',''
-    #     for re in self:
-    #         for i in range(0, len(re.select_ids)):
-    #             re.turbine_numbers = str(int(re.select_ids[i].turbine_numbers) + int(re.turbine_numbers))
-    #             re.farm_capacity = str(
-    #                 int(re.select_ids[i].turbine_numbers) * int(re.select_ids[i].capacity) + int(re.farm_capacity))
-    #
-    #             if i != len(re.select_ids) - 1:
-    #                 rotor_diameter_words = str(re.select_ids[i].rotor_diameter) + "/" + rotor_diameter_words
-    #                 name_tur_selction_words = str(re.select_ids[i].name_tur) + "/" + name_tur_selction_words
-    #             else:
-    #                 rotor_diameter_words = rotor_diameter_words + str(re.select_ids[i].rotor_diameter)
-    #                 name_tur_selction_words = name_tur_selction_words + str(re.select_ids[i].name_tur)
-    #
-    #         re.farm_capacity = str(int(re.farm_capacity) / 1000)
-    #         re.rotor_diameter_selection = rotor_diameter_words
-    #         re.name_tur_selection = name_tur_selction_words
-
-    # project_res= fields.Many2many('auto_word.windres', string=u'机位结果', required=True)
 
     @api.multi
     def button_wind(self):
@@ -85,10 +65,11 @@ class auto_word_wind(models.Model):
         myself = self
         projectname.wind_attachment_id = myself
         projectname.wind_attachment_ok = u"已提交,版本：" + self.version_id
-        projectname.turbine_numbers = self.turbine_numbers
-        projectname.select_hub_height = self.select_hub_height
+        projectname.turbine_numbers_suggestion = self.turbine_numbers_suggestion
+        projectname.hub_height_suggestion = self.hub_height_suggestion
         projectname.project_capacity = self.farm_capacity
         projectname.name_tur_selection = self.name_tur_selection
+        projectname.name_tur_suggestion = self.name_tur_suggestion
 
         return True
 

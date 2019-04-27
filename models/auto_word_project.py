@@ -37,9 +37,11 @@ class auto_word_project(models.Model):
 
     ###风能
     project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)
-    name_tur_selection = fields.Char(u'风机型号', default="待提交", readonly=True)
-    turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
-    select_hub_height = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
+    name_tur_suggestion = fields.Char(u'风机推荐型号', default="待提交", readonly=True)
+    name_tur_selection = fields.Char(u'风机比选型号', default="待提交", readonly=True)
+
+    turbine_numbers_suggestion = fields.Char(u'机位数', default="待提交", readonly=True)
+    hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
 
 
     ###电气
