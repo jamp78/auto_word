@@ -23,7 +23,7 @@ class auto_word_wind_turbines_compare(models.Model):
     jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
     jidian_cable_wind = fields.Float(u'电缆长度', default=0, help='若不填写即采用电气集电线路')
 
-    case_ids = fields.Many2many('wind_turbines.selection', string=u'比选方案')
+    case_ids = fields.Many2many('wind_turbines.case', string=u'比选方案')
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, compute='_compute_turbine', default="待提交")
     name_tur = fields.Char(string=u'风机类型', readonly=True, compute='_compute_turbine', default="待提交")
     capacity = fields.Char(string=u'风机容量', readonly=True, compute='_compute_turbine', default="待提交")
