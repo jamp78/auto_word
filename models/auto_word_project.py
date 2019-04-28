@@ -10,7 +10,7 @@ class auto_word_project(models.Model):
     _name = 'auto_word.project'
     _description = 'Project'
     _rec_name = 'project_name'
-    project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
+    project_name = fields.Char(u'项目名1', required=True, write=['auto_word.project_group_user'])
     order_number = fields.Char(u'项目编号', required=True)
 
     active = fields.Boolean(u'续存？', default=True)

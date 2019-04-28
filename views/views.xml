@@ -110,9 +110,15 @@
           </field>
         </record>
 
-    <record model="ir.actions.act_window" id="auto_word_wind_turbines_act_window">
+    <!--<record model="ir.actions.act_window" id="auto_word_wind_turbines_act_window">-->
+      <!--<field name="name">风机列表</field>-->
+      <!--<field name="res_model">auto_word_wind.turbines</field>-->
+      <!--<field name="view_mode">tree,form</field>-->
+    <!--</record>-->
+
+      <record model="ir.actions.act_window" id="auto_word_wind_turbines_act_window">
       <field name="name">风机列表</field>
-      <field name="res_model">auto_word_wind.turbines</field>
+      <field name="res_model">wind_turbines.case</field>
       <field name="view_mode">tree,form</field>
     </record>
 

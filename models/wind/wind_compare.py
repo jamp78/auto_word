@@ -41,7 +41,7 @@ class auto_word_wind_turbines_compare(models.Model):
     investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, compute='_compute_turbine')
 
     investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True, compute='_compute_turbine')
-    case_hub_height = fields.Char(u'推荐轮毂高度', readonly=True, compute='_compute_turbine')
+    case_hub_height = fields.Integer(string=u'推荐轮毂高度')
 
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, compute='_compute_turbine')
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_turbine')
@@ -60,15 +60,9 @@ class auto_word_wind_turbines_compare(models.Model):
             re.case_number = str(len(re.case_ids))
             for i in range(0, len(re.case_ids)):
 
-                if case_hub_height_word == str(re.case_ids[i].case_hub_height):
-                    message_change = False
-                else:
-                    message_change = True
-
                 tower_weight_word = str(re.case_ids[i].tower_weight)
                 rotor_diameter_word = str(re.case_ids[i].rotor_diameter)
                 investment_turbines_kw_word = str(re.case_ids[i].investment_turbines_kw)
-                case_hub_height_word = str(re.case_ids[i].case_hub_height)
                 capacity_word = str(re.case_ids[i].capacity)
                 name_tur_word = str(re.case_ids[i].name_tur)
 
@@ -82,13 +76,13 @@ class auto_word_wind_turbines_compare(models.Model):
                     re.case_ids[i].investment_turbines_kw) / 10000
                 investment_e2_sum = investment_e2_sum + investment_e2
 
-                if re.case_ids[i].case_hub_height <= 90:
+                if re.case_hub_height <= 90:
                     investment_e5 = re.case_ids[i].turbine_numbers * 38
-                elif 90 < re.case_ids[i].case_hub_height <= 100:
+                elif 90 < re.case_hub_height <= 100:
                     investment_e5 = re.case_ids[i].turbine_numbers * 45
-                elif 100 < re.case_ids[i].case_hub_height <= 120:
+                elif 100 < re.case_hub_height <= 120:
                     investment_e5 = re.case_ids[i].turbine_numbers * 55
-                elif 120 < re.case_ids[i].case_hub_height <= 140:
+                elif 120 < re.case_hub_height <= 140:
                     investment_e5 = re.case_ids[i].turbine_numbers * 65
 
                 if re.case_ids[i].capacity <= 2000:
@@ -108,24 +102,19 @@ class auto_word_wind_turbines_compare(models.Model):
                         rotor_diameter_words = rotor_diameter_word + "/" + rotor_diameter_words
                         investment_turbines_kw_words = investment_turbines_kw_word + "/" + investment_turbines_kw_words
                         name_tur_words = name_tur_word + "/" + name_tur_words
-                        if message_change == True:
-                            case_hub_height_words = case_hub_height_word + "/" + case_hub_height_words
-                            capacity_words = capacity_word + "/" + capacity_words
+                        capacity_words = capacity_word + "/" + capacity_words
 
                     else:
                         tower_weight_words = tower_weight_words + tower_weight_word
                         rotor_diameter_words = rotor_diameter_words + rotor_diameter_word
                         investment_turbines_kw_words = investment_turbines_kw_words + investment_turbines_kw_word
                         name_tur_words = name_tur_words + name_tur_word
-                        if message_change == True:
-                            case_hub_height_words = case_hub_height_words + case_hub_height_word
-                            capacity_words = capacity_words + capacity_word
+                        capacity_words = capacity_words + capacity_word
 
                 if len(re.case_ids) == 1:
                     tower_weight_words = tower_weight_word
                     rotor_diameter_words = rotor_diameter_word
                     investment_turbines_kw_words = investment_turbines_kw_word
-                    case_hub_height_words = case_hub_height_word
                     capacity_words = capacity_word
                     name_tur_words = name_tur_word
 
@@ -134,7 +123,6 @@ class auto_word_wind_turbines_compare(models.Model):
             re.tower_weight = tower_weight_words
             re.rotor_diameter_case = rotor_diameter_words
             re.investment_turbines_kws = investment_turbines_kw_words
-            re.case_hub_height = case_hub_height_words
 
             re.farm_capacity = int(re.farm_capacity) / 1000
             re.investment_E1 = investment_e1_sum
