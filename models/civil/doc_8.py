@@ -1,7 +1,11 @@
 from docxtpl import DocxTemplate
 import os
+import sys
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8')
 from MainConstructionQuantitySummarySheet import *
-from chapter_8 import RoundUp
+import sys
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
+import RoundUp
 
 
 def get_dict(np, dict_keys):

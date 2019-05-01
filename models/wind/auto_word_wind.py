@@ -2,6 +2,9 @@
 
 from odoo import models, fields, api
 import base64
+import sys
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
+
 import doc_5
 
 class auto_word_wind(models.Model):

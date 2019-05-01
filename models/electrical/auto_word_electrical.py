@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import sys
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\electrical')
 from doc_6 import generate_electrical_docx
 import base64
 
