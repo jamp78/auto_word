@@ -1,8 +1,9 @@
 import pandas as pd
 from connect_sql import connect_sql_pandas
 
+import numpy as np
 
-# import numpy as np
+
 # from RoundUp import round_up, round_dict
 # from docxtpl import DocxTemplate
 # import math, os
@@ -11,12 +12,11 @@ class WindExcel:
     def __init__(self):
         # ===========selecting parameters=============
 
-
         # ===========basic parameters==============
         self.Speed_num, self.Direction_num, self.columns_name = 0, 0, []
-        self.dict_booster_station = {}
+        self.Speed_col_num, self.Direction_col_num = 0, 0
         # ===========Calculated parameters==============
-        self.DataWind,self.DataWind_speed, self.DataWind_deg = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+        self.DataWind, self.DataWind_speed, self.DataWind_deg = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
 
         self.slope_area, self.earth_excavation_booster_station, self.stone_excavation_booster_station = 0, 0, 0
         self.earthwork_back_fill_booster_station, self.c30_booster_station, self.c15_booster_station = 0, 0, 0
@@ -24,7 +24,7 @@ class WindExcel:
         self.c25_foundation_booster_station, self.reinforcement_booster_station = 0, 0
 
     def extraction_wind_excel(self, path):
-        a=[]
+        a = []
         self.path = path
         col_name = ['Date/Time', 'Speed 70 m A [m/s]', 'Capacity', 'Long', 'Width', 'InnerWallArea', 'WallLength',
                     'StoneMasonryFoot',
@@ -34,29 +34,29 @@ class WindExcel:
                     'FoundationC25Concrete', 'OutdoorStructure', 'PrecastConcretePole', 'LightningRod'
                     ]
 
-        self.DataWind = pd.read_excel(self.path,
-            header=12, sheet_name='Sheet1')
-        self.columns_name=list(self.DataWind.columns.values)
+        self.DataWind = pd.read_excel(self.path, header=12, sheet_name='Sheet1')
+        self.columns_name = list(self.DataWind.columns.values)
 
-
-        for i in range(0,len(self.columns_name)):
-            name=self.columns_name[i]
+        for i in range(0, len(self.columns_name)):
+            name = self.columns_name[i]
             if 'Speed' in name:
-                self.Speed_num=self.Speed_num+1
+                self.Speed_num = self.Speed_num + 1
             if 'Direction' in name:
-                self.Direction_num=self.Direction_num+1
+                self.Direction_num = self.Direction_num + 1
 
-        speed_col=list(i for i in range(1, self.Speed_num, 4))
-        speed_col.insert(0,0)
+        speed_col = list(i for i in range(1, self.Speed_num, 4))
+        speed_col.insert(0, 0)
 
-        speed_deg = list(i for i in range(self.Speed_num+1, self.Speed_num+self.Direction_num, 4))
+        speed_deg = list(i for i in range(self.Speed_num + 1, self.Speed_num + self.Direction_num, 4))
         speed_deg.insert(0, 0)
 
-        self.DataWind_speed=self.DataWind.iloc[:, speed_col]
+        self.Speed_col_num = self.Speed_num / 4
+        self.Direction_col_num = self.Direction_num / 4
+
+        self.DataWind_speed = self.DataWind.iloc[:, speed_col]
         self.DataWind_deg = self.DataWind.iloc[:, speed_deg]
 
-
-        return self.DataWind,self.DataWind_speed,self.DataWind_deg
+        return self.DataWind, self.DataWind_speed, self.DataWind_deg
 
     def excavation_cal_booster_station(self, data_booster_station, road_basic_earthwork_ratio, road_basic_stone_ratio,
                                        terrain_type):
@@ -135,11 +135,27 @@ class WindExcel:
         return self.dict_booster_station
 
 
+wrong_wind_list = []
 project03 = WindExcel()
-data,speed,deg = project03.extraction_wind_excel(r'C:\Users\Administrator\Desktop\Mast_hour.xlsx')
-print(data)
-print(speed)
-print(deg)
+data, speed, deg = project03.extraction_wind_excel(r'D:\GOdoo12_community\myaddons\auto_word\demo\导表\Mast_hour.xlsx')
+# 风速不合理性的个数
+wrong_wind = np.array(speed)
+# wrong_wind=speed.copy()
+for i in range(1, int(project03.Speed_col_num + 1)):
+    # wrong_wind_num = wrong_wind[(wrong_wind.ix[:, i] > 40) | (wrong_wind.ix[:, i] < 0)].ix[:, i].shape[0]
+    # wrong_wind[(wrong_wind.ix[:, i] > 40) | (wrong_wind.ix[:, i] < 0)].ix[:, i]= np.nan
+
+    wrong_wind_num = wrong_wind[np.where(wrong_wind[:, i] > 40), i].shape[1]
+    wrong_wind[np.where(wrong_wind[:, i] > 40), i] = np.nan
+
+    speed1=pd.DataFrame(wrong_wind)
+
+    wrong_wind_list.append(wrong_wind_num)
+print(speed1)
+print(wrong_wind)
+data.iloc[2, 1] = np.nan
+# print(data.iloc[:, 1])
+# print(deg)
 # print(project03.columns_name)
 # print(project03.Speed_num)
 # print(project03.Direction_num)
