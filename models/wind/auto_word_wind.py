@@ -2,10 +2,53 @@
 
 from odoo import models, fields, api
 import base64
-import sys
+import sys,win32ui
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
-
+import tkinter as tk
 import doc_5
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 600)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(240, 80, 72, 15))
+        self.label.setObjectName("label")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(240, 120, 93, 28))
+        self.pushButton.setObjectName("pushButton")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton.setText(_translate("MainWindow", "PushButton"))
+
+class MyWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(MyWindow, self).__init__(parent)
+        self.setupUi(self)
+
 
 class auto_word_wind(models.Model):
     _name = 'auto_word.wind'
@@ -41,7 +84,7 @@ class auto_word_wind(models.Model):
 
 
     #机型推荐
-    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
+    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名')
 
     case_name_suggestion = fields.Char(u'方案名称', compute='_compute_compare_case', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
@@ -50,6 +93,8 @@ class auto_word_wind(models.Model):
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
                                             compute='_compute_compare_case')
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
+
+    file_excel_path = fields.Char(u'文件路径')
 
     @api.depends('compare_id')
     def _compute_compare_case(self):
@@ -77,6 +122,17 @@ class auto_word_wind(models.Model):
         return True
 
     @api.multi
+    def wind_open(self):
+        dlg = win32ui.CreateFileDialog(1)
+        dlg.SetOFNInitialDir("C:")
+        flag = dlg.DoModal()
+        print(flag)
+        if 1 == flag:
+            filename=dlg.GetPathName()
+        else:
+            print("取消打开...")
+        self.file_excel_path=filename
+
     def wind_generate(self):
         tur_name = []
         for i in range(0, len(self.select_turbine_ids)):
