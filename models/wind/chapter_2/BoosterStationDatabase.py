@@ -124,9 +124,8 @@ class WindExcel:
 
             nan_tem_num = np.isnan(tem_np_float).sum()
 
-            # tem_avg = np.mean(tem_np_float(~np.isnan(tem_np_float)), axis=0)
-            print(np.isnan(tem_np_float))
-            print(tem_np_float == ~np.isnan(tem_np_float))
+            tem_avg = tem_np_float[np.where(~np.isnan(tem_np_float))].mean()
+
             self.wrong_tem_list.append(wrong_tem_num)
             self.nan_tem_list.append(nan_tem_num)
             self.tem_list.append(tem_avg)
