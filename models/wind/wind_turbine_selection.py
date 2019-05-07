@@ -49,35 +49,33 @@ class auto_word_wind_cft(models.Model):
             re.name_tur_selection = name_tur_selection_words
     @api.depends('select_cft_ids')
     def _compute_cft(self):
-        string_speed_word = ""
-        string_speed_words_final = ""
-
-        string_deg_word = ""
-        string_deg_words_final = ""
-        cft_name_words_final = ""
-        for i in range(0, len(self.select_cft_ids)):
-            self.cft_name = self.select_cft_ids[i].cft_name
-            self.cft_height = self.select_cft_ids[i].cft_height
-            self.cft_speed = self.select_cft_ids[i].cft_speed
-            self.cft_pwd = self.select_cft_ids[i].cft_pwd
-            self.cft_deg_main = self.select_cft_ids[i].cft_deg_main
-            self.cft_deg_pwd_main = self.select_cft_ids[i].cft_deg_pwd_main
-
-            string_speed_word = str(self.cft_name) + "测风塔" + str(self.cft_height) + "m高度年平均风速为" + str(self.cft_speed) + \
-                                "m/s,风功率密度为" + str(self.cft_pwd) + "W/m²。"
-            string_speed_words_final = string_speed_word + string_speed_words_final
-
-            string_deg_word = str(self.cft_name) + "测风塔" + str(self.cft_height) + "m测层风向" + str(self.cft_deg_main) + \
-                              "；主风能风向" + str(self.cft_deg_pwd_main) + "。"
-            string_deg_words_final = string_deg_word + string_deg_words_final
-            if i != len(self.select_cft_ids)-1:
-                cft_name_words_final = self.cft_name + "/" + cft_name_words_final
-            else:
-                cft_name_words_final = cft_name_words_final+self.cft_name
-
-        self.cft_name_words = cft_name_words_final
-        self.string_speed_words = string_speed_words_final
-        self.string_deg_words = string_deg_words_final
+        for re in self:
+            string_speed_words_final = ""
+            string_deg_words_final = ""
+            cft_name_words_final = ""
+            for i in range(0, len(re.select_cft_ids)):
+                re.cft_name = re.select_cft_ids[i].cft_name
+                re.cft_height = re.select_cft_ids[i].cft_height
+                re.cft_speed = re.select_cft_ids[i].cft_speed
+                re.cft_pwd = re.select_cft_ids[i].cft_pwd
+                re.cft_deg_main = re.select_cft_ids[i].cft_deg_main
+                re.cft_deg_pwd_main = re.select_cft_ids[i].cft_deg_pwd_main
+    
+                string_speed_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "m高度年平均风速为" + str(re.cft_speed) + \
+                                    "m/s,风功率密度为" + str(re.cft_pwd) + "W/m²。"
+                string_speed_words_final = string_speed_word + string_speed_words_final
+    
+                string_deg_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "m测层风向" + str(re.cft_deg_main) + \
+                                  "；主风能风向" + str(re.cft_deg_pwd_main) + "。"
+                string_deg_words_final = string_deg_word + string_deg_words_final
+                if i != len(re.select_cft_ids)-1:
+                    cft_name_words_final = re.cft_name + "/" + cft_name_words_final
+                else:
+                    cft_name_words_final = cft_name_words_final+re.cft_name
+    
+            re.cft_name_words = cft_name_words_final
+            re.string_speed_words = string_speed_words_final
+            re.string_deg_words = string_deg_words_final
 
 
 
