@@ -119,7 +119,7 @@ class auto_word_wind_turbines_case(models.Model):
 
     turbine_numbers = fields.Integer(u'机位数')
     investment_turbines_kw = fields.Float(u'风机kw投资')
-    case_hub_height = fields.Integer(u'采用轮毂高度')
+    # case_hub_height = fields.Integer(u'采用轮毂高度')
 
 # 风能结果
 class windres(models.Model):

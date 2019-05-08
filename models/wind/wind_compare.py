@@ -35,13 +35,14 @@ class auto_word_wind_turbines_compare(models.Model):
     investment_E1 = fields.Float(compute='_compute_turbine', string=u'塔筒投资(万元)')
     investment_E2 = fields.Float(compute='_compute_turbine', string=u'风机设备投资(万元)')
     investment_E3 = fields.Float(string=u'基础投资(万元)', required=True)
-    investment_E4 = fields.Float(string=u'道路投资(万元)', readonly=True, compute='_compute_turbine')
+
+    investment_E4 = fields.Float(string=u'道路投资(万元)')
     investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, compute='_compute_turbine')
     investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, compute='_compute_turbine')
     investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, compute='_compute_turbine')
 
     investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True, compute='_compute_turbine')
-    case_hub_height = fields.Integer(string=u'推荐轮毂高度')
+    hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', required=True)
 
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, compute='_compute_turbine')
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_turbine')
@@ -76,13 +77,13 @@ class auto_word_wind_turbines_compare(models.Model):
                     re.case_ids[i].investment_turbines_kw) / 10000
                 investment_e2_sum = investment_e2_sum + investment_e2
 
-                if re.case_hub_height <= 90:
+                if int(re.hub_height_suggestion) <= 90:
                     investment_e5 = re.case_ids[i].turbine_numbers * 38
-                elif 90 < re.case_hub_height <= 100:
+                elif 90 < int(re.hub_height_suggestion) <= 100:
                     investment_e5 = re.case_ids[i].turbine_numbers * 45
-                elif 100 < re.case_hub_height <= 120:
+                elif 100 < int(re.hub_height_suggestion) <= 120:
                     investment_e5 = re.case_ids[i].turbine_numbers * 55
-                elif 120 < re.case_hub_height <= 140:
+                elif 120 < int(re.hub_height_suggestion) <= 140:
                     investment_e5 = re.case_ids[i].turbine_numbers * 65
 
                 if re.case_ids[i].capacity <= 2000:
@@ -128,12 +129,15 @@ class auto_word_wind_turbines_compare(models.Model):
             re.investment_E1 = investment_e1_sum
             re.investment_E2 = investment_e2_sum
 
-            if re.TerrainType_turbines_compare == "平原":
-                re.investment_E4 = float(re.project_id.total_civil_length) * 50
-            elif re.TerrainType_turbines_compare == "丘陵":
-                re.investment_E4 = float(re.project_id.total_civil_length) * 80
-            elif re.TerrainType_turbines_compare == "山地":
-                re.investment_E4 = float(re.project_id.total_civil_length) * 140
+            if re.investment_E4 == 0 :
+                if re.TerrainType_turbines_compare == "平原":
+                    re.investment_E4 = float(re.project_id.total_civil_length) * 50
+                elif re.TerrainType_turbines_compare == "丘陵":
+                    re.investment_E4 = float(re.project_id.total_civil_length) * 80
+                elif re.TerrainType_turbines_compare == "山地":
+                    re.investment_E4 = float(re.project_id.total_civil_length) * 140
+            else:
+                pass
 
             re.investment_E5 = investment_e5_sum
             re.investment_E6 = investment_e6_sum
@@ -153,3 +157,9 @@ class auto_word_wind_turbines_compare(models.Model):
         for re in self:
             re.content_ids.rotor_diameter_case = re.rotor_diameter_case
             re.content_ids.case_number = re.case_number
+
+    def take_result_refresh(self):
+        for re in self:
+            re.jidian_air_wind=re.project_id.jidian_air_wind
+            re.jidian_cable_wind=re.project_id.jidian_cable_wind
+            re.investment_E4=re.project_id.investment_E4

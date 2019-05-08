@@ -113,6 +113,9 @@ class auto_word_civil(models.Model):
     road_3_num = fields.Float(u'施工检修道路工程', required=True, default=0)
 
     total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路线路总长度')
+    investment_E4 = fields.Float(compute='_compute_total_civil_length', string=u'道路投资(万元)')
+
+
 
     ####线路
 
@@ -144,9 +147,17 @@ class auto_word_civil(models.Model):
     BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
     BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
 
-    @api.depends('road_1_num', 'road_2_num', 'road_3_num')
+    @api.depends('road_1_num', 'road_2_num', 'road_3_num','TerrainType')
     def _compute_total_civil_length(self):
-        self.total_civil_length = self.road_1_num + self.road_2_num + self.road_3_num
+        for re in self:
+            re.total_civil_length = re.road_1_num + re.road_2_num + re.road_3_num
+            if re.TerrainType == "平原":
+                re.investment_E4 = float(re.total_civil_length) * 50
+            elif re.TerrainType == "丘陵":
+                re.investment_E4 = float(re.total_civil_length) * 80
+            else:
+                re.investment_E4 = float(re.total_civil_length) * 140
+
 
     # @api.one
     # @api.depends("project_id")
@@ -163,6 +174,7 @@ class auto_word_civil(models.Model):
         projectname.road_2_num = self.road_2_num
         projectname.road_3_num = self.road_3_num
         projectname.total_civil_length=self.total_civil_length
+        projectname.investment_E4=self.investment_E4
 
         projectname.basic_type = self.basic_type
         projectname.ultimate_load = self.ultimate_load
@@ -182,9 +194,8 @@ class auto_word_civil(models.Model):
 
     def civil_refresh(self):
         projectname = self.project_id
-        self.turbine_numbers = projectname.turbine_numbers
-        self.select_hub_height = projectname.select_hub_height
-
+        self.turbine_numbers = projectname.turbine_numbers_suggestion
+        self.select_hub_height = projectname.hub_height_suggestion
 
         self.line_1 = projectname.line_1
         self.line_2 = projectname.line_2
@@ -193,11 +204,13 @@ class auto_word_civil(models.Model):
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
-        self.select_hub_height = projectname.select_hub_height
+
         return True
 
     def civil_generate(self):
         self.line_data = [float(self.line_1), float(self.line_2)]
+        print("~~~~~~~~~~~~~~~~~~~~~~~")
+        print(self.turbine_numbers)
         self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
         list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
                 self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, self.TurbineCapacity,
@@ -243,7 +256,7 @@ class auto_word_civil(models.Model):
         print(Dict8)
         generate_civil_docx(Dict8)
         reportfile_name = open(
-            file=r'D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_8\result_chapter8.docx',
+            file=r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8\result_chapter8.docx',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()

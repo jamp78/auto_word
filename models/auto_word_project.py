@@ -41,8 +41,13 @@ class auto_word_project(models.Model):
     name_tur_selection = fields.Char(u'风机比选型号', default="待提交", readonly=True)
 
     turbine_numbers_suggestion = fields.Char(u'机位数', default="待提交", readonly=True)
-    hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
+    hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
 
+    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
+    name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
+    string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
+    string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
+    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
 
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
@@ -62,6 +67,7 @@ class auto_word_project(models.Model):
 
     jidian_air_wind = fields.Char(u'架空长度', readonly=True,default="0")
     jidian_cable_wind = fields.Char(u'电缆长度', readonly=True,default="0")
+
 
     ###土建
     road_1_num = fields.Char(u'场外改扩建道路', default="待提交", readonly=True)
@@ -83,7 +89,7 @@ class auto_word_project(models.Model):
     TerrainType = fields.Char(u'山地类型', default="待提交", readonly=True)
 
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
-
+    investment_E4 = fields.Char(u'道路投资(万元)', readonly=True, default="0")
 
 
     # @api.multi

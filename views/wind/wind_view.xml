@@ -47,9 +47,7 @@
                         <!--<field name="project_res" />-->
                     </group>
 
-                    <group string="机组选型">
-                        <field name="name_tur_selection"/>
-                    </group>
+
 
                     <group string="方案比选">
                         <field name="case_names"/>
@@ -61,11 +59,6 @@
                         <field name="name_tur_suggestion"/>
                     </group>
 
-                    <group string="测风塔信息">
-                        <field name="cft_name_words"/>
-                        <field name="string_speed_words"/>
-                        <field name="string_deg_words"/>
-                    </group>
 
 
                     <group name="group_mid">

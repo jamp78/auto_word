@@ -45,11 +45,23 @@
                         <field name="economic_attachment_ok"/>
                     </group>
                     <group name="group_wind" string="风资源提交明细">
-                        <field name="project_capacity"/>
-                        <field name="name_tur_suggestion"/>
-                        <field name="turbine_numbers_suggestion"/>
-                        <field name="hub_height_suggestion"/>
+                        <group string="风机信息">
+                            <field name="project_capacity"/>
+                            <field name="name_tur_suggestion"/>
+                            <field name="turbine_numbers_suggestion"/>
+                            <field name="hub_height_suggestion"/>
+                        </group>
+                        <group string="测风塔信息">
+                            <field name="cft_name_words"/>
+                            <field name="string_speed_words"/>
+                            <field name="string_deg_words"/>
+                            <field name="name_tur_selection"/>
+                        </group>
                     </group>
+                    <group name="风机信息">
+                        <field name="select_turbine_ids"/>
+                    </group>
+
                     <group name="group_electrical" string="电气提交明细">
                         <group name="group_left">
                             <field name="voltage_class"/>
@@ -84,6 +96,7 @@
                             <field name="basic_type"/>
                             <field name="ultimate_load"/>
                             <field name="fortification_intensity"/>
+                            <field name="investment_E4"/>
                         </group>
                         <group name="group_left">
                             <field name="basic_earthwork_ratio"/>

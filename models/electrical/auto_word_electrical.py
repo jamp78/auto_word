@@ -50,7 +50,7 @@ class auto_word_electrical(models.Model):
                 int(self.turbine_numbers), self.circuit_number]
         generate_electrical_docx(self.voltage_class, args)
         reportfile_name = open(
-            file=r'D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_6\result_chapter6.docx',
+            file=r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6\result_chapter6.docx',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()
@@ -110,4 +110,4 @@ class auto_word_electrical(models.Model):
 
     def electrical_refresh(self):
         projectname = self.project_id
-        self.turbine_numbers = projectname.turbine_numbers_wind
+        self.turbine_numbers = projectname.turbine_numbers_suggestion

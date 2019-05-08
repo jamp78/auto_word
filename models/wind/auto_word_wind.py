@@ -66,17 +66,15 @@ class auto_word_wind(models.Model):
     farm_elevation = fields.Char(string=u'海拔高程', default="待提交", required=True)
     farm_area = fields.Char(string=u'区域面积', default="待提交", required=True)
     farm_speed_range = fields.Char(string=u'风速区间', default="待提交", required=True)
-
-    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
-    name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
-
-
-
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
 
-    string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
-    string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
-    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
+
+    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
+
+    # name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
+    # string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
+    # string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
+    # cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
 
     case_number = fields.Char(string=u'方案数', default="待提交")
 
@@ -101,7 +99,7 @@ class auto_word_wind(models.Model):
         for re in self:
             re.case_name_suggestion = re.compare_id.case_name
             re.name_tur_suggestion = re.compare_id.name_tur
-            re.hub_height_suggestion = re.compare_id.case_hub_height
+            re.hub_height_suggestion = re.compare_id.hub_height_suggestion
             re.turbine_numbers_suggestion = re.compare_id.turbine_numbers
             re.farm_capacity = re.compare_id.farm_capacity
             re.rotor_diameter_suggestion = re.compare_id.rotor_diameter_case
@@ -116,7 +114,7 @@ class auto_word_wind(models.Model):
         projectname.turbine_numbers_suggestion = self.turbine_numbers_suggestion
         projectname.hub_height_suggestion = self.hub_height_suggestion
         projectname.project_capacity = self.farm_capacity
-        projectname.name_tur_selection = self.name_tur_selection
+        # projectname.name_tur_selection = self.name_tur_selection
         projectname.name_tur_suggestion = self.name_tur_suggestion
 
         return True
@@ -137,7 +135,7 @@ class auto_word_wind(models.Model):
         tur_name = []
         for i in range(0, len(self.select_turbine_ids)):
             tur_name.append(self.select_turbine_ids[i].name_tur)
-        path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_5"
+        path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
 
         case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
         farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
@@ -153,7 +151,7 @@ class auto_word_wind(models.Model):
             capacity_dict.append(self.case_names[i].capacity)
             farm_capacity_dict.append(self.case_names[i].farm_capacity)
             rotor_diameter_dict.append(self.case_names[i].rotor_diameter_case)
-            case_hub_height_dict.append(self.case_names[i].case_hub_height)
+            case_hub_height_dict.append(self.case_names[i].hub_height_suggestion)
             power_generation_dict.append(self.case_names[i].power_generation)
             weak_dict.append(self.case_names[i].weak)
             power_hours_dict.append(self.case_names[i].power_hours)
@@ -211,7 +209,7 @@ class auto_word_wind(models.Model):
         ###########################
 
         reportfile_name = open(
-            file=r'D:\GOdoo12_community\myaddons\auto_word\models\source\chapter_5\result_chapter5.docx',
+            file=r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\result_chapter5.docx',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()

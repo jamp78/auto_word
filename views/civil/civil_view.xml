@@ -31,6 +31,7 @@
                             <field name="road_2_num" />
                             <field name="road_3_num" />
                             <field name="total_civil_length" />
+                            <field name="investment_E4" />
                             <separator/>
                             <field name="line_1" />
                             <field name="line_2" />

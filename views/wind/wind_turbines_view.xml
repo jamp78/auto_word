@@ -59,7 +59,7 @@
                             <field name="three_second_maximum" />
                             <field name="turbine_numbers" />
                             <field name="investment_turbines_kw" />
-                            <field name="case_hub_height" />
+                            <!--<field name="case_hub_height" />-->
                          </group>
                     </group>
                     <!--<group name="group_bottom">-->
@@ -77,7 +77,7 @@
             <tree>
                 <field name="name_tur"/>
                 <field name="capacity" />
-                <field name="case_hub_height" />
+                <!--<field name="case_hub_height" />-->
                 <field name="turbine_numbers" />
             </tree>
         </field>
