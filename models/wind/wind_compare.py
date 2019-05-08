@@ -15,11 +15,11 @@ class auto_word_wind_turbines_compare(models.Model):
     case_name = fields.Char(u'方案名称', required=True, default="方案1")
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
-    power_generation = fields.Float(u'上网电量', default=1, required=True)
-    weak = fields.Float(u'尾流衰减', required=True)
-    power_hours = fields.Float(u'满发小时', required=True)
+    power_generation = fields.Float(u'上网电量', required=True,default=220000)
+    weak = fields.Float(u'尾流衰减', required=True,default=3.1)
+    power_hours = fields.Float(u'满发小时', required=True,default=2200)
     TerrainType_turbines_compare = fields.Selection(
-        [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True)
+        [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True, default="山地")
     jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
     jidian_cable_wind = fields.Float(u'电缆长度', default=0, help='若不填写即采用电气集电线路')
 

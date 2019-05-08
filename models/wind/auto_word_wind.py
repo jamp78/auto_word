@@ -60,9 +60,9 @@ class auto_word_wind(models.Model):
                                  ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
                                  ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
                                  ], string=u"IEC等级", default="IIIB", required=True)
-    farm_elevation = fields.Char(string=u'海拔高程', default="待提交", required=True)
-    farm_area = fields.Char(string=u'区域面积', default="待提交", required=True)
-    farm_speed_range = fields.Char(string=u'风速区间', default="待提交", required=True)
+    farm_elevation = fields.Char(string=u'海拔高程', default="510~680", required=True)
+    farm_area = fields.Char(string=u'区域面积', default="150", required=True)
+    farm_speed_range = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
 
 
