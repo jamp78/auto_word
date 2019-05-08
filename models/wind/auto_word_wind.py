@@ -69,10 +69,10 @@ class auto_word_wind(models.Model):
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
 
     # name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
-    # string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
-    # string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
-    # cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
+    string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
+    string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
 
+    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交")
 
     case_names = fields.Many2many('auto_word_wind_turbines.compare',string=u'方案比选')

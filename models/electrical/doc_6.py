@@ -8,7 +8,7 @@ from TowerType import TowerType
 from TowerBase import TowerBase
 from Cable import Cable
 
-def generate_electrical_docx(project_chapter6_type,args):
+def generate_electrical_dict(project_chapter6_type,args):
 
     # step:1
     # 载入参数
@@ -181,12 +181,21 @@ def generate_electrical_docx(project_chapter6_type,args):
             Dict_6['YJLV22_26_35_3_95_dianlanzhongduan'] = str(project05.cable_model_YJLV22_26_35_3_95_dianlanzhongduan)
         if key_dict == 'YJV22_26_35_1_300_dianlanzhongduan':
             Dict_6['YJV22_26_35_1_300_dianlanzhongduan'] = str(project05.cable_model_YJV22_26_35_1_300_dianlanzhongduan)
-    print(Dict_6)
+    return Dict_6
+    # filename_box = ['cr6', 'result_chapter6']
+    # save_path = r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6'
+    # read_path = os.path.join(save_path, '%s.docx') % filename_box[0]
+    # save_path = os.path.join(save_path, '%s.docx') % filename_box[1]
+    # tpl = DocxTemplate(read_path)
+    # tpl.render(Dict_6)
+    # tpl.save(save_path)
+    # print("---------chapter 6 生成完毕--------")
+
+
+def generate_electrical_docx(Dict, path_images):
     filename_box = ['cr6', 'result_chapter6']
-    save_path = r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6'
-    read_path = os.path.join(save_path, '%s.docx') % filename_box[0]
-    save_path = os.path.join(save_path, '%s.docx') % filename_box[1]
+    read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
+    save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
     tpl = DocxTemplate(read_path)
-    tpl.render(Dict_6)
+    tpl.render(Dict)
     tpl.save(save_path)
-    print("---------chapter 6 生成完毕--------")

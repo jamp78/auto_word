@@ -3,11 +3,12 @@
 from odoo import models, fields, api
 import sys
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\electrical')
-from doc_6 import generate_electrical_docx
+import doc_6
 import base64
 
 
 class auto_word_electrical(models.Model):
+    path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     _name = 'auto_word.electrical'
     _description = 'electrical input'
     _rec_name = 'project_id'
@@ -19,9 +20,6 @@ class auto_word_electrical(models.Model):
     yjlv95 = fields.Float(u'直埋电缆YJLV22-26/35-3×95（km）', required=True)
     yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=True)
     turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
-
-
-
 
     circuit_number = fields.Integer(u'线路回路数', required=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气章节')
@@ -46,9 +44,15 @@ class auto_word_electrical(models.Model):
 
     @api.multi
     def electrical_generate(self):
-        args = [self.lenth_singlejL240, self.lenth_doublejL240, self.yjlv95, self.yjv300,
+        args = [self.length_single_jL240, self.length_double_jL240, self.yjlv95, self.yjv300,
                 int(self.turbine_numbers), self.circuit_number]
-        generate_electrical_docx(self.voltage_class, args)
+        dict6=doc_6.generate_electrical_dict(self.voltage_class, args)
+        dict_6_word = {
+            "机位数": self.turbine_numbers,
+        }
+        Dict6 = dict(dict_6_word, **dict6)
+        print(Dict6)
+        doc_6.generate_electrical_docx(Dict6, self.path_images)
         reportfile_name = open(
             file=r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6\result_chapter6.docx',
             mode='rb')

@@ -178,10 +178,3 @@ def generate_electrical_docx(project_chapter6_type,args):
             Dict_6['YJLV22_26_35_3_95_dianlanzhongduan'] = str(project05.cable_model_YJLV22_26_35_3_95_dianlanzhongduan)
         if key_dict == 'YJV22_26_35_1_300_dianlanzhongduan':
             Dict_6['YJV22_26_35_1_300_dianlanzhongduan'] = str(project05.cable_model_YJV22_26_35_1_300_dianlanzhongduan)
-    print(Dict_6)
-    path_images = r"C:\Users\Administrator\PycharmProjects\docx_project\files\results"
-    tpl = DocxTemplate(r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_6\CR_chapter6_template.docx')
-    tpl.render(Dict_6)
-
-    tpl.save(r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_6\result_chapter6_e.docx')
-    print("---------chapter 6 生成完毕--------")

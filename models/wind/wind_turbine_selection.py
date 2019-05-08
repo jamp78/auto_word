@@ -88,5 +88,10 @@ class auto_word_wind_cft(models.Model):
             re.project_id.select_turbine_ids = re.select_turbine_ids
             re.project_id.cft_name_words = re.cft_name_words
             re.project_id.name_tur_selection = re.name_tur_selection
+
             re.wind_id.select_turbine_ids=re.select_turbine_ids
+            re.wind_id.cft_name_words = re.cft_name_words
+            re.wind_id.string_speed_words=re.string_speed_words
+            re.wind_id.string_deg_words = re.string_deg_words
+
         return True
