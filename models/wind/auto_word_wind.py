@@ -7,47 +7,44 @@ sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
 import tkinter as tk
 import doc_5
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
 
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(240, 80, 72, 15))
-        self.label.setObjectName("label")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(240, 120, 93, 28))
-        self.pushButton.setObjectName("pushButton")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "TextLabel"))
-        self.pushButton.setText(_translate("MainWindow", "PushButton"))
-
-class MyWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None):
-        super(MyWindow, self).__init__(parent)
-        self.setupUi(self)
+# class Ui_MainWindow(object):
+#     def setupUi(self, MainWindow):
+#         MainWindow.setObjectName("MainWindow")
+#         MainWindow.resize(800, 600)
+#         self.centralwidget = QtWidgets.QWidget(MainWindow)
+#         self.centralwidget.setObjectName("centralwidget")
+#         self.label = QtWidgets.QLabel(self.centralwidget)
+#         self.label.setGeometry(QtCore.QRect(240, 80, 72, 15))
+#         self.label.setObjectName("label")
+#         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+#         self.pushButton.setGeometry(QtCore.QRect(240, 120, 93, 28))
+#         self.pushButton.setObjectName("pushButton")
+#         MainWindow.setCentralWidget(self.centralwidget)
+#         self.menubar = QtWidgets.QMenuBar(MainWindow)
+#         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
+#         self.menubar.setObjectName("menubar")
+#         MainWindow.setMenuBar(self.menubar)
+#         self.statusbar = QtWidgets.QStatusBar(MainWindow)
+#         self.statusbar.setObjectName("statusbar")
+#         MainWindow.setStatusBar(self.statusbar)
+#
+#         self.retranslateUi(MainWindow)
+#         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+#
+#     def retranslateUi(self, MainWindow):
+#         _translate = QtCore.QCoreApplication.translate
+#         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+#         self.label.setText(_translate("MainWindow", "TextLabel"))
+#         self.pushButton.setText(_translate("MainWindow", "PushButton"))
+#
+# class MyWindow(QMainWindow, Ui_MainWindow):
+#     def __init__(self, parent=None):
+#         super(MyWindow, self).__init__(parent)
+#         self.setupUi(self)
 
 
 class auto_word_wind(models.Model):
@@ -97,7 +94,7 @@ class auto_word_wind(models.Model):
     @api.depends('compare_id')
     def _compute_compare_case(self):
         for re in self:
-            re.case_name_suggestion = re.compare_id.case_name
+            # re.case_name_suggestion = re.compare_id.case_name #？？？？？？？？？
             re.name_tur_suggestion = re.compare_id.name_tur
             re.hub_height_suggestion = re.compare_id.hub_height_suggestion
             re.turbine_numbers_suggestion = re.compare_id.turbine_numbers
@@ -200,7 +197,7 @@ class auto_word_wind(models.Model):
             '测风塔名字': self.cft_name_words,
             '测风塔风速信息': self.string_speed_words,
             '测风塔风向信息': self.string_deg_words,
-            '推荐轮毂高度': self.select_hub_height,
+            '推荐轮毂高度': self.hub_height_suggestion,
             'IEC等级': self.IECLevel,
         }
         Dict5 = dict(dict_5_word, **dict5)
