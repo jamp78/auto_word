@@ -23,6 +23,7 @@
                        <group string="风资源参数">
                             <field name="turbine_numbers" />
                             <field name="select_hub_height" />
+                            <field name="hub_height_suggestion" />
                        </group>
                    </group>
                    <group string="土建输入参数">
@@ -50,9 +51,9 @@
                             <field name="TurbineCapacity" />
                             <field name="road_earthwork_ratio" />
                             <field name="road_stone_ratio" />
-                            <field name="Status" />
-                            <field name="Grade" />
-                            <field name="Capacity" />
+                            <!--<field name="Status" />-->
+                            <!--<field name="Grade" />-->
+                            <!--<field name="Capacity" />-->
                             <field name="TerrainType" />
                         </group>
                    </group>

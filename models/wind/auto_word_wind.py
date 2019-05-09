@@ -81,7 +81,7 @@ class auto_word_wind(models.Model):
     #机型推荐
     compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名')
 
-    case_name_suggestion = fields.Char(u'方案名称', compute='_compute_compare_case', readonly=True)
+    # case_name_suggestion = fields.Char(u'方案名称', compute='_compute_compare_case', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
@@ -101,6 +101,17 @@ class auto_word_wind(models.Model):
             re.farm_capacity = re.compare_id.farm_capacity
             re.rotor_diameter_suggestion = re.compare_id.rotor_diameter_case
 
+            # re.case_name = re.compare_id.case_name
+            # re.investment_E1 = re.compare_id.investment_E1
+            # re.investment_E2 = re.compare_id.investment_E2
+            # re.investment_E3 = re.compare_id.investment_E3
+            # re.investment_E4 = re.compare_id.investment_E4
+            # re.investment_E5 = re.compare_id.investment_E5
+            # re.investment_E6 = re.compare_id.investment_E6
+            # re.investment_E7 = re.compare_id.investment_E7
+            # re.investment = re.compare_id.investment
+            # re.investment_unit = re.compare_id.investment_unit
+
 
     @api.multi
     def button_wind(self):
@@ -113,6 +124,20 @@ class auto_word_wind(models.Model):
         projectname.project_capacity = self.farm_capacity
         # projectname.name_tur_selection = self.name_tur_selection
         projectname.name_tur_suggestion = self.name_tur_suggestion
+
+        projectname.case_name = self.compare_id.case_name
+        projectname.investment_E1 = self.compare_id.investment_E1
+        projectname.investment_E2 = self.compare_id.investment_E2
+        projectname.investment_E3 = self.compare_id.investment_E3
+        projectname.investment_E4 = self.compare_id.investment_E4
+        projectname.investment_E5 = self.compare_id.investment_E5
+        projectname.investment_E6 = self.compare_id.investment_E6
+        projectname.investment_E7 = self.compare_id.investment_E7
+        projectname.investment = self.compare_id.investment
+        projectname.investment_unit = self.compare_id.investment_unit
+
+
+
 
         return True
 
@@ -167,6 +192,7 @@ class auto_word_wind(models.Model):
             investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
+            "最终方案": self.project_id.case_name,
             "方案e": case_name_dict,
             "风机类型e": name_tur_dict,
             "风机台数e": turbine_numbers_dict,

@@ -66,6 +66,9 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
                                        turbine_numbers, 2)
     # ==============================================
     data2 = project10.extraction_data_box_voltage(TurbineCapacity)
+    print("~~~~~~~~~~~~~~~@@@!!!!")
+
+    print(TurbineCapacity)
     data_cal2 = project10.excavation_cal_box_voltage(data2, basic_earthwork_ratio, basic_stone_ratio, turbine_numbers)
     dict_box_voltage = project10.generate_dict_box_voltage(data_cal2, turbine_numbers)
     Dict2 = RoundUp.round_dict_numbers(dict_box_voltage, turbine_numbers, 1)

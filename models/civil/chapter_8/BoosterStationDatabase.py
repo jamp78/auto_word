@@ -42,6 +42,9 @@ class BoosterStationDatabase:
         self.data_booster_station = self.DataBoosterStation.loc[self.DataBoosterStation['Status'] == self.Status].loc[
             self.DataBoosterStation['Grade'] == self.Grade].loc[self.DataBoosterStation['Capacity'] == self.Capacity]
 
+        print("asdasdasdasdasdxxxxxxxxx")
+        print(self.data_booster_station['Capacity'])
+
         return self.data_booster_station
 
     def excavation_cal_booster_station(self, data_booster_station, road_basic_earthwork_ratio, road_basic_stone_ratio,

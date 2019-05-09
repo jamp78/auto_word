@@ -35,6 +35,9 @@
                     <group name="group_mid">
                         <field name="case_ids" />
                     </group>
+                    <group name="group_mid">
+                        <field name="cal_id" />
+                    </group>
 
                     <group name="group_mid">
                         <group name="left">

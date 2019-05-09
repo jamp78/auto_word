@@ -13,18 +13,18 @@ class auto_word_civil_design_safety_standard(models.Model):
     _rec_name = 'civil_id'
     civil_id = fields.Many2one('auto_word.civil', string=u'项目名称', required=True)
     ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
-                                    string=u"项目工程等别")
+                                    string=u"项目工程等别",defult='II')
     ProjectSize = fields.Selection([("大型", u"大型"), ("中型", u"中型"), ("小型", u"小型")],
-                                   string=u"工程规模")
+                                   string=u"工程规模",defult='大型')
     BuildingLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                     string=u"建筑物级别")
+                                     string=u"建筑物级别",defult='2级')
     EStructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                             string=u"变电站结构安全等级")
+                                             string=u"变电站结构安全等级",defult='1级')
     TStructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                             string=u"风机结构安全等级")
+                                             string=u"风机结构安全等级",defult='1级')
     FloodDesignLevel = fields.Integer(u'洪水设计标准', defult=50)
     ReFloodDesignLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
-                                          string=u"重现期洪水位")
+                                          string=u"重现期洪水位",defult="2%")
     TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
                                           ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
     TurbineTowerDesignLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
@@ -73,44 +73,46 @@ class auto_word_civil(models.Model):
     #风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
     select_hub_height = fields.Char(u'推荐轮毂高度', readonly=True)
+    hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
 
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
         [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
-        string=u'基础形式', required=True)
+        string=u'基础形式', required=False,default="扩展基础")
     ultimate_load = fields.Selection(
         [(50000, "50000"), (60000, "60000"), (70000, "70000"), (80000, "80000"), (90000, "90000"), (100000, "100000"),
-         (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=True)
-    fortification_intensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=True)
+         (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=False,default=70000)
+    fortification_intensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=False,default=7)
     basic_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础土方比", required=True)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础土方比", required=False,default=8)
     basic_stone_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础石方比", required=True)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础石方比", required=False,default=2)
     road_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=True)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=False,default=8)
     road_stone_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=True)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=False,default=2)
     ####箱变
     TurbineCapacity = fields.Selection(
-        [(2, "2MW"), (2.2, "2.2MW"), (2.5, "2.5MW"), (3, "3MW"), (3.2, "3.2MW"), (3.3, "3.3MW"), (3.4, "3.4MW"),
-         (3.6, "3.6MW")], string=u"风机容量", required=True)
+        [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
+         (36, "3.6MW")], string=u"风机容量", required=False,default=25)
+
     ####升压站
-    Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", required=True)
-    Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", required=True)
-    Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", required=True)
+    Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
+    Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
+    Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
 
     ####道路
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
-         ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
+         ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=False, default="缓坡低山")
 
-    road_1_num = fields.Float(u'场外改扩建道路', required=True, default=0)
-    road_2_num = fields.Float(u'进站道路', required=True, default=0)
-    road_3_num = fields.Float(u'施工检修道路工程', required=True, default=0)
+    road_1_num = fields.Float(u'场外改扩建道路', required=False, default=5)
+    road_2_num = fields.Float(u'进站道路', required=False, default=1.5)
+    road_3_num = fields.Float(u'施工检修道路工程', required=False, default=10)
 
     total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路线路总长度')
     investment_E4 = fields.Float(compute='_compute_total_civil_length', string=u'道路投资(万元)')
@@ -181,7 +183,7 @@ class auto_word_civil(models.Model):
         projectname.fortification_intensity = self.fortification_intensity
         projectname.basic_earthwork_ratio = str(self.basic_earthwork_ratio * 10) + "%"
         projectname.basic_stone_ratio = str(self.basic_stone_ratio * 10) + "%"
-        projectname.TurbineCapacity = self.TurbineCapacity
+        projectname.TurbineCapacity = self.TurbineCapacity/10
         projectname.road_earthwork_ratio = str(self.road_earthwork_ratio * 10) + "%"
         projectname.road_stone_ratio = str(self.road_stone_ratio * 10) + "%"
         projectname.Status = self.Status
@@ -196,6 +198,7 @@ class auto_word_civil(models.Model):
         projectname = self.project_id
         self.turbine_numbers = projectname.turbine_numbers_suggestion
         self.select_hub_height = projectname.hub_height_suggestion
+        self.hub_height_suggestion = projectname.hub_height_suggestion
 
         self.line_1 = projectname.line_1
         self.line_2 = projectname.line_2
@@ -213,7 +216,7 @@ class auto_word_civil(models.Model):
         print(self.turbine_numbers)
         self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
         list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
-                self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, self.TurbineCapacity,
+                self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, self.TurbineCapacity/10,
                 self.road_earthwork_ratio / 10,
                 self.road_stone_ratio / 10, self.Status, self.Grade, self.Capacity, self.TerrainType,
                 self.numbers_list_road,
@@ -228,6 +231,7 @@ class auto_word_civil(models.Model):
                      'line_data', 'main_booster_station_num', 'overhead_line_num', 'direct_buried_cable_num']
 
         dict_8 = get_dict_8(np, dict_keys)
+        print("aasdadad")
         print(dict_8)
         dict8 = generate_civil_dict(**dict_8)
 
@@ -323,8 +327,9 @@ class civil_convertbase(models.Model):
     _description = 'Civil ConvertBase'
     _rec_name = 'TurbineCapacity'
     TurbineCapacity = fields.Selection(
-        [(2, "2MW"), (2.2, "2.2MW"), (2.5, "2.5MW"), (3, "3MW"), (3.2, "3.2MW"), (3.3, "3.3MW"), (3.4, "3.4MW"),
-         (3.6, "3.6MW")], string=u"风机容量", required=True)
+        [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
+         (36, "3.6MW")], string=u"风机容量", required=True)
+
     ConvertStation = fields.Selection(
         [(2200, "2200"), (2500, "2500"), (2750, "2750"), (3300, "3300"), (3520, "3520"), (4000, "4000")],
         string=u"箱变容量", required=True)

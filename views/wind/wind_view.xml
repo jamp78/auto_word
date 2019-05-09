@@ -60,7 +60,7 @@
 
                     <group string="机型推荐">
                         <field name="compare_id"/>
-                        <field name="case_name_suggestion"/>
+                        <!--<field name="case_name_suggestion"/>-->
                         <field name="name_tur_suggestion"/>
                     </group>
 

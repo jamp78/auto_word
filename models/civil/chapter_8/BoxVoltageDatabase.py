@@ -31,7 +31,7 @@ class BoxVoltageDatabase:
         sql = "SELECT * FROM auto_word_civil_convertbase"
         self.DataBoxVoltage = connect_sql_pandas(sql)
 
-        self.data_box_voltage = self.DataBoxVoltage.loc[self.DataBoxVoltage['TurbineCapacity'] == self.TurbineCapacity]
+        self.data_box_voltage = self.DataBoxVoltage.loc[self.DataBoxVoltage['TurbineCapacity'] == self.TurbineCapacity*10]
         return self.data_box_voltage
 
     def excavation_cal_box_voltage(self, data_box_voltage, basic_earthwork_ratio, basic_stone_ratio, turbine_num):

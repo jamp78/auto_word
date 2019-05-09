@@ -89,7 +89,16 @@ class auto_word_project(models.Model):
     TerrainType = fields.Char(u'山地类型', default="待提交", readonly=True)
 
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
-    investment_E4 = fields.Char(u'道路投资(万元)', readonly=True, default="0")
+    case_name=fields.Char(u'方案名', readonly=True, default="待提交")
+    investment_E1 = fields.Char(u'塔筒投资(万元)', readonly=True, default="待提交")
+    investment_E2 = fields.Char(u'风机设备投资(万元)', readonly=True, default="待提交")
+    investment_E3 = fields.Char(u'基础投资(万元)', readonly=True, default="待提交")
+    investment_E4 = fields.Char(u'道路投资(万元)', readonly=True, default="待提交")
+    investment_E5 = fields.Char(u'吊装费用(万元)', readonly=True, default="待提交")
+    investment_E6 = fields.Char(u'箱变投资(万元)', readonly=True, default="待提交")
+    investment_E7 = fields.Char(u'集电线路(万元)', readonly=True, default="待提交")
+    investment = fields.Char(u'发电部分投资(万元)', readonly=True, default="待提交")
+    investment_unit = fields.Char(u'发电部分投资(万元)', readonly=True, default="待提交")
 
 
     # @api.multi

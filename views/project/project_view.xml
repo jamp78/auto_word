@@ -112,6 +112,22 @@
                             <field name="TerrainType"/>
                         </group>
                     </group>
+                    <group name="group_road" string="投资明细">
+                        <group name="group_left">
+                            <field name="case_name"/>
+                            <field name="investment_E1"/>
+                            <field name="investment_E2"/>
+                            <field name="investment_E3"/>
+                            <field name="investment_E4"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="investment_E5"/>
+                            <field name="investment_E6"/>
+                            <field name="investment_E7"/>
+                            <field name="investment"/>
+                            <field name="investment_unit"/>
+                        </group>
+                    </group>
                     <group name="group_mid" string="项目资料">
                         <field name="message_main_attachment_id"/>
                     </group>
