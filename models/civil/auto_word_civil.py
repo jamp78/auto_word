@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\civil')
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
 import base64
@@ -12,34 +13,36 @@ class auto_word_civil_design_safety_standard(models.Model):
     _description = 'Civil Design Safety Standard'
     _rec_name = 'civil_id'
     civil_id = fields.Many2one('auto_word.civil', string=u'项目名称', required=True)
+    # civil_id = fields.Many2one('auto_word.project', string=u'项目名称', required=True)
+
     ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
-                                    string=u"项目工程等别",defult='II')
+                                    string=u"项目工程等别", default="I")
     ProjectSize = fields.Selection([("大型", u"大型"), ("中型", u"中型"), ("小型", u"小型")],
-                                   string=u"工程规模",defult='大型')
+                                   string=u"工程规模", defult='大型')
     BuildingLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                     string=u"建筑物级别",defult='2级')
+                                     string=u"建筑物级别", defult='2级')
     EStructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                             string=u"变电站结构安全等级",defult='1级')
+                                              string=u"变电站结构安全等级", defult='1级')
     TStructuralSafetyLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                             string=u"风机结构安全等级",defult='1级')
-    FloodDesignLevel = fields.Integer(u'洪水设计标准', defult=50)
+                                              string=u"风机结构安全等级", defult='1级')
+    FloodDesignLevel = fields.Integer(u'洪水设计标准', defult='50')
     ReFloodDesignLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
-                                          string=u"重现期洪水位",defult="2%")
+                                          string=u"重现期洪水位", defult="2%")
     TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
                                           ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
     TurbineTowerDesignLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
-                                               string=u"机组塔架地基设计级别")
+                                               string=u"机组塔架地基设计级别", defult="1级")
     # 抗震
     BuildingEarthquakeDesignLevel = fields.Selection([("甲类", u"甲类"), ("乙类", u"乙类"), ("丙类", u"丙类")],
                                                      string=u"建筑物抗震设防类别")
     DesignEarthquakeLevel = fields.Selection([("第一组", u"第一组"), ("第二组", u"第二组"), ("第三组", u"第三组")],
-                                             string=u"设计地震分组")
+                                             string=u"设计地震分组", defult="第一组")
     Earthquake_g = fields.Float(u'设计基本地震加速度值')
     BuildingYardLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
-                                         string=u"建筑物场地类别")
+                                         string=u"建筑物场地类别", defult="I")
 
     BuildingYardLevel_word = fields.Selection([("抗震不利地段", u"抗震不利地段"), ("抗震有利地段", u"抗震有利地段")],
-                                         string=u"建筑物场地抗震类别")
+                                              string=u"建筑物场地抗震类别", defult="抗震不利地段")
 
     def button_civil_design_safety_standard(self):
         self.civil_id.ProjectLevel = self.ProjectLevel
@@ -70,35 +73,36 @@ class auto_word_civil(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
 
-    #风能
+    # 风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
-    select_hub_height = fields.Char(u'推荐轮毂高度', readonly=True)
+    name_tur_suggestion = fields.Char(u'推荐机型型号', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
 
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
         [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
-        string=u'基础形式', required=False,default="扩展基础")
+        string=u'基础形式', required=False, default="扩展基础")
     ultimate_load = fields.Selection(
         [(50000, "50000"), (60000, "60000"), (70000, "70000"), (80000, "80000"), (90000, "90000"), (100000, "100000"),
-         (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=False,default=70000)
-    fortification_intensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=False,default=7)
+         (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=False, default=70000)
+    fortification_intensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=False,
+                                               default=7)
     basic_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础土方比", required=False,default=8)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础土方比", required=False, default=8)
     basic_stone_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础石方比", required=False,default=2)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础石方比", required=False, default=2)
     road_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=False,default=8)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=False, default=8)
     road_stone_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=False,default=2)
+         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=False, default=2)
     ####箱变
     TurbineCapacity = fields.Selection(
         [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
-         (36, "3.6MW")], string=u"风机容量", required=False,default=25)
+         (36, "3.6MW")], string=u"风机容量", required=False, default=25)
 
     ####升压站
     Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
@@ -116,8 +120,6 @@ class auto_word_civil(models.Model):
 
     total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路线路总长度')
     investment_E4 = fields.Float(compute='_compute_total_civil_length', string=u'道路投资(万元)')
-
-
 
     ####线路
 
@@ -149,7 +151,7 @@ class auto_word_civil(models.Model):
     BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
     BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
 
-    @api.depends('road_1_num', 'road_2_num', 'road_3_num','TerrainType')
+    @api.depends('road_1_num', 'road_2_num', 'road_3_num', 'TerrainType')
     def _compute_total_civil_length(self):
         for re in self:
             re.total_civil_length = re.road_1_num + re.road_2_num + re.road_3_num
@@ -159,7 +161,6 @@ class auto_word_civil(models.Model):
                 re.investment_E4 = float(re.total_civil_length) * 80
             else:
                 re.investment_E4 = float(re.total_civil_length) * 140
-
 
     # @api.one
     # @api.depends("project_id")
@@ -175,15 +176,15 @@ class auto_word_civil(models.Model):
         projectname.road_1_num = self.road_1_num
         projectname.road_2_num = self.road_2_num
         projectname.road_3_num = self.road_3_num
-        projectname.total_civil_length=self.total_civil_length
-        projectname.investment_E4=self.investment_E4
+        projectname.total_civil_length = self.total_civil_length
+        projectname.investment_E4 = self.investment_E4
 
         projectname.basic_type = self.basic_type
         projectname.ultimate_load = self.ultimate_load
         projectname.fortification_intensity = self.fortification_intensity
         projectname.basic_earthwork_ratio = str(self.basic_earthwork_ratio * 10) + "%"
         projectname.basic_stone_ratio = str(self.basic_stone_ratio * 10) + "%"
-        projectname.TurbineCapacity = self.TurbineCapacity/10
+        projectname.TurbineCapacity = self.TurbineCapacity / 10
         projectname.road_earthwork_ratio = str(self.road_earthwork_ratio * 10) + "%"
         projectname.road_stone_ratio = str(self.road_stone_ratio * 10) + "%"
         projectname.Status = self.Status
@@ -197,7 +198,7 @@ class auto_word_civil(models.Model):
     def civil_refresh(self):
         projectname = self.project_id
         self.turbine_numbers = projectname.turbine_numbers_suggestion
-        self.select_hub_height = projectname.hub_height_suggestion
+        self.name_tur_suggestion = projectname.name_tur_suggestion
         self.hub_height_suggestion = projectname.hub_height_suggestion
 
         self.line_1 = projectname.line_1
@@ -216,7 +217,7 @@ class auto_word_civil(models.Model):
         print(self.turbine_numbers)
         self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
         list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
-                self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, self.TurbineCapacity/10,
+                self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, self.TurbineCapacity / 10,
                 self.road_earthwork_ratio / 10,
                 self.road_stone_ratio / 10, self.Status, self.Grade, self.Capacity, self.TerrainType,
                 self.numbers_list_road,

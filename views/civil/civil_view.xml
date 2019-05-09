@@ -21,8 +21,8 @@
                        </group>
 
                        <group string="风资源参数">
+                            <field name="name_tur_suggestion" />
                             <field name="turbine_numbers" />
-                            <field name="select_hub_height" />
                             <field name="hub_height_suggestion" />
                        </group>
                    </group>
