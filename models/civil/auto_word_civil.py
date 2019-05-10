@@ -238,7 +238,7 @@ class auto_word_civil(models.Model):
 
         dict_8_word = {
             # 风能
-            '推荐轮毂高度': self.select_hub_height,
+            '推荐轮毂高度': self.hub_height_suggestion,
             # 设计安全标准
             '项目工程等别': self.ProjectLevel,
             '工程规模': self.ProjectSize,
