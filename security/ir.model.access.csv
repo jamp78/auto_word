@@ -19,6 +19,7 @@ access_ad_civil_DesignSafetyStandard_manager,auto_word_civil_DesignSafetyStandar
 access_ad_wind_turbines_case_manager,wind_turbines_case,model_wind_turbines_case,auto_word_group_manager,1,1,1,1
 access_ad_wind_cft_infor_manager,wind_cft_infor,model_wind_cft_infor,auto_word_group_manager,1,1,1,1
 access_ad_wind_cft_manager,auto_word_wind_cft,model_auto_word_wind_cft,auto_word_group_manager,1,1,1,1
+access_ad_wind_res_manager,auto_word_wind_res,model_auto_word_wind_res,auto_word_group_manager,1,1,1,1
 
 
 
@@ -42,6 +43,7 @@ access_ad_civil_DesignSafetyStandard_wind_group,auto_word_civil_DesignSafetyStan
 access_ad_wind_turbines_case_wind_group,wind_turbines_case,model_wind_turbines_case,wind_group_user,1,1,1,1
 access_ad_wind_cft_infor_wind_group,wind_cft_infor,model_wind_cft_infor,wind_group_user,1,1,1,1
 access_ad_wind_cft_wind_group,auto_word_wind_cft,model_auto_word_wind_cft,wind_group_user,1,1,1,1
+access_ad_wind_res_wind_group,auto_word_wind_res,model_auto_word_wind_res,wind_group_user,1,1,1,1
 
 
 
@@ -65,3 +67,4 @@ access_ad_civil_DesignSafetyStandard_civil_group,auto_word_civil_DesignSafetySta
 access_ad_wind_turbines_case_civil_group,wind_turbines_case,model_wind_turbines_case,civil_group_user,1,1,1,1
 access_ad_wind_cft_infor_civil_group,wind_cft_infor,model_wind_cft_infor,civil_group_user,1,1,1,1
 access_ad_wind_cft_civil_group,auto_word_wind_cft,model_auto_word_wind_cft,civil_group_user,1,1,1,1
+access_ad_wind_res_civil_group,auto_word_wind_res,model_auto_word_wind_res,civil_group_user,1,1,1,1

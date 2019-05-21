@@ -7,10 +7,6 @@ sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
 import tkinter as tk
 import doc_5
 
-
-
-
-
 # class Ui_MainWindow(object):
 #     def setupUi(self, MainWindow):
 #         MainWindow.setObjectName("MainWindow")
