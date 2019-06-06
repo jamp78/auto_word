@@ -25,7 +25,7 @@
         </record>
         <record model="ir.actions.act_window" id="auto_word_wind_chapter5_4_act_window">
           <field name="name">发电量估算</field>
-          <field name="res_model">auto_word_wind.res</field>
+          <field name="res_model">auto_word_wind_res.form</field>
           <field name="view_mode">tree,form</field>
           <!--<field name="help" type="html">-->
                 <!--<p class="oe_view_nocontent_create">正在开发，敬请等待！-->
@@ -144,8 +144,11 @@
           <field name="view_mode">tree,form</field>
         </record>
 
-
-
+        <record model="ir.actions.act_window" id="auto_word_wind_chapter5_4_v1_act_window">
+          <field name="name">发电量估算导入</field>
+          <field name="res_model">auto_word_wind.res</field>
+          <field name="view_mode">tree,form</field>
+        </record>
     <!--<record model="ir.actions.act_window" id="auto_word_civil_information_menu">-->
       <!--<field name="name">土建信息</field>-->
       <!--<field name="res_model">auto_word.civil</field>-->
@@ -254,6 +257,8 @@
 
       <menuitem name="风机功率" id="auto_word_wind_turbines_power_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_turbines_power_act_window"/>
       <menuitem name="风机效率" id="auto_word_wind_turbines_efficiency_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_turbines_efficiency_act_window"/>
+      <menuitem name="发电量" id="auto_word_wind_res_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_chapter5_4_v1_act_window"/>
+
 
     <menuitem name="土建信息" id="auto_word_civil_information_menu" parent="auto_word.menu_root" />
       <menuitem name="风机基础数据表" id="auto_word_civil_windbase_list" parent="auto_word_civil_information_menu"

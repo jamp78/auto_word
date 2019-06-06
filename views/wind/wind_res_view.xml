@@ -4,7 +4,13 @@
         <field name="name">Wind_Information Form</field>
         <field name="model">auto_word_wind.res</field>
         <field name="arch" type="xml">
+            <!--<header>-->
+                <!--<button name="wind_res_submit" type="object" groups="auto_word.wind_group_user"-->
+                            <!--string="提交结果" confirm="是否确认提交该项目风资源资料？"/>-->
+            <!--</header>-->
             <tree>
+                <field name="project_id_input"/>
+                <field name="case_name"/>
                 <field name="tur_id"/>
                 <field name="X"/>
                 <field name="Y"/>
@@ -25,7 +31,7 @@
                 <field name="InflowAngle_Max_Deg"/>
                 <field name="NextTur"/>
                 <field name="NextLength_M"/>
-                <field name="Sectors"/>
+                <!--<field name="Sectors"/>-->
             </tree>
         </field>
     </record>
@@ -35,38 +41,102 @@
         <field name="model">auto_word_wind.res</field>
         <field name="arch" type="xml">
             <form>
-                <group string="机位结果">
-                    <field name="project_id"/>
-                    <field name="case_name"/>
-                    <field name="Turbine"/>
-                    <field name="tur_id"/>
-                    <field name="X"/>
-                    <field name="Y"/>
-                    <field name="Z"/>
-                    <field name="H"/>
-                </group>
-                <group string="机位结果">
-                    <field name="Latitude"/>
-                    <field name="Longitude"/>
-                    <field name="WeibullA"/>
-                    <field name="WeibullK"/>
-                    <field name="EnergyDensity"/>
-                    <field name="PowerGeneration"/>
-                    <field name="PowerGeneration_Weak"/>
-                    <field name="AverageWindSpeed"/>
-                    <field name="AverageWindSpeed_Weak"/>
-                    <field name="Weak"/>
-                </group>
-                <group string="机位结果">
-                    <field name="WindShear_Avg"/>
-                    <field name="InflowAngle_Max"/>
-                    <field name="InflowAngle_Max_Deg"/>
-                    <field name="NextTur"/>
-                    <field name="NextLength_M"/>
-                    <field name="Sectors"/>
-                </group>
+                <!--<group string="机位结果">-->
+                    <!--<field name="project_id_input"/>-->
+                    <!--<field name="case_name"/>-->
+                    <!--<field name="Turbine"/>-->
+                    <!--<field name="tur_id"/>-->
+                    <!--<field name="X"/>-->
+                    <!--<field name="Y"/>-->
+                    <!--<field name="Z"/>-->
+                    <!--<field name="H"/>-->
+                <!--</group>-->
+                <!--<group string="机位结果">-->
+                    <!--<field name="Latitude"/>-->
+                    <!--<field name="Longitude"/>-->
+                    <!--<field name="WeibullA"/>-->
+                    <!--<field name="WeibullK"/>-->
+                    <!--<field name="EnergyDensity"/>-->
+                    <!--<field name="PowerGeneration"/>-->
+                    <!--<field name="PowerGeneration_Weak"/>-->
+                    <!--<field name="AverageWindSpeed"/>-->
+                    <!--<field name="AverageWindSpeed_Weak"/>-->
+                    <!--<field name="Weak"/>-->
+                <!--</group>-->
+                <!--<group string="机位结果">-->
+                    <!--<field name="WindShear_Avg"/>-->
+                    <!--<field name="InflowAngle_Max"/>-->
+                    <!--<field name="InflowAngle_Max_Deg"/>-->
+                    <!--<field name="NextTur"/>-->
+                    <!--<field name="NextLength_M"/>-->
+                    <!--<field name="Sectors"/>-->
+                <!--</group>-->
+
             </form>
         </field>
     </record>
+
+    <record id="wind_res_form_list" model="ir.ui.view">
+        <field name="name">WindInformationForm</field>
+        <field name="model">auto_word_wind_res.form</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="project_id_input"/>
+                <field name="case_name"/>
+                <field name="tur_id"/>
+                <field name="X"/>
+                <field name="Y"/>
+                <field name="Z"/>
+                <field name="H"/>
+                <field name="Latitude"/>
+                <field name="Longitude"/>
+                <field name="WeibullA"/>
+                <field name="WeibullK"/>
+                <field name="EnergyDensity"/>
+                <field name="PowerGeneration"/>
+                <field name="PowerGeneration_Weak"/>
+                <field name="AverageWindSpeed"/>
+                <field name="AverageWindSpeed_Weak"/>
+                <field name="Weak"/>
+                <field name="WindShear_Avg"/>
+                <field name="InflowAngle_Max"/>
+                <field name="InflowAngle_Max_Deg"/>
+                <field name="NextTur"/>
+                <field name="NextLength_M"/>
+                <!--<field name="Sectors"/>-->
+            </tree>
+        </field>
+    </record>
+
+
+     <record id="wind_res_form_form" model="ir.ui.view">
+        <field name="name">WindInformationForm</field>
+        <field name="model">auto_word_wind_res.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="wind_res_submit" type="object" groups="auto_word.wind_group_user"
+                            string="提交结果" confirm="是否确认提交该项目风资源资料？"/>
+                </header>
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="project_id"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="content_ids"/>
+                        </group>
+                    </group>
+                    <group name="group_bot">
+                        <field name="auto_word_wind_res"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+
 </odoo>
 
