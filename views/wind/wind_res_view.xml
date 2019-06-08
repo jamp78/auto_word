@@ -16,20 +16,20 @@
                 <field name="Y"/>
                 <field name="Z"/>
                 <field name="H"/>
-                <field name="Latitude"/>
-                <field name="Longitude"/>
-                <field name="WeibullA"/>
-                <field name="WeibullK"/>
+                <!--<field name="Latitude"/>-->
+                <!--<field name="Longitude"/>-->
+                <!--<field name="WeibullA"/>-->
+                <!--<field name="WeibullK"/>-->
                 <field name="EnergyDensity"/>
                 <field name="PowerGeneration"/>
                 <field name="PowerGeneration_Weak"/>
                 <field name="AverageWindSpeed"/>
                 <field name="AverageWindSpeed_Weak"/>
                 <field name="Weak"/>
-                <field name="WindShear_Avg"/>
+                <!--<field name="WindShear_Avg"/>-->
                 <field name="InflowAngle_Max"/>
                 <field name="InflowAngle_Max_Deg"/>
-                <field name="NextTur"/>
+                <!--<field name="NextTur"/>-->
                 <field name="NextLength_M"/>
                 <!--<field name="Sectors"/>-->
             </tree>
@@ -81,29 +81,35 @@
         <field name="model">auto_word_wind_res.form</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="project_id_input"/>
-                <field name="case_name"/>
-                <field name="tur_id"/>
-                <field name="X"/>
-                <field name="Y"/>
-                <field name="Z"/>
-                <field name="H"/>
-                <field name="Latitude"/>
-                <field name="Longitude"/>
-                <field name="WeibullA"/>
-                <field name="WeibullK"/>
-                <field name="EnergyDensity"/>
-                <field name="PowerGeneration"/>
-                <field name="PowerGeneration_Weak"/>
-                <field name="AverageWindSpeed"/>
-                <field name="AverageWindSpeed_Weak"/>
-                <field name="Weak"/>
-                <field name="WindShear_Avg"/>
-                <field name="InflowAngle_Max"/>
-                <field name="InflowAngle_Max_Deg"/>
-                <field name="NextTur"/>
-                <field name="NextLength_M"/>
+                <!--<field name="project_id_input"/>-->
+                <!--<field name="case_name"/>-->
+                <!--<field name="tur_id"/>-->
+                <!--<field name="X"/>-->
+                <!--<field name="Y"/>-->
+                <!--<field name="Z"/>-->
+                <!--<field name="H"/>-->
+                <!--<field name="Latitude"/>-->
+                <!--<field name="Longitude"/>-->
+                <!--<field name="WeibullA"/>-->
+                <!--<field name="WeibullK"/>-->
+                <!--<field name="EnergyDensity"/>-->
+                <!--<field name="PowerGeneration"/>-->
+                <!--<field name="PowerGeneration_Weak"/>-->
+                <!--<field name="AverageWindSpeed"/>-->
+                <!--<field name="AverageWindSpeed_Weak"/>-->
+                <!--<field name="Weak"/>-->
+                <!--<field name="WindShear_Avg"/>-->
+                <!--<field name="InflowAngle_Max"/>-->
+                <!--<field name="InflowAngle_Max_Deg"/>-->
+                <!--<field name="NextTur"/>-->
+                <!--<field name="NextLength_M"/>-->
                 <!--<field name="Sectors"/>-->
+                <field name="project_id"/>
+                <field name="content_ids"/>
+                <field name="auto_word_wind_res"/>
+	            <field name="create_date"/>
+                <field name="__last_update"/>
+
             </tree>
         </field>
     </record>
