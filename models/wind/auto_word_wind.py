@@ -2,10 +2,12 @@
 
 from odoo import models, fields, api
 import base64
-import sys,win32ui
+import sys, win32ui
+
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
 import tkinter as tk
 import doc_5
+
 
 # class Ui_MainWindow(object):
 #     def setupUi(self, MainWindow):
@@ -61,7 +63,6 @@ class auto_word_wind(models.Model):
     farm_speed_range = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
 
-
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
 
     # name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
@@ -71,10 +72,9 @@ class auto_word_wind(models.Model):
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交")
 
-    case_names = fields.Many2many('auto_word_wind_turbines.compare',string=u'方案比选')
+    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案比选')
 
-
-    #机型推荐
+    # 机型推荐
     compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名')
 
     # case_name_suggestion = fields.Char(u'方案名称', compute='_compute_compare_case', readonly=True)
@@ -87,6 +87,9 @@ class auto_word_wind(models.Model):
 
     file_excel_path = fields.Char(u'文件路径')
 
+    # 结果
+    auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
+
     @api.depends('compare_id')
     def _compute_compare_case(self):
         for re in self:
@@ -97,20 +100,8 @@ class auto_word_wind(models.Model):
             re.farm_capacity = re.compare_id.farm_capacity
             re.rotor_diameter_suggestion = re.compare_id.rotor_diameter_case
 
-            # re.case_name = re.compare_id.case_name
-            # re.investment_E1 = re.compare_id.investment_E1
-            # re.investment_E2 = re.compare_id.investment_E2
-            # re.investment_E3 = re.compare_id.investment_E3
-            # re.investment_E4 = re.compare_id.investment_E4
-            # re.investment_E5 = re.compare_id.investment_E5
-            # re.investment_E6 = re.compare_id.investment_E6
-            # re.investment_E7 = re.compare_id.investment_E7
-            # re.investment = re.compare_id.investment
-            # re.investment_unit = re.compare_id.investment_unit
-
-
     @api.multi
-    def button_wind(self):
+    def submit_wind(self):
         projectname = self.project_id
         myself = self
         projectname.wind_attachment_id = myself
@@ -132,9 +123,6 @@ class auto_word_wind(models.Model):
         projectname.investment = self.compare_id.investment
         projectname.investment_unit = self.compare_id.investment_unit
 
-
-
-
         return True
 
     @api.multi
@@ -144,10 +132,10 @@ class auto_word_wind(models.Model):
         flag = dlg.DoModal()
         print(flag)
         if 1 == flag:
-            filename=dlg.GetPathName()
+            filename = dlg.GetPathName()
         else:
             print("取消打开...")
-        self.file_excel_path=filename
+        self.file_excel_path = filename
 
     def wind_generate(self):
         tur_name = []
@@ -162,6 +150,17 @@ class auto_word_wind(models.Model):
         investment_E1_dict, investment_E2_dict, investment_E3_dict = [], [], []
         investment_E4_dict, investment_E5_dict, investment_E6_dict, investment_E7_dict = [], [], [], []
         investment_turbines_kws_dict = []
+
+        # 机型结果
+        project_id_input_dict, case_name_dict, Turbine_dict, tur_id_dict = [], [], [], []
+        X_dict, Y_dict, Z_dict, H_dict, Latitude_dict, Longitude_dict, TrustCoefficient_dict = [], [], [], [], [], [], []
+        WeibullA_dict, WeibullK_dict, EnergyDensity_dict, PowerGeneration_dict = [], [], [], []
+        PowerGeneration_Weak_dict, CapacityCoe_dict, AverageWindSpeed_dict = [], [], []
+        TurbulenceEnv_StrongWind_dict, Turbulence_StrongWind_dict, AverageWindSpeed_Weak_dict = [], [], []
+        Weak_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
+        InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
+        NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
+
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
             name_tur_dict.append('WTG' + str(int(i + 1)))
@@ -186,6 +185,44 @@ class auto_word_wind(models.Model):
             investment_unit_dict.append(str(self.case_names[i].investment_unit))
 
             investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
+
+        for re in self.auto_word_wind_res:
+            project_id_input_dict.append(re.project_id_input)
+            case_name_dict.append(re.case_name)
+            Turbine_dict.append(re.Turbine)
+            tur_id_dict.append(re.tur_id)
+            X_dict.append(re.X)
+            Y_dict.append(re.Y)
+            Z_dict.append(re.Z)
+            H_dict.append(re.H)
+            Latitude_dict.append(re.Latitude)
+            Longitude_dict.append(re.Longitude)
+            TrustCoefficient_dict.append(re.TrustCoefficient)
+            WeibullA_dict.append(re.WeibullA)
+            WeibullK_dict.append(re.WeibullK)
+            EnergyDensity_dict.append(re.EnergyDensity)
+            PowerGeneration_dict.append(re.PowerGeneration)
+            PowerGeneration_Weak_dict.append(re.PowerGeneration_Weak)
+            CapacityCoe_dict.append(re.CapacityCoe)
+            AverageWindSpeed_dict.append(re.AverageWindSpeed)
+            TurbulenceEnv_StrongWind_dict.append(re.TurbulenceEnv_StrongWind)
+            Turbulence_StrongWind_dict.append(re.Turbulence_StrongWind)
+            AverageWindSpeed_Weak_dict.append(re.AverageWindSpeed_Weak)
+            Weak_dict.append(re.Weak)
+            AirDensity_dict.append(re.AirDensity)
+            WindShear_Avg_dict.append(re.WindShear_Avg)
+            WindShear_Max_dict.append(re.WindShear_Max)
+            WindShear_Max_Deg_dict.append(re.WindShear_Max_Deg)
+            InflowAngle_Avg_dict.append(re.InflowAngle_Avg)
+            InflowAngle_Max_dict.append(re.InflowAngle_Max)
+            InflowAngle_Max_Deg_dict.append(re.InflowAngle_Max_Deg)
+            NextTur_dict.append(re.NextTur)
+            NextLength_M_dict.append(re.NextLength_M)
+            Diameter_dict.append(re.Diameter)
+            NextLength_D_dict.append(re.NextLength_D)
+            NextDeg_dict.append(re.NextDeg)
+            Sectors_dict.append(re.Sectors)
+
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
             "最终方案": self.project_id.case_name,
@@ -211,6 +248,14 @@ class auto_word_wind(models.Model):
             "发电部分投资e": investment_dict,
             "单位度电投资e": investment_unit_dict,
 
+            "风机": tur_id_dict,
+            "X": X_dict,
+            "Y": Y_dict,
+            "Z": Z_dict,
+            "能量密度": EnergyDensity_dict,
+            "发电量": PowerGeneration_dict,
+            "包含尾流效应的发电量": PowerGeneration_Weak_dict,
+
             "叶轮直径": self.rotor_diameter_suggestion,
             "方案数": self.case_number,
             "海拔高程": self.farm_elevation,
@@ -221,6 +266,10 @@ class auto_word_wind(models.Model):
             '测风塔风向信息': self.string_deg_words,
             '推荐轮毂高度': self.hub_height_suggestion,
             'IEC等级': self.IECLevel,
+
+
+
+
         }
         Dict5 = dict(dict_5_word, **dict5)
         print(Dict5)

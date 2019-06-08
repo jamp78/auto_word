@@ -28,7 +28,7 @@
                             string="打开Excel"/>
                     <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
                             string="生成报告"/>
-                    <button name="button_wind" type="object" groups="auto_word.wind_group_user"
+                    <button name="submit_wind" type="object" groups="auto_word.wind_group_user"
                             string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
                 </header>
                 <sheet>
@@ -56,6 +56,10 @@
 
                     <group string="方案比选">
                         <field name="case_names"/>
+                    </group>
+
+                    <group string="方案结果">
+                        <field name="auto_word_wind_res"/>
                     </group>
 
                     <group string="机型推荐">

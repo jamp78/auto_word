@@ -194,5 +194,5 @@ class auto_word_wind_res_form(models.Model):
 
     @api.multi
     def wind_res_submit(self):
-        for re in self:
-            print(re.wind_res.project_id_input)
+        for re in self.auto_word_wind_res:
+            print(re.tur_id)
