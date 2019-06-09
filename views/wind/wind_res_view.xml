@@ -16,6 +16,7 @@
                 <field name="Y"/>
                 <field name="Z"/>
                 <field name="H"/>
+                <field name="turbine_capacity_each"/>
                 <!--<field name="Latitude"/>-->
                 <!--<field name="Longitude"/>-->
                 <!--<field name="WeibullA"/>-->
@@ -128,9 +129,12 @@
                     <group name="group_top">
                         <group name="group_left">
                             <field name="project_id"/>
+                            <field name="rate"/>
                         </group>
                         <group name="group_right">
                             <field name="content_ids"/>
+                            <field name="ongrid_power"/>
+
                         </group>
                     </group>
                     <group name="group_bot">

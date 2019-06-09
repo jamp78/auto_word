@@ -52,6 +52,7 @@ class auto_word_wind_res(models.Model):
     NextDeg = fields.Char(string=u'最近相邻风机的方位角', readonly=False)
     Sectors = fields.Char(string=u'扇区数量', readonly=False)
 
+    turbine_capacity_each = fields.Float(string=u'风机容量', readonly=False)
     #
     # @api.depends('case_ids', 'TerrainType_turbines_compare', 'cal_id')
     # def _compute_turbine(self):
@@ -192,7 +193,13 @@ class auto_word_wind_res_form(models.Model):
     content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=False)
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
 
+    ongrid_power = fields.Float(string=u'上网电量', readonly=False)
+    rate = fields.Float(string=u'折减率', readonly=False)
+
+
     @api.multi
     def wind_res_submit(self):
         for re in self.auto_word_wind_res:
+            ongrid_power = float(re.PowerGeneration_Weak) * self.rate/re.turbine_capacity_each*1000
             print(re.tur_id)
+            print(ongrid_power)

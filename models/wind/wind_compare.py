@@ -172,6 +172,7 @@ class auto_word_wind_turbines_compare(models.Model):
             re.content_ids.rotor_diameter_case = re.rotor_diameter_case
             re.content_ids.case_number = re.case_number
 
+
     def take_result_refresh(self):
         for re in self:
             re.jidian_air_wind = re.project_id.jidian_air_wind
