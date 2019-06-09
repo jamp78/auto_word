@@ -3,10 +3,12 @@
 from odoo import models, fields, api
 import base64
 import sys, win32ui
+import numpy as np
 
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
 import tkinter as tk
 import doc_5
+from wind_res import auto_word_wind_res_form
 
 
 # class Ui_MainWindow(object):
@@ -157,10 +159,10 @@ class auto_word_wind(models.Model):
         WeibullA_dict, WeibullK_dict, EnergyDensity_dict, PowerGeneration_dict = [], [], [], []
         PowerGeneration_Weak_dict, CapacityCoe_dict, AverageWindSpeed_dict = [], [], []
         TurbulenceEnv_StrongWind_dict, Turbulence_StrongWind_dict, AverageWindSpeed_Weak_dict = [], [], []
-        Weak_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
+        Weak_res_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
         InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
         NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
-
+        hours_year_dict, ongrid_power_dict = [], []
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
             name_tur_dict.append('WTG' + str(int(i + 1)))
@@ -208,7 +210,7 @@ class auto_word_wind(models.Model):
             TurbulenceEnv_StrongWind_dict.append(re.TurbulenceEnv_StrongWind)
             Turbulence_StrongWind_dict.append(re.Turbulence_StrongWind)
             AverageWindSpeed_Weak_dict.append(re.AverageWindSpeed_Weak)
-            Weak_dict.append(re.Weak)
+            Weak_res_dict.append(re.Weak)
             AirDensity_dict.append(re.AirDensity)
             WindShear_Avg_dict.append(re.WindShear_Avg)
             WindShear_Max_dict.append(re.WindShear_Max)
@@ -222,7 +224,20 @@ class auto_word_wind(models.Model):
             NextLength_D_dict.append(re.NextLength_D)
             NextDeg_dict.append(re.NextDeg)
             Sectors_dict.append(re.Sectors)
+            hours_year_dict.append(re.hours_year)
+            ongrid_power_dict.append(re.ongrid_power)
 
+        result = np.vstack((np.array(X_dict), np.array(Y_dict), np.array(Z_dict),
+                            np.array(EnergyDensity_dict),
+                            np.array(PowerGeneration_dict), np.array(PowerGeneration_Weak_dict),
+                            np.array(AverageWindSpeed_Weak_dict),
+                            np.array(InflowAngle_Max_dict), np.array(PowerGeneration_dict),
+                            np.array(Weak_res_dict), np.array(hours_year_dict), np.array(ongrid_power_dict)
+
+                            ))
+        print("asdasd")
+        print(result.T)
+        print(result.shape)
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
             "最终方案": self.project_id.case_name,
@@ -255,6 +270,12 @@ class auto_word_wind(models.Model):
             "能量密度": EnergyDensity_dict,
             "发电量": PowerGeneration_dict,
             "包含尾流效应的发电量": PowerGeneration_Weak_dict,
+            "尾流后风速": AverageWindSpeed_Weak_dict,
+            "最大入流角": InflowAngle_Max_dict,
+            "理论发电量": PowerGeneration_dict,
+            "尾流损失": Weak_res_dict,
+            "满发小时": hours_year_dict,
+            "上网电量": ongrid_power_dict,
 
             "叶轮直径": self.rotor_diameter_suggestion,
             "方案数": self.case_number,
@@ -266,9 +287,6 @@ class auto_word_wind(models.Model):
             '测风塔风向信息': self.string_deg_words,
             '推荐轮毂高度': self.hub_height_suggestion,
             'IEC等级': self.IECLevel,
-
-
-
 
         }
         Dict5 = dict(dict_5_word, **dict5)

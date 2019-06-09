@@ -39,6 +39,8 @@ def generate_wind_dict(tur_name, path_images):
     Dict_5 = generate_dict.get_dict(data_tur_np, dict_keys_chapter5)
     print(Dict_5)
     Dict = generate_dict.write_context(Dict_5, *context_keys_chapter5)
+
+
     return Dict
 
 

@@ -53,6 +53,9 @@ class auto_word_wind_res(models.Model):
     Sectors = fields.Char(string=u'扇区数量', readonly=False)
 
     turbine_capacity_each = fields.Float(string=u'风机容量', readonly=False)
+    rate = fields.Float(string=u'折减率', readonly=False)
+    ongrid_power = fields.Float(string=u'上网电量', readonly=False)
+    hours_year = fields.Float(string=u'年发电小时数', readonly=False)
     #
     # @api.depends('case_ids', 'TerrainType_turbines_compare', 'cal_id')
     # def _compute_turbine(self):
@@ -192,14 +195,17 @@ class auto_word_wind_res_form(models.Model):
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=False)
     content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=False)
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
-
-    ongrid_power = fields.Float(string=u'上网电量', readonly=False)
     rate = fields.Float(string=u'折减率', readonly=False)
-
 
     @api.multi
     def wind_res_submit(self):
         for re in self.auto_word_wind_res:
-            ongrid_power = float(re.PowerGeneration_Weak) * self.rate/re.turbine_capacity_each*1000
-            print(re.tur_id)
-            print(ongrid_power)
+            if self.rate != 0:
+                re.ongrid_power = float(re.PowerGeneration_Weak) * self.rate
+                re.hours_year = float(re.PowerGeneration_Weak) * self.rate / re.turbine_capacity_each * 1000
+                print(re.tur_id)
+                print(re.ongrid_power)
+            else:
+                re.ongrid_power = float(re.PowerGeneration_Weak) * re.rate
+                re.hours_year = float(re.PowerGeneration_Weak) * re.rate / re.turbine_capacity_each * 1000
+
