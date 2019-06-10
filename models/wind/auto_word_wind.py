@@ -193,8 +193,8 @@ class auto_word_wind(models.Model):
         for re in self.auto_word_wind_res:
             project_id_input_dict.append(re.project_id_input)
             case_name_dict.append(re.case_name)
-            Turbine_dict.append(round_up(float(re.Turbine)))
-            tur_id_dict.append(round_up(float(re.tur_id)))
+            Turbine_dict.append(re.Turbine)
+            tur_id_dict.append(re.tur_id)
             X_dict.append(round_up(float(re.X)))
             Y_dict.append(round_up(float(re.Y)))
             Z_dict.append(round_up(float(re.Z)))
