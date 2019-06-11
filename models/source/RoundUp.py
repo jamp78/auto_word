@@ -72,3 +72,45 @@ def round_dict_numbers(dic, tur_num,keep_num):
 # index_dec = result.find('.')
 # a = result[index_dec + 1:]
 # print(result, index_dec, a)
+# 最大数
+def Get_Max(list):
+    return max(list)
+
+
+# 最小数
+def Get_Min(list):
+    return min(list)
+
+
+# 极差
+def Get_Range(list):
+    return max(list) - min(list)
+
+
+# 中位数
+def get_median(data):
+    data = sorted(data)
+    size = len(data)
+    if size % 2 == 0:
+        # 判断列表长度为偶数
+        median = (data[size // 2] + data[size // 2 - 1]) / 2
+    if size % 2 == 1:
+        # 判断列表长度为奇数
+        median = data[(size - 1) // 2]
+    return median
+
+
+
+# 获取平均数
+def Get_Average(list):
+    sum = 0
+    for item in list:
+        sum += item
+    return sum / len(list)
+
+# 获取综合数
+def Get_Sum(list):
+    sum = 0
+    for item in list:
+        sum += item
+    return sum

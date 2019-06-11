@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 import base64
-import sys, win32ui
+import sys, win32ui,os
 import numpy as np
 
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
@@ -10,7 +10,7 @@ import tkinter as tk
 import doc_5
 
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
-from RoundUp import round_up
+from RoundUp import round_up, Get_Average, Get_Sum
 
 
 # class Ui_MainWindow(object):
@@ -67,6 +67,8 @@ class auto_word_wind(models.Model):
     farm_speed_range = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
 
+    report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
+
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
 
     # name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
@@ -92,7 +94,19 @@ class auto_word_wind(models.Model):
     file_excel_path = fields.Char(u'文件路径')
 
     # 结果
+    png_list=[]
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
+
+    attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
+
+    @api.multi
+    def _compute_attachment_number(self):
+        """附件上传"""
+        attachment_data = self.env['ir.attachment'].read_group(
+            [('res_model', '=', 'auto_word.wind'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+        attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
+        for expense in self:
+            expense.attachment_number = attachment.get(expense.id, 0)
 
     @api.depends('compare_id')
     def _compute_compare_case(self):
@@ -164,7 +178,10 @@ class auto_word_wind(models.Model):
         Weak_res_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
         InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
         NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
-        hours_year_dict, ongrid_power_dict = [], []
+        hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], []
+        ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
+        ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power = 0, 0, 0
+
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
             name_tur_dict.append('WTG' + str(int(i + 1)))
@@ -192,40 +209,52 @@ class auto_word_wind(models.Model):
 
         for re in self.auto_word_wind_res:
             project_id_input_dict.append(re.project_id_input)
-            case_name_dict.append(re.case_name)
-            Turbine_dict.append(round_up(float(re.Turbine)))
-            tur_id_dict.append(round_up(float(re.tur_id)))
-            X_dict.append(round_up(float(re.X)))
-            Y_dict.append(round_up(float(re.Y)))
+            Turbine_dict.append(re.Turbine)
+            tur_id_dict.append(re.tur_id)
+            X_dict.append(re.X)
+            Y_dict.append(re.Y)
             Z_dict.append(round_up(float(re.Z)))
             H_dict.append(round_up(float(re.H)))
-            Latitude_dict.append(round_up(float(re.Latitude)))
-            Longitude_dict.append(round_up(float(re.Longitude)))
+            Elevation_dict.append(round_up(float(re.Z)) - round_up(float(re.H)))
+            Latitude_dict.append(re.Latitude)
+            Longitude_dict.append(re.Longitude)
             TrustCoefficient_dict.append(re.TrustCoefficient)
-            WeibullA_dict.append(round_up(float(re.WeibullA)))
-            WeibullK_dict.append(round_up(float(re.WeibullK)))
-            EnergyDensity_dict.append(round_up(float(re.EnergyDensity)))
+            WeibullA_dict.append(re.WeibullA)
+            WeibullK_dict.append(re.WeibullK)
+            EnergyDensity_dict.append(re.EnergyDensity)
             PowerGeneration_dict.append(round_up(float(re.PowerGeneration)))
             PowerGeneration_Weak_dict.append(round_up(float(re.PowerGeneration_Weak)))
-            CapacityCoe_dict.append(round_up(float(re.CapacityCoe)))
-            AverageWindSpeed_dict.append(round_up(float(re.AverageWindSpeed)))
-            TurbulenceEnv_StrongWind_dict.append(round_up(float(re.TurbulenceEnv_StrongWind)))
-            Turbulence_StrongWind_dict.append(round_up(float(re.Turbulence_StrongWind)))
+            CapacityCoe_dict.append(re.CapacityCoe)
+            AverageWindSpeed_dict.append(re.AverageWindSpeed)
+            TurbulenceEnv_StrongWind_dict.append(re.TurbulenceEnv_StrongWind)
+            Turbulence_StrongWind_dict.append(re.Turbulence_StrongWind)
             AverageWindSpeed_Weak_dict.append(round_up(float(re.AverageWindSpeed_Weak)))
             Weak_res_dict.append(round_up(float(re.Weak)))
-            AirDensity_dict.append(round_up(float(re.AirDensity)))
-            WindShear_Avg_dict.append(round_up(float(re.WindShear_Avg)))
-            WindShear_Max_dict.append(round_up(float(re.WindShear_Max)))
-            WindShear_Max_Deg_dict.append(round_up(float(re.WindShear_Max_Deg)))
-            InflowAngle_Avg_dict.append(round_up(float(re.InflowAngle_Avg)))
-            InflowAngle_Max_dict.append(round_up(float(re.InflowAngle_Max)))
-            InflowAngle_Max_Deg_dict.append(round_up(float(re.InflowAngle_Max_Deg)))
+            AirDensity_dict.append(re.AirDensity)
+            WindShear_Avg_dict.append(re.WindShear_Avg)
+            WindShear_Max_dict.append(re.WindShear_Max)
+            WindShear_Max_Deg_dict.append(re.WindShear_Max_Deg)
+            InflowAngle_Avg_dict.append(re.InflowAngle_Avg)
+            InflowAngle_Max_dict.append(re.InflowAngle_Max)
+            InflowAngle_Max_Deg_dict.append(re.InflowAngle_Max_Deg)
             NextTur_dict.append(re.NextTur)
-            NextLength_M_dict.append(round_up(float(re.NextLength_M)))
-            Diameter_dict.append(round_up(float(re.Diameter)))
-            NextLength_D_dict.append(round_up(float(re.NextLength_D)))
-            NextDeg_dict.append(round_up(float(re.NextDeg)))
-            Sectors_dict.append(round_up(float(re.Sectors)))
+            NextLength_M_dict.append(re.NextLength_M)
+            Diameter_dict.append(re.Diameter)
+            NextLength_D_dict.append(re.NextLength_D)
+            NextDeg_dict.append(re.NextDeg)
+            Sectors_dict.append(re.Sectors)
+
+            ongrid_power_dict.append(round_up(float(re.ongrid_power)))
+            hours_year_dict.append(round_up(float(re.hours_year)))
+
+        ave_elevation = round_up(Get_Average(Elevation_dict))
+        ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict))
+        ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict))
+        ave_weak_res = round_up(Get_Average(Weak_res_dict))
+        ave_hours_year = round_up(Get_Average(hours_year_dict))
+        ave_ongrid_power = round_up(Get_Average(ongrid_power_dict))
+        total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict))
+        total_ongrid_power = round_up(Get_Sum(ongrid_power_dict))
 
         result = np.vstack((np.array(X_dict), np.array(Y_dict), np.array(Z_dict),
                             np.array(AverageWindSpeed_Weak_dict),
@@ -237,7 +266,7 @@ class auto_word_wind(models.Model):
         context = {}
         result_list = []
         result_lables_chapter5 = ['X', 'Y', 'Z', '尾流后风速', '最大入流角', '理论发电量',
-                                 '尾流损失', '满发小时', '上网电量']
+                                  '尾流损失', '满发小时', '上网电量']
 
         context['result_labels'] = result_lables_chapter5
         for i in range(0, len(result)):
@@ -245,16 +274,6 @@ class auto_word_wind(models.Model):
             result_list.append(result_dict)
 
         context['result_list'] = result_list
-        # context = {'text': '哈哈哈，来啦'}
-        # user_labels = ['姓名', '年龄', '性别', '入学日期']
-        # context['user_labels'] = user_labels
-        # user_dict1 = {'number': 1, 'cols': ['林小熊', '27', '男', '2019-03-28']}
-        # user_dict2 = {'number': 2, 'cols': ['林小花', '27', '女', '2019-03-28']}
-        # user_list = []
-        # user_list.append(user_dict1)
-        # user_list.append(user_dict2)
-        # context['user_list'] = user_list
-        # # tpl.render(context)
 
         dict5 = doc_5.generate_wind_dict(tur_name, path_images)
         dict_5_word = {
@@ -280,17 +299,15 @@ class auto_word_wind(models.Model):
             "集电线路e": investment_E7_dict,
             "发电部分投资e": investment_dict,
             "单位度电投资e": investment_unit_dict,
-            #
-            # "风机": tur_id_dict,
-            # "X": X_dict,
-            # "Y": Y_dict,
-            # "Z": Z_dict,
-            # "尾流后风速": AverageWindSpeed_Weak_dict,
-            # "最大入流角": InflowAngle_Max_dict,
-            # "理论发电量": PowerGeneration_dict,
-            # "尾流损失": Weak_res_dict,
-            # "满发小时": hours_year_dict,
-            # "上网电量": ongrid_power_dict,
+
+            "平均海拔": ave_elevation,
+            "尾流后平均风速": ave_AverageWindSpeed_Weak,
+            "平均发电量": ave_powerGeneration,
+            "总发电量": total_powerGeneration,
+            "平均尾流损失": ave_weak_res,
+            "满发小时": ave_hours_year,
+            "平均上网电量": ave_ongrid_power,
+            "总上网电量": total_ongrid_power,
 
             "叶轮直径": self.rotor_diameter_suggestion,
             "方案数": self.case_number,
@@ -306,7 +323,24 @@ class auto_word_wind(models.Model):
         }
         Dict5 = dict(dict_5_word, **dict5, **context)
         print(Dict5)
-        doc_5.generate_wind_docx(Dict5, path_images)
+        # doc_5.generate_wind_docx(Dict5, path_images)
+        for re in self.report_attachment_id2:
+            imgdata = base64.standard_b64decode(re.datas)
+            t = re.name  # 将指定格式的当前时间以字符串输出
+            suffix = ".png"
+            newfile = t + suffix
+            Patt=os.path.join(path_images, '%s') % newfile
+            if not os.path.exists(Patt):
+                f = open(Patt, 'wb+')
+                f.write(imgdata)
+                f.close()
+            else:
+                print(Patt + " already existed.")
+                f = open(Patt, 'wb+')
+                f.write(imgdata)
+                f.close()
+            self.png_list.append(t)
+        doc_5.generate_wind_docx1(Dict5, path_images,self.png_list)
         ###########################
 
         reportfile_name = open(
@@ -339,3 +373,46 @@ class auto_word_wind(models.Model):
         print('new attachment：', self.report_attachment_id)
         print('new datas len：', len(self.report_attachment_id.datas))
         return True
+
+        # reportfile_name2 = open(
+        #     file=r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\powers.png',
+        #     mode='rb')
+        # byte2 = reportfile_name2.read()
+        # reportfile_name2.close()
+        # print('file lenth=', len(byte2))
+        # base64.standard_b64encode(byte2)
+        #
+        # print("MMMMMMMMMMMMMMMMMMM")
+        # print(str(self.report_attachment_id2))
+        # if (str(self.report_attachment_id2) == 'ir.attachment()'):
+        #     Attachments = self.env['ir.attachment']
+        #     print('开始创建新纪录')
+        #     New = Attachments.create({
+        #         'name': self.project_id.project_name + '图片',
+        #         'datas_fname': self.project_id.project_name + 'powers.png',
+        #         'datas': base64.standard_b64encode(byte2),
+        #         'display_name': self.project_id.project_name + 'powers.png',
+        #         'create_date': fields.date.today(),
+        #         'public': True,  # 此处需设置为true 否则attachments.read  读不到
+        #         # 'mimetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        #         # 'res_model': 'autoreport.project'
+        #         # 'res_field': 'report_attachment_id'
+        #     })
+        #     print('已创建新纪录：', New)
+        #     print('new dataslen：', len(New.datas))
+        #     self.report_attachment_id2 = New
+        # else:
+        #     self.report_attachment_id2.datas = base64.standard_b64encode(byte2)
+        #
+        # print('new attachment：', self.report_attachment_id2)
+        # print('new datas len：', len(self.report_attachment_id2.datas))
+        # return True
+
+    @api.multi
+    def action_get_attachment_view(self):
+        """附件上传动作视图"""
+        self.ensure_one()
+        res = self.env['ir.actions.act_window'].for_xml_id('base', 'action_attachment')
+        res['domain'] = [('res_model', '=', 'auto_word.wind'), ('res_id', 'in', self.ids)]
+        res['context'] = {'default_res_model': 'auto_word.wind', 'default_res_id': self.id}
+        return res

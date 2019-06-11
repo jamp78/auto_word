@@ -57,3 +57,21 @@ def generate_wind_docx(Dict, path_images):
 
     tpl.render(Dict)
     tpl.save(save_path)
+
+def generate_wind_docx1(Dict, path_images,png_list):
+    filename_box = ['cr5', 'result_chapter5']
+    read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
+    save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
+    tpl = DocxTemplate(read_path)
+    png_box = ('powers', 'efficiency')
+    for i in range(0, 2):
+        key = 'myimage' + str(i)
+        value = InlineImage(tpl, os.path.join(path_images, '%s.png') % png_box[i])
+        Dict[key] = value
+    for i in range(0,len(png_list)):
+        if '风资源' in png_list[i]:
+            key = '风资源'
+            value = InlineImage(tpl, os.path.join(path_images, '%s.png') % png_list[i])
+            Dict[key] = value
+    tpl.render(Dict)
+    tpl.save(save_path)

@@ -30,6 +30,12 @@
                             string="生成报告"/>
                     <button name="submit_wind" type="object" groups="auto_word.wind_group_user"
                             string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
+
+                    <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-book" type="object">
+                            <field name="attachment_number" widget="statinfo" string="附件上传"/>
+                        </button>
+
+
                 </header>
                 <sheet>
                     <group name="group_top">
@@ -85,9 +91,11 @@
                         <!--<field name="generator_ids" />-->
                         <!--<field name="project_res" />-->
                         <field name="report_attachment_id"/>
+                        <field name="report_attachment_id2"/>
                     </group>
 
                 </sheet>
+
             </form>
 
         </field>
