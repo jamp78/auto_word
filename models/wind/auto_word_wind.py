@@ -180,7 +180,7 @@ class auto_word_wind(models.Model):
         NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
         hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], []
         ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
-        ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power = 0, 0, 0
+        ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power,total_powerGeneration_weak = 0, 0, 0,0
 
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
@@ -251,8 +251,10 @@ class auto_word_wind(models.Model):
         ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict))
         ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict))
         ave_weak_res = round_up(Get_Average(Weak_res_dict))
+        ave_weak_res_xz=1+ave_weak_res
         ave_hours_year = round_up(Get_Average(hours_year_dict))
         ave_ongrid_power = round_up(Get_Average(ongrid_power_dict))
+        total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict))
         total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict))
         total_ongrid_power = round_up(Get_Sum(ongrid_power_dict))
 
@@ -308,6 +310,8 @@ class auto_word_wind(models.Model):
             "满发小时": ave_hours_year,
             "平均上网电量": ave_ongrid_power,
             "总上网电量": total_ongrid_power,
+            "尾流损失修正系数": ave_weak_res_xz,
+            "尾流修正后的总理论发电量": total_powerGeneration_weak,
 
             "叶轮直径": self.rotor_diameter_suggestion,
             "方案数": self.case_number,

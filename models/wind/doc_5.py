@@ -73,5 +73,10 @@ def generate_wind_docx1(Dict, path_images,png_list):
             key = '风资源'
             value = InlineImage(tpl, os.path.join(path_images, '%s.png') % png_list[i])
             Dict[key] = value
+        if '风机布置图' in png_list[i]:
+            key = '风机布置图'
+            value = InlineImage(tpl, os.path.join(path_images, '%s.png') % png_list[i])
+            Dict[key] = value
+
     tpl.render(Dict)
     tpl.save(save_path)
