@@ -4,6 +4,7 @@ from odoo import models, fields, api
 import base64
 import sys, win32ui,os
 import numpy as np
+import pandas as pd
 
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
 import doc_5
@@ -279,7 +280,8 @@ class auto_word_wind(models.Model):
         for re in self.report_attachment_id2:
             imgdata = base64.standard_b64decode(re.datas)
             t = re.name  # 将指定格式的当前时间以字符串输出
-            suffix = ".png"
+            # suffix = ".png"
+            suffix = ".xls"
             newfile = t + suffix
             Patt=os.path.join(path_images, '%s') % newfile
             if not os.path.exists(Patt):
@@ -292,6 +294,28 @@ class auto_word_wind(models.Model):
                 f.write(imgdata)
                 f.close()
             self.png_list.append(t)
+
+        # col_name = ['Status', 'Grade', 'Capacity', 'Long', 'Width', 'InnerWallArea', 'WallLength', 'StoneMasonryFoot',
+        #             'StoneMasonryDrainageDitch', 'RoadArea', 'GreenArea', 'ComprehensiveBuilding', 'EquipmentBuilding',
+        #             'AffiliatedBuilding', 'C30Concrete', 'C15ConcreteCushion', 'MainTransformerFoundation',
+        #             'AccidentOilPoolC30Concrete', 'AccidentOilPoolC15Cushion', 'AccidentOilPoolReinforcement',
+        #             'FoundationC25Concrete', 'OutdoorStructure', 'PrecastConcretePole', 'LightningRod'
+        #             ]
+        col_name=['项目名称','单位','数量','单价(元)','合计(万元)']
+
+        data = pd.read_excel(
+            r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\123.xls',
+            header=1, sheet_name='施工辅助工程概算表', usecols=col_name)
+        print("asdasdasdasdasdssssssssssssssssss")
+        print(data["合计(万元)"][1])
+        print(len(data.index))
+        Dict_e={}
+        for i in range(0,len(data.index)):
+            key = data['项目名称'][i]
+            value = [data['数量'][i],data['单价(元)'][i],data['合计(万元)'][i]]
+            Dict_e[key] = value
+        print(Dict_e)
+
         doc_5.generate_wind_docx1(Dict5, path_images,self.png_list)
         ###########################
 
