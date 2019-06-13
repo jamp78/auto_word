@@ -6,84 +6,33 @@ import sys, win32ui,os
 import numpy as np
 
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
-import tkinter as tk
 import doc_5
 
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
 from RoundUp import round_up, Get_Average, Get_Sum
 
-
-# class Ui_MainWindow(object):
-#     def setupUi(self, MainWindow):
-#         MainWindow.setObjectName("MainWindow")
-#         MainWindow.resize(800, 600)
-#         self.centralwidget = QtWidgets.QWidget(MainWindow)
-#         self.centralwidget.setObjectName("centralwidget")
-#         self.label = QtWidgets.QLabel(self.centralwidget)
-#         self.label.setGeometry(QtCore.QRect(240, 80, 72, 15))
-#         self.label.setObjectName("label")
-#         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-#         self.pushButton.setGeometry(QtCore.QRect(240, 120, 93, 28))
-#         self.pushButton.setObjectName("pushButton")
-#         MainWindow.setCentralWidget(self.centralwidget)
-#         self.menubar = QtWidgets.QMenuBar(MainWindow)
-#         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
-#         self.menubar.setObjectName("menubar")
-#         MainWindow.setMenuBar(self.menubar)
-#         self.statusbar = QtWidgets.QStatusBar(MainWindow)
-#         self.statusbar.setObjectName("statusbar")
-#         MainWindow.setStatusBar(self.statusbar)
-#
-#         self.retranslateUi(MainWindow)
-#         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-#
-#     def retranslateUi(self, MainWindow):
-#         _translate = QtCore.QCoreApplication.translate
-#         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-#         self.label.setText(_translate("MainWindow", "TextLabel"))
-#         self.pushButton.setText(_translate("MainWindow", "PushButton"))
-#
-# class MyWindow(QMainWindow, Ui_MainWindow):
-#     def __init__(self, parent=None):
-#         super(MyWindow, self).__init__(parent)
-#         self.setupUi(self)
-
-
 class auto_word_wind(models.Model):
     _name = 'auto_word.wind'
     _description = 'Wind energy input'
     _rec_name = 'content_id'
+    #项目参数
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),
                                    ("其他", u"其他")], string=u"章节分类", required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
 
-    IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
-                                 ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
-                                 ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
-                                 ], string=u"IEC等级", default="IIIB", required=True)
-    farm_elevation = fields.Char(string=u'海拔高程', default="510~680", required=True)
-    farm_area = fields.Char(string=u'区域面积', default="150", required=True)
-    farm_speed_range = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
-    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
-
-    report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
-
-    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
-
-    # name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
+    #上传参数
+    #--------测风信息---------
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
 
-    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
+    #--------机型推荐---------
+    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
+    #--------方案比选---------
     case_number = fields.Char(string=u'方案数', default="待提交")
-
-    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案比选')
-
-    # 机型推荐
     compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名')
 
-    # case_name_suggestion = fields.Char(u'方案名称', compute='_compute_compare_case', readonly=True)
+    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案比选')
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
@@ -91,27 +40,27 @@ class auto_word_wind(models.Model):
                                             compute='_compute_compare_case')
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
 
-    file_excel_path = fields.Char(u'文件路径')
-
-    # 结果
-    png_list=[]
+    #--------风场信息---------
+    IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
+                                 ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
+                                 ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
+                                 ], string=u"IEC等级", default="IIIB", required=True)
+    farm_elevation = fields.Char(string=u'海拔高程', default="510~680", required=True)
+    farm_area = fields.Char(string=u'区域面积', default="150", required=True)
+    farm_speed_range = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
+    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
+    # --------结果文件---------
+    png_list = []
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
-
+    file_excel_path = fields.Char(u'文件路径')
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
+    report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
 
-    @api.multi
-    def _compute_attachment_number(self):
-        """附件上传"""
-        attachment_data = self.env['ir.attachment'].read_group(
-            [('res_model', '=', 'auto_word.wind'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
-        attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
-        for expense in self:
-            expense.attachment_number = attachment.get(expense.id, 0)
 
     @api.depends('compare_id')
     def _compute_compare_case(self):
         for re in self:
-            # re.case_name_suggestion = re.compare_id.case_name #？？？？？？？？？
             re.name_tur_suggestion = re.compare_id.name_tur
             re.hub_height_suggestion = re.compare_id.hub_height_suggestion
             re.turbine_numbers_suggestion = re.compare_id.turbine_numbers
@@ -121,13 +70,14 @@ class auto_word_wind(models.Model):
     @api.multi
     def submit_wind(self):
         projectname = self.project_id
-        myself = self
-        projectname.wind_attachment_id = myself
+        # myself = self
+        # projectname.wind_attachment_id = myself
         projectname.wind_attachment_ok = u"已提交,版本：" + self.version_id
+
+
         projectname.turbine_numbers_suggestion = self.turbine_numbers_suggestion
         projectname.hub_height_suggestion = self.hub_height_suggestion
         projectname.project_capacity = self.farm_capacity
-        # projectname.name_tur_selection = self.name_tur_selection
         projectname.name_tur_suggestion = self.name_tur_suggestion
 
         projectname.case_name = self.compare_id.case_name
@@ -143,17 +93,17 @@ class auto_word_wind(models.Model):
 
         return True
 
-    @api.multi
-    def wind_open(self):
-        dlg = win32ui.CreateFileDialog(1)
-        dlg.SetOFNInitialDir("C:")
-        flag = dlg.DoModal()
-        print(flag)
-        if 1 == flag:
-            filename = dlg.GetPathName()
-        else:
-            print("取消打开...")
-        self.file_excel_path = filename
+    # @api.multi
+    # def wind_open(self):
+    #     dlg = win32ui.CreateFileDialog(1)
+    #     dlg.SetOFNInitialDir("C:")
+    #     flag = dlg.DoModal()
+    #     print(flag)
+    #     if 1 == flag:
+    #         filename = dlg.GetPathName()
+    #     else:
+    #         print("取消打开...")
+    #     self.file_excel_path = filename
 
     def wind_generate(self):
         tur_name = []
@@ -201,10 +151,8 @@ class auto_word_wind(models.Model):
             investment_E5_dict.append(str(self.case_names[i].investment_E5))
             investment_E6_dict.append(str(self.case_names[i].investment_E6))
             investment_E7_dict.append(str(self.case_names[i].investment_E7))
-
             investment_dict.append(str(self.case_names[i].investment))
             investment_unit_dict.append(str(self.case_names[i].investment_unit))
-
             investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
 
         for re in self.auto_word_wind_res:
@@ -420,3 +368,11 @@ class auto_word_wind(models.Model):
         res['domain'] = [('res_model', '=', 'auto_word.wind'), ('res_id', 'in', self.ids)]
         res['context'] = {'default_res_model': 'auto_word.wind', 'default_res_id': self.id}
         return res
+    @api.multi
+    def _compute_attachment_number(self):
+        """附件上传"""
+        attachment_data = self.env['ir.attachment'].read_group(
+            [('res_model', '=', 'auto_word.wind'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+        attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
+        for expense in self:
+            expense.attachment_number = attachment.get(expense.id, 0)

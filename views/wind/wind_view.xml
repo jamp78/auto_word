@@ -24,8 +24,8 @@
         <field name="arch" type="xml">
             <form string="Wind">
                 <header>
-                    <button name="wind_open" type="object" groups="auto_word.wind_group_user"
-                            string="打开Excel"/>
+                    <!--<button name="wind_open" type="object" groups="auto_word.wind_group_user"-->
+                            <!--string="打开Excel"/>-->
                     <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
                             string="生成报告"/>
                     <button name="submit_wind" type="object" groups="auto_word.wind_group_user"

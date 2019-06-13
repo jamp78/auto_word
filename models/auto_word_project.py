@@ -21,7 +21,8 @@ class auto_word_project(models.Model):
     favorite_user_ids = fields.Many2many('res.users', string=u'项目组成员')
     message_main_attachment_id = fields.Many2many('ir.attachment', string=u'任务资料')
 
-    wind_attachment_id = fields.Many2one('auto_word.wind', string=u'风能数据', groups='auto_word.wind_group_user')
+    # wind_attachment_id = fields.Many2one('auto_word.wind', string=u'风能数据', groups='auto_word.wind_group_user')
+    # wind_attachment_id = fields.Char(u'风能方案', default="待提交", readonly=True)
     wind_attachment_ok = fields.Char(u'风能数据', default="待提交", readonly=True)
     electrical_attachment_id = fields.Many2one('auto_word.electrical', string=u'电气数据',
                                                groups='auto_word.electrical_group_user')
@@ -98,7 +99,7 @@ class auto_word_project(models.Model):
     investment_E6 = fields.Char(u'箱变投资(万元)', readonly=True, default="待提交")
     investment_E7 = fields.Char(u'集电线路(万元)', readonly=True, default="待提交")
     investment = fields.Char(u'发电部分投资(万元)', readonly=True, default="待提交")
-    investment_unit = fields.Char(u'发电部分投资(万元)', readonly=True, default="待提交")
+    investment_unit = fields.Char(u'单位度电投资(万元)', readonly=True, default="待提交")
 
 
     # @api.multi
