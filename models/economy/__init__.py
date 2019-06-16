@@ -1,0 +1,1 @@
+from . import auto_word_economy

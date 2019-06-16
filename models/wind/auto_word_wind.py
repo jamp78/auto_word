@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 import base64
-import sys, win32ui,os
+import sys, win32ui, os
 import numpy as np
 import pandas as pd
 
@@ -12,24 +12,25 @@ import doc_5
 sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
 from RoundUp import round_up, Get_Average, Get_Sum
 
+
 class auto_word_wind(models.Model):
     _name = 'auto_word.wind'
     _description = 'Wind energy input'
     _rec_name = 'content_id'
-    #项目参数
+    # 项目参数
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),
                                    ("其他", u"其他")], string=u"章节分类", required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
 
-    #上传参数
-    #--------测风信息---------
+    # 上传参数
+    # --------测风信息---------
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
 
-    #--------机型推荐---------
+    # --------机型推荐---------
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
-    #--------方案比选---------
+    # --------方案比选---------
     compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名')
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
@@ -40,7 +41,7 @@ class auto_word_wind(models.Model):
 
     case_number = fields.Char(string=u'方案数', default="待提交")
     case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案比选')
-    #--------风场信息---------
+    # --------风场信息---------
     IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
                                  ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
                                  ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
@@ -56,7 +57,6 @@ class auto_word_wind(models.Model):
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
     report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
-
 
     @api.depends('compare_id')
     def _compute_compare_case(self):
@@ -111,9 +111,9 @@ class auto_word_wind(models.Model):
         NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
         hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], []
         ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
-        ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power,total_powerGeneration_weak = 0, 0, 0,0
+        ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
 
-        #方案比选 Dict
+        # 方案比选 Dict
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
             name_tur_dict.append('WTG' + str(int(i + 1)))
@@ -137,7 +137,7 @@ class auto_word_wind(models.Model):
             investment_unit_dict.append(str(self.case_names[i].investment_unit))
             investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
 
-        #结果 Dict
+        # 结果 Dict
         for re in self.auto_word_wind_res:
             project_id_input_dict.append(re.project_id_input)
             Turbine_dict.append(re.Turbine)
@@ -182,7 +182,7 @@ class auto_word_wind(models.Model):
         ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict))
         ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict))
         ave_weak_res = round_up(Get_Average(Weak_res_dict))
-        ave_weak_res_xz=1+ave_weak_res
+        ave_weak_res_xz = 1 + ave_weak_res
         ave_hours_year = round_up(Get_Average(hours_year_dict))
         ave_ongrid_power = round_up(Get_Average(ongrid_power_dict))
         total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict))
@@ -266,7 +266,7 @@ class auto_word_wind(models.Model):
             # suffix = ".png"
             suffix = ".xls"
             newfile = t + suffix
-            Patt=os.path.join(path_images, '%s') % newfile
+            Patt = os.path.join(path_images, '%s') % newfile
             if not os.path.exists(Patt):
                 f = open(Patt, 'wb+')
                 f.write(imgdata)
@@ -278,7 +278,7 @@ class auto_word_wind(models.Model):
                 f.close()
             self.png_list.append(t)
 
-        col_name=['项目名称','单位','数量','单价(元)','合计(万元)']
+        col_name = ['项目名称', '单位', '数量', '单价(元)', '合计(万元)']
 
         data = pd.read_excel(
             r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\123.xls',
@@ -286,14 +286,14 @@ class auto_word_wind(models.Model):
         print("asdasdasdasdasdssssssssssssssssss")
         print(data["合计(万元)"][1])
         print(len(data.index))
-        Dict_e={}
-        for i in range(0,len(data.index)):
+        Dict_e = {}
+        for i in range(0, len(data.index)):
             key = data['项目名称'][i]
-            value = [data['数量'][i],data['单价(元)'][i],data['合计(万元)'][i]]
+            value = [data['数量'][i], data['单价(元)'][i], data['合计(万元)'][i]]
             Dict_e[key] = value
         print(Dict_e)
 
-        doc_5.generate_wind_docx1(Dict5, path_images,self.png_list)
+        doc_5.generate_wind_docx1(Dict5, path_images, self.png_list)
         ###########################
 
         reportfile_name = open(
@@ -327,39 +327,6 @@ class auto_word_wind(models.Model):
         print('new datas len：', len(self.report_attachment_id.datas))
         return True
 
-        # reportfile_name2 = open(
-        #     file=r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\powers.png',
-        #     mode='rb')
-        # byte2 = reportfile_name2.read()
-        # reportfile_name2.close()
-        # print('file lenth=', len(byte2))
-        # base64.standard_b64encode(byte2)
-        #
-        # print("MMMMMMMMMMMMMMMMMMM")
-        # print(str(self.report_attachment_id2))
-        # if (str(self.report_attachment_id2) == 'ir.attachment()'):
-        #     Attachments = self.env['ir.attachment']
-        #     print('开始创建新纪录')
-        #     New = Attachments.create({
-        #         'name': self.project_id.project_name + '图片',
-        #         'datas_fname': self.project_id.project_name + 'powers.png',
-        #         'datas': base64.standard_b64encode(byte2),
-        #         'display_name': self.project_id.project_name + 'powers.png',
-        #         'create_date': fields.date.today(),
-        #         'public': True,  # 此处需设置为true 否则attachments.read  读不到
-        #         # 'mimetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        #         # 'res_model': 'autoreport.project'
-        #         # 'res_field': 'report_attachment_id'
-        #     })
-        #     print('已创建新纪录：', New)
-        #     print('new dataslen：', len(New.datas))
-        #     self.report_attachment_id2 = New
-        # else:
-        #     self.report_attachment_id2.datas = base64.standard_b64encode(byte2)
-        #
-        # print('new attachment：', self.report_attachment_id2)
-        # print('new datas len：', len(self.report_attachment_id2.datas))
-        # return True
 
     @api.multi
     def action_get_attachment_view(self):
@@ -369,6 +336,7 @@ class auto_word_wind(models.Model):
         res['domain'] = [('res_model', '=', 'auto_word.wind'), ('res_id', 'in', self.ids)]
         res['context'] = {'default_res_model': 'auto_word.wind', 'default_res_id': self.id}
         return res
+
     @api.multi
     def _compute_attachment_number(self):
         """附件上传"""
@@ -377,3 +345,6 @@ class auto_word_wind(models.Model):
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for expense in self:
             expense.attachment_number = attachment.get(expense.id, 0)
+
+
+

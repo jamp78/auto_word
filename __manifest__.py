@@ -39,6 +39,7 @@
         'views/civil/civil_design_safety_standard_view.xml',
         'views/wind/wind_turbines_compare_view.xml',
         'views/wind/wind_turbine_selection_view.xml',
+        'views/economy/economy_view.xml',
 
     ],
     # only loaded in demonstration mode

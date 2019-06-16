@@ -80,3 +80,5 @@ def generate_wind_docx1(Dict, path_images,png_list):
 
     tpl.render(Dict)
     tpl.save(save_path)
+
+

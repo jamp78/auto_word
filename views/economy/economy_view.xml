@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="auto_word_economy_list" model="ir.ui.view">
+        <field name="name">economy_Information list</field>
+        <field name="model">auto_word.economy</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="project_id"/>
+                <field name="content_id"/>
+            </tree>
+
+        </field>
+    </record>
+    <record id="auto_word_economy_form" model="ir.ui.view">
+        <field name="name">economy_Information Form</field>
+        <field name="model">auto_word.economy</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <header>
+
+                    <button name="economy_generate" type="object" groups="auto_word.wind_group_user"
+                            string="生成报告"/>
+                    <button name="submit_economy" type="object" groups="auto_word.wind_group_user"
+                            string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
+                    <button name="action_get_attachment_economy_view" class="oe_stat_button" icon="fa-book" type="object">
+                            <field name="attachment_number" widget="statinfo" string="附件上传"/>
+                        </button>
+                </header>
+                <sheet>
+                    <group name="group_top">
+                        <group name="group_left">
+                            <field name="project_id"/>
+                            <field name="content_id"/>
+                            <field name="version_id"/>
+                            <field name="report_attachment_id3"/>
+                            <field name="report_attachment_id"/>
+
+                        </group>
+
+                    </group>
+
+                    <!--<group string="测风塔相关信息">-->
+                        <!--<field name="cft_name_words"/>-->
+                        <!--<field name="string_speed_words"/>-->
+                        <!--<field name="string_deg_words"/>-->
+                    <!--</group>-->
+
+
+                    <!--<group string="方案比选">-->
+                        <!--<field name="case_names"/>-->
+                    <!--</group>-->
+
+                    <!--<group string="方案结果">-->
+                        <!--<field name="auto_word_wind_res"/>-->
+                    <!--</group>-->
+
+                    <!--<group string="机型推荐">-->
+                        <!--<field name="compare_id"/>-->
+                        <!--&lt;!&ndash;<field name="case_name_suggestion"/>&ndash;&gt;-->
+                        <!--<field name="name_tur_suggestion"/>-->
+                    <!--</group>-->
+
+
+
+                    <!--<group name="group_mid">-->
+                        <!--<group name="group_left">-->
+                            <!--<field name="hub_height_suggestion"/>-->
+                            <!--<field name="farm_capacity"/>-->
+                        <!--</group>-->
+                        <!--<group name="group_right">-->
+                            <!--<field name="turbine_numbers_suggestion"/>-->
+                            <!--<field name="rotor_diameter_suggestion"/>-->
+                        <!--</group>-->
+                    <!--</group>-->
+
+                    <!--<group name="group_bottom">-->
+                        <!--&lt;!&ndash;<field name="generator_ids" />&ndash;&gt;-->
+                        <!--&lt;!&ndash;<field name="project_res" />&ndash;&gt;-->
+                        <!--<field name="report_attachment_id"/>-->
+                        <!--<field name="report_attachment_id2"/>-->
+                    <!--</group>-->
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+</odoo>
