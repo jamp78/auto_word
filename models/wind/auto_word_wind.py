@@ -30,10 +30,7 @@ class auto_word_wind(models.Model):
     #--------机型推荐---------
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
     #--------方案比选---------
-    case_number = fields.Char(string=u'方案数', default="待提交")
     compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名')
-
-    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案比选')
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
@@ -41,6 +38,8 @@ class auto_word_wind(models.Model):
                                             compute='_compute_compare_case')
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
 
+    case_number = fields.Char(string=u'方案数', default="待提交")
+    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案比选')
     #--------风场信息---------
     IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
                                  ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
@@ -70,41 +69,22 @@ class auto_word_wind(models.Model):
 
     @api.multi
     def submit_wind(self):
-        projectname = self.project_id
-        # myself = self
-        # projectname.wind_attachment_id = myself
-        projectname.wind_attachment_ok = u"已提交,版本：" + self.version_id
+        self.project_id.wind_attachment_ok = u"已提交,版本：" + self.version_id
 
-
-        projectname.turbine_numbers_suggestion = self.turbine_numbers_suggestion
-        projectname.hub_height_suggestion = self.hub_height_suggestion
-        projectname.project_capacity = self.farm_capacity
-        projectname.name_tur_suggestion = self.name_tur_suggestion
-
-        projectname.case_name = self.compare_id.case_name
-        projectname.investment_E1 = self.compare_id.investment_E1
-        projectname.investment_E2 = self.compare_id.investment_E2
-        projectname.investment_E3 = self.compare_id.investment_E3
-        projectname.investment_E4 = self.compare_id.investment_E4
-        projectname.investment_E5 = self.compare_id.investment_E5
-        projectname.investment_E6 = self.compare_id.investment_E6
-        projectname.investment_E7 = self.compare_id.investment_E7
-        projectname.investment = self.compare_id.investment
-        projectname.investment_unit = self.compare_id.investment_unit
-
-        return True
-
-    # @api.multi
-    # def wind_open(self):
-    #     dlg = win32ui.CreateFileDialog(1)
-    #     dlg.SetOFNInitialDir("C:")
-    #     flag = dlg.DoModal()
-    #     print(flag)
-    #     if 1 == flag:
-    #         filename = dlg.GetPathName()
-    #     else:
-    #         print("取消打开...")
-    #     self.file_excel_path = filename
+        self.project_id.case_name = self.compare_id.case_name
+        self.project_id.turbine_numbers_suggestion = self.compare_id.turbine_numbers
+        self.project_id.hub_height_suggestion = self.compare_id.hub_height_suggestion
+        self.project_id.project_capacity = self.compare_id.farm_capacity
+        self.project_id.name_tur_suggestion = self.compare_id.name_tur
+        self.project_id.investment_E1 = self.compare_id.investment_E1
+        self.project_id.investment_E2 = self.compare_id.investment_E2
+        self.project_id.investment_E3 = self.compare_id.investment_E3
+        self.project_id.investment_E4 = self.compare_id.investment_E4
+        self.project_id.investment_E5 = self.compare_id.investment_E5
+        self.project_id.investment_E6 = self.compare_id.investment_E6
+        self.project_id.investment_E7 = self.compare_id.investment_E7
+        self.project_id.investment = self.compare_id.investment
+        self.project_id.investment_unit = self.compare_id.investment_unit
 
     def wind_generate(self):
         tur_name = []
@@ -133,6 +113,7 @@ class auto_word_wind(models.Model):
         ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
         ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power,total_powerGeneration_weak = 0, 0, 0,0
 
+        #方案比选 Dict
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
             name_tur_dict.append('WTG' + str(int(i + 1)))
@@ -156,6 +137,7 @@ class auto_word_wind(models.Model):
             investment_unit_dict.append(str(self.case_names[i].investment_unit))
             investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
 
+        #结果 Dict
         for re in self.auto_word_wind_res:
             project_id_input_dict.append(re.project_id_input)
             Turbine_dict.append(re.Turbine)
@@ -213,7 +195,7 @@ class auto_word_wind(models.Model):
                             np.array(Weak_res_dict), np.array(hours_year_dict), np.array(ongrid_power_dict)
                             ))
         result = result.T
-        print(result)
+
         context = {}
         result_list = []
         result_lables_chapter5 = ['X', 'Y', 'Z', '尾流后风速', '最大入流角', '理论发电量',
@@ -277,9 +259,10 @@ class auto_word_wind(models.Model):
         Dict5 = dict(dict_5_word, **dict5, **context)
         print(Dict5)
         # doc_5.generate_wind_docx(Dict5, path_images)
+
         for re in self.report_attachment_id2:
             imgdata = base64.standard_b64decode(re.datas)
-            t = re.name  # 将指定格式的当前时间以字符串输出
+            t = re.name
             # suffix = ".png"
             suffix = ".xls"
             newfile = t + suffix
@@ -295,12 +278,6 @@ class auto_word_wind(models.Model):
                 f.close()
             self.png_list.append(t)
 
-        # col_name = ['Status', 'Grade', 'Capacity', 'Long', 'Width', 'InnerWallArea', 'WallLength', 'StoneMasonryFoot',
-        #             'StoneMasonryDrainageDitch', 'RoadArea', 'GreenArea', 'ComprehensiveBuilding', 'EquipmentBuilding',
-        #             'AffiliatedBuilding', 'C30Concrete', 'C15ConcreteCushion', 'MainTransformerFoundation',
-        #             'AccidentOilPoolC30Concrete', 'AccidentOilPoolC15Cushion', 'AccidentOilPoolReinforcement',
-        #             'FoundationC25Concrete', 'OutdoorStructure', 'PrecastConcretePole', 'LightningRod'
-        #             ]
         col_name=['项目名称','单位','数量','单价(元)','合计(万元)']
 
         data = pd.read_excel(
