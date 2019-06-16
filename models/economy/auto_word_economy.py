@@ -11,6 +11,27 @@ import pandas as pd
 import numpy as np
 
 
+def get_dict_economy(data, sheet_name):
+    Dict_e = {}
+    data_np = np.array(data)
+    for i in range(0, data_np.shape[0]):
+        key = str(data_np[i, 0]) + "_" + sheet_name
+
+        value = data_np[i, 1:].tolist()
+        value = [str(i) for i in value]
+        Dict_e[key] = value
+    return Dict_e
+
+
+def generate_economy_docx(Dict, path_images):
+    filename_box = ['11', 'result_chapter12']
+    read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
+    save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
+    tpl = DocxTemplate(read_path)
+    tpl.render(Dict)
+    tpl.save(save_path)
+
+
 class auto_word_economy(models.Model):
     _name = 'auto_word.economy'
     _description = 'economy res'
@@ -52,78 +73,64 @@ class auto_word_economy(models.Model):
         col_name_2 = ['项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
         col_name_3 = ['项目名称', '单位', '数量', '单价(元)', '合计(万元)']
 
-        data_2 = pd.read_excel(Pathinput,
-                               header=1, sheet_name='工程总概算表', usecols=col_name_2)
-        data_3 = pd.read_excel(Pathinput,
-                               header=1, sheet_name='施工辅助工程概算表', usecols=col_name_3)
+        col_name_array = [col_name_2, col_name_3]
+        sheet_name_array = ['工程总概算表', '施工辅助工程概算表']
+        dictMerged, Dict = {}, {}
+        for i in range(0, len(sheet_name_array)):
+            print(i)
+            data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
+            print(data)
+            data = data.replace(np.nan, '-', regex=True)
+            print(data)
 
-        # data_4 = pd.read_excel(Pathinput,
-        #                        header=1, sheet_name='设备及安装工程概算表', usecols=col_name)
-        # data_5 = pd.read_excel(Pathinput,
-        #                        header=1, sheet_name='建筑工程概算表', usecols=col_name)
-        # data_6 = pd.read_excel(Pathinput,
-        #                        header=1, sheet_name='其他费用概算表', usecols=col_name)
-        # data_7 = pd.read_excel(Pathinput,
-        #                        header=1, sheet_name='分年度投资表', usecols=col_name)
-        # data_8 = pd.read_excel(Pathinput,
-        #                        header=1, sheet_name='安装工程单价汇总表', usecols=col_name)
-        # data_9 = pd.read_excel(Pathinput,
-        #                        header=1, sheet_name='建筑工程单价汇总表', usecols=col_name)
-        # data_10 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='主要材料用量汇总表', usecols=col_name)
-        # data_11 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='施工机械台时费汇总表', usecols=col_name)
-        # data_12 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='主要材料预算价格计算表', usecols=col_name)
-        # data_13 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='混凝土材料单价计算表', usecols=col_name)
-        # data_14 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='材料运输费用计算表', usecols=col_name)
-        # data_15 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='设备运输费率计算表', usecols=col_name)
-        # data_16 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='电价计算表', usecols=col_name)
-        # data_17 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='水价计算表', usecols=col_name)
-        # data_18 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='电价计算表', usecols=col_name)
-        # data_19 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='风价计算表', usecols=col_name)
-        # data_20 = pd.read_excel(Pathinput,
-        #                         header=1, sheet_name='主要工程量汇总表', usecols=col_name)
-        def get_dict_economy(data, col_name):
-            Dict_e = {}
-            data_np = np.array(data)
-            print(data_np.shape)
-            for i in range(0, 1):
-                key = data_np[i,0]
-                value = data_np[i, 1:].tolist()
-                value = [str(i) for i in value]
-                Dict_e[key] = value
-            print(Dict_e)
-            print("OK!!!!!")
-            return Dict_e
+            # data_2 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='工程总概算表', usecols=col_name_2)
+            # data_3 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='施工辅助工程概算表', usecols=col_name_3)
 
-        def generate_economy_docx(Dict, path_images):
-            filename_box = ['11', 'result_chapter12']
-            read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
-            save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
-            tpl = DocxTemplate(read_path)
+            # data_4 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='设备及安装工程概算表', usecols=col_name)
+            # data_5 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='建筑工程概算表', usecols=col_name)
+            # data_6 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='其他费用概算表', usecols=col_name)
+            # data_7 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='分年度投资表', usecols=col_name)
+            # data_8 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='安装工程单价汇总表', usecols=col_name)
+            # data_9 = pd.read_excel(Pathinput,
+            #                        header=1, sheet_name='建筑工程单价汇总表', usecols=col_name)
+            # data_10 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='主要材料用量汇总表', usecols=col_name)
+            # data_11 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='施工机械台时费汇总表', usecols=col_name)
+            # data_12 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='主要材料预算价格计算表', usecols=col_name)
+            # data_13 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='混凝土材料单价计算表', usecols=col_name)
+            # data_14 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='材料运输费用计算表', usecols=col_name)
+            # data_15 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='设备运输费率计算表', usecols=col_name)
+            # data_16 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='电价计算表', usecols=col_name)
+            # data_17 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='水价计算表', usecols=col_name)
+            # data_18 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='电价计算表', usecols=col_name)
+            # data_19 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='风价计算表', usecols=col_name)
+            # data_20 = pd.read_excel(Pathinput,
+            #                         header=1, sheet_name='主要工程量汇总表', usecols=col_name)
+
+            Dict = get_dict_economy(data, sheet_name_array[i])
             print(Dict)
-            tpl.render(Dict)
-            tpl.save(save_path)
+            # dictMerged = dict(Dict, **dictMerged)
+            dictMerged.update(Dict)
+            print(dictMerged)
+        print(dictMerged)
 
-        Dict_e = get_dict_economy(data_2, col_name_2)
-        # for i in range(0, len(data_2.index)):
-        #     key = data_2['项目名称'][i]
-        #     value = [data_2['设备购置费(万元)'][i], data_2['建安工程费(万元)'][i], data_2['其他费用(万元)'][i],
-        #              data_2['合计(万元)'][i], data_2['占总投资比例(%)'][i]]
-        #     Dict_e[key] = value
-        # print(Dict_e)
-        # print("OK!!!!!")
-
-        generate_economy_docx(Dict_e, economy_images)
-
+        generate_economy_docx(dictMerged, economy_images)
 
         # ###########################
 
