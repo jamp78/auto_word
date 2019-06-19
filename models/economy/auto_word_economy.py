@@ -72,43 +72,43 @@ class auto_word_economy(models.Model):
         pd.set_option('display.max_columns', None)
         col_name_2 = ['项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
         col_name_3 = ['项目名称', '单位', '数量', '单价(元)', '合计(万元)']
+        col_name_4 = ['名称及规格', '单位', '数量', '设备费（单）', '安装费（单）', '设备费（合计）', '安装费（合计）']
+        col_name_5 = ['工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
+        col_name_6 = ['工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
+        col_name_7 = ['工程名称', '工程投资', '第1年', '第2年']
+        col_name_8 = ['工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '装置性材料费',
+                      '措施费', '间接费', '利润', '税金']
+        col_name_9 = ['工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '中间单价',
+                      '措施费', '间接费', '利润', '税金']
+        col_name_10 = ['序号', '钢筋(t)', '水泥(t)', '桩(m)', '钢材(t)', '电缆(km)']
+        col_name_11 = ['名称及规格', '台时费', '折旧费', '修理费', '安装拆卸费', '人工费', '动力燃料费',
+                      '其他费用']
+        col_name_12 = ['名称及规格', '单位', '预算价格', '原价依据', '原价(元)', '运杂费(元)', '采购及保管费']
+        col_name_13 = ['混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)(元)', '外加剂(kg)',
+                       '水(m³)','单价(元)']
 
-        col_name_array = [col_name_2, col_name_3]
-        sheet_name_array = ['工程总概算表', '施工辅助工程概算表']
+
+
+        col_name_array = [col_name_2, col_name_3, col_name_4, col_name_5, col_name_6, col_name_7,
+                          col_name_8, col_name_9,col_name_10,col_name_11,col_name_12,col_name_13]
+        sheet_name_array = ['工程总概算表', '施工辅助工程概算表', '设备及安装工程概算表', '建筑工程概算表',
+                            '其他费用概算表', '分年度投资表', '安装工程单价汇总表', '建筑工程单价汇总表',
+                            '主要材料用量汇总表','施工机械台时费汇总表','主要材料预算价格计算表',
+                            '混凝土材料单价计算表']
         dictMerged, Dict = {}, {}
         for i in range(0, len(sheet_name_array)):
             print(i)
-            data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
-            print(data)
+            if i == 2 or i == 3 or i == 7 or i == 11 or i == 12 or i == 13:
+                data = pd.read_excel(Pathinput, header=2, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
+            elif i == 8 or i==9:
+                data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
+
+            else:
+                data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
             data = data.replace(np.nan, '-', regex=True)
             print(data)
 
-            # data_2 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='工程总概算表', usecols=col_name_2)
-            # data_3 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='施工辅助工程概算表', usecols=col_name_3)
-
-            # data_4 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='设备及安装工程概算表', usecols=col_name)
-            # data_5 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='建筑工程概算表', usecols=col_name)
-            # data_6 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='其他费用概算表', usecols=col_name)
-            # data_7 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='分年度投资表', usecols=col_name)
-            # data_8 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='安装工程单价汇总表', usecols=col_name)
-            # data_9 = pd.read_excel(Pathinput,
-            #                        header=1, sheet_name='建筑工程单价汇总表', usecols=col_name)
-            # data_10 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='主要材料用量汇总表', usecols=col_name)
-            # data_11 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='施工机械台时费汇总表', usecols=col_name)
-            # data_12 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='主要材料预算价格计算表', usecols=col_name)
-            # data_13 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='混凝土材料单价计算表', usecols=col_name)
-            # data_14 = pd.read_excel(Pathinput,
+           # data_14 = pd.read_excel(Pathinput,
             #                         header=1, sheet_name='材料运输费用计算表', usecols=col_name)
             # data_15 = pd.read_excel(Pathinput,
             #                         header=1, sheet_name='设备运输费率计算表', usecols=col_name)
