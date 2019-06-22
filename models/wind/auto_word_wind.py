@@ -257,14 +257,13 @@ class auto_word_wind(models.Model):
 
         }
         Dict5 = dict(dict_5_word, **dict5, **context)
-        print(Dict5)
         # doc_5.generate_wind_docx(Dict5, path_images)
 
         for re in self.report_attachment_id2:
             imgdata = base64.standard_b64decode(re.datas)
             t = re.name
-            # suffix = ".png"
-            suffix = ".xls"
+            suffix = ".png"
+            # suffix = ".xls"
             newfile = t + suffix
             Patt = os.path.join(path_images, '%s') % newfile
             if not os.path.exists(Patt):
