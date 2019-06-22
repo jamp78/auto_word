@@ -7,7 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/models/source/chapter_6" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/models/source/chapter_8" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.5" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

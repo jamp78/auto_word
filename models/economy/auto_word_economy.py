@@ -87,8 +87,6 @@ class auto_word_economy(models.Model):
         col_name_13 = ['混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)(元)', '外加剂(kg)',
                        '水(m³)','单价(元)']
 
-
-
         col_name_array = [col_name_2, col_name_3, col_name_4, col_name_5, col_name_6, col_name_7,
                           col_name_8, col_name_9,col_name_10,col_name_11,col_name_12,col_name_13]
         sheet_name_array = ['工程总概算表', '施工辅助工程概算表', '设备及安装工程概算表', '建筑工程概算表',
@@ -124,11 +122,8 @@ class auto_word_economy(models.Model):
             #                         header=1, sheet_name='主要工程量汇总表', usecols=col_name)
 
             Dict = get_dict_economy(data, sheet_name_array[i])
-            print(Dict)
-            # dictMerged = dict(Dict, **dictMerged)
             dictMerged.update(Dict)
-            print(dictMerged)
-        print(dictMerged)
+        # print(dictMerged)
 
         generate_economy_docx(dictMerged, economy_images)
 
