@@ -1,10 +1,10 @@
 from docxtpl import DocxTemplate
 import os
 import sys
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8')
 from MainConstructionQuantitySummarySheet import *
 import sys
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
 import RoundUp
 
 

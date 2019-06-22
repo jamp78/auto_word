@@ -5,7 +5,7 @@ import base64
 import sys, win32ui, os
 from docxtpl import DocxTemplate, InlineImage
 
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind')
 import doc_5
 import pandas as pd
 import numpy as np
@@ -21,6 +21,16 @@ def get_dict_economy(data, sheet_name):
         value = [str(i) for i in value]
         Dict_e[key] = value
     return Dict_e
+
+
+def get_dict_economy_head(col_name, sheet_name):
+    Dict_h = {}
+    data_np = np.array(col_name)
+    key = str(data_np[0]) + "_" + sheet_name
+    value = data_np[1:].tolist()
+    value = [str(i) for i in value]
+    Dict_h[key] = value
+    return Dict_h
 
 
 def generate_economy_docx(Dict, path_images):
@@ -47,7 +57,7 @@ class auto_word_economy(models.Model):
     xls_list = []
 
     def economy_generate(self):
-        economy_images = r"D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_12"
+        economy_path = r"H:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_12"
 
         xlsdata = base64.standard_b64decode(self.report_attachment_id3.datas)
         t = self.report_attachment_id3.name
@@ -55,8 +65,8 @@ class auto_word_economy(models.Model):
         suffix_out = ".docx"
         inputfile = t + suffix_in
         outputfile = 'result_chapter12' + suffix_out
-        Pathinput = os.path.join(economy_images, '%s') % inputfile
-        Pathoutput = os.path.join(economy_images, '%s') % outputfile
+        Pathinput = os.path.join(economy_path, '%s') % inputfile
+        Pathoutput = os.path.join(economy_path, '%s') % outputfile
         if not os.path.exists(Pathinput):
             f = open(Pathinput, 'wb+')
             f.write(xlsdata)
@@ -72,9 +82,9 @@ class auto_word_economy(models.Model):
         pd.set_option('display.max_columns', None)
         col_name_2 = ['项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
         col_name_3 = ['项目名称', '单位', '数量', '单价(元)', '合计(万元)']
-        col_name_4 = ['名称及规格', '单位', '数量', '设备费（单）', '安装费（单）', '设备费（合计）', '安装费（合计）']
+        col_name_4 = ['名称及规格', '单位', '数量', '设备费（单价）', '安装费（单价）', '设备费（合计）', '安装费（合计）']
         col_name_5 = ['工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
-        col_name_6 = ['工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
+        col_name_6 = ['工程或费用名称', '单位', '数量', '单价(万元)', '合计(万元)']
         col_name_7 = ['工程名称', '工程投资', '第1年', '第2年']
         col_name_8 = ['工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '装置性材料费',
                       '措施费', '间接费', '利润', '税金']
@@ -82,50 +92,34 @@ class auto_word_economy(models.Model):
                       '措施费', '间接费', '利润', '税金']
         col_name_10 = ['序号', '钢筋(t)', '水泥(t)', '桩(m)', '钢材(t)', '电缆(km)']
         col_name_11 = ['名称及规格', '台时费', '折旧费', '修理费', '安装拆卸费', '人工费', '动力燃料费',
-                      '其他费用']
-        col_name_12 = ['名称及规格', '单位', '预算价格', '原价依据', '原价(元)', '运杂费(元)', '采购及保管费']
-        col_name_13 = ['混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)(元)', '外加剂(kg)',
-                       '水(m³)','单价(元)']
+                       '其他费用']
+        col_name_12 = ['名称及规格', '单位', '预算价格', '原价依据', '原价(元)', '运杂费(元)', '采购及保管费(元)']
+        col_name_13 = ['混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)', '外加剂(kg)',
+                       '水(m³)', '单价(元)']
 
         col_name_array = [col_name_2, col_name_3, col_name_4, col_name_5, col_name_6, col_name_7,
-                          col_name_8, col_name_9,col_name_10,col_name_11,col_name_12,col_name_13]
+                          col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13]
         sheet_name_array = ['工程总概算表', '施工辅助工程概算表', '设备及安装工程概算表', '建筑工程概算表',
                             '其他费用概算表', '分年度投资表', '安装工程单价汇总表', '建筑工程单价汇总表',
-                            '主要材料用量汇总表','施工机械台时费汇总表','主要材料预算价格计算表',
+                            '主要材料用量汇总表', '施工机械台时费汇总表', '主要材料预算价格计算表',
                             '混凝土材料单价计算表']
-        dictMerged, Dict = {}, {}
+        dictMerged, Dict, Dict_content, Dict_head = {}, {}, {}, {}
         for i in range(0, len(sheet_name_array)):
-            print(i)
-            if i == 2 or i == 3 or i == 7 or i == 11 or i == 12 or i == 13:
+            print(sheet_name_array[i], i)
+            if i == 2 or i == 5 or i == 9 or i == 10 or i == 11:
                 data = pd.read_excel(Pathinput, header=2, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
-            elif i == 8 or i==9:
-                data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
 
+            elif i == 6 or i == 7:
+                data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
             else:
                 data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
             data = data.replace(np.nan, '-', regex=True)
-            print(data)
-
-           # data_14 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='材料运输费用计算表', usecols=col_name)
-            # data_15 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='设备运输费率计算表', usecols=col_name)
-            # data_16 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='电价计算表', usecols=col_name)
-            # data_17 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='水价计算表', usecols=col_name)
-            # data_18 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='电价计算表', usecols=col_name)
-            # data_19 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='风价计算表', usecols=col_name)
-            # data_20 = pd.read_excel(Pathinput,
-            #                         header=1, sheet_name='主要工程量汇总表', usecols=col_name)
-
-            Dict = get_dict_economy(data, sheet_name_array[i])
+            Dict_content = get_dict_economy(data, sheet_name_array[i])
+            Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
+            Dict = dict(Dict_content, **Dict_head)
             dictMerged.update(Dict)
-        # print(dictMerged)
-
-        generate_economy_docx(dictMerged, economy_images)
+        print(dictMerged)
+        generate_economy_docx(dictMerged, economy_path)
 
         # ###########################
 
