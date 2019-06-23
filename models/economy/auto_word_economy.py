@@ -10,8 +10,11 @@ import doc_5
 import pandas as pd
 import numpy as np
 
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
+from RoundUp import round_up, Get_Average, Get_Sum
 
-def get_dict_economy(index, col_name, data):
+
+def get_dict_economy(index, col_name, data, sheet_name_array):
     result_dict, context = {}, {}
     result_list = []
 
@@ -19,9 +22,14 @@ def get_dict_economy(index, col_name, data):
     result_list_name = 'result_list' + str(index)
     context[result_labels_name] = col_name
     data_np = np.array(data)
+    print(data_np.shape[0], sheet_name_array)
     for i in range(0, data_np.shape[0]):
         key = str(data_np[i, 0])
+
         value = data_np[i, 1:].tolist()
+        for j in range(0, len(value)):
+            if type(value[j]).__name__ == 'float':
+                value[j] = round_up(value[j], 3)
         value = [str(i) for i in value]
 
         result_dict = {'number': key, 'cols': value}
@@ -92,21 +100,23 @@ class auto_word_economy(models.Model):
         self.xls_list.append(t)
 
         pd.set_option('display.max_columns', None)
-        col_name_2 = ['序号','项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
-        col_name_3 = ['序号','项目名称', '单位', '数量', '单价(元)', '合计(万元)']
-        col_name_4 = ['序号','名称及规格', '单位', '数量', '设备费（单价）', '安装费（单价）', '设备费（合计）', '安装费（合计）']
-        col_name_5 = ['序号','工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
-        col_name_6 = ['序号','工程或费用名称', '单位', '数量', '单价(万元)', '合计(万元)']
-        col_name_7 = ['序号','工程名称', '工程投资', '第1年', '第2年']
-        col_name_8 = ['编号','工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '装置性材料费',
+        pd.set_option('display.max_rows', None)
+
+        col_name_2 = ['序号', '项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
+        col_name_3 = ['序号', '项目名称', '单位', '数量', '单价(元)', '合计(万元)']
+        col_name_4 = ['序号', '名称及规格', '单位', '数量', '设备费（单价）', '安装费（单价）', '设备费（合计）', '安装费（合计）']
+        col_name_5 = ['序号', '工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
+        col_name_6 = ['序号', '工程或费用名称', '单位', '数量', '单价(万元)', '合计(万元)']
+        col_name_7 = ['序号', '工程名称', '工程投资', '第1年', '第2年']
+        col_name_8 = ['编号', '工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '装置性材料费',
                       '措施费', '间接费', '利润', '税金']
-        col_name_9 = ['编号','工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '中间单价',
+        col_name_9 = ['编号', '工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '中间单价',
                       '措施费', '间接费', '利润', '税金']
         col_name_10 = ['序号', '钢筋(t)', '水泥(t)', '桩(m)', '钢材(t)', '电缆(km)']
-        col_name_11 = ['编号','名称及规格', '台时费', '折旧费', '修理费', '安装拆卸费', '人工费', '动力燃料费',
+        col_name_11 = ['编号', '名称及规格', '台时费', '折旧费', '修理费', '安装拆卸费', '人工费', '动力燃料费',
                        '其他费用']
-        col_name_12 = ['编号','名称及规格', '单位', '预算价格', '原价依据', '原价(元)', '运杂费(元)', '采购及保管费(元)']
-        col_name_13 = ['编号','混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)', '外加剂(kg)',
+        col_name_12 = ['编号', '名称及规格', '单位', '预算价格', '原价依据', '原价(元)', '运杂费(元)', '采购及保管费(元)']
+        col_name_13 = ['编号', '混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)', '外加剂(kg)',
                        '水(m³)', '单价(元)']
 
         col_name_array = [col_name_2, col_name_3, col_name_4, col_name_5, col_name_6, col_name_7,
@@ -126,7 +136,9 @@ class auto_word_economy(models.Model):
             else:
                 data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
             data = data.replace(np.nan, '-', regex=True)
-            dict_content = get_dict_economy(i,col_name_array[i], data)
+            if i == 2:
+                print(data)
+            dict_content = get_dict_economy(i, col_name_array[i], data, sheet_name_array[i])
             # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
             # Dict = dict(Dict_content, **Dict_head)
             dictMerged.update(dict_content)
