@@ -1,7 +1,7 @@
 import os
 from docxtpl import DocxTemplate
 import sys
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6')
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6')
 from WireRod import WireRod
 from ElectricalInsulator import ElectricalInsulator
 from TowerType import TowerType

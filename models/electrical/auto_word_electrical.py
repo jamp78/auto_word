@@ -2,13 +2,13 @@
 
 from odoo import models, fields, api
 import sys
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\electrical')
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\electrical')
 import doc_6
 import base64
 
 
 class auto_word_electrical(models.Model):
-    path_images = r"H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
+    path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     _name = 'auto_word.electrical'
     _description = 'electrical input'
     _rec_name = 'project_id'

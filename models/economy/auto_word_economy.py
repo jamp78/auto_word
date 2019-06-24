@@ -5,12 +5,12 @@ import base64
 import sys, win32ui, os
 from docxtpl import DocxTemplate, InlineImage
 
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind')
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
 import doc_5
 import pandas as pd
 import numpy as np
 
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
 from RoundUp import round_up, Get_Average, Get_Sum
 
 
@@ -85,7 +85,7 @@ class auto_word_economy(models.Model):
                 chapter_number = 12
             elif '经济评价' in t:
                 chapter_number = 13
-            economy_path = r'H:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_'+str(chapter_number)
+            economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
 
             print('33333333333333')
             print(economy_path)
@@ -151,11 +151,46 @@ class auto_word_economy(models.Model):
                     data = data.replace(np.nan, '-', regex=True)
                     # if i == 2:
                     #     print(data)
-                    dict_content = get_dict_economy(i, col_name_array[i], data, sheet_name_array[i])
+                    tabel_number = str(chapter_number) + '_' + str(i)
+                    dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
                     dictMerged.update(dict_content)
                 # print(dictMerged)
+
+            if chapter_number == 13:
+                col_name_1 = ['序号', '项目', '合计', '第1年', '第2年']
+                col_name_2 = ['序号', '项目', '单位', '数值']
+                col_name_3 = ['方案类型', '变化幅度（%）', '投资回收期(所得税后)(年)', '项目投资财务内部收益率(所得税前)(%)',
+                              '项目投资财务内部收益率(所得税后)(%)', '资本金财务内部收益率（%）']
+                # '项目投资财务净现值（所得税后）（万元）', '资本金财务净现值（万元）', '总投资收益率（ROI）（ % ）',
+                # '投资利税率（ % ）', '项目资本金净利润率（ROE）（ % ）', '资产负债率（ % ）']
+                col_name_4 = ['序号', '项目', '合计', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                              '13', '14', '15', '16', '17', '18', '19', '20', '21']
+                col_name_5, col_name_6, col_name_7, col_name_8, col_name_9, col_name_10 = col_name_4
+
+                col_name_array = [col_name_1, col_name_2, col_name_3, col_name_4, col_name_5, col_name_6,
+                                  col_name_7, col_name_8, col_name_9, col_name_10]
+                sheet_name_array = ['投资计划与资金筹措表', '财务指标汇总表', '单因素敏感性分析表', '总成本费用表',
+                                    '利润和利润分配表', '借款还本付息计划表', '项目投资现金流量表', '项目资本金现金流量表',
+                                    '财务计划现金流量表', '资产负债表']
+                for i in range(0, len(sheet_name_array)):
+                    print(sheet_name_array[i], i)
+                    if i == 0 or i >= 3:
+                        data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
+                                             usecols=col_name_array[i])
+                    else:
+                        data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
+                                             usecols=col_name_array[i])
+                    data = data.replace(np.nan, '-', regex=True)
+                    # if i == 2:
+                    #     print(data)
+                    tabel_number = str(chapter_number) + '_' + str(i)
+                    dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
+                    # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
+                    # Dict = dict(Dict_content, **Dict_head)
+                    dictMerged.update(dict_content)
+                print(dictMerged)
 
             generate_economy_docx(dictMerged, economy_path, model_name, outputfile)
 
@@ -182,7 +217,6 @@ class auto_word_economy(models.Model):
                 self.report_attachment_id = New
             else:
                 self.report_attachment_id.datas = base64.standard_b64encode(byte)
-
 
             print('new attachment：', self.report_attachment_id)
             print('new datas len：', len(self.report_attachment_id.datas))

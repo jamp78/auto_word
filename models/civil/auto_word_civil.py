@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\civil')
+sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\civil')
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
 import base64
 import numpy
