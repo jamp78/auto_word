@@ -6,10 +6,10 @@ import sys, win32ui, os
 import numpy as np
 import pandas as pd
 
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind')
 import doc_5
 
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
 from RoundUp import round_up, Get_Average, Get_Sum
 
 
