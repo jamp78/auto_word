@@ -167,7 +167,7 @@ class auto_word_economy(models.Model):
                 # '投资利税率（ % ）', '项目资本金净利润率（ROE）（ % ）', '资产负债率（ % ）']
                 col_name_4 = ['序号', '项目', '合计', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
                               '13', '14', '15', '16', '17', '18', '19', '20', '21']
-                col_name_5, col_name_6, col_name_7, col_name_8, col_name_9, col_name_10 = col_name_4
+                col_name_5, col_name_6, col_name_7, col_name_8, col_name_9, col_name_10 = col_name_4, col_name_4, col_name_4, col_name_4, col_name_4, col_name_4
 
                 col_name_array = [col_name_1, col_name_2, col_name_3, col_name_4, col_name_5, col_name_6,
                                   col_name_7, col_name_8, col_name_9, col_name_10]
@@ -176,15 +176,24 @@ class auto_word_economy(models.Model):
                                     '财务计划现金流量表', '资产负债表']
                 for i in range(0, len(sheet_name_array)):
                     print(sheet_name_array[i], i)
-                    if i == 0 or i >= 3:
+                    if i == 6:
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
-                                             usecols=col_name_array[i])
+                                             skip_footer=7)
+                    elif i == 7:
+                        data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
+                                             skip_footer=2)
+
+                    elif i == 0 or i >= 3:
+                        data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
+                                             )
+
+
                     else:
                         data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
                     data = data.replace(np.nan, '-', regex=True)
-                    # if i == 2:
-                    #     print(data)
+                    if i == 3:
+                        print(data)
                     tabel_number = str(chapter_number) + '_' + str(i)
                     dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
