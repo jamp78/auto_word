@@ -22,11 +22,14 @@ def get_dict_economy(index, col_name, data, sheet_name_array):
     result_list_name = 'result_list' + str(index)
     context[result_labels_name] = col_name
     data_np = np.array(data)
-    print(data_np.shape[0], sheet_name_array)
+    # print(data_np.shape[0], sheet_name_array)
     for i in range(0, data_np.shape[0]):
         key = str(data_np[i, 0])
 
-        value = data_np[i, 1:].tolist()
+        if index.strip() == '12_12':
+            value = data_np[i, :].tolist()
+        else:
+            value = data_np[i, 1:].tolist()
         for j in range(0, len(value)):
             if type(value[j]).__name__ == 'float':
                 value[j] = round_up(value[j], 3)
@@ -78,17 +81,18 @@ class auto_word_economy(models.Model):
 
     def economy_generate(self):
         chapter_number = 0
-        for re in self:
-            xlsdata = base64.standard_b64decode(re.report_attachment_id3.datas)
-            t = re.report_attachment_id3.name
+        dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
+        for re in self.report_attachment_id3:
+
+            xlsdata = base64.standard_b64decode(re.datas)
+            t = re.name
+
             if '概算' in t:
                 chapter_number = 12
             elif '经济评价' in t:
                 chapter_number = 13
             economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
 
-            print('33333333333333')
-            print(economy_path)
 
             suffix_in = ".xls"
             suffix_out = ".docx"
@@ -111,7 +115,7 @@ class auto_word_economy(models.Model):
 
             pd.set_option('display.max_columns', None)
             pd.set_option('display.max_rows', None)
-            dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
+
             if chapter_number == 12:
                 col_name_2 = ['序号', '项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
                 col_name_3 = ['序号', '项目名称', '单位', '数量', '单价(元)', '合计(万元)']
@@ -130,12 +134,15 @@ class auto_word_economy(models.Model):
                 col_name_13 = ['编号', '混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)', '外加剂(kg)',
                                '水(m³)', '单价(元)']
 
+                col_name_14=[]
+
                 col_name_array = [col_name_2, col_name_3, col_name_4, col_name_5, col_name_6, col_name_7,
-                                  col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13]
+                                  col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13,
+                                  col_name_14]
                 sheet_name_array = ['工程总概算表', '施工辅助工程概算表', '设备及安装工程概算表', '建筑工程概算表',
                                     '其他费用概算表', '分年度投资表', '安装工程单价汇总表', '建筑工程单价汇总表',
                                     '主要材料用量汇总表', '施工机械台时费汇总表', '主要材料预算价格计算表',
-                                    '混凝土材料单价计算表']
+                                    '混凝土材料单价计算表', '主要技术经济指标表']
                 for i in range(0, len(sheet_name_array)):
                     # print(sheet_name_array[i], i)
                     if i == 2 or i == 5 or i == 9 or i == 10 or i == 11:
@@ -145,12 +152,14 @@ class auto_word_economy(models.Model):
                     elif i == 6 or i == 7:
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
+                    elif i == 12:
+                        data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
+                                             )
                     else:
                         data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
                     data = data.replace(np.nan, '-', regex=True)
-                    # if i == 2:
-                    #     print(data)
+
                     tabel_number = str(chapter_number) + '_' + str(i)
                     dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
@@ -175,7 +184,7 @@ class auto_word_economy(models.Model):
                                     '利润和利润分配表', '借款还本付息计划表', '项目投资现金流量表', '项目资本金现金流量表',
                                     '财务计划现金流量表', '资产负债表']
                 for i in range(0, len(sheet_name_array)):
-                    print(sheet_name_array[i], i)
+                    # print(sheet_name_array[i], i)
                     if i == 6:
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              skip_footer=7)
@@ -186,14 +195,11 @@ class auto_word_economy(models.Model):
                     elif i == 0 or i >= 3:
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              )
-
-
                     else:
                         data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
                     data = data.replace(np.nan, '-', regex=True)
-                    if i == 3:
-                        print(data)
+
                     tabel_number = str(chapter_number) + '_' + str(i)
                     dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
@@ -201,35 +207,35 @@ class auto_word_economy(models.Model):
                     dictMerged.update(dict_content)
                 print(dictMerged)
 
-            generate_economy_docx(dictMerged, economy_path, model_name, outputfile)
+        generate_economy_docx(dictMerged, economy_path, model_name, outputfile)
 
-            # ###########################
+        # ###########################
 
-            reportfile_name = open(file=Pathoutput, mode='rb')
-            byte = reportfile_name.read()
-            reportfile_name.close()
-            print('file lenth=', len(byte))
-            base64.standard_b64encode(byte)
-            if (str(self.report_attachment_id) == 'ir.attachment()'):
-                Attachments = self.env['ir.attachment']
-                print('开始创建新纪录')
-                New = Attachments.create({
-                    'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
-                    'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
-                    'datas': base64.standard_b64encode(byte),
-                    'display_name': self.project_id.project_name + '可研报告经评章节',
-                    'create_date': fields.date.today(),
-                    'public': True,  # 此处需设置为true 否则attachments.read  读不到
-                })
-                print('已创建新纪录：', New)
-                print('new dataslen：', len(New.datas))
-                self.report_attachment_id = New
-            else:
-                self.report_attachment_id.datas = base64.standard_b64encode(byte)
+        reportfile_name = open(file=Pathoutput, mode='rb')
+        byte = reportfile_name.read()
+        reportfile_name.close()
+        # print('file lenth=', len(byte))
+        base64.standard_b64encode(byte)
+        if (str(self.report_attachment_id) == 'ir.attachment()'):
+            Attachments = self.env['ir.attachment']
+            print('开始创建新纪录')
+            New = Attachments.create({
+                'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
+                'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
+                'datas': base64.standard_b64encode(byte),
+                'display_name': self.project_id.project_name + '可研报告经评章节',
+                'create_date': fields.date.today(),
+                'public': True,  # 此处需设置为true 否则attachments.read  读不到
+            })
+            print('已创建新纪录：', New)
+            print('new dataslen：', len(New.datas))
+            self.report_attachment_id = New
+        else:
+            self.report_attachment_id.datas = base64.standard_b64encode(byte)
 
-            print('new attachment：', self.report_attachment_id)
-            print('new datas len：', len(self.report_attachment_id.datas))
-            return True
+        print('new attachment：', self.report_attachment_id)
+        print('new datas len：', len(self.report_attachment_id.datas))
+        return True
 
     @api.multi
     def action_get_attachment_economy_view(self):
