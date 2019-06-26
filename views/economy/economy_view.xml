@@ -28,15 +28,12 @@
                 </header>
                 <sheet>
                     <group name="group_top">
-                        <group name="group_left">
-                            <field name="project_id"/>
-                            <field name="content_id"/>
-                            <field name="version_id"/>
-                            <field name="report_attachment_id3"/>
-                            <field name="report_attachment_id"/>
-
-                        </group>
-
+                        <field name="project_id"/>
+                        <field name="content_id"/>
+                        <field name="version_id"/>
+                        <field name="report_attachment_id_input"/>
+                        <field name="report_attachment_id_output12"/>
+                        <field name="report_attachment_id_output13"/>
                     </group>
 
                     <!--<group string="测风塔相关信息">-->

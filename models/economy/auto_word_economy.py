@@ -74,15 +74,16 @@ class auto_word_economy(models.Model):
     content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),
                                    ("经评", u"经评"), ("其他", u"其他")], string=u"章节分类", required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告经评章节')
-    report_attachment_id3 = fields.Many2many('ir.attachment', string=u'经济性评价结果')
+    report_attachment_id_output12 = fields.Many2one('ir.attachment', string=u'可研报告经评章节12')
+    report_attachment_id_output13 = fields.Many2one('ir.attachment', string=u'可研报告经评章节13')
+    report_attachment_id_input = fields.Many2many('ir.attachment', string=u'经济性评价结果')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
     xls_list = []
 
     def economy_generate(self):
         chapter_number = 0
         dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
-        for re in self.report_attachment_id3:
+        for re in self.report_attachment_id_input:
 
             xlsdata = base64.standard_b64decode(re.datas)
             t = re.name
@@ -93,6 +94,7 @@ class auto_word_economy(models.Model):
                 chapter_number = 13
             economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
 
+            print("chapter_number",chapter_number)
 
             suffix_in = ".xls"
             suffix_out = ".docx"
@@ -117,6 +119,7 @@ class auto_word_economy(models.Model):
             pd.set_option('display.max_rows', None)
 
             if chapter_number == 12:
+                print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
                 col_name_2 = ['序号', '项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
                 col_name_3 = ['序号', '项目名称', '单位', '数量', '单价(元)', '合计(万元)']
                 col_name_4 = ['序号', '名称及规格', '单位', '数量', '设备费（单价）', '安装费（单价）', '设备费（合计）', '安装费（合计）']
@@ -134,7 +137,7 @@ class auto_word_economy(models.Model):
                 col_name_13 = ['编号', '混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)', '外加剂(kg)',
                                '水(m³)', '单价(元)']
 
-                col_name_14=[]
+                col_name_14 = []
 
                 col_name_array = [col_name_2, col_name_3, col_name_4, col_name_5, col_name_6, col_name_7,
                                   col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13,
@@ -165,8 +168,8 @@ class auto_word_economy(models.Model):
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
                     dictMerged.update(dict_content)
-                # print(dictMerged)
-
+                print(dictMerged)
+                generate_economy_docx(dictMerged, economy_path, model_name, outputfile)
             if chapter_number == 13:
                 col_name_1 = ['序号', '项目', '合计', '第1年', '第2年']
                 col_name_2 = ['序号', '项目', '单位', '数值']
@@ -207,34 +210,52 @@ class auto_word_economy(models.Model):
                     dictMerged.update(dict_content)
                 print(dictMerged)
 
-        generate_economy_docx(dictMerged, economy_path, model_name, outputfile)
+                generate_economy_docx(dictMerged, economy_path, model_name, outputfile)
 
-        # ###########################
+            # ###########################
 
-        reportfile_name = open(file=Pathoutput, mode='rb')
-        byte = reportfile_name.read()
-        reportfile_name.close()
-        # print('file lenth=', len(byte))
-        base64.standard_b64encode(byte)
-        if (str(self.report_attachment_id) == 'ir.attachment()'):
-            Attachments = self.env['ir.attachment']
-            print('开始创建新纪录')
-            New = Attachments.create({
-                'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
-                'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
-                'datas': base64.standard_b64encode(byte),
-                'display_name': self.project_id.project_name + '可研报告经评章节',
-                'create_date': fields.date.today(),
-                'public': True,  # 此处需设置为true 否则attachments.read  读不到
-            })
-            print('已创建新纪录：', New)
-            print('new dataslen：', len(New.datas))
-            self.report_attachment_id = New
-        else:
-            self.report_attachment_id.datas = base64.standard_b64encode(byte)
+            reportfile_name = open(file=Pathoutput, mode='rb')
+            byte = reportfile_name.read()
+            reportfile_name.close()
 
-        print('new attachment：', self.report_attachment_id)
-        print('new datas len：', len(self.report_attachment_id.datas))
+            if (chapter_number == 12):
+                if (str(self.report_attachment_id_output12) == 'ir.attachment()'):
+                    Attachments = self.env['ir.attachment']
+                    print('开始创建新纪录12')
+                    New = Attachments.create({
+                        'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
+                        'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
+                        'datas': base64.standard_b64encode(byte),
+                        'display_name': self.project_id.project_name + '可研报告经评章节',
+                        'create_date': fields.date.today(),
+                        'public': True,  # 此处需设置为true 否则attachments.read  读不到
+                    })
+                    print('已创建新纪录：', New)
+                    print('new dataslen：', len(New.datas))
+                    self.report_attachment_id_output12 = New
+                else:
+                    self.report_attachment_id_output12.datas = base64.standard_b64encode(byte)
+
+            elif (chapter_number == 13):
+                if (str(self.report_attachment_id_output13) == 'ir.attachment()'):
+                    Attachments = self.env['ir.attachment']
+                    print('开始创建新纪录13')
+                    New = Attachments.create({
+                        'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
+                        'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
+                        'datas': base64.standard_b64encode(byte),
+                        'display_name': self.project_id.project_name + '可研报告经评章节',
+                        'create_date': fields.date.today(),
+                        'public': True,  # 此处需设置为true 否则attachments.read  读不到
+                    })
+                    print('已创建新纪录：', New)
+                    print('new dataslen：', len(New.datas))
+                    self.report_attachment_id_output13 = New
+                else:
+                    self.report_attachment_id_output13.datas = base64.standard_b64encode(byte)
+
+                print('new attachment：', self.report_attachment_id_output13)
+                print('new datas len：', len(self.report_attachment_id_output13.datas))
         return True
 
     @api.multi
