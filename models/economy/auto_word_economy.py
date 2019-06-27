@@ -26,7 +26,7 @@ def get_dict_economy(index, col_name, data, sheet_name_array):
     for i in range(0, data_np.shape[0]):
         key = str(data_np[i, 0])
 
-        if index.strip() == '12_12':
+        if index.strip() == '12_7':
             value = data_np[i, :].tolist()
         else:
             value = data_np[i, 1:].tolist()
@@ -80,6 +80,14 @@ class auto_word_economy(models.Model):
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
     xls_list = []
 
+    #风能
+    Lon_words = fields.Char(string=u'东经',default='111.334294')
+    Lat_words = fields.Char(string=u'北纬',default='23.132694')
+    Elevation_words = fields.Char(string=u'海拔高程',default='588m～852m')
+    Relative_height_difference_words=fields.Char(string=u'相对高差',default='100m-218m')
+    #土建
+
+
     def economy_generate(self):
         chapter_number = 0
         dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
@@ -94,7 +102,7 @@ class auto_word_economy(models.Model):
                 chapter_number = 13
             economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
 
-            print("chapter_number",chapter_number)
+            print("chapter_number", chapter_number)
 
             suffix_in = ".xls"
             suffix_out = ".docx"
@@ -119,51 +127,61 @@ class auto_word_economy(models.Model):
             pd.set_option('display.max_rows', None)
 
             if chapter_number == 12:
-                print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
-                col_name_2 = ['序号', '项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
-                col_name_3 = ['序号', '项目名称', '单位', '数量', '单价(元)', '合计(万元)']
-                col_name_4 = ['序号', '名称及规格', '单位', '数量', '设备费（单价）', '安装费（单价）', '设备费（合计）', '安装费（合计）']
-                col_name_5 = ['序号', '工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
-                col_name_6 = ['序号', '工程或费用名称', '单位', '数量', '单价(万元)', '合计(万元)']
-                col_name_7 = ['序号', '工程名称', '工程投资', '第1年', '第2年']
-                col_name_8 = ['编号', '工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '装置性材料费',
-                              '措施费', '间接费', '利润', '税金']
-                col_name_9 = ['编号', '工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '中间单价',
-                              '措施费', '间接费', '利润', '税金']
-                col_name_10 = ['序号', '钢筋(t)', '水泥(t)', '桩(m)', '钢材(t)', '电缆(km)']
-                col_name_11 = ['编号', '名称及规格', '台时费', '折旧费', '修理费', '安装拆卸费', '人工费', '动力燃料费',
+                col_name_0 = ['设备', '单位', '设备价', '备注']
+                col_name_1 = ['编号', '材料名称及规格', '单位', '预算价格']
+                col_name_2 = ['工程类别', '计算基础', '费率']
+                col_name_3 = col_name_2
+                col_name_4 = ['工程类别', '分类', '计算基础', '费率']
+
+                col_name_5 = ['费用名称', '计算基础', '费率']
+                col_name_7 = ['序号', '项目名称', '设备购置费(万元)', '建安工程费(万元)', '其他费用(万元)', '合计(万元)', '占总投资比例(%)']
+                col_name_8 = ['序号', '项目名称', '单位', '数量', '单价(元)', '合计(万元)']
+                col_name_9 = ['序号', '名称及规格', '单位', '数量', '设备费（单价）', '安装费（单价）', '设备费（合计）', '安装费（合计）']
+                col_name_10 = ['序号', '工程或费用名称', '单位', '数量', '单价(元)', '合计(万元)']
+                col_name_11 = ['序号', '工程或费用名称', '单位', '数量', '单价(万元)', '合计(万元)']
+                col_name_12 = ['序号', '工程名称', '工程投资', '第1年', '第2年']
+                col_name_13 = ['编号', '工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '装置性材料费',
+                               '措施费', '间接费', '利润', '税金']
+                col_name_14 = ['编号', '工程名称', '单位', '单价', '人工费', '材料费', '机械使用费', '中间单价',
+                               '措施费', '间接费', '利润', '税金']
+                col_name_15 = ['序号', '钢筋(t)', '水泥(t)', '桩(m)', '钢材(t)', '电缆(km)']
+                col_name_16 = ['编号', '名称及规格', '台时费', '折旧费', '修理费', '安装拆卸费', '人工费', '动力燃料费',
                                '其他费用']
-                col_name_12 = ['编号', '名称及规格', '单位', '预算价格', '原价依据', '原价(元)', '运杂费(元)', '采购及保管费(元)']
-                col_name_13 = ['编号', '混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)', '外加剂(kg)',
+                col_name_17 = ['编号', '名称及规格', '单位', '预算价格', '原价依据', '原价(元)', '运杂费(元)', '采购及保管费(元)']
+                col_name_18 = ['编号', '混凝土强度 水泥标号 级配', '水泥(kg)', '掺和料(kg)', '砂(m³)', '石子(m³)', '外加剂(kg)',
                                '水(m³)', '单价(元)']
+                col_name_6 = []
 
-                col_name_14 = []
-
-                col_name_array = [col_name_2, col_name_3, col_name_4, col_name_5, col_name_6, col_name_7,
-                                  col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13,
-                                  col_name_14]
-                sheet_name_array = ['工程总概算表', '施工辅助工程概算表', '设备及安装工程概算表', '建筑工程概算表',
-                                    '其他费用概算表', '分年度投资表', '安装工程单价汇总表', '建筑工程单价汇总表',
-                                    '主要材料用量汇总表', '施工机械台时费汇总表', '主要材料预算价格计算表',
-                                    '混凝土材料单价计算表', '主要技术经济指标表']
+                col_name_array = [col_name_0, col_name_1, col_name_2, col_name_3, col_name_4, col_name_5, col_name_6,
+                                  col_name_7, col_name_8, col_name_9, col_name_10, col_name_11, col_name_12,
+                                  col_name_13, col_name_14,
+                                  # col_name_15, col_name_16, col_name_17
+                                  ]
+                sheet_name_array = ['主要设备价格汇总表', '主要材料价格表', '建筑工程措施费费率表', '建筑工程间接费费率表',
+                                    '安装工程措施费费率表', '主要费率指标表', '主要技术经济指标表', '工程总概算表',
+                                    '施工辅助工程概算表', '设备及安装工程概算表', '建筑工程概算表', '其他费用概算表', '分年度投资表',
+                                    # '安装工程单价汇总表', '建筑工程单价汇总表', '主要材料用量汇总表', '施工机械台时费汇总表',
+                                    # '主要材料预算价格计算表', '混凝土材料单价计算表'
+                                    ]
                 for i in range(0, len(sheet_name_array)):
-                    # print(sheet_name_array[i], i)
-                    if i == 2 or i == 5 or i == 9 or i == 10 or i == 11:
+                    print(sheet_name_array[i], i)
+                    if i == 9 or i == 12:
                         data = pd.read_excel(Pathinput, header=2, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
-
-                    elif i == 6 or i == 7:
-                        data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
-                                             usecols=col_name_array[i])
-                    elif i == 12:
+                    elif i==6:
                         data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
+                                             # usecols=col_name_array[i]
                                              )
                     else:
                         data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
                     data = data.replace(np.nan, '-', regex=True)
 
-                    tabel_number = str(chapter_number) + '_' + str(i)
+                    if i==6:
+                        print("sssssssssssssssssssss")
+                        print(data)
+
+                    tabel_number = str(chapter_number) + '_' + str(i + 1)
                     dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
