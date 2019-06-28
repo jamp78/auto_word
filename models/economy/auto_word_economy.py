@@ -86,24 +86,82 @@ class auto_word_economy(models.Model):
     Elevation_words = fields.Char(string=u'海拔高程',default='588m～852m')
     Relative_height_difference_words=fields.Char(string=u'相对高差',default='100m-218m')
     #土建
+    Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
+    Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
+    New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
 
+    #经评
+    Project_time_words = fields.Char(string=u'施工总工期', default='18')
+    Turbine_capacity_words = fields.Char(string=u'单机容量', default='2.5')
+    Turbine_number_words = fields.Char(string=u'风力发电机组', default='40')
+    Farm_capacity_words = fields.Char(string=u'装机容量', default='100')
+    Generating_capacity_words = fields.Char(string=u'发电量', default='205531.5')
+    Hour_words = fields.Char(string=u'满发小时', default='2055')
+
+    Towter_weight_words = fields.Char(string=u'塔筒', default='8975.72')
+    Earth_excavation_words = fields.Char(string=u'土石方开挖', default='154.7')
+    Earth_backfill_words = fields.Char(string=u'土石方回填', default='56.01')
+    Concrete_words = fields.Char(string=u'混凝土', default='3.62')
+    Steel_weight_words = fields.Char(string=u'钢筋', default='2565.6')
+
+    #计划施工时间
+    First_turbine_words = fields.Char(string=u'第一台机组发电工期', default='15')
+    total_turbine_words = fields.Char(string=u'总工期', default='18')
+    staff_words = fields.Char(string=u'生产单位定员', default='12')
+
+    #项目状况
+    Farm_words = fields.Char(string=u'风电场名称', default='8975.72')
+    Location_words = fields.Char(string=u'建设地点', default='154.7')
+    Construction_words = fields.Char(string=u'建设单位', default='56.01')
+    Turbine_cost_words = fields.Char(string=u'风电机组单位造价', default='3500')
+    Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
+    infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
 
     def economy_generate(self):
         chapter_number = 0
         dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
-        for re in self.report_attachment_id_input:
+        dict_12_word = {
+            "东经": self.Lon_words,
+            "北纬": self.Lon_words,
+            "海拔高程": self.Elevation_words,
+            "相对高差": self.Relative_height_difference_words,
+            "新改建道路": self.Re_road_words,
+            "场内改扩建道路": self.Extension_road_words,
+            "新建施工检修道路": self.New_road_words,
 
+            "施工总工期": self.Project_time_words,
+            "单机容量": self.Turbine_capacity_words,
+            "土石方回填": self.Turbine_number_words,
+            "装机容量": self.Farm_capacity_words,
+            "发电量": self.Generating_capacity_words,
+            "满发小时": self.Hour_words,
+
+            "塔筒": self.Towter_weight_words,
+            "土石方开挖": self.Earth_excavation_words,
+            "风力发电机组": self.Earth_backfill_words,
+            "混凝土": self.Concrete_words,
+            "钢筋": self.Steel_weight_words,
+
+            "第一台机组发电工期": self.First_turbine_words,
+            "总工期": self.total_turbine_words,
+            "生产单位定员": self.staff_words,
+
+            "风电场名称": self.Farm_words,
+            "建设地点": self.Location_words,
+            "建设单位": self.Construction_words,
+            "风电机组单位造价": self.Turbine_cost_words,
+            "塔筒单位造价": self.Tower_cost_words,
+            "风电机组基础单价": self.infrastructure_cost_words,
+        }
+
+        for re in self.report_attachment_id_input:
             xlsdata = base64.standard_b64decode(re.datas)
             t = re.name
-
             if '概算' in t:
                 chapter_number = 12
             elif '经济评价' in t:
                 chapter_number = 13
             economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
-
-            print("chapter_number", chapter_number)
-
             suffix_in = ".xls"
             suffix_out = ".docx"
             inputfile = t + suffix_in
@@ -172,22 +230,24 @@ class auto_word_economy(models.Model):
                         data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
                                              # usecols=col_name_array[i]
                                              )
+                    # elif i==1:
+                    #     data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
+                    #                          usecols=col_name_array[i],
+                    #                          skipfooter=2
+                    #                          )
+
                     else:
                         data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
                     data = data.replace(np.nan, '-', regex=True)
-
-                    if i==6:
-                        print("sssssssssssssssssssss")
-                        print(data)
 
                     tabel_number = str(chapter_number) + '_' + str(i + 1)
                     dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
                     dictMerged.update(dict_content)
-                print(dictMerged)
-                generate_economy_docx(dictMerged, economy_path, model_name, outputfile)
+                Dict12 = dict(dict_12_word, **dictMerged)
+                generate_economy_docx(Dict12, economy_path, model_name, outputfile)
             if chapter_number == 13:
                 col_name_1 = ['序号', '项目', '合计', '第1年', '第2年']
                 col_name_2 = ['序号', '项目', '单位', '数值']
