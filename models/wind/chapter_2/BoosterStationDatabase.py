@@ -219,7 +219,7 @@ np.seterr(divide='ignore', invalid='ignore')
 wrong_wind_list, nan_wind_list = [], []
 project03 = WindExcel()
 data, speed, deg, tem, pres = project03.extraction_wind_excel(
-    r'D:\GOdoo12_community\myaddons\auto_word\demo\导表\Mast_hour.xlsx')
+    r'H:\GOdoo12_community\myaddons\auto_word\demo\导表\Mast_hour.xlsx')
 
 # 风速不合理性的个数
 wrong_speed_list, nan_speed_list, wrong_deg_list, nan_deg_list, \

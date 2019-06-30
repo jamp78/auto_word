@@ -4,13 +4,12 @@ from odoo import models, fields, api
 import base64
 import sys, win32ui, os
 from docxtpl import DocxTemplate, InlineImage
-
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
-import doc_5
 import pandas as pd
 import numpy as np
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5')
+import doc_5
 
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
 from RoundUp import round_up, Get_Average, Get_Sum
 
 
@@ -90,6 +89,9 @@ class auto_word_economy(models.Model):
     Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
     New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
 
+    Permanent_land_words = fields.Char(string=u'永久用地', default='38.36')
+    temporary_land_words = fields.Char(string=u'临时用地', default='1467.95')
+
     #经评
     Project_time_words = fields.Char(string=u'施工总工期', default='18')
     Turbine_capacity_words = fields.Char(string=u'单机容量', default='2.5')
@@ -116,6 +118,9 @@ class auto_word_economy(models.Model):
     Turbine_cost_words = fields.Char(string=u'风电机组单位造价', default='3500')
     Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
     infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
+    unit_cost_words = fields.Char(string=u'单位度电投资', default='3.59')
+
+
 
     def economy_generate(self):
         chapter_number = 0
@@ -128,6 +133,8 @@ class auto_word_economy(models.Model):
             "新改建道路": self.Re_road_words,
             "场内改扩建道路": self.Extension_road_words,
             "新建施工检修道路": self.New_road_words,
+            "永久用地": self.Permanent_land_words,
+            "临时用地": self.temporary_land_words,
 
             "施工总工期": self.Project_time_words,
             "单机容量": self.Turbine_capacity_words,
@@ -152,6 +159,8 @@ class auto_word_economy(models.Model):
             "风电机组单位造价": self.Turbine_cost_words,
             "塔筒单位造价": self.Tower_cost_words,
             "风电机组基础单价": self.infrastructure_cost_words,
+            "单位度电投资": self.unit_cost_words,
+
         }
 
         for re in self.report_attachment_id_input:
@@ -161,7 +170,7 @@ class auto_word_economy(models.Model):
                 chapter_number = 12
             elif '经济评价' in t:
                 chapter_number = 13
-            economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
+            economy_path = r'H:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
             suffix_in = ".xls"
             suffix_out = ".docx"
             inputfile = t + suffix_in

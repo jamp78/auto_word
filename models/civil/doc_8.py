@@ -1,10 +1,10 @@
 from docxtpl import DocxTemplate
 import os
 import sys
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8')
 from MainConstructionQuantitySummarySheet import *
 import sys
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
 import RoundUp
 
 
@@ -121,7 +121,7 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     return Dict
 def generate_civil_docx(Dict):
     filename_box = ['cr8', 'result_chapter8']
-    save_path = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
+    save_path = r'H:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
     read_path = os.path.join(save_path, '%s.docx') % filename_box[0]
     save_path = os.path.join(save_path, '%s.docx') % filename_box[1]
     tpl = DocxTemplate(read_path)

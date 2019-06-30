@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\civil')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\civil')
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
 import base64
 import numpy
@@ -261,7 +261,7 @@ class auto_word_civil(models.Model):
         print(Dict8)
         generate_civil_docx(Dict8)
         reportfile_name = open(
-            file=r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8\result_chapter8.docx',
+            file=r'H:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8\result_chapter8.docx',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()

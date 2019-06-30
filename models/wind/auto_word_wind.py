@@ -6,10 +6,10 @@ import sys, win32ui, os
 import numpy as np
 import pandas as pd
 
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\wind')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind')
 import doc_5
 
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\source')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
 from RoundUp import round_up, Get_Average, Get_Sum
 
 
@@ -90,7 +90,7 @@ class auto_word_wind(models.Model):
         tur_name = []
         for i in range(0, len(self.select_turbine_ids)):
             tur_name.append(self.select_turbine_ids[i].name_tur)
-        path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
+        path_images = r"H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
 
         case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
         farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
@@ -280,7 +280,7 @@ class auto_word_wind(models.Model):
         col_name = ['项目名称', '单位', '数量', '单价(元)', '合计(万元)']
 
         data = pd.read_excel(
-            r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\123.xls',
+            r'H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\123.xls',
             header=1, sheet_name='施工辅助工程概算表', usecols=col_name)
         print("asdasdasdasdasdssssssssssssssssss")
         print(data["合计(万元)"][1])
@@ -296,7 +296,7 @@ class auto_word_wind(models.Model):
         ###########################
 
         reportfile_name = open(
-            file=r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\result_chapter5.docx',
+            file=r'H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\result_chapter5.docx',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()

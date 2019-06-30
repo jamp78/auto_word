@@ -1,7 +1,7 @@
 import os
 from docxtpl import DocxTemplate
 import sys
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6')
 from WireRod import WireRod
 from ElectricalInsulator import ElectricalInsulator
 from TowerType import TowerType
@@ -183,7 +183,7 @@ def generate_electrical_dict(project_chapter6_type,args):
             Dict_6['YJV22_26_35_1_300_dianlanzhongduan'] = str(project05.cable_model_YJV22_26_35_1_300_dianlanzhongduan)
     return Dict_6
     # filename_box = ['cr6', 'result_chapter6']
-    # save_path = r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6'
+    # save_path = r'H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6'
     # read_path = os.path.join(save_path, '%s.docx') % filename_box[0]
     # save_path = os.path.join(save_path, '%s.docx') % filename_box[1]
     # tpl = DocxTemplate(read_path)

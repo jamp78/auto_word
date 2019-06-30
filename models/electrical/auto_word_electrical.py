@@ -2,13 +2,13 @@
 
 from odoo import models, fields, api
 import sys
-sys.path.append(r'D:\GOdoo12_community\myaddons\auto_word\models\electrical')
+sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\electrical')
 import doc_6
 import base64
 
 
 class auto_word_electrical(models.Model):
-    path_images = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
+    path_images = r"H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     _name = 'auto_word.electrical'
     _description = 'electrical input'
     _rec_name = 'project_id'
@@ -57,7 +57,7 @@ class auto_word_electrical(models.Model):
         print(Dict6)
         doc_6.generate_electrical_docx(Dict6, self.path_images)
         reportfile_name = open(
-            file=r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6\result_chapter6.docx',
+            file=r'H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6\result_chapter6.docx',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()
