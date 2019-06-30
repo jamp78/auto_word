@@ -27,20 +27,77 @@
                         </button>
                 </header>
                 <sheet>
-                    <group name="group_top">
-                        <field name="project_id"/>
-                        <field name="content_id"/>
-                        <field name="version_id"/>
-                        <field name="report_attachment_id_input"/>
-                        <field name="report_attachment_id_output12"/>
-                        <field name="report_attachment_id_output13"/>
+                    <group string="项目参数">
+                        <group name="group_top">
+                            <field name="project_id"/>
+                            <field name="content_id"/>
+                            <field name="version_id"/>
+                            <field name="Location_words"/>
+                            <field name="Construction_words"/>
+                        </group>
+                        <group name="group_top">
+                            <field name="Farm_words"/>
+                            <field name="Lon_words"/>
+                            <field name="Lat_words"/>
+                            <field name="Elevation_words"/>
+                            <field name="Relative_height_difference_words"/>
+                        </group>
                     </group>
 
-                    <!--<group string="测风塔相关信息">-->
-                        <!--<field name="cft_name_words"/>-->
-                        <!--<field name="string_speed_words"/>-->
-                        <!--<field name="string_deg_words"/>-->
-                    <!--</group>-->
+
+                    <group string="风能结果">
+                        <group name="group_top">
+                            <field name="Turbine_capacity_words"/>
+                            <field name="Turbine_number_words"/>
+                            <field name="Farm_capacity_words"/>
+                        </group>
+                        <group name="group_top">
+                            <field name="Generating_capacity_words"/>
+                            <field name="Hour_words"/>
+                        </group>
+                    </group>
+
+                    <group string="土建结果">
+                        <group name="group_top">
+                            <field name="Re_road_words"/>
+                            <field name="Extension_road_words"/>
+                            <field name="New_road_words"/>
+                            <field name="Permanent_land_words"/>
+                            <field name="temporary_land_words"/>
+                        </group>
+                        <group name="group_top">
+                            <field name="Earth_excavation_words"/>
+                            <field name="Earth_backfill_words"/>
+                            <field name="Concrete_words"/>
+                            <field name="Steel_weight_words"/>
+                        </group>
+                    </group>
+
+                    <group string="经评结果">
+                        <group name="group_top">
+                            <field name="Project_time_words"/>
+                            <field name="Towter_weight_words"/>
+                            <field name="First_turbine_words"/>
+                            <field name="total_turbine_words"/>
+                            <field name="staff_words"/>
+                        </group>
+                        <group name="group_top">
+                            <field name="Turbine_cost_words"/>
+                            <field name="Tower_cost_words"/>
+                            <field name="infrastructure_cost_words"/>
+                            <field name="unit_cost_words"/>
+                        </group>
+                    </group>
+
+                    <group string="经评结果导入">
+                        <field name="report_attachment_id_input"/>
+                    </group>
+                    <group string="报告结果">
+                        <group name="group_top">
+                            <field name="report_attachment_id_output12"/>
+                            <field name="report_attachment_id_output13"/>
+                        </group>
+                    </group>
 
 
                     <!--<group string="方案比选">-->

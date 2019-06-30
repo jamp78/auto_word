@@ -94,6 +94,11 @@ class auto_word_economy(models.Model):
 
     #经评
     Project_time_words = fields.Char(string=u'施工总工期', default='18')
+    cost_time=fields.Char(string=u'价格日期', default='2018年4季度')
+
+
+
+
     Turbine_capacity_words = fields.Char(string=u'单机容量', default='2.5')
     Turbine_number_words = fields.Char(string=u'风力发电机组', default='40')
     Farm_capacity_words = fields.Char(string=u'装机容量', default='100')
@@ -119,6 +124,9 @@ class auto_word_economy(models.Model):
     Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
     infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
     unit_cost_words = fields.Char(string=u'单位度电投资', default='3.59')
+
+
+    #chapter 13
 
 
 
@@ -255,7 +263,15 @@ class auto_word_economy(models.Model):
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
                     dictMerged.update(dict_content)
-                Dict12 = dict(dict_12_word, **dictMerged)
+
+                print(dictMerged['result_list12_2'][len(dictMerged['result_list12_2'])-4]['cols'][0])
+
+                dict_12_res_word={
+                    # "价格日期": result_list12_2[result_list12_2 | length - 4].cols[0]
+
+                }
+
+                Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word)
                 generate_economy_docx(Dict12, economy_path, model_name, outputfile)
             if chapter_number == 13:
                 col_name_1 = ['序号', '项目', '合计', '第1年', '第2年']
