@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-import sys
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\electrical')
 import doc_6
-import base64
+import base64,os
 
 
 class auto_word_electrical(models.Model):
-    path_images = r"H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     _name = 'auto_word.electrical'
     _description = 'electrical input'
     _rec_name = 'project_id'
@@ -54,10 +51,12 @@ class auto_word_electrical(models.Model):
             "机位数": self.turbine_numbers,
         }
         Dict6 = dict(dict_6_word, **dict6)
-        print(Dict6)
-        doc_6.generate_electrical_docx(Dict6, self.path_images)
+
+        path_images_chapter_6=self.env['auto_word.project'].path_images_chapter_6
+        doc_6.generate_electrical_docx(Dict6, path_images_chapter_6)
+
         reportfile_name = open(
-            file=r'H:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6\result_chapter6.docx',
+            file=os.path.join(path_images_chapter_6, '%s.docx') % 'result_chapter6',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()

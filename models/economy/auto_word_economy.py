@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-import base64
-import sys, win32ui, os
-from docxtpl import DocxTemplate, InlineImage
+import base64, os
+from docxtpl import DocxTemplate
 import pandas as pd
 import numpy as np
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5')
-import doc_5
 
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
-from RoundUp import round_up, Get_Average, Get_Sum
+from RoundUp import round_up
 
 
 def get_dict_economy(index, col_name, data, sheet_name_array):
@@ -178,7 +174,8 @@ class auto_word_economy(models.Model):
                 chapter_number = 12
             elif '经济评价' in t:
                 chapter_number = 13
-            economy_path = r'H:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_' + str(chapter_number)
+            economy_path = self.env['auto_word.project'].economy_path + str(chapter_number)
+
             suffix_in = ".xls"
             suffix_out = ".docx"
             inputfile = t + suffix_in

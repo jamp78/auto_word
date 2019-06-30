@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-import base64
-import sys, win32ui, os
+import base64, os
 import numpy as np
 import pandas as pd
-
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind')
 import doc_5
-
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
 from RoundUp import round_up, Get_Average, Get_Sum
 
 
@@ -17,6 +12,7 @@ class auto_word_wind(models.Model):
     _name = 'auto_word.wind'
     _description = 'Wind energy input'
     _rec_name = 'content_id'
+
     # 项目参数
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),
@@ -90,7 +86,9 @@ class auto_word_wind(models.Model):
         tur_name = []
         for i in range(0, len(self.select_turbine_ids)):
             tur_name.append(self.select_turbine_ids[i].name_tur)
-        path_images = r"H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
+
+        path_images = self.env['auto_word.project'].path_images_chapter_5
+
 
         case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
         farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
@@ -277,26 +275,13 @@ class auto_word_wind(models.Model):
                 f.close()
             self.png_list.append(t)
 
-        col_name = ['项目名称', '单位', '数量', '单价(元)', '合计(万元)']
-
-        data = pd.read_excel(
-            r'H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\123.xls',
-            header=1, sheet_name='施工辅助工程概算表', usecols=col_name)
-        print("asdasdasdasdasdssssssssssssssssss")
-        print(data["合计(万元)"][1])
-        print(len(data.index))
-        Dict_e = {}
-        for i in range(0, len(data.index)):
-            key = data['项目名称'][i]
-            value = [data['数量'][i], data['单价(元)'][i], data['合计(万元)'][i]]
-            Dict_e[key] = value
-        print(Dict_e)
 
         doc_5.generate_wind_docx1(Dict5, path_images, self.png_list)
         ###########################
 
         reportfile_name = open(
-            file=r'H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5\result_chapter5.docx',
+
+            file=os.path.join(path_images, '%s.docx') % 'result_chapter5',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()

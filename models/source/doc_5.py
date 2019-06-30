@@ -1,9 +1,5 @@
 from docxtpl import DocxTemplate, InlineImage
-import sys
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\source')
 import connect_sql
-import sys
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5')
 import generate_images, generate_dict
 import os
 

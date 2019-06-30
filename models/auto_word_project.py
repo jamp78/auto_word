@@ -10,6 +10,12 @@ class auto_word_project(models.Model):
     _name = 'auto_word.project'
     _description = 'Project'
     _rec_name = 'project_name'
+    path_images_chapter_2 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_2"
+    path_images_chapter_5 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
+    economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_'
+    path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
+    path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
+
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     order_number = fields.Char(u'项目编号', required=True)
 

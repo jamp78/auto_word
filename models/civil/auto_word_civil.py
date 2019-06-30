@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import sys
 
-sys.path.append(r'H:\GOdoo12_community\myaddons\auto_word\models\civil')
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
-import base64
+import base64,os
 import numpy
 from odoo import models, fields, api
 
@@ -258,10 +256,11 @@ class auto_word_civil(models.Model):
             '建筑物场地抗震类别': self.BuildingYardLevel_word,
         }
         Dict8 = dict(dict_8_word, **dict8)
-        print(Dict8)
-        generate_civil_docx(Dict8)
+
+        path_chapter_8 = self.env['auto_word.project'].path_chapter_8
+        generate_civil_docx(Dict8,path_chapter_8)
         reportfile_name = open(
-            file=r'H:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8\result_chapter8.docx',
+            file=os.path.join(path_chapter_8, '%s.docx') % 'result_chapter8',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()

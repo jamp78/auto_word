@@ -15,7 +15,7 @@ def get_dict_economy(data, sheet_name):
     return Dict_e
 
 
-economy_images = r"H:\GOdoo12_community\myaddons\auto_word\demo\导表"
+economy_images = r"D:\GOdoo12_community\myaddons\auto_word\demo\导表"
 
 t = '01 华润偏关120MW风电场项目可研概算'
 suffix_in = ".xls"
