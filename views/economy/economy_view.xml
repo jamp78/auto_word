@@ -44,7 +44,11 @@
                         </group>
                     </group>
 
+                    <group name="风能结果">
+                            <field name="cost_time"/>
+                            <field name="cost_location"/>
 
+                    </group>
                     <group string="风能结果">
                         <group name="group_top">
                             <field name="Turbine_capacity_words"/>
