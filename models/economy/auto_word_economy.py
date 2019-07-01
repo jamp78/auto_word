@@ -140,7 +140,7 @@ class auto_word_economy(models.Model):
     interest_construction_loans_12 = fields.Char(string=u'建设期贷款利息_12')
     dynamic_investment_12 = fields.Char(string=u'动态总投资')
     dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资')
-
+    dict_12_res_word={}
     # chapter 13
 
     def economy_generate(self):
@@ -336,7 +336,7 @@ class auto_word_economy(models.Model):
                     "动态总投资_12": self.dynamic_investment_12,
                     "单位千瓦动态投资": self.dynamic_investment_unit,
                 }
-
+                self.dict_12_res_word=dict_12_res_word
                 Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word)
                 generate_economy_docx(Dict12, economy_path, model_name, outputfile)
             if chapter_number == 13:
@@ -354,7 +354,7 @@ class auto_word_economy(models.Model):
                 col_name_12 = col_name_11
 
                 col_name_array = [col_name_1, col_name_2, col_name_3, col_name_4, col_name_5, col_name_6,
-                                  col_name_7, col_name_8, col_name_9, col_name_10]
+                                  col_name_7, col_name_8, col_name_9, col_name_10, col_name_11, col_name_12]
                 sheet_name_array = ['投资计划与资金筹措表', '财务指标汇总表', '单因素敏感性分析表', '总成本费用表',
                                     '利润和利润分配表', '借款还本付息计划表', '项目投资现金流量表', '项目资本金现金流量表',
                                     '财务计划现金流量表', '资产负债表', '财务指标汇总表', '参数汇总表']
@@ -388,13 +388,16 @@ class auto_word_economy(models.Model):
                 static_investment_13 = fields.Char(string=u'静态总投资_13')
                 interest_construction_loans_13 = fields.Char(string=u'建设期贷款利息_13')
                 dynamic_investment_13 = fields.Char(string=u'动态总投资_13')
-                working_fund= fields.Char(string=u'流动资金_13')
+                working_fund = fields.Char(string=u'流动资金_13')
+                total_investment_13 = fields.Char(string=u'总投资_13')
 
                 self.static_investment_13 = str(dictMerged['result_list13_11'][5]['cols'][2])
-                self.tax_deductible = str(dictMerged['result_list13_11'][9]['cols'][2])
+                self.tax_deductible = str(dictMerged['result_list13_11'][8]['cols'][2])
                 self.interest_construction_loans_13 = str(dictMerged['result_list13_10'][3]['cols'][2])
                 self.dynamic_investment_13 = str(dictMerged['result_list13_11'][6]['cols'][2])
                 self.working_fund = str(dictMerged['result_list13_10'][4]['cols'][2])
+                self.total_investment_13 = str(dictMerged['result_list13_10'][2]['cols'][2])
+
                 dict_13_res_word = {
 
                     '可抵扣税金': self.tax_deductible,
@@ -402,10 +405,12 @@ class auto_word_economy(models.Model):
                     "建设期贷款利息_13": self.interest_construction_loans_13,
                     "动态总投资_13": self.dynamic_investment_13,
                     "流动资金_13": self.working_fund,
-
+                    "总投资_13": self.total_investment_13,
                 }
 
-                Dict13 = dict(dict_13_word, **dictMerged, **dict_13_res_word)
+                Dict13 = dict(dict_13_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word)
+                print("ssssssssssssssssssssss")
+                print(Dict13)
                 generate_economy_docx(Dict13, economy_path, model_name, outputfile)
 
             # ###########################
