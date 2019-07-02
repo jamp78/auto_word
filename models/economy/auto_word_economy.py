@@ -126,8 +126,8 @@ class auto_word_economy(models.Model):
     indirect_cost_rate = fields.Char(string=u'间接费率')
     additional_installation_rate = fields.Char(string=u'安装措施费利率')
     additional_i_value_rate = fields.Char(string=u'安装增值税率')
-    longterm_lending_rate = fields.Char(string=u'长期贷款利率')
-    capital_rate = fields.Char(string=u'资本金比例')
+    longterm_lending_rate_12 = fields.Char(string=u'长期贷款利率_12')
+    capital_rate_12 = fields.Char(string=u'资本金比例')
 
     static_investment_12 = fields.Char(string=u'静态总投资_12')
     construction_assistance = fields.Char(string=u'施工辅助工程')
@@ -183,34 +183,54 @@ class auto_word_economy(models.Model):
             "单位度电投资": self.unit_cost_words,
 
         }
-
+        file_first = False
+        file_second = False
         for re in self.report_attachment_id_input:
-            xlsdata = base64.standard_b64decode(re.datas)
             t = re.name
             if '概算' in t:
-                chapter_number = 12
+                # chapter_number = 12
+                xlsdata_first = base64.standard_b64decode(re.datas)
+                name_first=t
+                file_first = True
             elif '经济评价' in t:
-                chapter_number = 13
+                # chapter_number = 13
+                xlsdata_second = base64.standard_b64decode(re.datas)
+                name_second = t
+                file_second = True
+                print(name_second)
+        for chapter_number in range(12,14):
+            if file_first== False:
+                return
+            elif chapter_number==13 and file_second == False:
+                return
             economy_path = self.env['auto_word.project'].economy_path + str(chapter_number)
-
             suffix_in = ".xls"
             suffix_out = ".docx"
-            inputfile = t + suffix_in
+            if chapter_number==12:
+                inputfile = name_first + suffix_in
+            elif chapter_number==13 and file_second == True:
+                inputfile = name_second + suffix_in
             outputfile = 'result_chapter' + str(chapter_number) + suffix_out
             model_name = 'cr' + str(chapter_number) + suffix_out
             Pathinput = os.path.join(economy_path, '%s') % inputfile
             Pathoutput = os.path.join(economy_path, '%s') % outputfile
             if not os.path.exists(Pathinput):
                 f = open(Pathinput, 'wb+')
-                f.write(xlsdata)
+                if chapter_number == 12:
+                    f.write(xlsdata_first)
+                elif chapter_number == 13:
+                    f.write(xlsdata_second)
                 f.close()
             else:
                 print(Pathinput + " already existed.")
                 os.remove(Pathinput)
                 f = open(Pathinput, 'wb+')
-                f.write(xlsdata)
+                if chapter_number == 12:
+                    f.write(xlsdata_first)
+                elif chapter_number == 13:
+                    f.write(xlsdata_second)
                 f.close()
-            self.xls_list.append(t)
+            # self.xls_list.append(t)
 
             pd.set_option('display.max_columns', None)
             pd.set_option('display.max_rows', None)
@@ -289,9 +309,9 @@ class auto_word_economy(models.Model):
                 self.additional_i_value_rate = \
                     str(dictMerged['result_list12_5'][len(dictMerged['result_list12_5']) - 1]['cols'][2])
 
-                self.longterm_lending_rate = \
+                self.longterm_lending_rate_12 = \
                     str(dictMerged['result_list12_6'][len(dictMerged['result_list12_6']) - 3]['cols'][1])
-                self.capital_rate = \
+                self.capital_rate_12 = \
                     str(dictMerged['result_list12_6'][len(dictMerged['result_list12_6']) - 2]['cols'][1])
                 self.static_investment = str(dictMerged['result_list12_8'][22]['cols'][4])
                 self.construction_assistance = str(dictMerged['result_list12_8'][0]['cols'][4])
@@ -322,8 +342,8 @@ class auto_word_economy(models.Model):
                     "安装措施费利率": self.additional_installation_rate,
                     "安装增值税率": self.additional_i_value_rate,
 
-                    "长期贷款利率": self.longterm_lending_rate,
-                    "资本金比例": self.capital_rate,
+                    "长期贷款利率_12": self.longterm_lending_rate_12,
+                    "资本金比例_12": self.capital_rate_12,
 
                     "静态总投资_12": self.static_investment_12,
                     "施工辅助工程": self.construction_assistance,
@@ -337,6 +357,8 @@ class auto_word_economy(models.Model):
                     "单位千瓦动态投资": self.dynamic_investment_unit,
                 }
                 self.dict_12_res_word=dict_12_res_word
+                print("~~~~~~~~~~~~~~~~~~~~~")
+                print(self.dict_12_res_word)
                 Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word)
                 generate_economy_docx(Dict12, economy_path, model_name, outputfile)
             if chapter_number == 13:
@@ -352,12 +374,13 @@ class auto_word_economy(models.Model):
 
                 col_name_11 = ['序号', '项目', '单位', '数值']
                 col_name_12 = col_name_11
+                col_name_13 =[]
 
                 col_name_array = [col_name_1, col_name_2, col_name_3, col_name_4, col_name_5, col_name_6,
-                                  col_name_7, col_name_8, col_name_9, col_name_10, col_name_11, col_name_12]
+                                  col_name_7, col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13]
                 sheet_name_array = ['投资计划与资金筹措表', '财务指标汇总表', '单因素敏感性分析表', '总成本费用表',
                                     '利润和利润分配表', '借款还本付息计划表', '项目投资现金流量表', '项目资本金现金流量表',
-                                    '财务计划现金流量表', '资产负债表', '财务指标汇总表', '参数汇总表']
+                                    '财务计划现金流量表', '资产负债表', '财务指标汇总表', '参数汇总表','基本参数']
                 for i in range(0, len(sheet_name_array)):
                     # print(sheet_name_array[i], i)
                     if i == 6:
@@ -370,19 +393,22 @@ class auto_word_economy(models.Model):
                     elif i == 0 or (i >= 3 and i <= 9):
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              )
+                    elif i == 12:
+                        data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
+                                             )
                     else:
                         data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
                                              usecols=col_name_array[i])
                     data = data.replace(np.nan, '-', regex=True)
+
+                    # if i==12:
+                    #     print(data)
 
                     tabel_number = str(chapter_number) + '_' + str(i)
                     dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
                     dictMerged.update(dict_content)
-                dict_13_word = {
-
-                }
 
                 tax_deductible = fields.Char(string=u'可抵扣税金')
                 static_investment_13 = fields.Char(string=u'静态总投资_13')
@@ -390,6 +416,21 @@ class auto_word_economy(models.Model):
                 dynamic_investment_13 = fields.Char(string=u'动态总投资_13')
                 working_fund = fields.Char(string=u'流动资金_13')
                 total_investment_13 = fields.Char(string=u'总投资_13')
+                capital_rate_13 = fields.Char(string=u'资本金比例')
+                construction_investment_13= fields.Char(string=u'建设投资_13')
+                fixed_investment_13 = fields.Char(string=u'投产后固定资产_13')
+                fund_raising_13=fields.Char(string=u'资金筹措_13')
+                load_rate_13 = fields.Char(string=u'贷款比例_13')
+                load_investment_13 = fields.Char(string=u'贷款总额_13')
+                longterm_lending_13 = fields.Char(string=u'中长期借款本金_13')
+                longterm_lending_rate_13 = fields.Char(string=u'长期贷款利率_13')
+
+                repayment_period = fields.Char(string=u'还款期限_13')
+                grid_price = fields.Char(string=u'上网电价_13')
+
+                Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率_13')
+                Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率_13')
+                Internal_financial_rate_capital = fields.Char(string=u'资本金税后财务内部收益率_13')
 
                 self.static_investment_13 = str(dictMerged['result_list13_11'][5]['cols'][2])
                 self.tax_deductible = str(dictMerged['result_list13_11'][8]['cols'][2])
@@ -397,20 +438,51 @@ class auto_word_economy(models.Model):
                 self.dynamic_investment_13 = str(dictMerged['result_list13_11'][6]['cols'][2])
                 self.working_fund = str(dictMerged['result_list13_10'][4]['cols'][2])
                 self.total_investment_13 = str(dictMerged['result_list13_10'][2]['cols'][2])
+                self.capital_rate_13 = str(dictMerged['result_list13_11'][7]['cols'][2])
+                self.construction_investment_13 = str(dictMerged['result_list13_0'][1]['cols'][1])
+
+                self.fixed_investment_13=str(float(self.dynamic_investment_13)-float(self.tax_deductible))
+                self.fund_raising_13 = str(dictMerged['result_list13_0'][5]['cols'][1])
+                self.load_rate_13=str(100-float(self.capital_rate_13))
+                self.load_investment_13 = str(dictMerged['result_list13_0'][8]['cols'][1])
+
+                self.longterm_lending_13 = str(dictMerged['result_list13_0'][10]['cols'][1])
+                self.longterm_lending_rate_13 = str(dictMerged['result_list13_11'][13]['cols'][2])
+
+                self.repayment_period = str(dictMerged['result_list13_11'][11]['cols'][2])
+                self.grid_price = str(dictMerged['result_list13_11'][26]['cols'][2])
+
+                self.Internal_financial_rate_before = str(dictMerged['result_list13_10'][13]['cols'][2])
+                self.Internal_financial_rate_after = str(dictMerged['result_list13_10'][14]['cols'][2])
+                self.Internal_financial_rate_capital = str(dictMerged['result_list13_10'][17]['cols'][2])
 
                 dict_13_res_word = {
-
                     '可抵扣税金': self.tax_deductible,
                     "静态总投资_13": self.static_investment_13,
                     "建设期贷款利息_13": self.interest_construction_loans_13,
                     "动态总投资_13": self.dynamic_investment_13,
                     "流动资金_13": self.working_fund,
                     "总投资_13": self.total_investment_13,
+                    "资本金比例_13": self.capital_rate_13,
+                    "建设投资_13": self.construction_investment_13,
+                    "投产后固定资产_13": self.fixed_investment_13,
+                    "资金筹措_13": self.fund_raising_13,
+                    "贷款比例_13": self.load_rate_13,
+                    "贷款总额_13": self.load_investment_13,
+
+                    "中长期借款本金_13": self.longterm_lending_13,
+                    "长期贷款利率_13": self.longterm_lending_rate_13,
+                    "还款期限_13": self.repayment_period,
+                    "上网电价_13": self.grid_price,
+                    "税前财务内部收益率_13": self.Internal_financial_rate_before,
+                    "税后财务内部收益率_13": self.Internal_financial_rate_after,
+                    "资本金税后财务内部收益率_13": self.Internal_financial_rate_capital,
+
                 }
 
-                Dict13 = dict(dict_13_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word)
+                Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word)
                 print("ssssssssssssssssssssss")
-                print(Dict13)
+                print(self.dict_12_res_word)
                 generate_economy_docx(Dict13, economy_path, model_name, outputfile)
 
             # ###########################
@@ -436,8 +508,7 @@ class auto_word_economy(models.Model):
                     self.report_attachment_id_output12 = New
                 else:
                     self.report_attachment_id_output12.datas = base64.standard_b64encode(byte)
-
-            elif (chapter_number == 13):
+            elif (chapter_number == 13 and file_second==True):
                 if (str(self.report_attachment_id_output13) == 'ir.attachment()'):
                     Attachments = self.env['ir.attachment']
                     print('开始创建新纪录13')
