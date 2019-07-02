@@ -16,6 +16,7 @@ class auto_word_project(models.Model):
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
+
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     order_number = fields.Char(u'项目编号', required=True)
 

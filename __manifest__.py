@@ -40,7 +40,7 @@
         'views/wind/wind_turbines_compare_view.xml',
         'views/wind/wind_turbine_selection_view.xml',
         'views/economy/economy_view.xml',
-
+        'views/electrical/electrical_firstsec_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

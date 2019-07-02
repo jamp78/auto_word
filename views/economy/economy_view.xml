@@ -24,7 +24,7 @@
                             string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
                     <button name="action_get_attachment_economy_view" class="oe_stat_button" icon="fa-book" type="object">
                             <field name="attachment_number" widget="statinfo" string="附件上传"/>
-                        </button>
+                    </button>
                 </header>
                 <sheet>
                     <group string="项目参数">

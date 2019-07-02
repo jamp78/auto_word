@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="auto_word_electrical_firstsec_list" model="ir.ui.view">
+        <field name="name">electrical_firstsec list</field>
+        <field name="model">auto_word_electrical.firstsec</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="project_id"/>
+                <field name="version_id"/>
+            </tree>
+
+        </field>
+    </record>
+    <record id="auto_word_electrical_firstsec_form" model="ir.ui.view">
+        <field name="name">electrical_firstsec Form</field>
+        <field name="model">auto_word_electrical.firstsec</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <header>
+
+                    <button name="electrical_firstsec_generate" type="object" groups="auto_word.wind_group_user"
+                            string="生成报告"/>
+                    <button name="submit_electrical_firstsec" type="object" groups="auto_word.wind_group_user"
+                            string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
+                    <button name="action_get_attachment_electrical_firstsec_view" class="oe_stat_button" icon="fa-book" type="object">
+                            <field name="attachment_number" widget="statinfo" string="附件上传"/>
+                    </button>
+                </header>
+                <sheet>
+                    <group name="group_top">
+                            <field name="project_id"/>
+                            <field name="version_id"/>
+                            <field name="report_attachment_id_input"/>
+                    </group>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+</odoo>

@@ -22,7 +22,7 @@ access_ad_wind_cft_manager,auto_word_wind_cft,model_auto_word_wind_cft,auto_word
 access_ad_wind_res_manager,auto_word_wind_res,model_auto_word_wind_res,auto_word_group_manager,1,1,1,1
 access_ad_wind_res_form_manager,auto_word_wind_res_form,model_auto_word_wind_res_form,auto_word_group_manager,1,1,1,1
 access_ad_economy_manager,auto_word_economy,model_auto_word_economy,auto_word_group_manager,1,1,1,1
-
+access_ad_electrical_firstsec_manager,auto_word_electrical_firstsec,model_auto_word_electrical_firstsec,auto_word_group_manager,1,1,1,1
 
 
 access_ad_project_wind_group,auto_word_project,model_auto_word_project,wind_group_user,1,1,1,1
@@ -48,7 +48,7 @@ access_ad_wind_cft_wind_group,auto_word_wind_cft,model_auto_word_wind_cft,wind_g
 access_ad_wind_res_wind_group,auto_word_wind_res,model_auto_word_wind_res,wind_group_user,1,1,1,1
 access_ad_wind_res_wind_form_group,auto_word_wind_res_form,model_auto_word_wind_res_form,wind_group_user,1,1,1,1
 access_ad_economy_wind_group,auto_word_economy,model_auto_word_economy,wind_group_user,1,1,1,1
-
+access_ad_electrical_firstsec_wind_group,auto_word_electrical_firstsec,model_auto_word_electrical_firstsec,wind_group_user,1,1,1,1
 
 
 access_ad_project_civil_group,auto_word_project,model_auto_word_project,civil_group_user,1,1,1,1
@@ -74,3 +74,4 @@ access_ad_wind_cft_civil_group,auto_word_wind_cft,model_auto_word_wind_cft,civil
 access_ad_wind_res_civil_group,auto_word_wind_res,model_auto_word_wind_res,civil_group_user,1,1,1,1
 access_ad_wind_res_civil_form_group,auto_word_wind_res_form,model_auto_word_wind_res_form,civil_group_user,1,1,1,1
 access_ad_economy_civil_group,auto_word_economy,model_auto_word_economy,civil_group_user,1,1,1,1
+access_ad_electrical_firstsec_civil_group,auto_word_electrical_firstsec,model_auto_word_electrical_firstsec,civil_group_user,1,1,1,1
