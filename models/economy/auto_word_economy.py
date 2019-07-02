@@ -27,7 +27,10 @@ def get_dict_economy(index, col_name, data, sheet_name_array):
             value = data_np[i, 1:].tolist()
         for j in range(0, len(value)):
             if type(value[j]).__name__ == 'float':
-                value[j] = round_up(value[j], 3)
+                if index.strip() == '13_4' and i==1:
+                    value[j] = round_up(value[j], 2)
+                else:
+                    value[j] = round_up(value[j], 1)
         value = [str(i) for i in value]
 
         result_dict = {'number': key, 'cols': value}
@@ -362,22 +365,23 @@ class auto_word_economy(models.Model):
                 Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word)
                 generate_economy_docx(Dict12, economy_path, model_name, outputfile)
             if chapter_number == 13:
-                col_name_1 = ['序号', '项目', '合计', '第1年', '第2年']
-                col_name_2 = ['序号', '项目', '单位', '数值']
-                col_name_3 = ['方案类型', '变化幅度（%）', '投资回收期(所得税后)(年)', '项目投资财务内部收益率(所得税前)(%)',
-                              '项目投资财务内部收益率(所得税后)(%)', '资本金财务内部收益率（%）']
-                # '项目投资财务净现值（所得税后）（万元）', '资本金财务净现值（万元）', '总投资收益率（ROI）（ % ）',
-                # '投资利税率（ % ）', '项目资本金净利润率（ROE）（ % ）', '资产负债率（ % ）']
-                col_name_4 = ['序号', '项目', '合计', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
-                              '13', '14', '15', '16', '17', '18', '19', '20', '21']
-                col_name_5, col_name_6, col_name_7, col_name_8, col_name_9, col_name_10 = col_name_4, col_name_4, col_name_4, col_name_4, col_name_4, col_name_4
+                # col_name_1 = ['序号', '项目', '合计', '第1年', '第2年']
+                # col_name_2 = ['序号', '项目', '单位', '数值']
+                # col_name_3 = ['方案类型', '变化幅度（%）', '投资回收期(所得税后)(年)', '项目投资财务内部收益率(所得税前)(%)',
+                #               '项目投资财务内部收益率(所得税后)(%)', '资本金财务内部收益率（%）']
+                # # '项目投资财务净现值（所得税后）（万元）', '资本金财务净现值（万元）', '总投资收益率（ROI）（ % ）',
+                # # '投资利税率（ % ）', '项目资本金净利润率（ROE）（ % ）', '资产负债率（ % ）']
+                # col_name_4 = ['序号', '项目', '合计', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                #               '13', '14', '15', '16', '17', '18', '19', '20', '21']
+                # col_name_5, col_name_6, col_name_7, col_name_8, col_name_9 = col_name_4, col_name_4, col_name_4, col_name_4, col_name_4
+                # col_name_10 =col_name_4
+                #
+                # col_name_11 = ['序号', '项目', '单位', '数值']
+                # col_name_12 = col_name_11
+                # col_name_13 =[]
 
-                col_name_11 = ['序号', '项目', '单位', '数值']
-                col_name_12 = col_name_11
-                col_name_13 =[]
-
-                col_name_array = [col_name_1, col_name_2, col_name_3, col_name_4, col_name_5, col_name_6,
-                                  col_name_7, col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13]
+                # col_name_array = [col_name_1, col_name_2, col_name_3, col_name_4, col_name_5, col_name_6,
+                #                   col_name_7, col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13]
                 sheet_name_array = ['投资计划与资金筹措表', '财务指标汇总表', '单因素敏感性分析表', '总成本费用表',
                                     '利润和利润分配表', '借款还本付息计划表', '项目投资现金流量表', '项目资本金现金流量表',
                                     '财务计划现金流量表', '资产负债表', '财务指标汇总表', '参数汇总表','基本参数']
@@ -386,26 +390,36 @@ class auto_word_economy(models.Model):
                     if i == 6:
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              skip_footer=7)
+                        col_name = data.columns.tolist()
                     elif i == 7:
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              skip_footer=2)
-
+                        col_name = data.columns.tolist()
                     elif i == 0 or (i >= 3 and i <= 9):
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              )
+                        col_name=data.columns.tolist()
                     elif i == 12:
                         data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
                                              )
-                    else:
+                        col_name = data.columns.tolist()
+                    elif i == 2:
                         data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],
-                                             usecols=col_name_array[i])
+                                             usecols="A:F")
+                        col_name = data.columns.tolist()
+                    else:
+                        data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],)
+                                             # usecols=col_name_array[i])
+                        col_name = data.columns.tolist()
+
                     data = data.replace(np.nan, '-', regex=True)
+                    col_name_array.append(col_name)
 
                     # if i==12:
                     #     print(data)
 
                     tabel_number = str(chapter_number) + '_' + str(i)
-                    dict_content = get_dict_economy(tabel_number, col_name_array[i], data, sheet_name_array[i])
+                    dict_content = get_dict_economy(tabel_number, col_name, data, sheet_name_array[i])
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
                     dictMerged.update(dict_content)
@@ -431,6 +445,9 @@ class auto_word_economy(models.Model):
                 Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率_13')
                 Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率_13')
                 Internal_financial_rate_capital = fields.Char(string=u'资本金税后财务内部收益率_13')
+                payback_period= fields.Char(string=u'投资回收期_13')
+                ROI_13=fields.Char(string=u'总投资收益率_13')
+                ROE_13 = fields.Char(string=u'资本金利润率_13')
 
                 self.static_investment_13 = str(dictMerged['result_list13_11'][5]['cols'][2])
                 self.tax_deductible = str(dictMerged['result_list13_11'][8]['cols'][2])
@@ -441,7 +458,7 @@ class auto_word_economy(models.Model):
                 self.capital_rate_13 = str(dictMerged['result_list13_11'][7]['cols'][2])
                 self.construction_investment_13 = str(dictMerged['result_list13_0'][1]['cols'][1])
 
-                self.fixed_investment_13=str(float(self.dynamic_investment_13)-float(self.tax_deductible))
+                self.fixed_investment_13=str(round_up(float(self.dynamic_investment_13)-float(self.tax_deductible),2))
                 self.fund_raising_13 = str(dictMerged['result_list13_0'][5]['cols'][1])
                 self.load_rate_13=str(100-float(self.capital_rate_13))
                 self.load_investment_13 = str(dictMerged['result_list13_0'][8]['cols'][1])
@@ -455,6 +472,10 @@ class auto_word_economy(models.Model):
                 self.Internal_financial_rate_before = str(dictMerged['result_list13_10'][13]['cols'][2])
                 self.Internal_financial_rate_after = str(dictMerged['result_list13_10'][14]['cols'][2])
                 self.Internal_financial_rate_capital = str(dictMerged['result_list13_10'][17]['cols'][2])
+
+                self.payback_period = str(dictMerged['result_list13_10'][12]['cols'][2])
+                self.ROI_13 = str(dictMerged['result_list13_10'][19]['cols'][2])
+                self.ROE_13 = str(dictMerged['result_list13_10'][21]['cols'][2])
 
                 dict_13_res_word = {
                     '可抵扣税金': self.tax_deductible,
@@ -477,7 +498,10 @@ class auto_word_economy(models.Model):
                     "税前财务内部收益率_13": self.Internal_financial_rate_before,
                     "税后财务内部收益率_13": self.Internal_financial_rate_after,
                     "资本金税后财务内部收益率_13": self.Internal_financial_rate_capital,
+                    "投资回收期_13": self.payback_period,
 
+                    "总投资收益率_13": self.ROI_13,
+                    "资本金利润率_13": self.ROE_13,
                 }
 
                 Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word)
