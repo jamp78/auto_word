@@ -27,7 +27,7 @@ def get_dict_economy(index, col_name, data, sheet_name_array):
             value = data_np[i, 1:].tolist()
         for j in range(0, len(value)):
             if type(value[j]).__name__ == 'float':
-                if index.strip() == '13_4' and i==1:
+                if (index.strip() == '13_4' and i==1) or ('12' in index.strip()):
                     value[j] = round_up(value[j], 2)
                 else:
                     value[j] = round_up(value[j], 1)
@@ -145,6 +145,30 @@ class auto_word_economy(models.Model):
     dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资')
     dict_12_res_word={}
     # chapter 13
+    tax_deductible = fields.Char(string=u'可抵扣税金')
+    static_investment_13 = fields.Char(string=u'静态总投资_13')
+    interest_construction_loans_13 = fields.Char(string=u'建设期贷款利息_13')
+    dynamic_investment_13 = fields.Char(string=u'动态总投资_13')
+    working_fund = fields.Char(string=u'流动资金_13')
+    total_investment_13 = fields.Char(string=u'总投资_13')
+    capital_rate_13 = fields.Char(string=u'资本金比例')
+    construction_investment_13 = fields.Char(string=u'建设投资_13')
+    fixed_investment_13 = fields.Char(string=u'投产后固定资产_13')
+    fund_raising_13 = fields.Char(string=u'资金筹措_13')
+    load_rate_13 = fields.Char(string=u'贷款比例_13')
+    load_investment_13 = fields.Char(string=u'贷款总额_13')
+    longterm_lending_13 = fields.Char(string=u'中长期借款本金_13')
+    longterm_lending_rate_13 = fields.Char(string=u'长期贷款利率_13')
+
+    repayment_period = fields.Char(string=u'还款期限_13')
+    grid_price = fields.Char(string=u'上网电价_13')
+
+    Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率_13')
+    Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率_13')
+    Internal_financial_rate_capital = fields.Char(string=u'资本金税后财务内部收益率_13')
+    payback_period = fields.Char(string=u'投资回收期_13')
+    ROI_13 = fields.Char(string=u'总投资收益率_13')
+    ROE_13 = fields.Char(string=u'资本金利润率_13')
 
     def economy_generate(self):
         chapter_number = 0
@@ -423,31 +447,6 @@ class auto_word_economy(models.Model):
                     # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
                     # Dict = dict(Dict_content, **Dict_head)
                     dictMerged.update(dict_content)
-
-                tax_deductible = fields.Char(string=u'可抵扣税金')
-                static_investment_13 = fields.Char(string=u'静态总投资_13')
-                interest_construction_loans_13 = fields.Char(string=u'建设期贷款利息_13')
-                dynamic_investment_13 = fields.Char(string=u'动态总投资_13')
-                working_fund = fields.Char(string=u'流动资金_13')
-                total_investment_13 = fields.Char(string=u'总投资_13')
-                capital_rate_13 = fields.Char(string=u'资本金比例')
-                construction_investment_13= fields.Char(string=u'建设投资_13')
-                fixed_investment_13 = fields.Char(string=u'投产后固定资产_13')
-                fund_raising_13=fields.Char(string=u'资金筹措_13')
-                load_rate_13 = fields.Char(string=u'贷款比例_13')
-                load_investment_13 = fields.Char(string=u'贷款总额_13')
-                longterm_lending_13 = fields.Char(string=u'中长期借款本金_13')
-                longterm_lending_rate_13 = fields.Char(string=u'长期贷款利率_13')
-
-                repayment_period = fields.Char(string=u'还款期限_13')
-                grid_price = fields.Char(string=u'上网电价_13')
-
-                Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率_13')
-                Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率_13')
-                Internal_financial_rate_capital = fields.Char(string=u'资本金税后财务内部收益率_13')
-                payback_period= fields.Char(string=u'投资回收期_13')
-                ROI_13=fields.Char(string=u'总投资收益率_13')
-                ROE_13 = fields.Char(string=u'资本金利润率_13')
 
                 self.static_investment_13 = str(dictMerged['result_list13_11'][5]['cols'][2])
                 self.tax_deductible = str(dictMerged['result_list13_11'][8]['cols'][2])
