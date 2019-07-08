@@ -69,9 +69,14 @@
                     </group>
 
                     <group string="机型推荐">
-                        <field name="compare_id"/>
-                        <!--<field name="case_name_suggestion"/>-->
-                        <field name="name_tur_suggestion"/>
+                        <group name="group_left">
+                            <field name="compare_id"/>
+                            <!--<field name="case_name_suggestion"/>-->
+                            <field name="name_tur_suggestion"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="capacity_suggestion"/>
+                        </group>
                     </group>
 
 
@@ -90,8 +95,8 @@
                     <group name="group_bottom">
                         <!--<field name="generator_ids" />-->
                         <!--<field name="project_res" />-->
-                        <field name="report_attachment_id"/>
                         <field name="report_attachment_id2"/>
+                        <field name="report_attachment_id"/>
                     </group>
 
                 </sheet>

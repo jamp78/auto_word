@@ -33,6 +33,8 @@ class auto_word_wind(models.Model):
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
                                             compute='_compute_compare_case')
+    capacity_suggestion = fields.Char(string=u'单机容量建议', readonly=True, default="待提交",
+                                      compute='_compute_compare_case')
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
 
     case_number = fields.Char(string=u'方案数', default="待提交")
@@ -62,6 +64,7 @@ class auto_word_wind(models.Model):
             re.turbine_numbers_suggestion = re.compare_id.turbine_numbers
             re.farm_capacity = re.compare_id.farm_capacity
             re.rotor_diameter_suggestion = re.compare_id.rotor_diameter_case
+            re.capacity_suggestion = re.compare_id.capacity
 
     @api.multi
     def submit_wind(self):
@@ -69,6 +72,8 @@ class auto_word_wind(models.Model):
 
         self.project_id.case_name = self.compare_id.case_name
         self.project_id.turbine_numbers_suggestion = self.compare_id.turbine_numbers
+        self.project_id.TurbineCapacity = self.compare_id.capacity
+
         self.project_id.hub_height_suggestion = self.compare_id.hub_height_suggestion
         self.project_id.project_capacity = self.compare_id.farm_capacity
         self.project_id.name_tur_suggestion = self.compare_id.name_tur
@@ -82,13 +87,15 @@ class auto_word_wind(models.Model):
         self.project_id.investment = self.compare_id.investment
         self.project_id.investment_unit = self.compare_id.investment_unit
 
+        print(self.project_id.TurbineCapacity)
+        print(self.env['auto_word.wind'].project_id.TurbineCapacity)
+
     def wind_generate(self):
         tur_name = []
         for i in range(0, len(self.select_turbine_ids)):
             tur_name.append(self.select_turbine_ids[i].name_tur)
 
         path_images = self.env['auto_word.project'].path_images_chapter_5
-
 
         case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
         farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
@@ -107,7 +114,7 @@ class auto_word_wind(models.Model):
         Weak_res_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
         InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
         NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
-        hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], []
+        rate_dict, hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], [], []
         ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
         ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
 
@@ -172,6 +179,11 @@ class auto_word_wind(models.Model):
             NextLength_D_dict.append(re.NextLength_D)
             NextDeg_dict.append(re.NextDeg)
             Sectors_dict.append(re.Sectors)
+            rate_dict.append(re.rate)
+
+            re.ongrid_power = round_up(float(re.PowerGeneration_Weak) * float(re.rate),1)
+            re.hours_year = round_up(
+                float(re.PowerGeneration_Weak) / float(self.project_id.TurbineCapacity) * float(re.rate)*1000,1)
 
             ongrid_power_dict.append(round_up(float(re.ongrid_power)))
             hours_year_dict.append(round_up(float(re.hours_year)))
@@ -183,9 +195,9 @@ class auto_word_wind(models.Model):
         ave_weak_res_xz = 1 + ave_weak_res
         ave_hours_year = round_up(Get_Average(hours_year_dict))
         ave_ongrid_power = round_up(Get_Average(ongrid_power_dict))
-        total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict))
-        total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict))
-        total_ongrid_power = round_up(Get_Sum(ongrid_power_dict))
+        total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict),1)
+        total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict),1)
+        total_ongrid_power = round_up(Get_Sum(ongrid_power_dict),1)
 
         result = np.vstack((np.array(X_dict), np.array(Y_dict), np.array(Z_dict),
                             np.array(AverageWindSpeed_Weak_dict),
@@ -275,7 +287,6 @@ class auto_word_wind(models.Model):
                 f.close()
             self.png_list.append(t)
 
-
         doc_5.generate_wind_docx1(Dict5, path_images, self.png_list)
         ###########################
 
@@ -311,7 +322,6 @@ class auto_word_wind(models.Model):
         print('new datas len：', len(self.report_attachment_id.datas))
         return True
 
-
     @api.multi
     def action_get_attachment_view(self):
         """附件上传动作视图"""
@@ -329,6 +339,3 @@ class auto_word_wind(models.Model):
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for expense in self:
             expense.attachment_number = attachment.get(expense.id, 0)
-
-
-
