@@ -26,11 +26,10 @@
                 <header>
                     <!--<button name="wind_open" type="object" groups="auto_word.wind_group_user"-->
                             <!--string="打开Excel"/>-->
-                    <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
-                            string="生成报告"/>
                     <button name="submit_wind" type="object" groups="auto_word.wind_group_user"
                             string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
-
+                    <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
+                            string="生成报告"/>
                     <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-book" type="object">
                             <field name="attachment_number" widget="statinfo" string="附件上传"/>
                         </button>
@@ -51,6 +50,16 @@
                             <field name="farm_speed_range"/>
                         </group>
                         <!--<field name="project_res" />-->
+                    </group>
+
+                    <group string="限制性因素排查">
+                        <group name="group_right">
+                            <field name="limited_1"/>
+                            <field name="limited_2"/>
+                        </group>
+                        <group name="group_left">
+                            <field name="limited_3"/>
+                        </group>
                     </group>
 
                     <group string="测风塔相关信息">

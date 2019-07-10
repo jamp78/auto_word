@@ -19,6 +19,7 @@
                             <field name="case_name" />
                             <field name="project_id" />
                             <field name="content_ids" />
+                            <field name="WTG_name" />
                             <field name="power_generation" />
                             <field name="weak" />
                             <field name="power_hours" />

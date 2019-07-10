@@ -196,16 +196,21 @@ class auto_word_wind_res_form(models.Model):
     content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=False)
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
     rate = fields.Float(string=u'折减率', readonly=False)
+    note = fields.Char(string=u'备注', readonly=False)
 
     @api.multi
     def wind_res_submit(self):
         for re in self.auto_word_wind_res:
-            if self.rate != 0:
-                re.ongrid_power = float(re.PowerGeneration_Weak) * self.rate
-                re.hours_year = float(re.PowerGeneration_Weak) * self.rate / re.turbine_capacity_each * 1000
-                print(re.tur_id)
-                print(re.ongrid_power)
-            else:
+            if re.rate != 0:
                 re.ongrid_power = float(re.PowerGeneration_Weak) * re.rate
                 re.hours_year = float(re.PowerGeneration_Weak) * re.rate / re.turbine_capacity_each * 1000
+            else:
+                re.ongrid_power = float(re.PowerGeneration_Weak) * self.rate
+                re.hours_year = float(re.PowerGeneration_Weak) * self.rate / re.turbine_capacity_each * 1000
 
+        if self.rate != 0:
+            self.project_id.rate = self.rate*100
+        else:
+            self.project_id.rate = self.auto_word_wind_res[0].rate*100
+
+        self.project_id.note = self.note

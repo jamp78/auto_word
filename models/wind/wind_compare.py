@@ -13,6 +13,7 @@ class auto_word_wind_turbines_compare(models.Model):
     _rec_name = 'case_name'
 
     case_name = fields.Char(u'方案名称', required=True, default="方案1")
+    WTG_name=fields.Char(u'风机代号', required=True, default="WTG1")
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
     power_generation = fields.Float(u'上网电量', required=True, default=205450.76)

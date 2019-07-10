@@ -116,9 +116,13 @@
                         </group>
                         <group name="group_right">
                             <field name="content_ids"/>
-
                         </group>
                     </group>
+
+                    <group string="折减率备注">
+                        <field name="note"/>
+                    </group>
+
                     <group name="group_bot">
                         <field name="auto_word_wind_res"/>
                     </group>

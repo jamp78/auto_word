@@ -53,10 +53,13 @@ class auto_word_project(models.Model):
 
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
     name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
+    turbine_model_suggestion=fields.Char(string=u'风机比选型号_WTG', readonly=True, default="待提交")
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
-
+    rate = fields.Char(string=u'折减率', readonly=False)
+    note = fields.Char(string=u'备注', readonly=False)
+    limited_str = fields.Char(u'限制性因素', required=False)
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
     line_2 = fields.Char(u'线路总填方', default="待提交", readonly=True)
@@ -67,8 +70,8 @@ class auto_word_project(models.Model):
     main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
 
     voltage_class = fields.Char(u'地形', default="待提交", readonly=True)
-    lenth_singlejL240 = fields.Char(u'单回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
-    lenth_doublejL240 = fields.Char(u'双回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
+    length_single_jL240 = fields.Char(u'单回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
+    length_double_jL240 = fields.Char(u'双回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
     yjlv95 = fields.Char(u'直埋电缆YJLV22-26/35-3×95（km）', default="待提交", readonly=True)
     yjv300 = fields.Char(u'直埋电缆YJV22-26/35-1×300（km）', default="待提交", readonly=True)
     circuit_number = fields.Char(u'线路回路数', default="待提交", readonly=True)
