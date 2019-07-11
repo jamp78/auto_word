@@ -31,11 +31,15 @@
                             <field name="project_name"/>
                             <field name="order_number"/>
                             <field name="staff"/>
+                            <field name="Lon_words"/>
+                            <field name="Lat_words"/>
                         </group>
                         <group name="group_right">
                             <field name="company_id" options="{'no_create_edit': 1}"/>
                             <field name="date_start"/>
                             <field name="dat_end"/>
+                            <field name="Elevation_words"/>
+                            <field name="Relative_height_difference_words"/>
                         </group>
                     </group>
                     <group name="group_sumbit" string="项目提交情况" col="4" colspan="2">
@@ -50,6 +54,8 @@
                             <field name="name_tur_suggestion"/>
                             <field name="turbine_numbers_suggestion"/>
                             <field name="hub_height_suggestion"/>
+                            <field name="power_generation"/>
+                            <field name="Hour_words"/>
                         </group>
                         <group string="测风塔信息">
                             <field name="cft_name_words"/>

@@ -71,6 +71,14 @@ class auto_word_civil(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
 
+    # # 土建
+    # Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
+    # Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
+    # New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
+    # Permanent_land_words = fields.Char(string=u'永久用地', default='38.36')
+    # temporary_land_words = fields.Char(string=u'临时用地', default='1467.95')
+
+
     # 风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型型号', readonly=True)
@@ -160,11 +168,6 @@ class auto_word_civil(models.Model):
             else:
                 re.investment_E4 = float(re.total_civil_length) * 140
 
-    # @api.one
-    # @api.depends("project_id")
-    # def _get_turbines(self):
-    #     self.turbine_numbers = self.project_id.turbine_numbers_wind
-    #     self.select_hub_height_wind = self.project_id.select_hub_height_wind
 
     def button_civil(self):
         projectname = self.project_id

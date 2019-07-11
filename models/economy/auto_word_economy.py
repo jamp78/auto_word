@@ -79,10 +79,10 @@ class auto_word_economy(models.Model):
     xls_list = []
 
     # 风能
-    Lon_words = fields.Char(string=u'东经', default='111.334294')
-    Lat_words = fields.Char(string=u'北纬', default='23.132694')
-    Elevation_words = fields.Char(string=u'海拔高程', default='588m～852m')
-    Relative_height_difference_words = fields.Char(string=u'相对高差', default='100m-218m')
+    Lon_words = fields.Char(string=u'东经',default="待提交", readonly=True)
+    Lat_words = fields.Char(string=u'北纬', default="待提交", readonly=True)
+    Elevation_words = fields.Char(string=u'海拔高程', default="待提交", readonly=True)
+    Relative_height_difference_words = fields.Char(string=u'相对高差',default="待提交", readonly=True)
     # 土建
     Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
     Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
@@ -92,11 +92,11 @@ class auto_word_economy(models.Model):
 
     # 经评
     Project_time_words = fields.Char(string=u'施工总工期', default='18')
-    Turbine_capacity_words = fields.Char(string=u'单机容量', default='2.5')
-    Turbine_number_words = fields.Char(string=u'风力发电机组', default='40')
-    Farm_capacity_words = fields.Char(string=u'装机容量', default='100')
-    Generating_capacity_words = fields.Char(string=u'发电量', default='205531.5')
-    Hour_words = fields.Char(string=u'满发小时', default='2055')
+    Turbine_capacity_words = fields.Char(string=u'单机容量', default="待提交", readonly=True)
+    Turbine_number_words = fields.Char(string=u'风力发电机组', default="待提交", readonly=True)
+    Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)
+    Generating_capacity_words = fields.Char(string=u'上网电量', default="待提交", readonly=True)
+    Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
 
     Towter_weight_words = fields.Char(string=u'塔筒', default='8975.72')
     Earth_excavation_words = fields.Char(string=u'土石方开挖', default='154.7')
@@ -110,9 +110,9 @@ class auto_word_economy(models.Model):
     staff_words = fields.Char(string=u'生产单位定员', default='12')
 
     # 项目状况
-    Farm_words = fields.Char(string=u'风电场名称', default='8975.72')
-    Location_words = fields.Char(string=u'建设地点', default='154.7')
-    Construction_words = fields.Char(string=u'建设单位', default='56.01')
+    Farm_words = fields.Char(string=u'风电场名称', default='华润郁南欣茂风电项目')
+    Location_words = fields.Char(string=u'建设地点', default='广东省云浮市')
+    Construction_words = fields.Char(string=u'建设单位', default='华润电力华南大区')
     Turbine_cost_words = fields.Char(string=u'风电机组单位造价', default='3500')
     Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
     infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
@@ -340,7 +340,7 @@ class auto_word_economy(models.Model):
                     str(dictMerged['result_list12_6'][len(dictMerged['result_list12_6']) - 3]['cols'][1])
                 self.capital_rate_12 = \
                     str(dictMerged['result_list12_6'][len(dictMerged['result_list12_6']) - 2]['cols'][1])
-                self.static_investment = str(dictMerged['result_list12_8'][22]['cols'][4])
+                self.static_investment_12 = str(dictMerged['result_list12_8'][22]['cols'][4])
                 self.construction_assistance = str(dictMerged['result_list12_8'][0]['cols'][4])
                 self.equipment_installation = str(dictMerged['result_list12_8'][4]['cols'][4])
                 self.constructional_engineering = str(dictMerged['result_list12_8'][9]['cols'][4])
@@ -570,3 +570,50 @@ class auto_word_economy(models.Model):
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for expense in self:
             expense.attachment_number = attachment.get(expense.id, 0)
+
+    def economy_refresh(self):
+        # 风能
+        self.Lon_words = self.project_id.Lon_words
+        self.Lat_words = self.project_id.Lat_words
+        self.Elevation_words = self.project_id.Elevation_words
+        self.Relative_height_difference_words = self.project_id.Relative_height_difference_words
+
+        self.Turbine_capacity_words = self.project_id.TurbineCapacity
+        self.Turbine_number_words = self.project_id.turbine_numbers_suggestion
+        self.Farm_capacity_words = self.project_id.project_capacity
+        self.Generating_capacity_words = self.project_id.power_generation
+        self.Hour_words = self.project_id.Hour_words
+
+        return True
+
+    def submit_economy(self):
+        return True
+    #
+    # # 土建
+    # Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
+    # Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
+    # New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
+    # Permanent_land_words = fields.Char(string=u'永久用地', default='38.36')
+    # temporary_land_words = fields.Char(string=u'临时用地', default='1467.95')
+    #
+
+    #
+    # Towter_weight_words = fields.Char(string=u'塔筒', default='8975.72')
+    # Earth_excavation_words = fields.Char(string=u'土石方开挖', default='154.7')
+    # Earth_backfill_words = fields.Char(string=u'土石方回填', default='56.01')
+    # Concrete_words = fields.Char(string=u'混凝土', default='3.62')
+    # Steel_weight_words = fields.Char(string=u'钢筋', default='2565.6')
+    #
+    # # 计划施工时间
+    # First_turbine_words = fields.Char(string=u'第一台机组发电工期', default='15')
+    # total_turbine_words = fields.Char(string=u'总工期', default='18')
+    # staff_words = fields.Char(string=u'生产单位定员', default='12')
+    #
+    # # 项目状况
+    # Farm_words = fields.Char(string=u'风电场名称', default='8975.72')
+    # Location_words = fields.Char(string=u'建设地点', default='154.7')
+    # Construction_words = fields.Char(string=u'建设单位', default='56.01')
+    # Turbine_cost_words = fields.Char(string=u'风电机组单位造价', default='3500')
+    # Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
+    # infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
+    # unit_cost_words = fields.Char(string=u'单位度电投资', default='3.59')

@@ -47,7 +47,6 @@ class auto_word_project(models.Model):
     project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)
     name_tur_suggestion = fields.Char(u'风机推荐型号', default="待提交", readonly=True)
     name_tur_selection = fields.Char(u'风机比选型号', default="待提交", readonly=True)
-
     turbine_numbers_suggestion = fields.Char(u'机位数', default="待提交", readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
 
@@ -60,6 +59,21 @@ class auto_word_project(models.Model):
     rate = fields.Char(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
     limited_str = fields.Char(u'限制性因素', required=False)
+
+    # 风能
+    Lon_words = fields.Char(string=u'东经', default='待提交')
+    Lat_words = fields.Char(string=u'北纬', default='待提交')
+    Elevation_words = fields.Char(string=u'海拔高程', default='待提交')
+    Relative_height_difference_words = fields.Char(string=u'相对高差', default='待提交')
+
+
+    Turbine_number_words = fields.Char(string=u'风力发电机组', default="待提交", readonly=True)
+    Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)
+    Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
+
+    power_generation = fields.Char(u'上网电量', default="待提交")
+    weak = fields.Char(u'尾流衰减', default="待提交")
+
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
     line_2 = fields.Char(u'线路总填方', default="待提交", readonly=True)

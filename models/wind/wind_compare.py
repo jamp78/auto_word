@@ -16,6 +16,7 @@ class auto_word_wind_turbines_compare(models.Model):
     WTG_name=fields.Char(u'风机代号', required=True, default="WTG1")
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
+
     power_generation = fields.Float(u'上网电量', required=True, default=205450.76)
     weak = fields.Float(u'尾流衰减', required=True, default=3.15)
     power_hours = fields.Float(u'满发小时', required=True, default=2054.5)
@@ -179,3 +180,7 @@ class auto_word_wind_turbines_compare(models.Model):
             re.jidian_air_wind = re.project_id.jidian_air_wind
             re.jidian_cable_wind = re.project_id.jidian_cable_wind
             re.investment_E4 = re.project_id.investment_E4
+
+            re.power_generation = re.content_ids.power_generation
+            re.weak = re.content_ids.weak
+            re.power_hours = re.content_ids.power_hours
