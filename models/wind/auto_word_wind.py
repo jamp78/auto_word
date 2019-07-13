@@ -21,18 +21,10 @@ class auto_word_wind(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
 
     # 风能
-    Lon_words = fields.Char(string=u'东经', default='111.334294')
-    Lat_words = fields.Char(string=u'北纬', default='23.132694')
-    Elevation_words = fields.Char(string=u'海拔高程', default='588m～852m')
-    Relative_height_difference_words = fields.Char(string=u'相对高差', default='100m-218m')
-
-    # # 经评
-    # Project_time_words = fields.Char(string=u'施工总工期', default='18')
-    # Turbine_capacity_words = fields.Char(string=u'单机容量', default='2.5')
-    # Turbine_number_words = fields.Char(string=u'风力发电机组', default='40')
-    # Farm_capacity_words = fields.Char(string=u'装机容量', default='100')
-    # Generating_capacity_words = fields.Char(string=u'发电量', default='205531.5')
-    # Hour_words = fields.Char(string=u'满发小时', default='2055')
+    Lon_words = fields.Char(string=u'东经', default='111.334294', required=True)
+    Lat_words = fields.Char(string=u'北纬', default='23.132694', required=True)
+    Elevation_words = fields.Char(string=u'海拔高程', default='588m～852m', required=True)
+    Relative_height_difference_words = fields.Char(string=u'相对高差', default='100m-218m', required=True)
 
     # 限制性因素
     limited_1 = fields.Boolean(u'是否占用基本农田')
@@ -45,10 +37,10 @@ class auto_word_wind(models.Model):
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
 
     # --------机型推荐---------
-    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
+    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型', required=True)
 
     # --------方案比选---------
-    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名')
+    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)

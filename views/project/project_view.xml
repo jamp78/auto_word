@@ -37,7 +37,7 @@
                         <group name="group_right">
                             <field name="company_id" options="{'no_create_edit': 1}"/>
                             <field name="date_start"/>
-                            <field name="dat_end"/>
+                            <field name="date_end"/>
                             <field name="Elevation_words"/>
                             <field name="Relative_height_difference_words"/>
                         </group>

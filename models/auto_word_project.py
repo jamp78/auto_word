@@ -16,32 +16,27 @@ class auto_word_project(models.Model):
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
-
+    # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     order_number = fields.Char(u'项目编号', required=True)
-
     active = fields.Boolean(u'续存？', default=True)
     date_start = fields.Date(u'项目启动日期', default=fields.date.today())
-    dat_end = fields.Date(u'项目要求完成日期', default=fields.date.today() + datetime.timedelta(days=10))
+    date_end = fields.Date(u'项目要求完成日期', default=fields.date.today() + datetime.timedelta(days=10))
     company_id = fields.Many2one('res.company', string=u'项目所在大区')
     contacts_ids = fields.Many2many('res.partner', string=u'项目联系人')
     favorite_user_ids = fields.Many2many('res.users', string=u'项目组成员')
+    staff = fields.Integer(u'工程定员')
     message_main_attachment_id = fields.Many2many('ir.attachment', string=u'任务资料')
-
-    # wind_attachment_id = fields.Many2one('auto_word.wind', string=u'风能数据', groups='auto_word.wind_group_user')
-    # wind_attachment_id = fields.Char(u'风能方案', default="待提交", readonly=True)
+    #文件情况
+    wind_attachment_id = fields.Many2one('auto_word.wind', string=u'风能数据', groups='auto_word.wind_group_user')
     wind_attachment_ok = fields.Char(u'风能数据', default="待提交", readonly=True)
-    electrical_attachment_id = fields.Many2one('auto_word.electrical', string=u'电气数据',
-                                               groups='auto_word.electrical_group_user')
+    electrical_attachment_id = fields.Many2one('auto_word.electrical', string=u'电气数据',groups='auto_word.electrical_group_user')
     electrical_attachment_ok = fields.Char(u'电气数据', default="待提交", readonly=True)
     civil_attachment_id = fields.Many2one('auto_word.civil', string=u'土建数据', groups='auto_word.civil_group_user')
     civil_attachment_ok = fields.Char(u'土建数据', default="待提交", readonly=True)
-    economic_attachment_id = fields.Many2one('auto_word.economic', string=u'经评数据',
-                                             groups='auto_word.economic_group_user')
+    economic_attachment_id = fields.Many2one('auto_word.economic', string=u'经评数据',groups='auto_word.economic_group_user')
     economic_attachment_ok = fields.Char(u'经评数据', default="待提交", readonly=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告成果')
-
-    staff = fields.Integer(u'工程定员', required=True)
 
     ###风能
     project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)
@@ -52,7 +47,7 @@ class auto_word_project(models.Model):
 
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
     name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
-    turbine_model_suggestion=fields.Char(string=u'风机比选型号_WTG', readonly=True, default="待提交")
+    turbine_model_suggestion = fields.Char(string=u'风机比选型号_WTG', readonly=True, default="待提交")
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
@@ -65,7 +60,6 @@ class auto_word_project(models.Model):
     Lat_words = fields.Char(string=u'北纬', default='待提交')
     Elevation_words = fields.Char(string=u'海拔高程', default='待提交')
     Relative_height_difference_words = fields.Char(string=u'相对高差', default='待提交')
-
 
     Turbine_number_words = fields.Char(string=u'风力发电机组', default="待提交", readonly=True)
     Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)
@@ -90,9 +84,8 @@ class auto_word_project(models.Model):
     yjv300 = fields.Char(u'直埋电缆YJV22-26/35-1×300（km）', default="待提交", readonly=True)
     circuit_number = fields.Char(u'线路回路数', default="待提交", readonly=True)
 
-    jidian_air_wind = fields.Char(u'架空长度', readonly=True,default="0")
-    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True,default="0")
-
+    jidian_air_wind = fields.Char(u'架空长度', readonly=True, default="0")
+    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True, default="0")
 
     ###土建
     road_1_num = fields.Char(u'场外改扩建道路', default="待提交", readonly=True)
@@ -114,7 +107,7 @@ class auto_word_project(models.Model):
     TerrainType = fields.Char(u'山地类型', default="待提交", readonly=True)
 
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
-    case_name=fields.Char(u'方案名', readonly=True, default="待提交")
+    case_name = fields.Char(u'方案名', readonly=True, default="待提交")
     investment_E1 = fields.Char(u'塔筒投资(万元)', readonly=True, default="待提交")
     investment_E2 = fields.Char(u'风机设备投资(万元)', readonly=True, default="待提交")
     investment_E3 = fields.Char(u'基础投资(万元)', readonly=True, default="待提交")
@@ -126,62 +119,6 @@ class auto_word_project(models.Model):
     investment_unit = fields.Char(u'单位度电投资(万元)', readonly=True, default="待提交")
 
 
-    # @api.multi
-    # def button_project(self):
-    #
-    #     if (self.turbine_numbers_civil != self.turbine_numbers_wind):
-    #         pass
-    #
-    #     if (str(self.wind_attachment_id) == 'autoreport.wind()'):
-    #         raise exceptions.UserError('该项目风资源资料未上传，请上传后再生成报告。')
-    #     if (str(self.civil_attachment_id) == 'autoreport.civil()'):
-    #         raise exceptions.UserError('该项目土建资料未上传，请上传后再生成报告。')
-    #     if (str(self.electrical_attachment_id) == 'autoreport.electrical()'):
-    #         raise exceptions.UserError('该项目电气资料未上传，请上传后再生成报告。')
-    #     if (str(self.economic_attachment_id) == 'autoreport.economic()'):
-    #         raise exceptions.UserError('该项目经济评价资料未上传，请上传后再生成报告。')
-    #
-    #     print('old attachment：', self.report_attachment_id)
-    #     if (str(self.report_attachment_id) != 'ir.attachment()'): print('old datas len：',
-    #                                                                     len(self.report_attachment_id.datas))
-    #
-    #     # renew2.read_excel()
-    #     reportfile_name = open(file='C:/autoreport/result.docx', mode='rb')
-    #     byte = reportfile_name.read()
-    #     reportfile_name.close()
-    #     print('file lenth=', len(byte))
-    #     base64.standard_b64encode(byte)
-    #     if (str(self.report_attachment_id) == 'ir.attachment()'):
-    #         Attachments = self.env['ir.attachment']
-    #         New = Attachments.create({
-    #             'name': self.project_name + '可研报告下载页',
-    #             'datas_fname': self.project_name + '可研报告.docx',
-    #             'datas': base64.standard_b64encode(byte),
-    #             'display_name': self.project_name + '可研报告3',
-    #             'create_date': fields.date.today(),
-    #             'public': True,  # 此处需设置为true 否则attachments.read  读不到
-    #             # 'mimetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    #             # 'res_model': 'autoreport.project'
-    #             # 'res_field': 'report_attachment_id'
-    #         })
-    #         print('已创建新纪录：', New)
-    #         print('new dataslen：', len(New.datas))
-    #         self.report_attachment_id = New
-    #     else:
-    #         self.report_attachment_id.datas = base64.standard_b64encode(byte)
-    #
-    #     print('new attachment：', self.report_attachment_id)
-    #     print('new datas len：', len(self.report_attachment_id.datas))
-    #     return True
-
-# value2 = fields.Float(compute="_value_pc", store=True)
-# description = fields.Text()
-#
-# @api.depends('value')
-# def _value_pc(self):
-#     self.value2 = float(self.value) / 100
-
 class auto_word_null_project(models.Model):
     _name = 'auto_word_null.project'
     _description = 'null Project'
-
