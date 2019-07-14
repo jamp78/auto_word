@@ -14,12 +14,19 @@ class auto_word_wind_turbines_compare(models.Model):
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
-    case_name = fields.Char(u'方案名称', default="方案1", required=True)
+    compare_id = fields.Many2one('auto_word_wind_res.form', string=u'方案名称', required=True)
+
+    # case_name = fields.Char(u'方案名称', default="方案1", required=True)
     WTG_name = fields.Char(u'风机代号', default="WTG1", required=True)
 
-    ongrid_power = fields.Float(u'上网电量', required=True, default=205450.76)
-    weak = fields.Float(u'尾流衰减', required=True, default=3.15)
-    hours_year = fields.Float(u'满发小时', required=True, default=2054.5)
+    # ongrid_power = fields.Float(u'上网电量', required=True, default=205450.76)
+    # weak = fields.Float(u'尾流衰减', required=True, default=3.15)
+    # hours_year = fields.Float(u'满发小时', required=True, default=2054.5)
+    case_name = fields.Char(u'方案名称', readonly=True, compute='_compute_ongrid_power')
+    ongrid_power = fields.Char(u'上网电量(结果)', readonly=True, compute='_compute_ongrid_power')
+    hours_year = fields.Char(u'年发电小时数(结果)', readonly=True, compute='_compute_ongrid_power')
+    weak = fields.Char(u'尾流衰减(结果)', readonly=True, compute='_compute_ongrid_power')
+
     TerrainType_turbines_compare = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True, default="山地")
     jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
@@ -51,12 +58,23 @@ class auto_word_wind_turbines_compare(models.Model):
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, compute='_compute_turbine')
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_turbine')
 
+    @api.depends('compare_id')
+    def _compute_ongrid_power(self):
+        for re in self:
+            re.case_name = re.compare_id.case_name
+            re.ongrid_power = re.compare_id.ongrid_power_sum
+            re.hours_year = re.compare_id.hours_year_average
+            re.weak = re.compare_id.wake_average
+
     @api.depends('case_ids', 'TerrainType_turbines_compare', 'cal_id')
     def _compute_turbine(self):
 
         investment_e1_sum, investment_e2_sum = 0, 0
         investment_e5_sum, investment_e6_sum = 0, 0
         for re in self:
+            print("ssssssssasda")
+            re.ongrid_power = 100
+            print(re.ongrid_power)
             tower_weight_word, tower_weight_words = '', ''
             rotor_diameter_word, rotor_diameter_words = '', ''
             investment_turbines_kw_word, investment_turbines_kw_words = '', ''
@@ -167,7 +185,8 @@ class auto_word_wind_turbines_compare(models.Model):
             re.investment = RoundUp.round_up(re.investment_E1 + re.investment_E2 + re.investment_E3 + re.investment_E4 + \
                                              re.investment_E5 + re.investment_E6 + re.investment_E7)
 
-            re.investment_unit = RoundUp.round_up3((re.investment / re.ongrid_power * 10), 3)
+            re.investment_unit = RoundUp.round_up3(
+                (re.investment / float(re.ongrid_power) * 10), 3)
 
     def wind_turbines_compare_form_refresh(self):
         for re in self:

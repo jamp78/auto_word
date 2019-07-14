@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 import base64
-import RoundUp
+from RoundUp import round_up, Get_Average, Get_Sum
 
 
 # 机型比选
@@ -60,31 +60,51 @@ class auto_word_wind_res_form(models.Model):
     _description = 'auto_word_wind_res_form'
     _rec_name = 'project_id'
     _inherit = ['auto_word_wind.res']
-    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=False)
-    # content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=False)
-    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'章节分类', required=True)
+    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
+    # compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名称', required=True)
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
     rate = fields.Float(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
 
+    case_name = fields.Char(u'方案名称(结果)', readonly=True, compute='_compute_case_name')
+    ongrid_power_sum = fields.Char(u'上网电量(结果)', readonly=True, compute='_compute_case_name')
+    hours_year_average = fields.Char(u'年发电小时数(结果)', readonly=True, compute='_compute_case_name')
+    wake_average = fields.Char(u'尾流(结果)', readonly=True, compute='_compute_case_name')
+
+    @api.depends('auto_word_wind_res')
+    def _compute_case_name(self):
+        for re in self:
+            ongrid_power_list, hours_year_list,wake_list = [], [],[]
+            for vaule in re.auto_word_wind_res:
+                if vaule.rate != 0:
+                    vaule.ongrid_power = float(vaule.PowerGeneration_Weak) * vaule.rate
+                    vaule.hours_year = float(
+                        vaule.PowerGeneration_Weak) * vaule.rate / vaule.turbine_capacity_each * 1000
+                else:
+                    vaule.ongrid_power = float(vaule.PowerGeneration_Weak) * re.rate
+                    vaule.hours_year = float(vaule.PowerGeneration_Weak) * re.rate / vaule.turbine_capacity_each * 1000
+
+
+                ongrid_power_list.append(vaule.ongrid_power)
+                hours_year_list.append(vaule.hours_year)
+                wake_list.append(float(vaule.Weak))
+
+            re.ongrid_power_sum = round_up(Get_Sum(ongrid_power_list), 1)
+            re.hours_year_average = round_up(Get_Average(hours_year_list), 1)
+            re.wake_average = round_up(Get_Average(wake_list), 1)
+            re.case_name = re.auto_word_wind_res[0].case_name
+
     @api.multi
     def wind_res_submit(self):
-        for re in self.auto_word_wind_res:
+        for re in self:
             if re.rate != 0:
-                re.ongrid_power = float(re.PowerGeneration_Weak) * re.rate
-                re.hours_year = float(re.PowerGeneration_Weak) * re.rate / re.turbine_capacity_each * 1000
+                re.content_id.rate = re.rate * 100
             else:
-                re.ongrid_power = float(re.PowerGeneration_Weak) * self.rate
-                re.hours_year = float(re.PowerGeneration_Weak) * self.rate / re.turbine_capacity_each * 1000
-
-        if self.rate != 0:
-            self.project_id.rate = self.rate*100
-        else:
-            self.project_id.rate = self.auto_word_wind_res[0].rate*100
-
-        self.project_id.note = self.note
-
-        re.ongrid_power = re.compare_id.ongrid_power
-        re.weak = re.compare_id.weak
-        re.hours_year = re.compare_id.hours_year
-
+                re.content_id.rate = re.auto_word_wind_res[0].rate * 100
+    
+            re.content_id.note = re.note
+    
+            # re.compare_id.case_name = re.auto_word_wind_res[0].case_name
+            # re.compare_id.ongrid_power = re.ongrid_power_sum
+            # re.compare_id.hours_year = re.hours_year_average

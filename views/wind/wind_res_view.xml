@@ -89,11 +89,9 @@
             <tree>
                 <field name="project_id"/>
                 <field name="content_id"/>
-                <field name="auto_word_wind_res"/>
+                <field name="case_name"/>
 	            <field name="create_date"/>
                 <field name="__last_update"/>
-
-
             </tree>
         </field>
     </record>
@@ -112,10 +110,13 @@
                     <group name="group_top">
                         <group name="group_left">
                             <field name="project_id"/>
-                            <field name="rate"/>
+                            <field name="content_id"/>
+                            <!--<field name="compare_id"/>-->
                         </group>
                         <group name="group_right">
-                            <field name="compare_id"/>
+                            <field name="rate"/>
+                            <field name="ongrid_power_sum"/>
+                            <field name="hours_year_average"/>
                         </group>
                     </group>
 

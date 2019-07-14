@@ -16,9 +16,9 @@
                     <group name="group_top">
 
                         <group name="group_left">
-                            <field name="case_name" />
                             <field name="project_id" />
                             <field name="content_id" />
+                            <field name="compare_id" />
                             <field name="WTG_name" />
                             <field name="weak" />
                             <field name="ongrid_power" />

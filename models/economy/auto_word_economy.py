@@ -175,7 +175,7 @@ class auto_word_economy(models.Model):
         dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
         dict_12_word = {
             "东经": self.Lon_words,
-            "北纬": self.Lon_words,
+            "北纬": self.Lat_words,
             "海拔高程": self.Elevation_words,
             "相对高差": self.Relative_height_difference_words,
             "新改建道路": self.Re_road_words,

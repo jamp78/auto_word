@@ -43,6 +43,10 @@ class auto_word_wind(models.Model):
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交", readonly=True)
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交", readonly=True)
+
+    rate = fields.Float(string=u'折减率', readonly=False)
+    note = fields.Char(string=u'备注', readonly=False)
+
     ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True)
     weak = fields.Char(u'尾流衰减', default="待提交", readonly=True)
     hours_year = fields.Char(u'满发小时', default="待提交", readonly=True)
