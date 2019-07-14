@@ -581,7 +581,7 @@ class auto_word_economy(models.Model):
         self.Turbine_capacity_words = self.project_id.TurbineCapacity
         self.Turbine_number_words = self.project_id.turbine_numbers_suggestion
         self.Farm_capacity_words = self.project_id.project_capacity
-        self.Generating_capacity_words = self.project_id.power_generation
+        self.Generating_capacity_words = self.project_id.ongrid_power
         self.Hour_words = self.project_id.Hour_words
 
         return True

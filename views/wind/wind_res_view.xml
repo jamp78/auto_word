@@ -88,7 +88,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="project_id"/>
-                <field name="content_ids"/>
+                <field name="content_id"/>
                 <field name="auto_word_wind_res"/>
 	            <field name="create_date"/>
                 <field name="__last_update"/>
@@ -115,7 +115,7 @@
                             <field name="rate"/>
                         </group>
                         <group name="group_right">
-                            <field name="content_ids"/>
+                            <field name="compare_id"/>
                         </group>
                     </group>
 

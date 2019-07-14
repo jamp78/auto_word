@@ -20,12 +20,12 @@ def generate_wind_dict(tur_name, path_images):
     context_keys_chapter5 = ['机组类型', '功率', '叶片数', '风轮直径', '扫风面积', '轮毂高度', '功率调节', '切入风速',
                              '切出风速', '额定风速', '发电机型式', '额定功率', '电压', '主制动系统', '第二制动', '三秒最大值']
 
-    dict_keys_compare_chapter5 = ['id', 'turbine_numbers', 'power_generation', 'weak', 'power_hours',
+    dict_keys_compare_chapter5 = ['id', 'turbine_numbers', 'ongrid_power', 'weak', 'hours_year',
                                   'TerrainType_turbines_compare', 'project_id', 'create_uid', 'create_date',
                                   'write_uid', 'write_date', 'case_hub_height', 'case_name', 'investment_E3',
                                   'investment_turbines_kws', 'wind_ids']
 
-    context_keys_compare_chapter5 = ['power_generation', 'case_hub_height', 'weak', 'power_hours',
+    context_keys_compare_chapter5 = ['ongrid_power', 'case_hub_height', 'weak', 'hours_year',
                                      'investment_turbines_kws', 'investment_E3',
                                      '切出风速', '额定风速', '发电机型式', '额定功率', '电压', '主制动系统', '第二制动', '三秒最大值']
 

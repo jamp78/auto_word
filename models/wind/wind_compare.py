@@ -12,14 +12,14 @@ class auto_word_wind_turbines_compare(models.Model):
     _description = 'turbines_compare'
     _rec_name = 'case_name'
 
-    case_name = fields.Char(u'方案名称', required=True, default="方案1")
-    WTG_name=fields.Char(u'风机代号', required=True, default="WTG1")
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
-    content_ids = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
+    content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
+    case_name = fields.Char(u'方案名称', default="方案1", required=True)
+    WTG_name = fields.Char(u'风机代号', default="WTG1", required=True)
 
-    power_generation = fields.Float(u'上网电量', required=True, default=205450.76)
+    ongrid_power = fields.Float(u'上网电量', required=True, default=205450.76)
     weak = fields.Float(u'尾流衰减', required=True, default=3.15)
-    power_hours = fields.Float(u'满发小时', required=True, default=2054.5)
+    hours_year = fields.Float(u'满发小时', required=True, default=2054.5)
     TerrainType_turbines_compare = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True, default="山地")
     jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
@@ -167,13 +167,12 @@ class auto_word_wind_turbines_compare(models.Model):
             re.investment = RoundUp.round_up(re.investment_E1 + re.investment_E2 + re.investment_E3 + re.investment_E4 + \
                                              re.investment_E5 + re.investment_E6 + re.investment_E7)
 
-            re.investment_unit = RoundUp.round_up3((re.investment / re.power_generation * 10), 3)
+            re.investment_unit = RoundUp.round_up3((re.investment / re.ongrid_power * 10), 3)
 
     def wind_turbines_compare_form_refresh(self):
         for re in self:
-            re.content_ids.rotor_diameter_case = re.rotor_diameter_case
-            re.content_ids.case_number = re.case_number
-
+            re.content_id.rotor_diameter_case = re.rotor_diameter_case
+            re.content_id.case_number = re.case_number
 
     def take_result_refresh(self):
         for re in self:
@@ -181,6 +180,6 @@ class auto_word_wind_turbines_compare(models.Model):
             re.jidian_cable_wind = re.project_id.jidian_cable_wind
             re.investment_E4 = re.project_id.investment_E4
 
-            re.power_generation = re.content_ids.power_generation
-            re.weak = re.content_ids.weak
-            re.power_hours = re.content_ids.power_hours
+            re.ongrid_power = re.content_id.ongrid_power
+            re.weak = re.content_id.weak
+            re.hours_year = re.content_id.hours_year

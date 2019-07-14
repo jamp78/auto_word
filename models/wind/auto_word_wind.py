@@ -16,31 +16,44 @@ class auto_word_wind(models.Model):
 
     # 项目参数
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    version_id = fields.Char(u'版本', default="1.0", required=True)
     content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),
                                    ("其他", u"其他")], string=u"章节分类", required=True)
-    version_id = fields.Char(u'版本', required=True, default="1.0")
 
+    # --------风场信息---------
     # 风能
     Lon_words = fields.Char(string=u'东经', default='111.334294', required=True)
     Lat_words = fields.Char(string=u'北纬', default='23.132694', required=True)
     Elevation_words = fields.Char(string=u'海拔高程', default='588m～852m', required=True)
     Relative_height_difference_words = fields.Char(string=u'相对高差', default='100m-218m', required=True)
-
+    farm_area_words = fields.Char(string=u'区域面积', default="150", required=True)
+    farm_speed_range_words = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
+    air_density_words = fields.Char(string=u'空气密度', default="1.096", required=True)
     # 限制性因素
     limited_1 = fields.Boolean(u'是否占用基本农田')
     limited_2 = fields.Boolean(u'是否占用生态红线')
     limited_3 = fields.Boolean(u'是否存在压覆矿')
-    limited_str = fields.Char(u'限制性因素', required=False)
-    # 上传参数
-    # --------测风信息---------
-    string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
-    string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
+    limited_words = fields.Char(u'限制性因素')
 
+    IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
+                                 ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
+                                 ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
+                                 ], string=u"IEC等级", default="IIIB", required=True)
+    # --------测风信息---------
+    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
+    string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交", readonly=True)
+    string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交", readonly=True)
+    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True)
+    weak = fields.Char(u'尾流衰减', default="待提交", readonly=True)
+    hours_year = fields.Char(u'满发小时', default="待提交", readonly=True)
+    capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True)
+
+    # ####################################功能模块########################
     # --------机型推荐---------
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型', required=True)
-
     # --------方案比选---------
-    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案名', required=True)
+    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案推荐', required=True)
+    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案名称', required=True)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
@@ -49,24 +62,7 @@ class auto_word_wind(models.Model):
     capacity_suggestion = fields.Char(string=u'单机容量建议', readonly=True, default="待提交",
                                       compute='_compute_compare_case')
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
-
-    case_number = fields.Char(string=u'方案数', default="待提交")
-    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案比选')
-    # --------风场信息---------
-    IECLevel = fields.Selection([("IA", u"IA"), ("IIA", u"IIA"), ("IIIA", u"IIIA"),
-                                 ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
-                                 ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
-                                 ], string=u"IEC等级", default="IIIB", required=True)
-    farm_elevation = fields.Char(string=u'海拔高程', default="510~680", required=True)
-    farm_area = fields.Char(string=u'区域面积', default="150", required=True)
-    farm_speed_range = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
-    air_density = fields.Char(string=u'空气密度', default="1.096", required=True)
-    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
-
-    power_generation = fields.Char(u'上网电量', default="待提交")
-    weak = fields.Char(u'尾流衰减', default="待提交")
-    power_hours = fields.Char(u'满发小时', default="待提交")
-    capacity_coefficient = fields.Char(u'容量系数', default="待提交")
+    case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
     # --------结果文件---------
     png_list = []
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
@@ -101,7 +97,7 @@ class auto_word_wind(models.Model):
 
     @api.multi
     def submit_wind(self):
-        limited_str_1, limited_str_2, limited_str_3, limited_str = "", "", "", ""
+        limited_str_1, limited_str_2, limited_str_3, limited_words = "", "", "", ""
         self.project_id.wind_attachment_ok = u"已提交,版本：" + self.version_id
 
         self.project_id.case_name = str(self.compare_id.case_name)
@@ -141,22 +137,21 @@ class auto_word_wind(models.Model):
             limited_str_1 = "生态红线、压覆矿"
         elif self.limited_2 == False and self.limited_3 == True:
             limited_str_1 = "压覆矿"
-        self.limited_str = limited_str_0 + limited_str_1 + limited_str_2
+        self.limited_words = limited_str_0 + limited_str_1 + limited_str_2
 
         if self.limited_1 == False and self.limited_2 == False and self.limited_3 == False:
-            self.limited_str = "本项目区域内未存在限制性因素"
+            self.limited_words = "本项目区域内未存在限制性因素"
 
-        self.project_id.limited_str = self.limited_str
+        self.project_id.limited_words = self.limited_words
         # 风能
         self.project_id.Lon_words = self.Lon_words
         self.project_id.Lat_words = self.Lat_words
         self.project_id.Elevation_words = self.Elevation_words
         self.project_id.Relative_height_difference_words = self.Relative_height_difference_words
 
-        self.project_id.power_generation = self.power_generation
+        self.project_id.ongrid_power = self.ongrid_power
         self.project_id.weak = self.weak
-        self.project_id.Hour_words = self.power_hours
-
+        self.project_id.Hour_words = self.hours_year
 
     def take_wind_result(self):
         # 机型结果
@@ -226,9 +221,9 @@ class auto_word_wind(models.Model):
         self.total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict), 1)
         self.total_ongrid_power = round_up(Get_Sum(ongrid_power_dict), 1)
 
-        self.power_generation = self.total_ongrid_power
+        self.ongrid_power = self.total_ongrid_power
         self.weak = self.ave_weak_res
-        self.power_hours = self.ave_hours_year
+        self.hours_year = self.ave_hours_year
 
         self.X_dict = X_dict
         self.Y_dict = Y_dict
@@ -241,7 +236,6 @@ class auto_word_wind(models.Model):
         self.ongrid_power_dict = ongrid_power_dict
 
         return
-
 
     def wind_generate(self):
         tur_name = []
@@ -325,7 +319,6 @@ class auto_word_wind(models.Model):
         total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict), 1)
         total_ongrid_power = round_up(Get_Sum(ongrid_power_dict), 1)
 
-
         # 方案比选 Dict
         for i in range(0, len(self.case_names)):
             case_name_dict.append(self.case_names[i].case_name)
@@ -335,9 +328,9 @@ class auto_word_wind(models.Model):
             farm_capacity_dict.append(self.case_names[i].farm_capacity)
             rotor_diameter_dict.append(self.case_names[i].rotor_diameter_case)
             case_hub_height_dict.append(self.case_names[i].hub_height_suggestion)
-            power_generation_dict.append(self.case_names[i].power_generation)
+            power_generation_dict.append(self.case_names[i].ongrid_power)
             weak_dict.append(self.case_names[i].weak)
-            power_hours_dict.append(self.case_names[i].power_hours)
+            power_hours_dict.append(self.case_names[i].hours_year)
             tower_weight_dict.append(str(self.case_names[i].tower_weight))
             investment_E1_dict.append(str(self.case_names[i].investment_E1))
             investment_E2_dict.append(str(self.case_names[i].investment_E2))
@@ -412,11 +405,11 @@ class auto_word_wind(models.Model):
 
             "叶轮直径": self.rotor_diameter_suggestion,
             "方案数": self.case_number,
-            "海拔高程": self.farm_elevation,
-            "区域面积": self.farm_area,
-            "空气密度": self.air_density,
+            "海拔高程": self.Elevation_words,
+            "区域面积": self.farm_area_words,
+            "空气密度": self.air_density_words,
             "山地类型": self.project_id.TerrainType,
-            "平均风速区间": self.farm_speed_range,
+            "平均风速区间": self.farm_speed_range_words,
             '测风塔名字': self.cft_name_words,
             '测风塔风速信息': self.string_speed_words,
             '测风塔风向信息': self.string_deg_words,
@@ -429,7 +422,7 @@ class auto_word_wind(models.Model):
             '推荐单机容量': self.project_id.TurbineCapacity,
             '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
             '项目容量': self.project_id.project_capacity,
-            '限制性因素': self.project_id.limited_str,
+            '限制性因素': self.project_id.limited_words,
         }
         print(dict_5_word)
         Dict5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)

@@ -53,7 +53,7 @@ class auto_word_project(models.Model):
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
     rate = fields.Char(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
-    limited_str = fields.Char(u'限制性因素', required=False)
+    limited_words = fields.Char(u'限制性因素', required=False)
 
     # 风能
     Lon_words = fields.Char(string=u'东经', default='待提交')
@@ -65,7 +65,7 @@ class auto_word_project(models.Model):
     Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)
     Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
 
-    power_generation = fields.Char(u'上网电量', default="待提交")
+    ongrid_power = fields.Char(u'上网电量', default="待提交")
     weak = fields.Char(u'尾流衰减', default="待提交")
 
     ###电气

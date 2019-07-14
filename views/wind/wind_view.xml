@@ -47,9 +47,10 @@
                         </group>
                         <group name="group_right">
                             <field name="IECLevel"/>
-                            <field name="farm_elevation"/>
-                            <field name="farm_area"/>
-                            <field name="farm_speed_range"/>
+                            <field name="Elevation_words"/>
+                            <field name="farm_area_words"/>
+                            <field name="farm_speed_range_words"/>
+                            <field name="air_density_words"/>
                         </group>
                         <!--<field name="project_res" />-->
                     </group>

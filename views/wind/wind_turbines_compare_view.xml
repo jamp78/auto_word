@@ -18,11 +18,11 @@
                         <group name="group_left">
                             <field name="case_name" />
                             <field name="project_id" />
-                            <field name="content_ids" />
+                            <field name="content_id" />
                             <field name="WTG_name" />
                             <field name="weak" />
-                            <field name="power_generation" />
-                            <field name="power_hours" />
+                            <field name="ongrid_power" />
+                            <field name="hours_year" />
                         </group>
                         <group name="group_left">
                             <field name="TerrainType_turbines_compare" />

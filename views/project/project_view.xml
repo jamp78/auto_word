@@ -54,7 +54,7 @@
                             <field name="name_tur_suggestion"/>
                             <field name="turbine_numbers_suggestion"/>
                             <field name="hub_height_suggestion"/>
-                            <field name="power_generation"/>
+                            <field name="ongrid_power"/>
                             <field name="Hour_words"/>
                         </group>
                         <group string="测风塔信息">
