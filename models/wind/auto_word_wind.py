@@ -246,6 +246,8 @@ class auto_word_wind(models.Model):
         for i in range(0, len(self.select_turbine_ids)):
             tur_name.append(self.select_turbine_ids[i].name_tur)
 
+        print("lllllllllllllllllllllllll")
+        print(tur_name)
         path_images = self.env['auto_word.project'].path_images_chapter_5
 
         case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []

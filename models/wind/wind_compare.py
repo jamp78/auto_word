@@ -16,12 +16,7 @@ class auto_word_wind_turbines_compare(models.Model):
     content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
     compare_id = fields.Many2one('auto_word_wind_res.form', string=u'方案名称', required=True)
 
-    # case_name = fields.Char(u'方案名称', default="方案1", required=True)
     WTG_name = fields.Char(u'风机代号', default="WTG1", required=True)
-
-    # ongrid_power = fields.Float(u'上网电量', required=True, default=205450.76)
-    # weak = fields.Float(u'尾流衰减', required=True, default=3.15)
-    # hours_year = fields.Float(u'满发小时', required=True, default=2054.5)
     case_name = fields.Char(u'方案名称', readonly=True, compute='_compute_ongrid_power')
     ongrid_power = fields.Char(u'上网电量(结果)', readonly=True, compute='_compute_ongrid_power')
     hours_year = fields.Char(u'年发电小时数(结果)', readonly=True, compute='_compute_ongrid_power')

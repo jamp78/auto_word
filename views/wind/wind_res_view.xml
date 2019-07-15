@@ -47,40 +47,27 @@
         <field name="model">auto_word_wind.res</field>
         <field name="arch" type="xml">
             <form>
-                <!--<group string="机位结果">-->
-                    <!--<field name="project_id_input"/>-->
-                    <!--<field name="case_name"/>-->
-                    <!--<field name="Turbine"/>-->
-                    <!--<field name="tur_id"/>-->
-                    <!--<field name="X"/>-->
-                    <!--<field name="Y"/>-->
-                    <!--<field name="Z"/>-->
-                    <!--<field name="H"/>-->
-                <!--</group>-->
-                <!--<group string="机位结果">-->
-                    <!--<field name="Latitude"/>-->
-                    <!--<field name="Longitude"/>-->
-                    <!--<field name="WeibullA"/>-->
-                    <!--<field name="WeibullK"/>-->
-                    <!--<field name="EnergyDensity"/>-->
-                    <!--<field name="PowerGeneration"/>-->
-                    <!--<field name="PowerGeneration_Weak"/>-->
-                    <!--<field name="AverageWindSpeed"/>-->
-                    <!--<field name="AverageWindSpeed_Weak"/>-->
-                    <!--<field name="Weak"/>-->
-                <!--</group>-->
-                <!--<group string="机位结果">-->
-                    <!--<field name="WindShear_Avg"/>-->
-                    <!--<field name="InflowAngle_Max"/>-->
-                    <!--<field name="InflowAngle_Max_Deg"/>-->
-                    <!--<field name="NextTur"/>-->
-                    <!--<field name="NextLength_M"/>-->
-                    <!--<field name="Sectors"/>-->
-                <!--</group>-->
 
             </form>
         </field>
     </record>
+
+
+    <record id="view_search_wind_res" model="ir.ui.view">
+        <field name="name">Wind reslut Filters</field>
+        <field name="model">auto_word_wind.res</field>
+        <field name="arch" type="xml">
+        <search>
+          <field name="case_name"/>
+          <filter name="filter_inactive"
+                  string="Inactive"
+                  context="{'group_by': 'case_name'}"/>
+        </search>
+
+    </field>
+  </record>
+
+
 
     <record id="wind_res_form_list" model="ir.ui.view">
         <field name="name">WindInformationForm</field>
@@ -103,6 +90,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
+                    <button name="wind_res_cal" type="object" groups="auto_word.wind_group_user"
+                            string="计算"/>
                     <button name="wind_res_submit" type="object" groups="auto_word.wind_group_user"
                             string="提交结果" confirm="是否确认提交该项目风资源资料？"/>
                 </header>
