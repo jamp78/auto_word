@@ -9,6 +9,15 @@ import numpy as np
 from RoundUp import round_up
 
 
+def generate_electrical_docx(Dict, path_images, model_name, outputfile):
+    filename_box = [model_name, outputfile]
+    read_path = os.path.join(path_images, '%s') % filename_box[0]
+    save_path = os.path.join(path_images, '%s') % filename_box[1]
+    tpl = DocxTemplate(read_path)
+    tpl.render(Dict)
+    tpl.save(save_path)
+
+
 def get_dict_electrical_firstsec(index, col_name, data, sheet_name_array):
     result_dict, context = {}, {}
     result_list = []
@@ -56,21 +65,28 @@ class auto_word_electrical_firstsec(models.Model):
     def electrical_firstsec_generate(self):
         dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
         col_name_array = []
-        file_first = False
-        file_second = False
+        # file_first = False
+        # file_second = False
+        file_exist = False
         for re in self.report_attachment_id_input:
             t = re.name
             chapter_number = 6
-            if '电气一次' in t:
-                xlsdata_first = base64.standard_b64decode(re.datas)
-                name_first = t
-                file_first = True
 
-            elif '电气二次' in t:
-                xlsdata_second = base64.standard_b64decode(re.datas)
-                name_second = t
-                file_second = True
-        if file_first == True:
+            if '电气提资' in t:
+                xlsdata = base64.standard_b64decode(re.datas)
+                name_first = t
+                file_exist = True
+
+            # if '电气一次' in t:
+            #     xlsdata_first = base64.standard_b64decode(re.datas)
+            #     name_first = t
+            #     file_first = True
+            #
+            # elif '电气二次' in t:
+            #     xlsdata_second = base64.standard_b64decode(re.datas)
+            #     name_second = t
+            #     file_second = True
+        if file_exist == True:
             electrical_path = self.env['auto_word.project'].path_images_chapter_6
             suffix_in = ".xls"
             suffix_out = ".docx"
@@ -81,25 +97,27 @@ class auto_word_electrical_firstsec(models.Model):
             Pathoutput = os.path.join(electrical_path, '%s') % outputfile
             if not os.path.exists(Pathinput):
                 f = open(Pathinput, 'wb+')
-                if '电气一次' in re.name:
-                    f.write(xlsdata_first)
-                elif '电气二次' in re.name:
-                    f.write(xlsdata_second)
+                f.write(xlsdata)
+                # if '电气一次' in re.name:
+                #     f.write(xlsdata_first)
+                # elif '电气二次' in re.name:
+                #     f.write(xlsdata_second)
                 f.close()
             else:
                 print(Pathinput + " already existed.")
                 os.remove(Pathinput)
                 f = open(Pathinput, 'wb+')
-                if '电气一次' in re.name:
-                    f.write(xlsdata_first)
-                elif '电气二次' in re.name:
-                    f.write(xlsdata_second)
+                f.write(xlsdata)
+                # if '电气一次' in re.name:
+                #     f.write(xlsdata_first)
+                # elif '电气二次' in re.name:
+                #     f.write(xlsdata_second)
                 f.close()
 
             pd.set_option('display.max_columns', None)
             pd.set_option('display.max_rows', None)
 
-            sheet_name_array = ['01站用电负荷表', '02电气一次主要设备及材料表']
+            sheet_name_array = ['01站用电负荷表', '02电气一次主要设备及材料表', '03电气二次设备主要材料清单', '04通信部分材料清单']
             for i in range(0, len(sheet_name_array)):
                 if i == 0:
                     data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
@@ -117,8 +135,20 @@ class auto_word_electrical_firstsec(models.Model):
 
                 dictMerged.update(dict_content)
 
+            print(str(dictMerged['result_list6_1'][48]['cols'][1]))
+
+            dict_6_res_word = {
+                '站用电负荷表说明_1': str('1、综合楼空调机为单冷型，该负荷仅在夏季使用；'),
+                '站用电负荷表说明_2': str('2、设备楼空调机为冷暖型。'),
+                '热镀锌扁钢': str(dictMerged['result_list6_1'][47]['cols'][1]),
+                '热镀锌角钢': str(dictMerged['result_list6_1'][48]['cols'][1]),
+
+
+            }
             print(dictMerged)
-        return
+            Dict6 = dict(dictMerged, **dict_6_res_word)
+            generate_electrical_docx(Dict6, electrical_path, model_name, outputfile)
+            return
 
     @api.multi
     def action_get_attachment_electrical_firstsec_view(self):
@@ -133,7 +163,8 @@ class auto_word_electrical_firstsec(models.Model):
     def _compute_attachment_number(self):
         """附件上传"""
         attachment_data = self.env['ir.attachment'].read_group(
-            [('res_model', '=', 'auto_word_electrical.firstsec'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+            [('res_model', '=', 'auto_word_electrical.firstsec'), ('res_id', 'in', self.ids)], ['res_id'],
+            ['res_id'])
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for expense in self:
             expense.attachment_number = attachment.get(expense.id, 0)
