@@ -127,11 +127,43 @@ class auto_word_electrical_firstsec(models.Model):
                     data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i], )
                     # usecols=col_name_array[i])
                     col_name = data.columns.tolist()
-
+                    if i==1:
+                        if ~data['数量'].isnull().values.all() == True:
+                            take_data=data[data['数量'].isnull().values == True]
+                            drop_number=take_data[take_data.ix[:, 0].str.contains("-") == True].index
+                        data=data.drop(drop_number)
+                        modifier_data=data.ix[:, 0][data.ix[:, 0].str.contains("-") == True]
+                        modifier_number_list=modifier_data.index
+                        for j in range(0,modifier_data.shape[0]):
+                            number = modifier_data.iloc[j].split("-")
+                            if j ==0:
+                                Judging=number[0]
+                                number_add=1
+                                string_number=Judging+"-"+str(number_add)
+                                data.ix[modifier_number_list[j], 0]=string_number
+                            else:
+                                if number[0]==Judging:
+                                   number_add=number_add+1
+                                   string_number = Judging + "-" + str(number_add)
+                                   data.ix[modifier_number_list[j], 0] = string_number
+                                elif number[0]!=Judging:
+                                   number_add =1
+                                   string_number = number[0] + "-" + str(number_add)
+                                   Judging=number[0]
+                                   data.ix[modifier_number_list[j], 0] = string_number
+                        #         print("88888888888")
+                        #         print(i)
+                        #         print(data.ix[modifier_number_list[i], 0])
+                        #         print(string_number)
+                        #
+                        # print("jjjjjjjjjjjjjjjjjjjjjjjjjj")
+                        print(data)
+                        #
+                print(i)
                 data = data.replace(np.nan, '-', regex=True)
                 col_name_array.append(col_name)
                 tabel_number = str(chapter_number) + '_' + str(i)
-                dict_content = get_dict_electrical_firstsec(tabel_number, col_name, data, sheet_name_array[i])
+                dict_content = get_dict_electrical_firstsec(tabel_number, col_name_array[i], data, sheet_name_array[i])
 
                 dictMerged.update(dict_content)
 
