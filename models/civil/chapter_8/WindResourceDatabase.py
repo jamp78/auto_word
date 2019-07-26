@@ -68,6 +68,8 @@ class WindResourceDatabase:
         self.earth_excavation_wind_resource_numbers = self.earth_excavation_wind_resource * self.turbine_numbers
         self.earth_work_back_fill_wind_resource_numbers = self.earth_work_back_fill_wind_resource * self.turbine_numbers
 
+        print(self.data_wind_resource.at[self.data_wind_resource.index[0], 'Volume'])
+        print(self.turbine_numbers)
         self.c40_wind_resource_numbers = \
             self.data_wind_resource.at[self.data_wind_resource.index[0], 'Volume'] * self.turbine_numbers
         self.c15_wind_resource_numbers = \
