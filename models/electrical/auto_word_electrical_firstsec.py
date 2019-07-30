@@ -54,6 +54,9 @@ def get_dict_electrical_firstsec(index, col_name, data, sheet_name_array):
 
 
 class auto_word_electrical_firstsec(models.Model):
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_rows', None)
+
     _name = 'auto_word_electrical.firstsec'
     _description = 'electrical input'
     _rec_name = 'project_id'
@@ -61,6 +64,9 @@ class auto_word_electrical_firstsec(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     report_attachment_id_input = fields.Many2many('ir.attachment', string=u'电气一次提资')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
+
+    boxvoltagetype = fields.Many2one('auto_word_electrical.boxvoltagetype', string='TypeID', required=True)
+    TypeID_boxvoltagetype=0
 
     def electrical_firstsec_generate(self):
         dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
@@ -200,3 +206,21 @@ class auto_word_electrical_firstsec(models.Model):
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for expense in self:
             expense.attachment_number = attachment.get(expense.id, 0)
+
+
+    def submit_electrical_firstsec(self):
+        self.TypeID_boxvoltagetype=self.boxvoltagetype.TypeID
+        dict6 = doc_6.generate_electrical_TypeID_dict(self.TypeID_boxvoltagetype,self.project_id.turbine_numbers_suggestion)
+
+        print(dict6)
+class electrical_BoxVoltageType(models.Model):
+    _name = 'auto_word_electrical.boxvoltagetype'
+    _description = 'electrical_boxvoltagetype'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    CapacityBoxVoltage = fields.Integer(u'容量')
+    VoltageClasses = fields.Char(u'电压等级')
+    WiringGroup = fields.Char(u'接线组别')
+    CoolingType = fields.Char(u'冷却方式')
+    ShortCircuitImpedance = fields.Char(u'短路阻抗')

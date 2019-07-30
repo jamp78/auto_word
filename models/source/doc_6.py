@@ -6,6 +6,14 @@ from ElectricalInsulator import ElectricalInsulator
 from TowerType import TowerType
 from TowerBase import TowerBase
 from Cable import Cable
+from BoxVoltageType import BoxVoltageType
+
+def generate_electrical_TypeID_dict(TypeID,turbine_num):
+    project10 = BoxVoltageType()
+    DataBoxVoltageType=project10.extraction_data_BoxVoltageType_resource(TypeID)
+    dict=project10.generate_dict_BoxVoltageType_resource(DataBoxVoltageType,turbine_num)
+
+    return dict
 
 def generate_electrical_dict(project_chapter6_type,args):
 

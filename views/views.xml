@@ -155,6 +155,14 @@
       <!--<field name="view_mode">tree,form</field>-->
     <!--</record>-->
 
+
+        <record model="ir.actions.act_window" id="auto_word_boxvoltagetype_act_window">
+          <field name="name">箱式变电站基础数据</field>
+          <field name="res_model">auto_word_electrical.boxvoltagetype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+
         <record model="ir.actions.act_window" id="auto_word_civil_windbase_act_window">
           <field name="name">风机基础数据</field>
           <field name="res_model">auto_word_civil.windbase</field>
@@ -266,7 +274,15 @@
       <menuitem name="发电量" id="auto_word_wind_res_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_chapter5_4_v1_act_window"/>
 
 
-    <menuitem name="土建信息" id="auto_word_civil_information_menu" parent="auto_word.menu_root" sequence="14" />
+
+
+    <menuitem name="电气信息" id="auto_word_electrical_information_menu" parent="auto_word.menu_root" sequence="14"/>
+        <menuitem name="箱式变电站数据表" id="auto_word_electrical_boxvoltagetype_list" parent="auto_word_electrical_information_menu"
+              groups="civil_group_user" action="auto_word_boxvoltagetype_act_window" sequence="1"/>
+
+
+
+    <menuitem name="土建信息" id="auto_word_civil_information_menu" parent="auto_word.menu_root" sequence="15" />
       <menuitem name="风机基础数据表" id="auto_word_civil_windbase_list" parent="auto_word_civil_information_menu"
               groups="civil_group_user" action="auto_word_civil_windbase_act_window" sequence="1"/>
       <menuitem name="箱变基础数据表" id="auto_word_civil_convertbase_list" parent="auto_word_civil_information_menu"

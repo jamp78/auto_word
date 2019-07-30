@@ -30,6 +30,7 @@
                     <group name="group_top">
                             <field name="project_id"/>
                             <field name="version_id"/>
+                            <field name="boxvoltagetype"/>
                             <field name="report_attachment_id_input"/>
                     </group>
 
@@ -39,5 +40,48 @@
 
         </field>
     </record>
+
+
+    <record id="auto_word_electrical_boxvoltagetype_list" model="ir.ui.view">
+        <field name="name">electrical_boxvoltagetype_list</field>
+        <field name="model">auto_word_electrical.boxvoltagetype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="CapacityBoxVoltage"/>
+                <field name="VoltageClasses"/>
+                <field name="WiringGroup"/>
+                <field name="CoolingType"/>
+                <field name="ShortCircuitImpedance"/>
+            </tree>
+
+
+        </field>
+    </record>
+    <record id="auto_word_electrical_boxvoltagetype_form" model="ir.ui.view">
+        <field name="name">electrical_boxvoltagetype Form</field>
+        <field name="model">auto_word_electrical.boxvoltagetype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_top">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="CapacityBoxVoltage"/>
+                        <field name="VoltageClasses"/>
+                        <field name="WiringGroup"/>
+                        <field name="CoolingType"/>
+                        <field name="ShortCircuitImpedance"/>
+                    </group>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+
 
 </odoo>
