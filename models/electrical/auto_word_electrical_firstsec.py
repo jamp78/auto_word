@@ -213,6 +213,9 @@ class auto_word_electrical_firstsec(models.Model):
         dict6 = doc_6.generate_electrical_TypeID_dict(self.TypeID_boxvoltagetype,self.project_id.turbine_numbers_suggestion)
 
         print(dict6)
+
+
+#2箱式变电站
 class electrical_BoxVoltageType(models.Model):
     _name = 'auto_word_electrical.boxvoltagetype'
     _description = 'electrical_boxvoltagetype'
@@ -224,3 +227,162 @@ class electrical_BoxVoltageType(models.Model):
     WiringGroup = fields.Char(u'接线组别')
     CoolingType = fields.Char(u'冷却方式')
     ShortCircuitImpedance = fields.Char(u'短路阻抗')
+#3主变压器
+class electrical_MainTransformerType(models.Model):
+    _name = 'auto_word_electrical.maintransformertype'
+    _description = 'electrical_maintransformertype'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedCapacity = fields.Integer(u'额定容量')
+    RatedVoltageRatio = fields.Char(u'额定电压比')
+    WiringGroup = fields.Char(u'接线组别')
+    ImpedanceVoltage= fields.Char(u'阻抗电压')
+    Noise=fields.Char(u'噪音')
+    CoolingType = fields.Char(u'冷却方式')
+    OnloadTapChanger = fields.Char(u'有载调压开关')
+    MTGroundingMode = fields.Char(u'主变压器接地方式')
+    TransformerRatedVoltage= fields.Char(u'变压器额定电压')
+    TransformerNPC=fields.Char(u'变压器中性点耐受电流')
+    ZincOxideArrester=fields.Char(u'氧化锌避雷器')
+    DischargingGap = fields.Char(u'放电间隙')
+    CurrentTransformer = fields.Char(u'电流互感器')
+#4.1 110kV配电装置
+class electrical_110kVSwitChgearType(models.Model):
+    _name = 'auto_word_electrical.110kvswitchgeartype'
+    _description = 'electrical_110kvswitchgeartype'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedVoltage = fields.Integer(u'额定电压')
+    RatedCurrent = fields.Integer(u'额定电流')
+    RatedFrequency = fields.Integer(u'额定频率')
+    RatedBreakingCurrent = fields.Integer(u'额定开断电流')
+    RatedClosingCurrent= fields.Integer(u'额定关合电流')
+    RatedPeakWCurrent= fields.Integer(u'额定峰值耐受电流')
+    RatedShortTimeWCurrent= fields.Char(u'额定短时耐受电流')
+    LineSpacing=fields.Char(u'出线间隔')
+    PTSpacing = fields.Char(u'PT间隔')
+    AccuracyClass = fields.Char(u'准确级')
+#4.2 110kV避雷器
+class electrical_110kVArresterType(models.Model):
+    _name = 'auto_word_electrical.110kvarrestertype'
+    _description = 'electrical_110kvarrestertype'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedVoltageArrester = fields.Integer(u'避雷器额定电压')
+    OperatingVoltageArrester = fields.Integer(u'避雷器持续运行电压')
+    DischargeCurrentArrester= fields.Integer(u'避雷器的标称放电电流')
+    LightningResidualVoltage = fields.Integer(u'雷电冲击电流残压')
+#5.1 35kV风机进线柜
+class electrical_35kVTICType(models.Model):
+    _name = 'auto_word_electrical.35kvtictype'
+    _description = 'electrical_35kv_turbine_inlet_cabinet_type'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedVoltage = fields.Integer(u'额定电压')
+    RatedCurrent = fields.Integer(u'额定电流')
+    RatedBreakingCurrent = fields.Integer(u'额定开断电流')
+    DynamicCurrent = fields.Integer(u'动稳定电流')
+    RatedShortTimeWCurrent = fields.Char(u'额定短时耐受电流')
+    CurrentTransformerRatio = fields.Char(u'电流互感器变比')
+    CurrentTransformerAccuracyClass= fields.Char(u'电流互感器准确级')
+    CurrentTransformerArrester = fields.Char(u'电流互感器避雷器')
+#5.2 35kV主变出线柜
+class electrical_35kVMTOCType(models.Model):
+    _name = 'auto_word_electrical.35kvmtovctype'
+    _description = 'electrical_35kvmain_transformer_outlet_cabinet_type'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedVoltage = fields.Integer(u'额定电压')
+    RatedCurrent = fields.Integer(u'额定电流')
+    RatedBreakingCurrent = fields.Integer(u'额定开断电流')
+    DynamicCurrent = fields.Integer(u'动稳定电流')
+    RatedShortTimeWCurrent = fields.Char(u'额定短时耐受电流')
+    CurrentTransformerRatio = fields.Char(u'电流互感器变比')
+    CurrentTransformerAccuracyClass= fields.Char(u'电流互感器准确级')
+#5.3 35kV站用变柜
+class electrical_35kVSCType(models.Model):
+    _name = 'auto_word_electrical.35kvsctype'
+    _description = 'electrical_35kstation_cabinet_type'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedVoltage = fields.Integer(u'额定电压')
+    RatedCurrent = fields.Integer(u'额定电流')
+    RatedBreakingCurrent = fields.Integer(u'额定开断电流')
+    DynamicCurrent = fields.Integer(u'动稳定电流')
+    RatedShortTimeWCurrent = fields.Char(u'额定短时耐受电流')
+    CurrentTransformerRatio = fields.Char(u'电流互感器变比')
+    CurrentTransformerAccuracyClass= fields.Char(u'电流互感器准确级')
+    CurrentTransformerArrester = fields.Char(u'电流互感器避雷器')
+#5.4 35kV无功补偿装置柜
+class electrical_35kVRPCDCType(models.Model):
+    _name = 'auto_word_electrical.35kvrpcdctype'
+    _description = 'electrical_35kReactive power compensation device cabinet_type'
+    _rec_name = 'TypeName'
+    _inherit = ['auto_word_electrical.35kvsctype']
+#5.5 35kV接地变柜
+class electrical_35kVGCType(models.Model):
+    _name = 'auto_word_electrical.35kvgctype'
+    _description = 'electrical_35kGrounding_cabinet_type'
+    _rec_name = 'TypeName'
+    _inherit = ['auto_word_electrical.35kvsctype']
+# 5.5 35kV接地变柜
+class electrical_35kVPTCType(models.Model):
+    _name = 'auto_word_electrical.35kvptctype'
+    _description = 'electrical_35kPT_cabinet_type'
+    _rec_name = 'TypeName'
+    _inherit = ['auto_word_electrical.35kvsctype']
+    CurrentTransformer = fields.Char(u'电流互感器')
+    AccuracyClass = fields.Char(u'准确级')
+    HighVoltageFuse= fields.Char(u'高压熔断器')
+# 6 小电阻成套接地装置
+class electrical_SRGSType(models.Model):
+    _name = 'auto_word_electrical.srgstype'
+    _description = 'electrical_small resistance grounding set_type'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedVoltage = fields.Integer(u'额定电压')
+    RatedCapacity = fields.Integer(u'额定容量')
+    EarthResistanceCurrent = fields.Float(u'入地阻性电流')
+    ResistanceTolerance = fields.Float(u'电阻阻值')
+    FlowTime = fields.Float(u'通流时间')
+# 7 站用变压器
+class electrical_STType(models.Model):
+    _name = 'auto_word_electrical.sttype'
+    _description = 'electrical_station transformer_type'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    Capacity = fields.Integer(u'容量')
+    RatedVoltage = fields.Integer(u'额定电压')
+    RatedVoltageTapRange = fields.Char(u'额定电压分接范围')
+    ImpedanceVoltage  = fields.Char(u'阻抗电压')
+    JoinGroups = fields.Char(u'联接组别')
+
+# 9.1 导体选择 GIS设备与主变压器间的连接线
+class electrical_CCGISType(models.Model):
+    _name = 'auto_word_electrical.ccgistype'
+    _description = 'electrical_Conductor choice GIS_type'
+    _rec_name = 'ConductorName'
+    TypeID = fields.Integer(u'型号ID')
+    ConductorName = fields.Char(u'导体材料')
+    TypeName = fields.Char(u'型号')
+
+# 9.2 导体选择 主变出线柜与主变压器低压侧的连接线
+class electrical_CCMTLVType(models.Model):
+    _name = 'auto_word_electrical.ccmtlvtype'
+    _description = 'electrical_Conductor choice line between main transformer outlet cabinet and the low-voltage side_type'
+    _rec_name = 'TypeName'
+    TypeID = fields.Integer(u'型号ID')
+    TypeName = fields.Char(u'型号')
+    RatedVoltage = fields.Integer(u'额定电压')
+    MaximumOperatingVoltage = fields.Float(u'最高运行电压')
+    RatedCurrent = fields.Integer(u'额定电流')
+    RatedThermalStabilityCurrent = fields.Float(u'额定热稳定电流')
+    RatedDynamicCurrent = fields.Float(u'额定动稳定电流')
