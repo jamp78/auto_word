@@ -41,7 +41,6 @@
         </field>
     </record>
 
-
     <record id="auto_word_electrical_boxvoltagetype_list" model="ir.ui.view">
         <field name="name">electrical_boxvoltagetype_list</field>
         <field name="model">auto_word_electrical.boxvoltagetype</field>
@@ -49,7 +48,7 @@
             <tree>
                 <field name="TypeID"/>
                 <field name="TypeName"/>
-                <field name="CapacityBoxVoltage"/>
+                <field name="Capacity"/>
                 <field name="VoltageClasses"/>
                 <field name="WiringGroup"/>
                 <field name="CoolingType"/>
@@ -68,7 +67,7 @@
                     <group name="group_top">
                         <field name="TypeID"/>
                         <field name="TypeName"/>
-                        <field name="CapacityBoxVoltage"/>
+                        <field name="Capacity"/>
                         <field name="VoltageClasses"/>
                         <field name="WiringGroup"/>
                         <field name="CoolingType"/>
@@ -82,6 +81,565 @@
         </field>
     </record>
 
+    <record id="auto_word_electrical_maintransformertype_list" model="ir.ui.view">
+        <field name="name">electrical_maintransformertype_list</field>
+        <field name="model">auto_word_electrical.maintransformertype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedCapacity"/>
+                <field name="RatedVoltageRatio"/>
+                <field name="WiringGroup"/>
+                <field name="ImpedanceVoltage"/>
+                <field name="Noise"/>
+
+                <field name="CoolingType"/>
+                <field name="OnloadTapChanger"/>
+                <field name="MTGroundingMode"/>
+                <field name="TransformerRatedVoltage"/>
+                <field name="TransformerNPC"/>
+                <field name="ZincOxideArrester"/>
+                <field name="DischargingGap"/>
+                <field name="CurrentTransformer"/>
+            </tree>
+
+
+        </field>
+    </record>
+    <record id="auto_word_electrical_maintransformertype_form" model="ir.ui.view">
+        <field name="name">electrical_maintransformertype Form</field>
+        <field name="model">auto_word_electrical.maintransformertype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedCapacity"/>
+                        <field name="RatedVoltageRatio"/>
+                        <field name="WiringGroup"/>
+                        <field name="ImpedanceVoltage"/>
+                        <field name="Noise"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="CoolingType"/>
+                        <field name="OnloadTapChanger"/>
+                        <field name="MTGroundingMode"/>
+                        <field name="TransformerRatedVoltage"/>
+                        <field name="TransformerNPC"/>
+                        <field name="ZincOxideArrester"/>
+                        <field name="DischargingGap"/>
+                        <field name="CurrentTransformer"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_electrical_110kvswitchgeartype_list" model="ir.ui.view">
+        <field name="name">electrical_110kvswitchgeartype_list</field>
+        <field name="model">auto_word_electrical.110kvswitchgeartype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCurrent"/>
+                <field name="RatedFrequency"/>
+                <field name="RatedBreakingCurrent"/>
+                <field name="RatedClosingCurrent"/>
+
+                <field name="RatedPeakWCurrent"/>
+                <field name="RatedShortTimeWCurrent"/>
+                <field name="LineSpacing"/>
+                <field name="PTSpacing"/>
+                <field name="AccuracyClass"/>
+            </tree>
+
+        </field>
+    </record>
+    <record id="auto_word_electrical_110kvswitchgeartype_form" model="ir.ui.view">
+        <field name="name">electrical_110kvswitchgeartype Form</field>
+        <field name="model">auto_word_electrical.110kvswitchgeartype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCurrent"/>
+                        <field name="RatedFrequency"/>
+                        <field name="RatedBreakingCurrent"/>
+                        <field name="RatedClosingCurrent"/>
+
+                    </group>
+                    <group name="group_right">
+                        <field name="RatedPeakWCurrent"/>
+                        <field name="RatedShortTimeWCurrent"/>
+                        <field name="LineSpacing"/>
+                        <field name="PTSpacing"/>
+                        <field name="AccuracyClass"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="auto_word_electrical_110kvarrestertype_list" model="ir.ui.view">
+        <field name="name">electrical_110kvarrestertype_list</field>
+        <field name="model">auto_word_electrical.110kvarrestertype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltageArrester"/>
+                <field name="OperatingVoltageArrester"/>
+                <field name="DischargeCurrentArrester"/>
+                <field name="LightningResidualVoltage"/>
+            </tree>
+        </field>
+    </record>
+    <record id="auto_word_electrical_110kvarrestertype_form" model="ir.ui.view">
+        <field name="name">electrical_110kvarrestertype Form</field>
+        <field name="model">auto_word_electrical.110kvarrestertype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltageArrester"/>
+                        <field name="OperatingVoltageArrester"/>
+                        <field name="DischargeCurrentArrester"/>
+                        <field name="LightningResidualVoltage"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--#5.1 35kV风机进线柜-->
+    <record id="auto_word_electrical_35kvtictype_list" model="ir.ui.view">
+        <field name="name">electrical_35kvtictype_list</field>
+        <field name="model">auto_word_electrical.35kvtictype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCurrent"/>
+                <field name="RatedBreakingCurrent"/>
+
+                <field name="DynamicCurrent"/>
+                <field name="RatedShortTimeWCurrent"/>
+                <field name="CurrentTransformerRatio"/>
+                <field name="CurrentTransformerAccuracyClass"/>
+                <field name="CurrentTransformerArrester"/>
+            </tree>
+        </field>
+
+
+    </record>
+    <record id="auto_word_electrical_35kvtictype_form" model="ir.ui.view">
+        <field name="name">electrical_35kvtictype Form</field>
+        <field name="model">auto_word_electrical.35kvtictype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCurrent"/>
+                        <field name="RatedBreakingCurrent"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="DynamicCurrent"/>
+                        <field name="RatedShortTimeWCurrent"/>
+                        <field name="CurrentTransformerRatio"/>
+                        <field name="CurrentTransformerAccuracyClass"/>
+                        <field name="CurrentTransformerArrester"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--#5.2 35kV主变出线柜-->
+    <record id="auto_word_electrical_35kvmtovctype_list" model="ir.ui.view">
+        <field name="name">electrical_35kvmtovctype_list</field>
+        <field name="model">auto_word_electrical.35kvmtovctype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCurrent"/>
+                <field name="RatedBreakingCurrent"/>
+
+                <field name="DynamicCurrent"/>
+                <field name="RatedShortTimeWCurrent"/>
+                <field name="CurrentTransformerRatio"/>
+                <field name="CurrentTransformerAccuracyClass"/>
+                <!--<field name="CurrentTransformerArrester"/>-->
+            </tree>
+        </field>
+
+
+    </record>
+    <record id="auto_word_electrical_35kvmtovctype_form" model="ir.ui.view">
+        <field name="name">electrical_35kvmtovctype Form</field>
+        <field name="model">auto_word_electrical.35kvmtovctype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCurrent"/>
+                        <field name="RatedBreakingCurrent"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="DynamicCurrent"/>
+                        <field name="RatedShortTimeWCurrent"/>
+                        <field name="CurrentTransformerRatio"/>
+                        <field name="CurrentTransformerAccuracyClass"/>
+                        <!--<field name="CurrentTransformerArrester"/>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--#5.3 35kV站用变柜-->
+    <record id="auto_word_electrical_35kvsctype_list" model="ir.ui.view">
+        <field name="name">electrical_35kvsctype_list</field>
+        <field name="model">auto_word_electrical.35kvsctype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCurrent"/>
+                <field name="RatedBreakingCurrent"/>
+
+                <field name="DynamicCurrent"/>
+                <field name="RatedShortTimeWCurrent"/>
+                <field name="CurrentTransformerRatio"/>
+                <field name="CurrentTransformerAccuracyClass"/>
+                <field name="CurrentTransformerArrester"/>
+            </tree>
+        </field>
+
+
+    </record>
+    <record id="auto_word_electrical_35kvsctype_form" model="ir.ui.view">
+        <field name="name">electrical_35kvsctype Form</field>
+        <field name="model">auto_word_electrical.35kvsctype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCurrent"/>
+                        <field name="RatedBreakingCurrent"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="DynamicCurrent"/>
+                        <field name="RatedShortTimeWCurrent"/>
+                        <field name="CurrentTransformerRatio"/>
+                        <field name="CurrentTransformerAccuracyClass"/>
+                        <field name="CurrentTransformerArrester"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--#5.4 35kV无功补偿装置柜-->
+    <record id="auto_word_electrical_35kvrpcdctype_list" model="ir.ui.view">
+        <field name="name">electrical_35kvrpcdctype_list</field>
+        <field name="model">auto_word_electrical.35kvrpcdctype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCurrent"/>
+                <field name="RatedBreakingCurrent"/>
+
+                <field name="DynamicCurrent"/>
+                <field name="RatedShortTimeWCurrent"/>
+                <field name="CurrentTransformerRatio"/>
+                <field name="CurrentTransformerAccuracyClass"/>
+                <field name="CurrentTransformerArrester"/>
+            </tree>
+        </field>
+
+
+    </record>
+    <record id="auto_word_electrical_35kvrpcdctype_form" model="ir.ui.view">
+        <field name="name">electrical_35kvrpcdctype Form</field>
+        <field name="model">auto_word_electrical.35kvrpcdctype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCurrent"/>
+                        <field name="RatedBreakingCurrent"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="DynamicCurrent"/>
+                        <field name="RatedShortTimeWCurrent"/>
+                        <field name="CurrentTransformerRatio"/>
+                        <field name="CurrentTransformerAccuracyClass"/>
+                        <field name="CurrentTransformerArrester"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--#5.5 35kV接地变柜-->
+    <record id="auto_word_electrical_35kvgctype_list" model="ir.ui.view">
+        <field name="name">electrical_35kvgctype_list</field>
+        <field name="model">auto_word_electrical.35kvgctype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCurrent"/>
+                <field name="RatedBreakingCurrent"/>
+
+                <field name="DynamicCurrent"/>
+                <field name="RatedShortTimeWCurrent"/>
+                <field name="CurrentTransformerRatio"/>
+                <field name="CurrentTransformerAccuracyClass"/>
+                <field name="CurrentTransformerArrester"/>
+            </tree>
+        </field>
+
+
+    </record>
+    <record id="auto_word_electrical_35kvgctype_form" model="ir.ui.view">
+        <field name="name">electrical_35kvgctype Form</field>
+        <field name="model">auto_word_electrical.35kvgctype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCurrent"/>
+                        <field name="RatedBreakingCurrent"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="DynamicCurrent"/>
+                        <field name="RatedShortTimeWCurrent"/>
+                        <field name="CurrentTransformerRatio"/>
+                        <field name="CurrentTransformerAccuracyClass"/>
+                        <field name="CurrentTransformerArrester"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--# 5.6 35kVPT柜-->
+    <record id="auto_word_electrical_35kvptctype_list" model="ir.ui.view">
+        <field name="name">electrical_35kvptctype_list</field>
+        <field name="model">auto_word_electrical.35kvptctype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCurrent"/>
+                <field name="RatedBreakingCurrent"/>
+                <field name="DynamicCurrent"/>
+                <field name="RatedShortTimeWCurrent"/>
+
+                <field name="CurrentTransformerRatio"/>
+                <field name="CurrentTransformerAccuracyClass"/>
+                <field name="CurrentTransformerArrester"/>
+                <field name="CurrentTransformer"/>
+                <field name="AccuracyClass"/>
+                <field name="HighVoltageFuse"/>
+            </tree>
+        </field>
+
+
+    </record>
+    <record id="auto_word_electrical_35kvptctype_form" model="ir.ui.view">
+        <field name="name">electrical_35kvptctype Form</field>
+        <field name="model">auto_word_electrical.35kvptctype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCurrent"/>
+                        <field name="RatedBreakingCurrent"/>
+                        <field name="DynamicCurrent"/>
+                        <field name="RatedShortTimeWCurrent"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="CurrentTransformerRatio"/>
+                        <field name="CurrentTransformerAccuracyClass"/>
+                        <field name="CurrentTransformerArrester"/>
+                        <field name="CurrentTransformer"/>
+                        <field name="AccuracyClass"/>
+                        <field name="HighVoltageFuse"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--# 6 小电阻成套接地装置-->
+    <record id="auto_word_electrical_srgstype_list" model="ir.ui.view">
+        <field name="name">electrical_srgstype_list</field>
+        <field name="model">auto_word_electrical.srgstype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedCapacity"/>
+                <field name="EarthResistanceCurrent"/>
+                <field name="ResistanceTolerance"/>
+                <field name="FlowTime"/>
+            </tree>
+        </field>
+
+    </record>
+    <record id="auto_word_electrical_srgstype_form" model="ir.ui.view">
+        <field name="name">electrical_srgstype Form</field>
+        <field name="model">auto_word_electrical.srgstype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedCapacity"/>
+                        <field name="EarthResistanceCurrent"/>
+                        <field name="ResistanceTolerance"/>
+                        <field name="FlowTime"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--# 7 站用变压器-->
+    <record id="auto_word_electrical_sttype_list" model="ir.ui.view">
+        <field name="name">electrical_sttype_list</field>
+        <field name="model">auto_word_electrical.sttype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="Capacity"/>
+                <field name="RatedVoltage"/>
+                <field name="RatedVoltageTapRange"/>
+                <field name="ImpedanceVoltage"/>
+                <field name="JoinGroups"/>
+            </tree>
+        </field>
+    </record>
+    <record id="auto_word_electrical_sttype_form" model="ir.ui.view">
+        <field name="name">electrical_sttype Form</field>
+        <field name="model">auto_word_electrical.sttype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="Capacity"/>
+                        <field name="RatedVoltage"/>
+                        <field name="RatedVoltageTapRange"/>
+                        <field name="ImpedanceVoltage"/>
+                        <field name="JoinGroups"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--# 9.1 导体选择 GIS设备与主变压器间的连接线-->
+    <record id="auto_word_electrical_ccgistype_list" model="ir.ui.view">
+        <field name="name">electrical_ccgistype_list</field>
+        <field name="model">auto_word_electrical.ccgistype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="ConductorName"/>
+                <field name="TypeName"/>
+            </tree>
+        </field>
+
+    </record>
+    <record id="auto_word_electrical_ccgistype_form" model="ir.ui.view">
+        <field name="name">electrical_ccgistype Form</field>
+        <field name="model">auto_word_electrical.ccgistype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="ConductorName"/>
+                        <field name="TypeName"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--# 9.2 导体选择 主变出线柜与主变压器低压侧的连接线-->
+    <record id="auto_word_electrical_ccmtlvtype_list" model="ir.ui.view">
+        <field name="name">electrical_ccmtlvtype_list</field>
+        <field name="model">auto_word_electrical.ccmtlvtype</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="TypeID"/>
+                <field name="TypeName"/>
+                <field name="RatedVoltage"/>
+                <field name="MaximumOperatingVoltage"/>
+
+                <field name="RatedCurrent"/>
+                <field name="RatedThermalStabilityCurrent"/>
+                <field name="RatedDynamicCurrent"/>
+            </tree>
+        </field>
+
+    </record>
+    <record id="auto_word_electrical_ccmtlvtype_form" model="ir.ui.view">
+        <field name="name">electrical_ccmtlvtype Form</field>
+        <field name="model">auto_word_electrical.ccmtlvtype</field>
+        <field name="arch" type="xml">
+            <form string="Wind">
+                <sheet>
+                    <group name="group_left">
+                        <field name="TypeID"/>
+                        <field name="TypeName"/>
+                        <field name="RatedVoltage"/>
+                        <field name="MaximumOperatingVoltage"/>
+                    </group>
+                    <group name="group_right">
+                        <field name="RatedCurrent"/>
+                        <field name="RatedThermalStabilityCurrent"/>
+                        <field name="RatedDynamicCurrent"/>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
 
 
 </odoo>
