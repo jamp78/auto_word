@@ -66,7 +66,20 @@ class auto_word_electrical_firstsec(models.Model):
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
 
     boxvoltagetype = fields.Many2one('auto_word_electrical.boxvoltagetype', string='TypeID', required=True)
-    TypeID_boxvoltagetype=0
+    maintransformertype = fields.Many2one('auto_word_electrical.maintransformertype', string='TypeID', required=True)
+    v110kvswitchgeartype = fields.Many2one('auto_word_electrical.110kvswitchgeartype', string='TypeID', required=True)
+    v110kvarrestertype = fields.Many2one('auto_word_electrical.110kvarrestertype', string='TypeID', required=True)
+    v35kvtictype = fields.Many2one('auto_word_electrical.35kvtictype', string='TypeID', required=True)
+    v35kvmtovctype = fields.Many2one('auto_word_electrical.35kvmtovctype', string='TypeID', required=True)
+    v35kvrpcdctype = fields.Many2one('auto_word_electrical.35kvrpcdctype', string='TypeID', required=True)
+    v35kvgctype = fields.Many2one('auto_word_electrical.35kvgctype', string='TypeID', required=True)
+    v35kvptctype = fields.Many2one('auto_word_electrical.35kvptctype', string='TypeID', required=True)
+    srgstype = fields.Many2one('auto_word_electrical.srgstype', string='TypeID', required=True)
+    sttype = fields.Many2one('auto_word_electrical.sttype', string='TypeID', required=True)
+    ccgistype = fields.Many2one('auto_word_electrical.ccgistype', string='TypeID', required=True)
+    ccmtlvtype = fields.Many2one('auto_word_electrical.ccmtlvtype', string='TypeID', required=True)
+
+    TypeID_boxvoltagetype = 0
 
     def electrical_firstsec_generate(self):
         dictMerged, Dict, dict_content, dict_head = {}, {}, {}, {}
@@ -133,36 +146,30 @@ class auto_word_electrical_firstsec(models.Model):
                     data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i], )
                     # usecols=col_name_array[i])
                     col_name = data.columns.tolist()
-                    if i==1:
+                    if i == 1:
                         if ~data['数量'].isnull().values.all() == True:
-                            take_data=data[data['数量'].isnull().values == True]
-                            drop_number=take_data[take_data.ix[:, 0].str.contains("-") == True].index
-                        data=data.drop(drop_number)
-                        modifier_data=data.ix[:, 0][data.ix[:, 0].str.contains("-") == True]
-                        modifier_number_list=modifier_data.index
-                        for j in range(0,modifier_data.shape[0]):
+                            take_data = data[data['数量'].isnull().values == True]
+                            drop_number = take_data[take_data.ix[:, 0].str.contains("-") == True].index
+                        data = data.drop(drop_number)
+                        modifier_data = data.ix[:, 0][data.ix[:, 0].str.contains("-") == True]
+                        modifier_number_list = modifier_data.index
+                        for j in range(0, modifier_data.shape[0]):
                             number = modifier_data.iloc[j].split("-")
-                            if j ==0:
-                                Judging=number[0]
-                                number_add=1
-                                string_number=Judging+"-"+str(number_add)
-                                data.ix[modifier_number_list[j], 0]=string_number
+                            if j == 0:
+                                Judging = number[0]
+                                number_add = 1
+                                string_number = Judging + "-" + str(number_add)
+                                data.ix[modifier_number_list[j], 0] = string_number
                             else:
-                                if number[0]==Judging:
-                                   number_add=number_add+1
-                                   string_number = Judging + "-" + str(number_add)
-                                   data.ix[modifier_number_list[j], 0] = string_number
-                                elif number[0]!=Judging:
-                                   number_add =1
-                                   string_number = number[0] + "-" + str(number_add)
-                                   Judging=number[0]
-                                   data.ix[modifier_number_list[j], 0] = string_number
-                        #         print("88888888888")
-                        #         print(i)
-                        #         print(data.ix[modifier_number_list[i], 0])
-                        #         print(string_number)
-                        #
-                        # print("jjjjjjjjjjjjjjjjjjjjjjjjjj")
+                                if number[0] == Judging:
+                                    number_add = number_add + 1
+                                    string_number = Judging + "-" + str(number_add)
+                                    data.ix[modifier_number_list[j], 0] = string_number
+                                elif number[0] != Judging:
+                                    number_add = 1
+                                    string_number = number[0] + "-" + str(number_add)
+                                    Judging = number[0]
+                                    data.ix[modifier_number_list[j], 0] = string_number
                         print(data)
                         #
                 print(i)
@@ -180,8 +187,6 @@ class auto_word_electrical_firstsec(models.Model):
                 '站用电负荷表说明_2': str('2、设备楼空调机为冷暖型。'),
                 '热镀锌扁钢': str(dictMerged['result_list6_1'][47]['cols'][1]),
                 '热镀锌角钢': str(dictMerged['result_list6_1'][48]['cols'][1]),
-
-
             }
             print(dictMerged)
             Dict6 = dict(dictMerged, **dict_6_res_word)
@@ -207,15 +212,31 @@ class auto_word_electrical_firstsec(models.Model):
         for expense in self:
             expense.attachment_number = attachment.get(expense.id, 0)
 
-
     def submit_electrical_firstsec(self):
-        self.TypeID_boxvoltagetype=self.boxvoltagetype.TypeID
-        dict6 = doc_6.generate_electrical_TypeID_dict(self.TypeID_boxvoltagetype,self.project_id.turbine_numbers_suggestion)
+
+        self.TypeID_boxvoltagetype = self.boxvoltagetype.TypeID
+        self.TypeID_maintransformertype = self.maintransformertype.TypeID
+        self.TypeID_v110kvswitchgeartype = self.v110kvswitchgeartype.TypeID
+        self.TypeID_v110kvarrestertype = self.v110kvarrestertype.TypeID
+        self.TypeID_v35kvtictype = self.v35kvtictype.TypeID
+        self.TypeID_v35kvmtovctype = self.v35kvmtovctype.TypeID
+        self.TypeID_v35kvrpcdctype = self.v35kvrpcdctype.TypeID
+        self.TypeID_v35kvgctype = self.v35kvgctype.TypeID
+        self.TypeID_v35kvptctype = self.v35kvptctype.TypeID
+        self.TypeID_srgstype = self.srgstype.TypeID
+        self.TypeID_sttype = self.sttype.TypeID
+        self.TypeID_ccgistype = self.ccgistype.TypeID
+        self.TypeID_ccmtlvtype = self.ccmtlvtype.TypeID
+
+        dict6 = doc_6.generate_electrical_TypeID_dict(
+            TypeID_boxvoltagetype=self.TypeID_boxvoltagetype,
+            TypeID_maintransformertype=self.TypeID_boxvoltagetype,
+            turbine_numbers=self.project_id.turbine_numbers_suggestion)
 
         print(dict6)
 
 
-#2箱式变电站
+# 2箱式变电站
 class electrical_BoxVoltageType(models.Model):
     _name = 'auto_word_electrical.boxvoltagetype'
     _description = 'electrical_boxvoltagetype'
@@ -227,7 +248,9 @@ class electrical_BoxVoltageType(models.Model):
     WiringGroup = fields.Char(u'接线组别')
     CoolingType = fields.Char(u'冷却方式')
     ShortCircuitImpedance = fields.Char(u'短路阻抗')
-#3主变压器
+
+
+# 3主变压器
 class electrical_MainTransformerType(models.Model):
     _name = 'auto_word_electrical.maintransformertype'
     _description = 'electrical_maintransformertype'
@@ -237,17 +260,19 @@ class electrical_MainTransformerType(models.Model):
     RatedCapacity = fields.Integer(u'额定容量')
     RatedVoltageRatio = fields.Char(u'额定电压比')
     WiringGroup = fields.Char(u'接线组别')
-    ImpedanceVoltage= fields.Char(u'阻抗电压')
-    Noise=fields.Char(u'噪音')
+    ImpedanceVoltage = fields.Char(u'阻抗电压')
+    Noise = fields.Char(u'噪音')
     CoolingType = fields.Char(u'冷却方式')
     OnloadTapChanger = fields.Char(u'有载调压开关')
     MTGroundingMode = fields.Char(u'主变压器接地方式')
-    TransformerRatedVoltage= fields.Char(u'变压器额定电压')
-    TransformerNPC=fields.Char(u'变压器中性点耐受电流')
-    ZincOxideArrester=fields.Char(u'氧化锌避雷器')
+    TransformerRatedVoltage = fields.Char(u'变压器额定电压')
+    TransformerNPC = fields.Char(u'变压器中性点耐受电流')
+    ZincOxideArrester = fields.Char(u'氧化锌避雷器')
     DischargingGap = fields.Char(u'放电间隙')
     CurrentTransformer = fields.Char(u'电流互感器')
-#4.1 110kV配电装置
+
+
+# 4.1 110kV配电装置
 class electrical_110kVSwitChgearType(models.Model):
     _name = 'auto_word_electrical.110kvswitchgeartype'
     _description = 'electrical_110kvswitchgeartype'
@@ -258,13 +283,15 @@ class electrical_110kVSwitChgearType(models.Model):
     RatedCurrent = fields.Integer(u'额定电流')
     RatedFrequency = fields.Integer(u'额定频率')
     RatedBreakingCurrent = fields.Integer(u'额定开断电流')
-    RatedClosingCurrent= fields.Integer(u'额定关合电流')
-    RatedPeakWCurrent= fields.Integer(u'额定峰值耐受电流')
-    RatedShortTimeWCurrent= fields.Char(u'额定短时耐受电流')
-    LineSpacing=fields.Char(u'出线间隔')
+    RatedClosingCurrent = fields.Integer(u'额定关合电流')
+    RatedPeakWCurrent = fields.Integer(u'额定峰值耐受电流')
+    RatedShortTimeWCurrent = fields.Char(u'额定短时耐受电流')
+    LineSpacing = fields.Char(u'出线间隔')
     PTSpacing = fields.Char(u'PT间隔')
     AccuracyClass = fields.Char(u'准确级')
-#4.2 110kV避雷器
+
+
+# 4.2 110kV避雷器
 class electrical_110kVArresterType(models.Model):
     _name = 'auto_word_electrical.110kvarrestertype'
     _description = 'electrical_110kvarrestertype'
@@ -273,9 +300,11 @@ class electrical_110kVArresterType(models.Model):
     TypeName = fields.Char(u'型号')
     RatedVoltageArrester = fields.Integer(u'避雷器额定电压')
     OperatingVoltageArrester = fields.Integer(u'避雷器持续运行电压')
-    DischargeCurrentArrester= fields.Integer(u'避雷器的标称放电电流')
+    DischargeCurrentArrester = fields.Integer(u'避雷器的标称放电电流')
     LightningResidualVoltage = fields.Integer(u'雷电冲击电流残压')
-#5.1 35kV风机进线柜
+
+
+# 5.1 35kV风机进线柜
 class electrical_35kVTICType(models.Model):
     _name = 'auto_word_electrical.35kvtictype'
     _description = 'electrical_35kv_turbine_inlet_cabinet_type'
@@ -288,32 +317,42 @@ class electrical_35kVTICType(models.Model):
     DynamicCurrent = fields.Integer(u'动稳定电流')
     RatedShortTimeWCurrent = fields.Char(u'额定短时耐受电流')
     CurrentTransformerRatio = fields.Char(u'电流互感器变比')
-    CurrentTransformerAccuracyClass= fields.Char(u'电流互感器准确级')
+    CurrentTransformerAccuracyClass = fields.Char(u'电流互感器准确级')
     CurrentTransformerArrester = fields.Char(u'电流互感器避雷器')
-#5.2 35kV主变出线柜
+
+
+# 5.2 35kV主变出线柜
 class electrical_35kVMTOCType(models.Model):
     _name = 'auto_word_electrical.35kvmtovctype'
     _description = 'electrical_35kvmain_transformer_outlet_cabinet_type'
     _rec_name = 'TypeName'
     _inherit = ['auto_word_electrical.35kvtictype']
-#5.3 35kV站用变柜
+
+
+# 5.3 35kV站用变柜
 class electrical_35kVSCType(models.Model):
     _name = 'auto_word_electrical.35kvsctype'
     _description = 'electrical_35kstation_cabinet_type'
     _rec_name = 'TypeName'
     _inherit = ['auto_word_electrical.35kvtictype']
-#5.4 35kV无功补偿装置柜
+
+
+# 5.4 35kV无功补偿装置柜
 class electrical_35kVRPCDCType(models.Model):
     _name = 'auto_word_electrical.35kvrpcdctype'
     _description = 'electrical_35kReactive power compensation device cabinet_type'
     _rec_name = 'TypeName'
     _inherit = ['auto_word_electrical.35kvtictype']
-#5.5 35kV接地变柜
+
+
+# 5.5 35kV接地变柜
 class electrical_35kVGCType(models.Model):
     _name = 'auto_word_electrical.35kvgctype'
     _description = 'electrical_35kGrounding_cabinet_type'
     _rec_name = 'TypeName'
     _inherit = ['auto_word_electrical.35kvtictype']
+
+
 # 5.6 35kVPT柜
 class electrical_35kVPTCType(models.Model):
     _name = 'auto_word_electrical.35kvptctype'
@@ -322,7 +361,9 @@ class electrical_35kVPTCType(models.Model):
     _inherit = ['auto_word_electrical.35kvtictype']
     CurrentTransformer = fields.Char(u'电流互感器')
     AccuracyClass = fields.Char(u'准确级')
-    HighVoltageFuse= fields.Char(u'高压熔断器')
+    HighVoltageFuse = fields.Char(u'高压熔断器')
+
+
 # 6 小电阻成套接地装置
 class electrical_SRGSType(models.Model):
     _name = 'auto_word_electrical.srgstype'
@@ -335,6 +376,8 @@ class electrical_SRGSType(models.Model):
     EarthResistanceCurrent = fields.Float(u'入地阻性电流')
     ResistanceTolerance = fields.Float(u'电阻阻值')
     FlowTime = fields.Float(u'通流时间')
+
+
 # 7 站用变压器
 class electrical_STType(models.Model):
     _name = 'auto_word_electrical.sttype'
@@ -345,8 +388,10 @@ class electrical_STType(models.Model):
     Capacity = fields.Integer(u'容量')
     RatedVoltage = fields.Integer(u'额定电压')
     RatedVoltageTapRange = fields.Char(u'额定电压分接范围')
-    ImpedanceVoltage  = fields.Char(u'阻抗电压')
+    ImpedanceVoltage = fields.Char(u'阻抗电压')
     JoinGroups = fields.Char(u'联接组别')
+
+
 # 9.1 导体选择 GIS设备与主变压器间的连接线
 class electrical_CCGISType(models.Model):
     _name = 'auto_word_electrical.ccgistype'
@@ -355,6 +400,8 @@ class electrical_CCGISType(models.Model):
     TypeID = fields.Integer(u'型号ID')
     ConductorName = fields.Char(u'导体材料')
     TypeName = fields.Char(u'型号')
+
+
 # 9.2 导体选择 主变出线柜与主变压器低压侧的连接线
 class electrical_CCMTLVType(models.Model):
     _name = 'auto_word_electrical.ccmtlvtype'

@@ -155,15 +155,88 @@
 
 <!--电气-->
         <record model="ir.actions.act_window" id="auto_word_boxvoltagetype_act_window">
-          <field name="name">箱式变电站基础数据</field>
+          <field name="name">箱式变电站数据</field>
           <field name="res_model">auto_word_electrical.boxvoltagetype</field>
           <field name="view_mode">tree,form</field>
         </record>
 
+        <record model="ir.actions.act_window" id="auto_word_maintransformertype_act_window">
+          <field name="name">主变压器数据</field>
+          <field name="res_model">auto_word_electrical.maintransformertype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
 
+        <record model="ir.actions.act_window" id="auto_word_110kvswitchgeartype_act_window">
+          <field name="name">110kV配电装置数据</field>
+          <field name="res_model">auto_word_electrical.110kvswitchgeartype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
 
+        <record model="ir.actions.act_window" id="auto_word_110kvarrestertype_act_window">
+          <field name="name">110kV避雷器数据</field>
+          <field name="res_model">auto_word_electrical.110kvarrestertype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
 
+        <record model="ir.actions.act_window" id="auto_word_35kvtictype_act_window">
+          <field name="name">35kV风机进线柜数据</field>
+          <field name="res_model">auto_word_electrical.35kvtictype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
 
+        <record model="ir.actions.act_window" id="auto_word_35kvmtovctype_act_window">
+          <field name="name">35kV主变出线柜数据</field>
+          <field name="res_model">auto_word_electrical.35kvmtovctype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_35kvsctype_act_window">
+          <field name="name">35kV站用变柜数据</field>
+          <field name="res_model">auto_word_electrical.35kvsctype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_35kvrpcdctype_act_window">
+          <field name="name">35kV无功补偿装置柜数据</field>
+          <field name="res_model">auto_word_electrical.35kvrpcdctype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_35kvgctype_act_window">
+          <field name="name">35kV接地变柜数据</field>
+          <field name="res_model">auto_word_electrical.35kvgctype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_35kvptctype_act_window">
+          <field name="name">35kVPT柜数据</field>
+          <field name="res_model">auto_word_electrical.35kvptctype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_srgstype_act_window">
+          <field name="name">小电阻成套接地装置数据</field>
+          <field name="res_model">auto_word_electrical.srgstype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_sttype_act_window">
+          <field name="name">站用变压器数据</field>
+          <field name="res_model">auto_word_electrical.sttype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="auto_word_ccgistype_act_window">
+          <field name="name">导体选择数据1</field>
+          <field name="res_model">auto_word_electrical.ccgistype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
+         <record model="ir.actions.act_window" id="auto_word_ccmtlvtype_act_window">
+          <field name="name">导体选择数据2</field>
+          <field name="res_model">auto_word_electrical.ccmtlvtype</field>
+          <field name="view_mode">tree,form</field>
+        </record>
 
 
         <record model="ir.actions.act_window" id="auto_word_civil_windbase_act_window">

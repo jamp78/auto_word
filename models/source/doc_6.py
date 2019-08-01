@@ -8,10 +8,21 @@ from TowerBase import TowerBase
 from Cable import Cable
 from BoxVoltageType import BoxVoltageType
 
-def generate_electrical_TypeID_dict(TypeID,turbine_num):
-    project10 = BoxVoltageType()
-    DataBoxVoltageType=project10.extraction_data_BoxVoltageType_resource(TypeID)
-    dict=project10.generate_dict_BoxVoltageType_resource(DataBoxVoltageType,turbine_num)
+def generate_electrical_TypeID_dict(TypeID_boxvoltagetype,turbine_num):
+    project1 = BoxVoltageType()
+    project2 = BoxVoltageType()
+    project3 = BoxVoltageType()
+    project4 = BoxVoltageType()
+    project5 = BoxVoltageType()
+    project6 = BoxVoltageType()
+    project7 = BoxVoltageType()
+    project8 = BoxVoltageType()
+
+    DataBoxVoltageType=project1.extraction_data_BoxVoltageType_resource(TypeID_boxvoltagetype)
+
+
+
+    dict=project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType,turbine_num)
 
     return dict
 
