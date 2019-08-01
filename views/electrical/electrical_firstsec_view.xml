@@ -31,6 +31,7 @@
                             <field name="project_id"/>
                             <field name="version_id"/>
                             <field name="boxvoltagetype"/>
+                            <field name="maintransformertype"/>
                             <field name="report_attachment_id_input"/>
                     </group>
 

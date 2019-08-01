@@ -8,15 +8,19 @@ import numpy as np
 # from RoundUp import round_dict_numbers
 
 
-class BoxVoltageType:
+class MainTransformerType:
 
     def __init__(self):
         # ===========selecting parameters=============
         self.TypeID = 0
         # ===========basic parameters==============
-        self.DataBoxVoltageType = pd.DataFrame()
-        self.TypeName, self.CapacityBoxVoltage, self.VoltageClasses = "", 0, ""
-        self.WiringGroup, self.CoolingType, self.ShortCircuitImpedance = "", "", ""
+        self.DataMainTransformerType = pd.DataFrame()
+        self.TypeName, self.RatedCapacity, self.RatedVoltageRatio = "", 0, ""
+        self.WiringGroup, self.ImpedanceVoltage, self.Noise = "", "", ""
+        self.CoolingType, self.OnloadTapChanger, self.MTGroundingMode = "", "", ""
+        self.TransformerRatedVoltage, self.TransformerNPC, self.ZincOxideArrester = "", "", ""
+        self.DischargingGap, self.CurrentTransformer = "", ""
+
         # ===========Calculated parameters==============
         # self.earth_excavation_wind_resource, self.stone_excavation_wind_resource = 0, 0
         # self.earth_work_back_fill_wind_resource, self.earth_excavation_wind_resource_numbers = 0, 0
@@ -24,15 +28,15 @@ class BoxVoltageType:
         # self.c40_wind_resource_numbers, self.c15_wind_resource_numbers, self.c80_wind_resource_numbers = 0, 0, 0
         # self.c80_wind_resource_numbers, self.reinforcement_wind_resource_numbers = 0, 0
 
-    def extraction_data_BoxVoltageType_resource(self, TypeID):
+    def extraction_data_MainTransformerType_resource(self, TypeID):
         self.TypeID = TypeID
 
-        sql = "SELECT * FROM auto_word_electrical_boxvoltagetype"
-        self.DataBoxVoltageType = connect_sql_pandas(sql)
-        self.DataBoxVoltageType = \
-            self.DataBoxVoltageType.loc[
-                self.DataBoxVoltageType['TypeID'] == self.TypeID]
-        return self.DataBoxVoltageType
+        sql = "SELECT * FROM auto_word_electrical_maintransformertype"
+        self.DataMainTransformerType = connect_sql_pandas(sql)
+        self.DataMainTransformerType = \
+            self.DataMainTransformerType.loc[
+                self.DataMainTransformerType['TypeID'] == self.TypeID]
+        return self.DataMainTransformerType
 
     def excavation_cal_BoxVoltageType_resource(self, DataBoxVoltageType, basic_earthwork_ratio, basic_stone_ratio,
                                                turbine_num):
@@ -77,27 +81,44 @@ class BoxVoltageType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_BoxVoltageType_resource(self, data, turbine_num):
-        self.DataBoxVoltageType = data
+    def generate_dict_MainTransformerType_resource(self, data, turbine_num):
+        self.MainTransformerType = data
         self.turbine_numbers = turbine_num
-        self.TypeName = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'TypeName']
-        self.CapacityBoxVoltage = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'Capacity']
-        self.VoltageClasses = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'VoltageClasses']
+        self.TypeName = self.MainTransformerType.at[self.MainTransformerType.index[0], 'TypeName']
+        self.RatedCapacity = self.MainTransformerType.at[self.MainTransformerType.index[0], 'RatedCapacity']
+        self.RatedVoltageRatio = self.MainTransformerType.at[self.MainTransformerType.index[0], 'RatedVoltageRatio']
+        self.WiringGroup = self.MainTransformerType.at[self.MainTransformerType.index[0], 'WiringGroup']
+        self.ImpedanceVoltage = self.MainTransformerType.at[self.MainTransformerType.index[0], 'ImpedanceVoltage']
+        self.Noise = self.MainTransformerType.at[self.MainTransformerType.index[0], 'Noise']
 
-        self.WiringGroup = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'WiringGroup']
-        self.CoolingType = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'CoolingType']
-        self.ShortCircuitImpedance = self.DataBoxVoltageType.at[
-            self.DataBoxVoltageType.index[0], 'ShortCircuitImpedance']
+        self.CoolingType = self.MainTransformerType.at[self.MainTransformerType.index[0], 'CoolingType']
+        self.OnloadTapChanger = self.MainTransformerType.at[self.MainTransformerType.index[0], 'OnloadTapChanger']
+        self.MTGroundingMode = self.MainTransformerType.at[self.MainTransformerType.index[0], 'MTGroundingMode']
+        self.TransformerRatedVoltage = self.MainTransformerType.at[self.MainTransformerType.index[0], 'TransformerRatedVoltage']
+        self.TransformerNPC = self.MainTransformerType.at[self.MainTransformerType.index[0], 'TransformerNPC']
+        self.ZincOxideArrester = self.MainTransformerType.at[self.MainTransformerType.index[0], 'ZincOxideArrester']
+        self.DischargingGap = self.MainTransformerType.at[self.MainTransformerType.index[0], 'DischargingGap']
+        self.CurrentTransformer = self.MainTransformerType.at[self.MainTransformerType.index[0], 'CurrentTransformer']
 
         self.dict_BoxVoltageType_resource = {
             'turbine_numbers': int(self.turbine_numbers),
-            '型式_箱式变电站': self.TypeName,
-            '容量_箱式变电站': self.CapacityBoxVoltage,
-            '电压等级_箱式变电站': self.VoltageClasses,
-            '接线组别_箱式变电站': self.WiringGroup,
-            '冷却方式_箱式变电站': self.CoolingType,
-            '短路阻抗_箱式变电站': self.ShortCircuitImpedance,
+            '型号_主变压器': self.TypeName,
+            '额定容量_主变压器': self.RatedCapacity,
+            '额定电压比_主变压器': self.RatedVoltageRatio,
+            '接线组别_主变压器': self.WiringGroup,
+            '阻抗电压_主变压器': self.ImpedanceVoltage,
+            '噪音_主变压器': self.Noise,
+            '冷却方式_主变压器': self.CoolingType,
+            '有载调压开关_主变压器': self.OnloadTapChanger,
+            '主变压器接地方式_主变压器': self.MTGroundingMode,
+            '变压器额定电压_主变压器': self.TransformerRatedVoltage,
+            '变压器中性点耐受电流_主变压器': self.TransformerNPC,
+            '氧化锌避雷器_主变压器': self.ZincOxideArrester,
+            '放电间隙_主变压器': self.DischargingGap,
+            '电流互感器_主变压器': self.CurrentTransformer,
         }
+
+
         return self.dict_BoxVoltageType_resource
 
 # project01 = WindResourceDatabase()

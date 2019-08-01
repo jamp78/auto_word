@@ -6,11 +6,16 @@ from ElectricalInsulator import ElectricalInsulator
 from TowerType import TowerType
 from TowerBase import TowerBase
 from Cable import Cable
-from BoxVoltageType import BoxVoltageType
 
-def generate_electrical_TypeID_dict(TypeID_boxvoltagetype,turbine_num):
+from BoxVoltageType import BoxVoltageType
+from MainTransformerType import MainTransformerType
+
+
+
+def generate_electrical_TypeID_dict(TypeID_boxvoltagetype, TypeID_maintransformertype, turbine_numbers):
+    dictsum={}
     project1 = BoxVoltageType()
-    project2 = BoxVoltageType()
+    project2 = MainTransformerType()
     project3 = BoxVoltageType()
     project4 = BoxVoltageType()
     project5 = BoxVoltageType()
@@ -18,16 +23,16 @@ def generate_electrical_TypeID_dict(TypeID_boxvoltagetype,turbine_num):
     project7 = BoxVoltageType()
     project8 = BoxVoltageType()
 
-    DataBoxVoltageType=project1.extraction_data_BoxVoltageType_resource(TypeID_boxvoltagetype)
+    DataBoxVoltageType = project1.extraction_data_BoxVoltageType_resource(TypeID_boxvoltagetype)
+    DataMainTransformerType = project2.extraction_data_MainTransformerType_resource(TypeID_maintransformertype)
+
+    dict1 = project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType, turbine_numbers)
+    dict2 = project2.generate_dict_MainTransformerType_resource(DataMainTransformerType, turbine_numbers)
+    dictsum = dict(dict1, **dict2)
+    return dictsum
 
 
-
-    dict=project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType,turbine_num)
-
-    return dict
-
-def generate_electrical_dict(project_chapter6_type,args):
-
+def generate_electrical_dict(project_chapter6_type, args):
     # step:1
     # 载入参数
     print("---------step:1  载入参数--------")
@@ -35,14 +40,14 @@ def generate_electrical_dict(project_chapter6_type,args):
     Dict_6 = {}
     # project_chapter6_type = ['山地']
     # args=[19, 22, 8, 1.5, 40, 6]
-    print(project_chapter6_type,args)
+    print(project_chapter6_type, args)
     project01 = WireRod(project_chapter6_type, *args)
     project01.aluminium_cable_steel_reinforced("LGJ_240_30")
     args_chapter6_01_name = ['钢芯铝绞线']
     args_chapter6_01_type = ['LGJ_240_30']
 
     for i in range(0, len(args_chapter6_01_name)):
-        if args_chapter6_01_name[i]=='钢芯铝绞线':
+        if args_chapter6_01_name[i] == '钢芯铝绞线':
             print("---------线材:钢芯铝绞线--------")
             key_dict = args_chapter6_01_type[i]
             if key_dict == 'LGJ_240_30':
@@ -85,7 +90,7 @@ def generate_electrical_dict(project_chapter6_type,args):
     print("---------绝缘子生成完毕--------")
 
     args_chapter6_03_type = tower_type_high_list
-    project03 = TowerType(project_chapter6_type,*args)
+    project03 = TowerType(project_chapter6_type, *args)
     project03.sum_cal_tower_type(tower_type_list, tower_type_high_list, tower_weight_list, tower_height_list,
                                  tower_foot_distance_list)
 
@@ -132,7 +137,7 @@ def generate_electrical_dict(project_chapter6_type,args):
     foot_bolt_list = [100, 180, 280, 360, 100, 180, 0]
 
     args_chapter6_04_type = tower_base_list
-    project04 = TowerBase(project_chapter6_type,*args)
+    project04 = TowerBase(project_chapter6_type, *args)
     project04.sum_cal_tower_type(tower_type_list, tower_type_high_list, tower_weight_list, tower_height_list,
                                  tower_foot_distance_list)
     project04.sum_cal_tower_base(tower_base_list, c25_unit_list, steel_unit_list, foot_bolt_list)
@@ -180,11 +185,12 @@ def generate_electrical_dict(project_chapter6_type,args):
     print("---------铁塔基础生成完毕--------")
 
     cable_project_list = ['高压电缆', '高压电缆', '电缆沟', '电缆终端', '电缆终端']
-    cable_model_list = ['YJLV22_26_35_3_95_gaoya', 'YJV22_26_35_1_300_gaoya', '电缆沟长度', 'YJLV22_26_35_3_95_dianlanzhongduan',
+    cable_model_list = ['YJLV22_26_35_3_95_gaoya', 'YJV22_26_35_1_300_gaoya', '电缆沟长度',
+                        'YJLV22_26_35_3_95_dianlanzhongduan',
                         'YJV22_26_35_1_300_dianlanzhongduan']
 
     args_chapter6_05_type = cable_model_list
-    project05 = Cable(project_chapter6_type,*args)
+    project05 = Cable(project_chapter6_type, *args)
     project05.sum_cal_cable(cable_project_list, cable_model_list)
 
     for i in range(0, len(args_chapter6_05_type)):
@@ -200,7 +206,6 @@ def generate_electrical_dict(project_chapter6_type,args):
         if key_dict == 'YJV22_26_35_1_300_dianlanzhongduan':
             Dict_6['YJV22_26_35_1_300_dianlanzhongduan'] = str(project05.cable_model_YJV22_26_35_1_300_dianlanzhongduan)
     return Dict_6
-
 
 
 def generate_electrical_docx(Dict, path_images):

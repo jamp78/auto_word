@@ -230,7 +230,7 @@ class auto_word_electrical_firstsec(models.Model):
 
         dict6 = doc_6.generate_electrical_TypeID_dict(
             TypeID_boxvoltagetype=self.TypeID_boxvoltagetype,
-            TypeID_maintransformertype=self.TypeID_boxvoltagetype,
+            TypeID_maintransformertype=self.TypeID_maintransformertype,
             turbine_numbers=self.project_id.turbine_numbers_suggestion)
 
         print(dict6)
