@@ -7,17 +7,20 @@ import numpy as np
 # from docxtpl import DocxTemplate
 # from RoundUp import round_dict_numbers
 
-
-# 2箱式变电站
-class BoxVoltageType:
+# 5.6 35kVPT柜
+class v35kVPTCType:
 
     def __init__(self):
         # ===========selecting parameters=============
         self.TypeID = 0
         # ===========basic parameters==============
-        self.DataBoxVoltageType = pd.DataFrame()
-        self.TypeName, self.CapacityBoxVoltage, self.VoltageClasses = "", 0, ""
-        self.WiringGroup, self.CoolingType, self.ShortCircuitImpedance = "", "", ""
+        self.Data35kVPTCType = pd.DataFrame()
+        self.TypeName, self.RatedVoltage, self.RatedCurrent = "", 0, ""
+        self.RatedBreakingCurrent, self.DynamicCurrent, self.RatedShortTimeWCurrent = "", "", ""
+        self.CurrentTransformerRatio, self.CurrentTransformerAccuracyClass, self.CurrentTransformerArrester = "", "", ""
+        self.CurrentTransformer, self.AccuracyClass, self.HighVoltageFuse = "", "", ""
+
+
         # ===========Calculated parameters==============
         # self.earth_excavation_wind_resource, self.stone_excavation_wind_resource = 0, 0
         # self.earth_work_back_fill_wind_resource, self.earth_excavation_wind_resource_numbers = 0, 0
@@ -25,15 +28,15 @@ class BoxVoltageType:
         # self.c40_wind_resource_numbers, self.c15_wind_resource_numbers, self.c80_wind_resource_numbers = 0, 0, 0
         # self.c80_wind_resource_numbers, self.reinforcement_wind_resource_numbers = 0, 0
 
-    def extraction_data_BoxVoltageType_resource(self, TypeID):
+    def extraction_data_35kVPTCType_resource(self, TypeID):
         self.TypeID = TypeID
 
-        sql = "SELECT * FROM auto_word_electrical_boxvoltagetype"
-        self.DataBoxVoltageType = connect_sql_pandas(sql)
-        self.DataBoxVoltageType = \
-            self.DataBoxVoltageType.loc[
-                self.DataBoxVoltageType['TypeID'] == self.TypeID]
-        return self.DataBoxVoltageType
+        sql = "SELECT * FROM auto_word_electrical_35kvptctype"
+        self.Data35kVPTCType = connect_sql_pandas(sql)
+        self.Data35kVPTCType = \
+            self.Data35kVPTCType.loc[
+                self.Data35kVPTCType['TypeID'] == self.TypeID]
+        return self.Data35kVPTCType
 
     def excavation_cal_BoxVoltageType_resource(self, DataBoxVoltageType, basic_earthwork_ratio, basic_stone_ratio,
                                                turbine_num):
@@ -78,28 +81,40 @@ class BoxVoltageType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_BoxVoltageType_resource(self, data, turbine_num):
-        self.DataBoxVoltageType = data
+    def generate_dict_35kVPTCType_resource(self, data, turbine_num):
+        self.Data35kVPTCType = data
         self.turbine_numbers = turbine_num
-        self.TypeName = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'TypeName']
-        self.CapacityBoxVoltage = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'Capacity']
-        self.VoltageClasses = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'VoltageClasses']
+        self.TypeName = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'TypeName']
+        self.RatedVoltage = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'RatedVoltage']
+        self.RatedCurrent = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'RatedCurrent']
+        self.RatedBreakingCurrent = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'RatedBreakingCurrent']
+        self.DynamicCurrent = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'DynamicCurrent']
+        self.RatedShortTimeWCurrent = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'RatedShortTimeWCurrent']
 
-        self.WiringGroup = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'WiringGroup']
-        self.CoolingType = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'CoolingType']
-        self.ShortCircuitImpedance = self.DataBoxVoltageType.at[
-            self.DataBoxVoltageType.index[0], 'ShortCircuitImpedance']
+        self.CurrentTransformerRatio = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'CurrentTransformerRatio']
+        self.CurrentTransformerAccuracyClass = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'CurrentTransformerAccuracyClass']
+        self.CurrentTransformerArrester = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'CurrentTransformerArrester']
 
-        self.dict_BoxVoltageType_resource = {
+        self.CurrentTransformer = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'CurrentTransformer']
+        self.AccuracyClass = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'AccuracyClass']
+        self.HighVoltageFuse = self.Data35kVPTCType.at[self.Data35kVPTCType.index[0], 'HighVoltageFuse']
+
+
+        self.dict_35kVPTCType_resource = {
             'turbine_numbers': int(self.turbine_numbers),
-            '型式_箱式变电站': self.TypeName,
-            '容量_箱式变电站': self.CapacityBoxVoltage,
-            '电压等级_箱式变电站': self.VoltageClasses,
-            '接线组别_箱式变电站': self.WiringGroup,
-            '冷却方式_箱式变电站': self.CoolingType,
-            '短路阻抗_箱式变电站': self.ShortCircuitImpedance,
+            '型号_35kVPT柜': self.TypeName,
+            '额定电压_35kVPT柜': self.RatedVoltage,
+            '额定电流_35kVPT柜': self.RatedCurrent,
+            '额定开断电流_35kVPT柜': self.RatedBreakingCurrent,
+            '动稳定电流_35kVPT柜': self.DynamicCurrent,
+            '额定短时耐受电流_35kVPT柜': self.RatedShortTimeWCurrent,
+            '电流互感器变比_35kVPT柜': self.CurrentTransformerRatio,
+            '电流互感器准确级_35kVPT柜': self.CurrentTransformerAccuracyClass,
+            '电流互感器避雷器_35kVPT柜': self.CurrentTransformerArrester,
         }
-        return self.dict_BoxVoltageType_resource
+
+
+        return self.dict_35kVPTCType_resource
 
 # project01 = WindResourceDatabase()
 # data = project01.extraction_DataBoxVoltageType(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)

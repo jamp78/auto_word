@@ -7,17 +7,18 @@ import numpy as np
 # from docxtpl import DocxTemplate
 # from RoundUp import round_dict_numbers
 
-
-# 2箱式变电站
-class BoxVoltageType:
+# 9.2 导体选择 主变出线柜与主变压器低压侧的连接线
+class CCMTLVType:
 
     def __init__(self):
         # ===========selecting parameters=============
         self.TypeID = 0
         # ===========basic parameters==============
-        self.DataBoxVoltageType = pd.DataFrame()
-        self.TypeName, self.CapacityBoxVoltage, self.VoltageClasses = "", 0, ""
-        self.WiringGroup, self.CoolingType, self.ShortCircuitImpedance = "", "", ""
+        self.DataCCMTLVType = pd.DataFrame()
+        self.TypeName, self.RatedVoltage, self.MaximumOperatingVoltage = "", 0, 0
+        self.RatedCurrent, self.RatedThermalStabilityCurrent, self.RatedDynamicCurrent = 0, 0, 0
+    
+
         # ===========Calculated parameters==============
         # self.earth_excavation_wind_resource, self.stone_excavation_wind_resource = 0, 0
         # self.earth_work_back_fill_wind_resource, self.earth_excavation_wind_resource_numbers = 0, 0
@@ -25,15 +26,15 @@ class BoxVoltageType:
         # self.c40_wind_resource_numbers, self.c15_wind_resource_numbers, self.c80_wind_resource_numbers = 0, 0, 0
         # self.c80_wind_resource_numbers, self.reinforcement_wind_resource_numbers = 0, 0
 
-    def extraction_data_BoxVoltageType_resource(self, TypeID):
+    def extraction_data_CCMTLVType_resource(self, TypeID):
         self.TypeID = TypeID
 
-        sql = "SELECT * FROM auto_word_electrical_boxvoltagetype"
-        self.DataBoxVoltageType = connect_sql_pandas(sql)
-        self.DataBoxVoltageType = \
-            self.DataBoxVoltageType.loc[
-                self.DataBoxVoltageType['TypeID'] == self.TypeID]
-        return self.DataBoxVoltageType
+        sql = "SELECT * FROM auto_word_electrical_ccmtlvtype"
+        self.DataCCMTLVType = connect_sql_pandas(sql)
+        self.DataCCMTLVType = \
+            self.DataCCMTLVType.loc[
+                self.DataCCMTLVType['TypeID'] == self.TypeID]
+        return self.DataCCMTLVType
 
     def excavation_cal_BoxVoltageType_resource(self, DataBoxVoltageType, basic_earthwork_ratio, basic_stone_ratio,
                                                turbine_num):
@@ -78,28 +79,28 @@ class BoxVoltageType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_BoxVoltageType_resource(self, data, turbine_num):
-        self.DataBoxVoltageType = data
+    def generate_dict_CCMTLVType_resource(self, data, turbine_num):
+        self.DataCCMTLVType = data
         self.turbine_numbers = turbine_num
-        self.TypeName = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'TypeName']
-        self.CapacityBoxVoltage = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'Capacity']
-        self.VoltageClasses = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'VoltageClasses']
-
-        self.WiringGroup = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'WiringGroup']
-        self.CoolingType = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'CoolingType']
-        self.ShortCircuitImpedance = self.DataBoxVoltageType.at[
-            self.DataBoxVoltageType.index[0], 'ShortCircuitImpedance']
-
-        self.dict_BoxVoltageType_resource = {
+        self.TypeName = self.DataCCMTLVType.at[self.DataCCMTLVType.index[0], 'TypeName']
+        self.RatedVoltage = self.DataCCMTLVType.at[self.DataCCMTLVType.index[0], 'RatedVoltage']
+        self.MaximumOperatingVoltage = self.DataCCMTLVType.at[self.DataCCMTLVType.index[0], 'MaximumOperatingVoltage']
+        self.RatedCurrent = self.DataCCMTLVType.at[self.DataCCMTLVType.index[0], 'RatedCurrent']
+        self.RatedThermalStabilityCurrent = self.DataCCMTLVType.at[self.DataCCMTLVType.index[0], 'RatedThermalStabilityCurrent']
+        self.RatedDynamicCurrent = self.DataCCMTLVType.at[self.DataCCMTLVType.index[0], 'RatedDynamicCurrent']
+     
+        self.dict_CCMTLVType_resource = {
             'turbine_numbers': int(self.turbine_numbers),
-            '型式_箱式变电站': self.TypeName,
-            '容量_箱式变电站': self.CapacityBoxVoltage,
-            '电压等级_箱式变电站': self.VoltageClasses,
-            '接线组别_箱式变电站': self.WiringGroup,
-            '冷却方式_箱式变电站': self.CoolingType,
-            '短路阻抗_箱式变电站': self.ShortCircuitImpedance,
-        }
-        return self.dict_BoxVoltageType_resource
+            '型号_导体选择2': self.TypeName,
+            '额定电压_导体选择2': self.RatedVoltage,
+            '最高运行电压_导体选择2': self.MaximumOperatingVoltage,
+            '额定电流_导体选择2': self.RatedCurrent,
+            '额定热稳定电流_导体选择2': self.RatedThermalStabilityCurrent,
+            '额定动稳定电流_导体选择2': self.RatedDynamicCurrent,
+          }
+
+
+        return self.dict_CCMTLVType_resource
 
 # project01 = WindResourceDatabase()
 # data = project01.extraction_DataBoxVoltageType(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)

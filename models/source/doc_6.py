@@ -11,23 +11,34 @@ from BoxVoltageType import BoxVoltageType
 from MainTransformerType import MainTransformerType
 
 
+def generate_electrical_TypeID_dict(TypeID_boxvoltagetype, TypeID_maintransformertype,
+                                    TypeID_v110kvswitchgeartype, TypeID_v110kvarrestertype, TypeID_v35kvtictype,
+                                    TypeID_v35kvmtovctype, TypeID_v35kvrpcdctype,
+                                    TypeID_v35kvgctype, TypeID_v35kvptctype, TypeID_srgstype, TypeID_sttypem,
+                                    TypeID_ccgistype, TypeID_ccmtlvtype, turbine_numbers):
 
-def generate_electrical_TypeID_dict(TypeID_boxvoltagetype, TypeID_maintransformertype, turbine_numbers):
-    dictsum={}
+    dictsum = {}
     project1 = BoxVoltageType()
     project2 = MainTransformerType()
-    project3 = BoxVoltageType()
-    project4 = BoxVoltageType()
-    project5 = BoxVoltageType()
-    project6 = BoxVoltageType()
-    project7 = BoxVoltageType()
-    project8 = BoxVoltageType()
+    project3 = v110kVSwitChgearType()
+    project4 = v110kVArresterType()
+    project5 = v35kVTICType()
+    project6 = v35kVMTOCType()
+    project7 = v35kVSCType()
+    project8 = v35kVRPCDCType()
+    project9 = v35kVGCType()
+    project10 = v35kVPTCType()
+    project11 = SRGSType()
+    project12 = STType()
+    project13 = CCGISType()
+    project14 = CCMTLVType()
 
     DataBoxVoltageType = project1.extraction_data_BoxVoltageType_resource(TypeID_boxvoltagetype)
     DataMainTransformerType = project2.extraction_data_MainTransformerType_resource(TypeID_maintransformertype)
 
     dict1 = project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType, turbine_numbers)
     dict2 = project2.generate_dict_MainTransformerType_resource(DataMainTransformerType, turbine_numbers)
+
     dictsum = dict(dict1, **dict2)
     return dictsum
 

@@ -7,7 +7,7 @@ import numpy as np
 # from docxtpl import DocxTemplate
 # from RoundUp import round_dict_numbers
 
-
+# 3主变压器
 class MainTransformerType:
 
     def __init__(self):
@@ -82,25 +82,25 @@ class MainTransformerType:
         return self.DataBoxVoltageType
 
     def generate_dict_MainTransformerType_resource(self, data, turbine_num):
-        self.MainTransformerType = data
+        self.DataMainTransformerType = data
         self.turbine_numbers = turbine_num
-        self.TypeName = self.MainTransformerType.at[self.MainTransformerType.index[0], 'TypeName']
-        self.RatedCapacity = self.MainTransformerType.at[self.MainTransformerType.index[0], 'RatedCapacity']
-        self.RatedVoltageRatio = self.MainTransformerType.at[self.MainTransformerType.index[0], 'RatedVoltageRatio']
-        self.WiringGroup = self.MainTransformerType.at[self.MainTransformerType.index[0], 'WiringGroup']
-        self.ImpedanceVoltage = self.MainTransformerType.at[self.MainTransformerType.index[0], 'ImpedanceVoltage']
-        self.Noise = self.MainTransformerType.at[self.MainTransformerType.index[0], 'Noise']
+        self.TypeName = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'TypeName']
+        self.RatedCapacity = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'RatedCapacity']
+        self.RatedVoltageRatio = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'RatedVoltageRatio']
+        self.WiringGroup = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'WiringGroup']
+        self.ImpedanceVoltage = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'ImpedanceVoltage']
+        self.Noise = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'Noise']
 
-        self.CoolingType = self.MainTransformerType.at[self.MainTransformerType.index[0], 'CoolingType']
-        self.OnloadTapChanger = self.MainTransformerType.at[self.MainTransformerType.index[0], 'OnloadTapChanger']
-        self.MTGroundingMode = self.MainTransformerType.at[self.MainTransformerType.index[0], 'MTGroundingMode']
-        self.TransformerRatedVoltage = self.MainTransformerType.at[self.MainTransformerType.index[0], 'TransformerRatedVoltage']
-        self.TransformerNPC = self.MainTransformerType.at[self.MainTransformerType.index[0], 'TransformerNPC']
-        self.ZincOxideArrester = self.MainTransformerType.at[self.MainTransformerType.index[0], 'ZincOxideArrester']
-        self.DischargingGap = self.MainTransformerType.at[self.MainTransformerType.index[0], 'DischargingGap']
-        self.CurrentTransformer = self.MainTransformerType.at[self.MainTransformerType.index[0], 'CurrentTransformer']
+        self.CoolingType = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'CoolingType']
+        self.OnloadTapChanger = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'OnloadTapChanger']
+        self.MTGroundingMode = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'MTGroundingMode']
+        self.TransformerRatedVoltage = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'TransformerRatedVoltage']
+        self.TransformerNPC = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'TransformerNPC']
+        self.ZincOxideArrester = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'ZincOxideArrester']
+        self.DischargingGap = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'DischargingGap']
+        self.CurrentTransformer = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'CurrentTransformer']
 
-        self.dict_BoxVoltageType_resource = {
+        self.dict_MainTransformerType_resource = {
             'turbine_numbers': int(self.turbine_numbers),
             '型号_主变压器': self.TypeName,
             '额定容量_主变压器': self.RatedCapacity,
@@ -119,7 +119,7 @@ class MainTransformerType:
         }
 
 
-        return self.dict_BoxVoltageType_resource
+        return self.dict_MainTransformerType_resource
 
 # project01 = WindResourceDatabase()
 # data = project01.extraction_DataBoxVoltageType(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)

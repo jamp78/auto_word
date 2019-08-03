@@ -7,17 +7,18 @@ import numpy as np
 # from docxtpl import DocxTemplate
 # from RoundUp import round_dict_numbers
 
-
-# 2箱式变电站
-class BoxVoltageType:
+# 7 站用变压器
+class STType:
 
     def __init__(self):
         # ===========selecting parameters=============
         self.TypeID = 0
         # ===========basic parameters==============
-        self.DataBoxVoltageType = pd.DataFrame()
-        self.TypeName, self.CapacityBoxVoltage, self.VoltageClasses = "", 0, ""
-        self.WiringGroup, self.CoolingType, self.ShortCircuitImpedance = "", "", ""
+        self.DataSTType = pd.DataFrame()
+        self.TypeName, self.Capacity, self.RatedVoltage = "", 0, 0
+        self.RatedVoltageTapRange, self.ImpedanceVoltage, self.JoinGroups = "","",""
+    
+
         # ===========Calculated parameters==============
         # self.earth_excavation_wind_resource, self.stone_excavation_wind_resource = 0, 0
         # self.earth_work_back_fill_wind_resource, self.earth_excavation_wind_resource_numbers = 0, 0
@@ -25,15 +26,15 @@ class BoxVoltageType:
         # self.c40_wind_resource_numbers, self.c15_wind_resource_numbers, self.c80_wind_resource_numbers = 0, 0, 0
         # self.c80_wind_resource_numbers, self.reinforcement_wind_resource_numbers = 0, 0
 
-    def extraction_data_BoxVoltageType_resource(self, TypeID):
+    def extraction_data_STType_resource(self, TypeID):
         self.TypeID = TypeID
 
-        sql = "SELECT * FROM auto_word_electrical_boxvoltagetype"
-        self.DataBoxVoltageType = connect_sql_pandas(sql)
-        self.DataBoxVoltageType = \
-            self.DataBoxVoltageType.loc[
-                self.DataBoxVoltageType['TypeID'] == self.TypeID]
-        return self.DataBoxVoltageType
+        sql = "SELECT * FROM auto_word_electrical_sttype"
+        self.DataSTType = connect_sql_pandas(sql)
+        self.DataSTType = \
+            self.DataSTType.loc[
+                self.DataSTType['TypeID'] == self.TypeID]
+        return self.DataSTType
 
     def excavation_cal_BoxVoltageType_resource(self, DataBoxVoltageType, basic_earthwork_ratio, basic_stone_ratio,
                                                turbine_num):
@@ -78,28 +79,28 @@ class BoxVoltageType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_BoxVoltageType_resource(self, data, turbine_num):
-        self.DataBoxVoltageType = data
+    def generate_dict_STType_resource(self, data, turbine_num):
+        self.DataSTType = data
         self.turbine_numbers = turbine_num
-        self.TypeName = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'TypeName']
-        self.CapacityBoxVoltage = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'Capacity']
-        self.VoltageClasses = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'VoltageClasses']
-
-        self.WiringGroup = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'WiringGroup']
-        self.CoolingType = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'CoolingType']
-        self.ShortCircuitImpedance = self.DataBoxVoltageType.at[
-            self.DataBoxVoltageType.index[0], 'ShortCircuitImpedance']
-
-        self.dict_BoxVoltageType_resource = {
+        self.TypeName = self.DataSTType.at[self.DataSTType.index[0], 'TypeName']
+        self.Capacity = self.DataSTType.at[self.DataSTType.index[0], 'Capacity']
+        self.RatedVoltage = self.DataSTType.at[self.DataSTType.index[0], 'RatedVoltage']
+        self.RatedVoltageTapRange = self.DataSTType.at[self.DataSTType.index[0], 'RatedVoltageTapRange']
+        self.ImpedanceVoltage = self.DataSTType.at[self.DataSTType.index[0], 'ImpedanceVoltage']
+        self.JoinGroups = self.DataSTType.at[self.DataSTType.index[0], 'JoinGroups']
+     
+        self.dict_STType_resource = {
             'turbine_numbers': int(self.turbine_numbers),
-            '型式_箱式变电站': self.TypeName,
-            '容量_箱式变电站': self.CapacityBoxVoltage,
-            '电压等级_箱式变电站': self.VoltageClasses,
-            '接线组别_箱式变电站': self.WiringGroup,
-            '冷却方式_箱式变电站': self.CoolingType,
-            '短路阻抗_箱式变电站': self.ShortCircuitImpedance,
-        }
-        return self.dict_BoxVoltageType_resource
+            '型号_站用变压器': self.TypeName,
+            '容量_站用变压器': self.Capacity,
+            '额定电压_站用变压器': self.RatedVoltage,
+            '额定电压分接范围_站用变压器': self.RatedVoltageTapRange,
+            '阻抗电压_站用变压器': self.ImpedanceVoltage,
+            '联接组别_站用变压器': self.JoinGroups,
+          }
+
+
+        return self.dict_STType_resource
 
 # project01 = WindResourceDatabase()
 # data = project01.extraction_DataBoxVoltageType(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)

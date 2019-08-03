@@ -8,16 +8,16 @@ import numpy as np
 # from RoundUp import round_dict_numbers
 
 
-# 2箱式变电站
-class BoxVoltageType:
+# 4.2 110kV避雷器
+class v110kVArresterType:
 
     def __init__(self):
         # ===========selecting parameters=============
         self.TypeID = 0
         # ===========basic parameters==============
-        self.DataBoxVoltageType = pd.DataFrame()
-        self.TypeName, self.CapacityBoxVoltage, self.VoltageClasses = "", 0, ""
-        self.WiringGroup, self.CoolingType, self.ShortCircuitImpedance = "", "", ""
+        self.Data110kVArresterType = pd.DataFrame()
+        self.TypeName, self.RatedVoltageArrester, self.OperatingVoltageArrester = "", 0, ""
+        self.DischargeCurrentArrester, self.LightningResidualVoltage = "", ""
         # ===========Calculated parameters==============
         # self.earth_excavation_wind_resource, self.stone_excavation_wind_resource = 0, 0
         # self.earth_work_back_fill_wind_resource, self.earth_excavation_wind_resource_numbers = 0, 0
@@ -25,15 +25,15 @@ class BoxVoltageType:
         # self.c40_wind_resource_numbers, self.c15_wind_resource_numbers, self.c80_wind_resource_numbers = 0, 0, 0
         # self.c80_wind_resource_numbers, self.reinforcement_wind_resource_numbers = 0, 0
 
-    def extraction_data_BoxVoltageType_resource(self, TypeID):
+    def extraction_data_110kVArresterType_resource(self, TypeID):
         self.TypeID = TypeID
 
-        sql = "SELECT * FROM auto_word_electrical_boxvoltagetype"
-        self.DataBoxVoltageType = connect_sql_pandas(sql)
-        self.DataBoxVoltageType = \
-            self.DataBoxVoltageType.loc[
-                self.DataBoxVoltageType['TypeID'] == self.TypeID]
-        return self.DataBoxVoltageType
+        sql = "SELECT * FROM auto_word_electrical_110kVArresterType"
+        self.Data110kVArresterType = connect_sql_pandas(sql)
+        self.Data110kVArresterType = \
+            self.Data110kVArresterType.loc[
+                self.Data110kVArresterType['TypeID'] == self.TypeID]
+        return self.Data110kVArresterType
 
     def excavation_cal_BoxVoltageType_resource(self, DataBoxVoltageType, basic_earthwork_ratio, basic_stone_ratio,
                                                turbine_num):
@@ -78,28 +78,25 @@ class BoxVoltageType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_BoxVoltageType_resource(self, data, turbine_num):
-        self.DataBoxVoltageType = data
+    def generate_dict_110kVArresterType_resource(self, data, turbine_num):
+        self.Data110kVArresterType = data
         self.turbine_numbers = turbine_num
-        self.TypeName = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'TypeName']
-        self.CapacityBoxVoltage = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'Capacity']
-        self.VoltageClasses = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'VoltageClasses']
-
-        self.WiringGroup = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'WiringGroup']
-        self.CoolingType = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'CoolingType']
-        self.ShortCircuitImpedance = self.DataBoxVoltageType.at[
-            self.DataBoxVoltageType.index[0], 'ShortCircuitImpedance']
-
-        self.dict_BoxVoltageType_resource = {
+        self.TypeName = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'TypeName']
+        
+        self.RatedVoltageArrester = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'RatedVoltageArrester']
+        self.OperatingVoltageArrester = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'OperatingVoltageArrester']
+        self.DischargeCurrentArrester = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'DischargeCurrentArrester']
+        self.LightningResidualVoltage = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'LightningResidualVoltage']
+     
+        self.dict_110kVArresterType_resource = {
             'turbine_numbers': int(self.turbine_numbers),
-            '型式_箱式变电站': self.TypeName,
-            '容量_箱式变电站': self.CapacityBoxVoltage,
-            '电压等级_箱式变电站': self.VoltageClasses,
-            '接线组别_箱式变电站': self.WiringGroup,
-            '冷却方式_箱式变电站': self.CoolingType,
-            '短路阻抗_箱式变电站': self.ShortCircuitImpedance,
+            '型号_110kV避雷器': self.TypeName,
+            '避雷器额定电压_110kV避雷器': self.RatedVoltageArrester,
+            '避雷器持续运行电压_110kV避雷器': self.OperatingVoltageArrester,
+            '避雷器的标称放电电流_110kV避雷器': self.DischargeCurrentArrester,
+            '雷电冲击电流残压_110kV避雷器': self.LightningResidualVoltage,
         }
-        return self.dict_BoxVoltageType_resource
+        return self.dict_110kVArresterType_resource
 
 # project01 = WindResourceDatabase()
 # data = project01.extraction_DataBoxVoltageType(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)

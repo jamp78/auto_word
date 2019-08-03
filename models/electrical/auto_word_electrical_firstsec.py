@@ -231,7 +231,19 @@ class auto_word_electrical_firstsec(models.Model):
         dict6 = doc_6.generate_electrical_TypeID_dict(
             TypeID_boxvoltagetype=self.TypeID_boxvoltagetype,
             TypeID_maintransformertype=self.TypeID_maintransformertype,
-            turbine_numbers=self.project_id.turbine_numbers_suggestion)
+            TypeID_v110kvswitchgeartype=self.TypeID_v110kvswitchgeartype,
+            TypeID_v110kvarrestertype=self.TypeID_v110kvarrestertype,
+            TypeID_v35kvtictype=self.TypeID_v35kvtictype,
+            TypeID_v35kvmtovctype=self.TypeID_v35kvmtovctype,
+            TypeID_v35kvrpcdctype=self.TypeID_v35kvrpcdctype,
+            TypeID_v35kvgctype=self.TypeID_v35kvgctype,
+            TypeID_v35kvptctype=self.TypeID_v35kvptctype,
+            TypeID_srgstype=self.TypeID_srgstype,
+            TypeID_sttype=self.TypeID_sttype,
+            TypeID_ccgistype=self.TypeID_ccgistype,
+            TypeID_ccmtlvtype=self.TypeID_ccmtlvtype,
+
+        turbine_numbers = self.project_id.turbine_numbers_suggestion)
 
         print(dict6)
 
