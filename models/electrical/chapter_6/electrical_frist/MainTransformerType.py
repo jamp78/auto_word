@@ -81,9 +81,9 @@ class MainTransformerType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_MainTransformerType_resource(self, data, turbine_num):
+    def generate_dict_MainTransformerType_resource(self, data, num):
         self.DataMainTransformerType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'TypeName']
         self.RatedCapacity = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'RatedCapacity']
         self.RatedVoltageRatio = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'RatedVoltageRatio']
@@ -101,7 +101,7 @@ class MainTransformerType:
         self.CurrentTransformer = self.DataMainTransformerType.at[self.DataMainTransformerType.index[0], 'CurrentTransformer']
 
         self.dict_MainTransformerType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_主变压器': int(self.numbers),
             '型号_主变压器': self.TypeName,
             '额定容量_主变压器': self.RatedCapacity,
             '额定电压比_主变压器': self.RatedVoltageRatio,

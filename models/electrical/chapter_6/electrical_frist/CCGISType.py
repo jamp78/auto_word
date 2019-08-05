@@ -84,9 +84,9 @@ class CCGISType:
         self.ConductorName = self.DataCCGISType.at[self.DataCCGISType.index[0], 'ConductorName']
 
         self.dict_CCGISType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
-            '型号_导体选择GIS': self.TypeName,
-            '导体材料_导体选择GIS': self.ConductorName,
+            'numbers_导体选择1': int(self.turbine_numbers),
+            '型号_导体选择1': self.TypeName,
+            '导体材料_导体选择1': self.ConductorName,
             }
 
 

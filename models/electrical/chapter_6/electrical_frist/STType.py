@@ -79,9 +79,9 @@ class STType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_STType_resource(self, data, turbine_num):
+    def generate_dict_STType_resource(self, data, num):
         self.DataSTType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.DataSTType.at[self.DataSTType.index[0], 'TypeName']
         self.Capacity = self.DataSTType.at[self.DataSTType.index[0], 'Capacity']
         self.RatedVoltage = self.DataSTType.at[self.DataSTType.index[0], 'RatedVoltage']
@@ -90,7 +90,7 @@ class STType:
         self.JoinGroups = self.DataSTType.at[self.DataSTType.index[0], 'JoinGroups']
      
         self.dict_STType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_站用变压器': int(self.numbers),
             '型号_站用变压器': self.TypeName,
             '容量_站用变压器': self.Capacity,
             '额定电压_站用变压器': self.RatedVoltage,

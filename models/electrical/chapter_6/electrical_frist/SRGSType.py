@@ -79,9 +79,9 @@ class SRGSType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_SRGSType_resource(self, data, turbine_num):
+    def generate_dict_SRGSType_resource(self, data, num):
         self.DataSRGSType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.DataSRGSType.at[self.DataSRGSType.index[0], 'TypeName']
         self.RatedVoltage = self.DataSRGSType.at[self.DataSRGSType.index[0], 'RatedVoltage']
         self.RatedCapacity = self.DataSRGSType.at[self.DataSRGSType.index[0], 'RatedCapacity']
@@ -90,7 +90,7 @@ class SRGSType:
         self.FlowTime = self.DataSRGSType.at[self.DataSRGSType.index[0], 'FlowTime']
      
         self.dict_SRGSType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_小电阻成套接地装置': int(self.numbers),
             '型号_小电阻成套接地装置': self.TypeName,
             '额定电压_小电阻成套接地装置': self.RatedVoltage,
             '额定容量_小电阻成套接地装置': self.RatedCapacity,

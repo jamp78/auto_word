@@ -80,9 +80,9 @@ class v110kVSwitChgearType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_110kVSwitChgearType_resource(self, data, turbine_num):
+    def generate_dict_110kVSwitChgearType_resource(self, data, num):
         self.v110kVSwitChgearType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.v110kVSwitChgearType.at[self.v110kVSwitChgearType.index[0], 'TypeName']
         self.RatedVoltage = self.v110kVSwitChgearType.at[self.v110kVSwitChgearType.index[0], 'RatedVoltage']
         self.RatedCurrent = self.v110kVSwitChgearType.at[self.v110kVSwitChgearType.index[0], 'RatedCurrent']
@@ -98,7 +98,7 @@ class v110kVSwitChgearType:
 
 
         self.dict_110kVSwitChgearType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_110kV配电装置': int(self.numbers),
             '型号_110kV配电装置': self.TypeName,
             '额定电压_110kV配电装置': self.RatedVoltage,
             '额定电流_110kV配电装置': self.RatedCurrent,

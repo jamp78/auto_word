@@ -96,8 +96,7 @@
 
                     <group string="机型推荐">
                         <group name="group_left">
-                            <field name="compare_id"/>
-                            <!--<field name="case_name_suggestion"/>-->
+                            <field name="recommend_id"/>
                             <field name="name_tur_suggestion"/>
                         </group>
                         <group name="group_right">

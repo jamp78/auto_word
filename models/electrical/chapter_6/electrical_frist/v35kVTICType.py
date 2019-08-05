@@ -80,9 +80,9 @@ class v35kVTICType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_35kVTICType_resource(self, data, turbine_num):
+    def generate_dict_35kVTICType_resource(self, data, num):
         self.Data35kVTICType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.Data35kVTICType.at[self.Data35kVTICType.index[0], 'TypeName']
         self.RatedVoltage = self.Data35kVTICType.at[self.Data35kVTICType.index[0], 'RatedVoltage']
         self.RatedCurrent = self.Data35kVTICType.at[self.Data35kVTICType.index[0], 'RatedCurrent']
@@ -95,7 +95,7 @@ class v35kVTICType:
         self.CurrentTransformerArrester = self.Data35kVTICType.at[self.Data35kVTICType.index[0], 'CurrentTransformerArrester']
      
         self.dict_35kVTICType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_35kV风机进线柜': int(self.numbers),
             '型号_35kV风机进线柜': self.TypeName,
             '额定电压_35kV风机进线柜': self.RatedVoltage,
             '额定电流_35kV风机进线柜': self.RatedCurrent,

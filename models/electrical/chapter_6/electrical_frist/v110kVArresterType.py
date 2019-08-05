@@ -78,9 +78,9 @@ class v110kVArresterType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_110kVArresterType_resource(self, data, turbine_num):
+    def generate_dict_110kVArresterType_resource(self, data, num):
         self.Data110kVArresterType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'TypeName']
         
         self.RatedVoltageArrester = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'RatedVoltageArrester']
@@ -89,7 +89,7 @@ class v110kVArresterType:
         self.LightningResidualVoltage = self.Data110kVArresterType.at[self.Data110kVArresterType.index[0], 'LightningResidualVoltage']
      
         self.dict_110kVArresterType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_110kV避雷器': int(self.numbers),
             '型号_110kV避雷器': self.TypeName,
             '避雷器额定电压_110kV避雷器': self.RatedVoltageArrester,
             '避雷器持续运行电压_110kV避雷器': self.OperatingVoltageArrester,

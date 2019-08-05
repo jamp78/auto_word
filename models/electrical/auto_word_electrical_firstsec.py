@@ -65,19 +65,37 @@ class auto_word_electrical_firstsec(models.Model):
     report_attachment_id_input = fields.Many2many('ir.attachment', string=u'电气一次提资')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
 
-    boxvoltagetype = fields.Many2one('auto_word_electrical.boxvoltagetype', string='TypeID', required=True)
-    maintransformertype = fields.Many2one('auto_word_electrical.maintransformertype', string='TypeID', required=True)
-    v110kvswitchgeartype = fields.Many2one('auto_word_electrical.110kvswitchgeartype', string='TypeID', required=True)
-    v110kvarrestertype = fields.Many2one('auto_word_electrical.110kvarrestertype', string='TypeID', required=True)
-    v35kvtictype = fields.Many2one('auto_word_electrical.35kvtictype', string='TypeID', required=True)
-    v35kvmtovctype = fields.Many2one('auto_word_electrical.35kvmtovctype', string='TypeID', required=True)
-    v35kvrpcdctype = fields.Many2one('auto_word_electrical.35kvrpcdctype', string='TypeID', required=True)
-    v35kvgctype = fields.Many2one('auto_word_electrical.35kvgctype', string='TypeID', required=True)
-    v35kvptctype = fields.Many2one('auto_word_electrical.35kvptctype', string='TypeID', required=True)
-    srgstype = fields.Many2one('auto_word_electrical.srgstype', string='TypeID', required=True)
-    sttype = fields.Many2one('auto_word_electrical.sttype', string='TypeID', required=True)
-    ccgistype = fields.Many2one('auto_word_electrical.ccgistype', string='TypeID', required=True)
-    ccmtlvtype = fields.Many2one('auto_word_electrical.ccmtlvtype', string='TypeID', required=True)
+    Numbers_boxvoltagetype = fields.Integer(string='箱式变电站数量',default="0")
+    Numbers_maintransformertype = fields.Integer(string='主变压器数量', default="0")
+    Numbers_v110kvswitchgeartype = fields.Integer(string='110kV配电装置数量', default="0")
+    Numbers_v110kvarrestertype = fields.Integer(string='110kV避雷器型号数量', default="0")
+    Numbers_v35kvtictype = fields.Integer(string='35kV风机进线柜数量', default="0")
+    Numbers_v35kvmtovctype = fields.Integer(string='35kV主变出线柜数量', default="0")
+    Numbers_v35kvsctype = fields.Integer(string='35kV站用变柜数量', default="0")
+    Numbers_v35kvrpcdctype = fields.Integer(string='35kV无功补偿数量', default="0")
+    Numbers_v35kvgctype = fields.Integer(string='35kV接地变柜数量', default="0")
+    Numbers_v35kvptctype = fields.Integer(string='35kVPT柜数量', default="0")
+    Numbers_srgstype = fields.Integer(string='小电阻成套接地装置数量', default="0")
+    Numbers_sttype = fields.Integer(string='站用变压器型号数量', default="0")
+    Numbers_ccgistype = fields.Integer(string='导体选择1数量', default="0")
+    Numbers_ccmtlvtype = fields.Integer(string='导体选择2数量', default="0")
+
+
+    boxvoltagetype = fields.Many2one('auto_word_electrical.boxvoltagetype', string='箱式变电站型号', required=False)
+    maintransformertype = fields.Many2one('auto_word_electrical.maintransformertype', string='主变压器型号', required=False)
+    v110kvswitchgeartype = fields.Many2one('auto_word_electrical.110kvswitchgeartype', string='110kV配电装置型号', required=False)
+    v110kvarrestertype = fields.Many2one('auto_word_electrical.110kvarrestertype', string='110kV避雷器型号', required=False)
+    v35kvtictype = fields.Many2one('auto_word_electrical.35kvtictype', string='35kV风机进线柜型号', required=False)
+    v35kvmtovctype = fields.Many2one('auto_word_electrical.35kvmtovctype', string='35kV主变出线柜型号', required=False)
+    v35kvsctype = fields.Many2one('auto_word_electrical.35kvsctype', string='35kV站用变柜型号', required=False)
+
+    v35kvrpcdctype = fields.Many2one('auto_word_electrical.35kvrpcdctype', string='35kV无功补偿型号', required=False)
+    v35kvgctype = fields.Many2one('auto_word_electrical.35kvgctype', string='35kV接地变柜型号', required=False)
+    v35kvptctype = fields.Many2one('auto_word_electrical.35kvptctype', string='35kVPT柜型号', required=False)
+    srgstype = fields.Many2one('auto_word_electrical.srgstype', string='小电阻成套接地装置型号', required=False)
+    sttype = fields.Many2one('auto_word_electrical.sttype', string='站用变压器型号', required=False)
+    ccgistype = fields.Many2one('auto_word_electrical.ccgistype', string='导体选择1', required=False)
+    ccmtlvtype = fields.Many2one('auto_word_electrical.ccmtlvtype', string='导体选择2', required=False)
 
     TypeID_boxvoltagetype = 0
 
@@ -220,6 +238,7 @@ class auto_word_electrical_firstsec(models.Model):
         self.TypeID_v110kvarrestertype = self.v110kvarrestertype.TypeID
         self.TypeID_v35kvtictype = self.v35kvtictype.TypeID
         self.TypeID_v35kvmtovctype = self.v35kvmtovctype.TypeID
+        self.TypeID_v35kvsctype = self.v35kvsctype.TypeID
         self.TypeID_v35kvrpcdctype = self.v35kvrpcdctype.TypeID
         self.TypeID_v35kvgctype = self.v35kvgctype.TypeID
         self.TypeID_v35kvptctype = self.v35kvptctype.TypeID
@@ -235,6 +254,7 @@ class auto_word_electrical_firstsec(models.Model):
             TypeID_v110kvarrestertype=self.TypeID_v110kvarrestertype,
             TypeID_v35kvtictype=self.TypeID_v35kvtictype,
             TypeID_v35kvmtovctype=self.TypeID_v35kvmtovctype,
+            TypeID_v35kvsctype=self.TypeID_v35kvsctype,
             TypeID_v35kvrpcdctype=self.TypeID_v35kvrpcdctype,
             TypeID_v35kvgctype=self.TypeID_v35kvgctype,
             TypeID_v35kvptctype=self.TypeID_v35kvptctype,
@@ -243,7 +263,22 @@ class auto_word_electrical_firstsec(models.Model):
             TypeID_ccgistype=self.TypeID_ccgistype,
             TypeID_ccmtlvtype=self.TypeID_ccmtlvtype,
 
-        turbine_numbers = self.project_id.turbine_numbers_suggestion)
+            Numbers_boxvoltagetype=self.Numbers_boxvoltagetype,
+            Numbers_maintransformertype=self.Numbers_maintransformertype,
+            Numbers_v110kvswitchgeartype=self.Numbers_v110kvswitchgeartype,
+            Numbers_v110kvarrestertype=self.Numbers_v110kvarrestertype,
+            Numbers_v35kvtictype=self.Numbers_v35kvtictype,
+            Numbers_v35kvmtovctype=self.Numbers_v35kvmtovctype,
+            Numbers_v35kvsctype=self.Numbers_v35kvsctype,
+            Numbers_v35kvptctype=self.Numbers_v35kvptctype,
+            Numbers_v35kvgctype=self.Numbers_v35kvgctype,
+            Numbers_srgstype=self.Numbers_srgstype,
+            Numbers_sttype=self.Numbers_sttype,
+            Numbers_ccgistype=self.Numbers_ccgistype, Numbers_ccmtlvtype=self.Numbers_ccmtlvtype,
+            turbine_numbers=self.project_id.turbine_numbers_suggestion
+
+        )
+
 
         print(dict6)
 
@@ -323,10 +358,10 @@ class electrical_35kVTICType(models.Model):
     _rec_name = 'TypeName'
     TypeID = fields.Integer(u'型号ID')
     TypeName = fields.Char(u'型号')
-    RatedVoltage = fields.Integer(u'额定电压')
-    RatedCurrent = fields.Integer(u'额定电流')
-    RatedBreakingCurrent = fields.Integer(u'额定开断电流')
-    DynamicCurrent = fields.Integer(u'动稳定电流')
+    RatedVoltage = fields.Float(u'额定电压')
+    RatedCurrent = fields.Float(u'额定电流')
+    RatedBreakingCurrent = fields.Float(u'额定开断电流')
+    DynamicCurrent = fields.Float(u'动稳定电流')
     RatedShortTimeWCurrent = fields.Char(u'额定短时耐受电流')
     CurrentTransformerRatio = fields.Char(u'电流互感器变比')
     CurrentTransformerAccuracyClass = fields.Char(u'电流互感器准确级')

@@ -30,9 +30,48 @@
                     <group name="group_top">
                             <field name="project_id"/>
                             <field name="version_id"/>
+                    </group>
+                    <group name="group_mid">
+
+                        <group name="group_left">
                             <field name="boxvoltagetype"/>
                             <field name="maintransformertype"/>
-                            <field name="report_attachment_id_input"/>
+                            <field name="v110kvswitchgeartype"/>
+
+
+                            <field name="v110kvarrestertype"/>
+                            <field name="v35kvtictype"/>
+                            <field name="v35kvmtovctype"/>
+                            <field name="v35kvsctype"/>
+                            <field name="v35kvrpcdctype"/>
+
+
+                            <field name="sttype"/>
+                            <field name="ccgistype"/>
+                            <field name="ccmtlvtype"/>
+                        </group>
+
+                        <group name="group_right">
+                            <field name="Numbers_boxvoltagetype"/>
+                            <field name="Numbers_maintransformertype"/>
+                            <field name="Numbers_v110kvswitchgeartype"/>
+
+                            <field name="Numbers_v110kvarrestertype"/>
+                            <field name="Numbers_v35kvtictype"/>
+                            <field name="Numbers_v35kvmtovctype"/>
+                            <field name="Numbers_v35kvsctype"/>
+                            <field name="Numbers_v35kvrpcdctype"/>
+
+
+                            <field name="Numbers_sttype"/>
+                            <field name="Numbers_ccgistype"/>
+                            <field name="Numbers_ccmtlvtype"/>
+                        </group>
+                    </group>
+
+
+                    <group name="group_bot">
+                        <field name="report_attachment_id_input"/>
                     </group>
 
                 </sheet>
@@ -43,7 +82,7 @@
     </record>
 
     <record id="auto_word_electrical_boxvoltagetype_list" model="ir.ui.view">
-        <field name="name">electrical_boxvoltagetype_list</field>
+        <field name="name">electrical_boxvoltagetype list</field>
         <field name="model">auto_word_electrical.boxvoltagetype</field>
         <field name="arch" type="xml">
             <tree>
@@ -83,7 +122,7 @@
     </record>
 
     <record id="auto_word_electrical_maintransformertype_list" model="ir.ui.view">
-        <field name="name">electrical_maintransformertype_list</field>
+        <field name="name">electrical_maintransformertype list</field>
         <field name="model">auto_word_electrical.maintransformertype</field>
         <field name="arch" type="xml">
             <tree>
@@ -139,7 +178,7 @@
     </record>
 
     <record id="auto_word_electrical_110kvswitchgeartype_list" model="ir.ui.view">
-        <field name="name">electrical_110kvswitchgeartype_list</field>
+        <field name="name">electrical_110kvswitchgeartype list</field>
         <field name="model">auto_word_electrical.110kvswitchgeartype</field>
         <field name="arch" type="xml">
             <tree>
@@ -189,7 +228,7 @@
     </record>
 
     <record id="auto_word_electrical_110kvarrestertype_list" model="ir.ui.view">
-        <field name="name">electrical_110kvarrestertype_list</field>
+        <field name="name">electrical_110kvarrestertype list</field>
         <field name="model">auto_word_electrical.110kvarrestertype</field>
         <field name="arch" type="xml">
             <tree>
@@ -222,7 +261,7 @@
     </record>
 <!--#5.1 35kV风机进线柜-->
     <record id="auto_word_electrical_35kvtictype_list" model="ir.ui.view">
-        <field name="name">electrical_35kvtictype_list</field>
+        <field name="name">electrical_35kvtictype list</field>
         <field name="model">auto_word_electrical.35kvtictype</field>
         <field name="arch" type="xml">
             <tree>
@@ -268,7 +307,7 @@
     </record>
 <!--#5.2 35kV主变出线柜-->
     <record id="auto_word_electrical_35kvmtovctype_list" model="ir.ui.view">
-        <field name="name">electrical_35kvmtovctype_list</field>
+        <field name="name">electrical_35kvmtovctype list</field>
         <field name="model">auto_word_electrical.35kvmtovctype</field>
         <field name="arch" type="xml">
             <tree>
@@ -314,7 +353,7 @@
     </record>
 <!--#5.3 35kV站用变柜-->
     <record id="auto_word_electrical_35kvsctype_list" model="ir.ui.view">
-        <field name="name">electrical_35kvsctype_list</field>
+        <field name="name">electrical_35kvsctype list</field>
         <field name="model">auto_word_electrical.35kvsctype</field>
         <field name="arch" type="xml">
             <tree>
@@ -360,7 +399,7 @@
     </record>
 <!--#5.4 35kV无功补偿装置柜-->
     <record id="auto_word_electrical_35kvrpcdctype_list" model="ir.ui.view">
-        <field name="name">electrical_35kvrpcdctype_list</field>
+        <field name="name">electrical_35kvrpcdctype list</field>
         <field name="model">auto_word_electrical.35kvrpcdctype</field>
         <field name="arch" type="xml">
             <tree>
@@ -406,7 +445,7 @@
     </record>
 <!--#5.5 35kV接地变柜-->
     <record id="auto_word_electrical_35kvgctype_list" model="ir.ui.view">
-        <field name="name">electrical_35kvgctype_list</field>
+        <field name="name">electrical_35kvgctype list</field>
         <field name="model">auto_word_electrical.35kvgctype</field>
         <field name="arch" type="xml">
             <tree>
@@ -452,7 +491,7 @@
     </record>
 <!--# 5.6 35kVPT柜-->
     <record id="auto_word_electrical_35kvptctype_list" model="ir.ui.view">
-        <field name="name">electrical_35kvptctype_list</field>
+        <field name="name">electrical_35kvptctype list</field>
         <field name="model">auto_word_electrical.35kvptctype</field>
         <field name="arch" type="xml">
             <tree>
@@ -504,7 +543,7 @@
     </record>
 <!--# 6 小电阻成套接地装置-->
     <record id="auto_word_electrical_srgstype_list" model="ir.ui.view">
-        <field name="name">electrical_srgstype_list</field>
+        <field name="name">electrical_srgstype list</field>
         <field name="model">auto_word_electrical.srgstype</field>
         <field name="arch" type="xml">
             <tree>
@@ -540,7 +579,7 @@
     </record>
 <!--# 7 站用变压器-->
     <record id="auto_word_electrical_sttype_list" model="ir.ui.view">
-        <field name="name">electrical_sttype_list</field>
+        <field name="name">electrical_sttype list</field>
         <field name="model">auto_word_electrical.sttype</field>
         <field name="arch" type="xml">
             <tree>
@@ -575,7 +614,7 @@
     </record>
 <!--# 9.1 导体选择 GIS设备与主变压器间的连接线-->
     <record id="auto_word_electrical_ccgistype_list" model="ir.ui.view">
-        <field name="name">electrical_ccgistype_list</field>
+        <field name="name">electrical_ccgistype list</field>
         <field name="model">auto_word_electrical.ccgistype</field>
         <field name="arch" type="xml">
             <tree>
@@ -603,7 +642,7 @@
     </record>
 <!--# 9.2 导体选择 主变出线柜与主变压器低压侧的连接线-->
     <record id="auto_word_electrical_ccmtlvtype_list" model="ir.ui.view">
-        <field name="name">electrical_ccmtlvtype_list</field>
+        <field name="name">electrical_ccmtlvtype list</field>
         <field name="model">auto_word_electrical.ccmtlvtype</field>
         <field name="arch" type="xml">
             <tree>

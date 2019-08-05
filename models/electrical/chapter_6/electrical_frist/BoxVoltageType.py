@@ -91,7 +91,7 @@ class BoxVoltageType:
             self.DataBoxVoltageType.index[0], 'ShortCircuitImpedance']
 
         self.dict_BoxVoltageType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'turbine_numbers_箱式变电站': int(self.turbine_numbers),
             '型式_箱式变电站': self.TypeName,
             '容量_箱式变电站': self.CapacityBoxVoltage,
             '电压等级_箱式变电站': self.VoltageClasses,

@@ -54,10 +54,10 @@ class auto_word_wind(models.Model):
 
     # ####################################功能模块########################
     # --------机型推荐---------
-    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型', required=True)
+    select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型', required=False)
     # --------方案比选---------
-    compare_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案推荐', required=True)
-    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案名称', required=True)
+    recommend_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案推荐', required=False)
+    case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案名称', required=False)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
@@ -69,7 +69,7 @@ class auto_word_wind(models.Model):
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
     # --------结果文件---------
     png_list = []
-    auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
+    auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=False)
     file_excel_path = fields.Char(u'文件路径')
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
     report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
@@ -89,39 +89,39 @@ class auto_word_wind(models.Model):
     ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
     ave_weak_res_xz = 0
 
-    @api.depends('compare_id')
+    @api.depends('recommend_id')
     def _compute_compare_case(self):
         for re in self:
-            re.name_tur_suggestion = re.compare_id.name_tur
-            re.hub_height_suggestion = re.compare_id.hub_height_suggestion
-            re.turbine_numbers_suggestion = re.compare_id.turbine_numbers
-            re.farm_capacity = re.compare_id.farm_capacity
-            re.rotor_diameter_suggestion = re.compare_id.rotor_diameter_case
-            re.capacity_suggestion = re.compare_id.capacity
+            re.name_tur_suggestion = re.recommend_id.name_tur
+            re.hub_height_suggestion = re.recommend_id.hub_height_suggestion
+            re.turbine_numbers_suggestion = re.recommend_id.turbine_numbers
+            re.farm_capacity = re.recommend_id.farm_capacity
+            re.rotor_diameter_suggestion = re.recommend_id.rotor_diameter_case
+            re.capacity_suggestion = re.recommend_id.capacity
 
     @api.multi
     def submit_wind(self):
         limited_str_1, limited_str_2, limited_str_3, limited_words = "", "", "", ""
         self.project_id.wind_attachment_ok = u"已提交,版本：" + self.version_id
 
-        self.project_id.case_name = str(self.compare_id.case_name)
-        self.project_id.turbine_model_suggestion = self.compare_id.WTG_name
+        self.project_id.case_name = str(self.recommend_id.case_name)
+        self.project_id.turbine_model_suggestion = self.recommend_id.WTG_name
 
-        self.project_id.turbine_numbers_suggestion = self.compare_id.turbine_numbers
-        self.project_id.TurbineCapacity = self.compare_id.capacity
+        self.project_id.turbine_numbers_suggestion = self.recommend_id.turbine_numbers
+        self.project_id.TurbineCapacity = self.recommend_id.capacity
 
-        self.project_id.hub_height_suggestion = self.compare_id.hub_height_suggestion
-        self.project_id.project_capacity = self.compare_id.farm_capacity
-        self.project_id.name_tur_suggestion = self.compare_id.name_tur
-        self.project_id.investment_E1 = self.compare_id.investment_E1
-        self.project_id.investment_E2 = self.compare_id.investment_E2
-        self.project_id.investment_E3 = self.compare_id.investment_E3
-        self.project_id.investment_E4 = self.compare_id.investment_E4
-        self.project_id.investment_E5 = self.compare_id.investment_E5
-        self.project_id.investment_E6 = self.compare_id.investment_E6
-        self.project_id.investment_E7 = self.compare_id.investment_E7
-        self.project_id.investment = self.compare_id.investment
-        self.project_id.investment_unit = self.compare_id.investment_unit
+        self.project_id.hub_height_suggestion = self.recommend_id.hub_height_suggestion
+        self.project_id.project_capacity = self.recommend_id.farm_capacity
+        self.project_id.name_tur_suggestion = self.recommend_id.name_tur
+        self.project_id.investment_E1 = self.recommend_id.investment_E1
+        self.project_id.investment_E2 = self.recommend_id.investment_E2
+        self.project_id.investment_E3 = self.recommend_id.investment_E3
+        self.project_id.investment_E4 = self.recommend_id.investment_E4
+        self.project_id.investment_E5 = self.recommend_id.investment_E5
+        self.project_id.investment_E6 = self.recommend_id.investment_E6
+        self.project_id.investment_E7 = self.recommend_id.investment_E7
+        self.project_id.investment = self.recommend_id.investment
+        self.project_id.investment_unit = self.recommend_id.investment_unit
         limited_str_0 = "本项目区域内存在部分限制性因素，需重点对"
         limited_str_2 = "等限制性因素进行排查。"
 

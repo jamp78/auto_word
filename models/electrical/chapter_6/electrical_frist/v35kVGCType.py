@@ -80,9 +80,9 @@ class v35kVGCType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_35kVGCType_resource(self, data, turbine_num):
+    def generate_dict_35kVGCType_resource(self, data, num):
         self.Data35kVGCType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.Data35kVGCType.at[self.Data35kVGCType.index[0], 'TypeName']
         self.RatedVoltage = self.Data35kVGCType.at[self.Data35kVGCType.index[0], 'RatedVoltage']
         self.RatedCurrent = self.Data35kVGCType.at[self.Data35kVGCType.index[0], 'RatedCurrent']
@@ -95,16 +95,16 @@ class v35kVGCType:
         self.CurrentTransformerArrester = self.Data35kVGCType.at[self.Data35kVGCType.index[0], 'CurrentTransformerArrester']
      
         self.dict_35kVGCType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
-            '型号_35kV站用变柜': self.TypeName,
-            '额定电压_35kV站用变柜': self.RatedVoltage,
-            '额定电流_35kV站用变柜': self.RatedCurrent,
-            '额定开断电流_35kV站用变柜': self.RatedBreakingCurrent,
-            '动稳定电流_35kV站用变柜': self.DynamicCurrent,
-            '额定短时耐受电流_35kV站用变柜': self.RatedShortTimeWCurrent,
-            '电流互感器变比_35kV站用变柜': self.CurrentTransformerRatio,
-            '电流互感器准确级_35kV站用变柜': self.CurrentTransformerAccuracyClass,
-            '电流互感器避雷器_35kV站用变柜': self.CurrentTransformerArrester,
+            'numbers_35kV接地变柜': int(self.numbers),
+            '型号_35kV接地变柜': self.TypeName,
+            '额定电压_35kV接地变柜': self.RatedVoltage,
+            '额定电流_35kV接地变柜': self.RatedCurrent,
+            '额定开断电流_35kV接地变柜': self.RatedBreakingCurrent,
+            '动稳定电流_35kV接地变柜': self.DynamicCurrent,
+            '额定短时耐受电流_35kV接地变柜': self.RatedShortTimeWCurrent,
+            '电流互感器变比_35kV接地变柜': self.CurrentTransformerRatio,
+            '电流互感器准确级_35kV接地变柜': self.CurrentTransformerAccuracyClass,
+            '电流互感器避雷器_35kV接地变柜': self.CurrentTransformerArrester,
         }
 
 

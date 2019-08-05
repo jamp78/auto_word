@@ -9,14 +9,31 @@ from Cable import Cable
 
 from BoxVoltageType import BoxVoltageType
 from MainTransformerType import MainTransformerType
+from v110kVSwitChgearType import v110kVSwitChgearType
+from v110kVArresterType import v110kVArresterType
+from v35kVTICType import v35kVTICType
+from v35kVMTOCType import v35kVMTOCType
+from v35kVSCType import v35kVSCType
+from v35kVRPCDCType import v35kVRPCDCType
+from v35kVGCType import v35kVGCType
+from v35kVPTCType import v35kVPTCType
+from SRGSType import SRGSType
+from STType import STType
+from CCGISType import CCGISType
+from CCMTLVType import CCMTLVType
 
 
 def generate_electrical_TypeID_dict(TypeID_boxvoltagetype, TypeID_maintransformertype,
                                     TypeID_v110kvswitchgeartype, TypeID_v110kvarrestertype, TypeID_v35kvtictype,
-                                    TypeID_v35kvmtovctype, TypeID_v35kvrpcdctype,
-                                    TypeID_v35kvgctype, TypeID_v35kvptctype, TypeID_srgstype, TypeID_sttypem,
-                                    TypeID_ccgistype, TypeID_ccmtlvtype, turbine_numbers):
-
+                                    TypeID_v35kvmtovctype, TypeID_v35kvsctype, TypeID_v35kvrpcdctype,
+                                    TypeID_v35kvgctype, TypeID_v35kvptctype, TypeID_srgstype, TypeID_sttype,
+                                    TypeID_ccgistype, TypeID_ccmtlvtype,
+                                    Numbers_boxvoltagetype, Numbers_maintransformertype,
+                                    Numbers_v110kvswitchgeartype, Numbers_v110kvarrestertype, Numbers_v35kvtictype,
+                                    Numbers_v35kvmtovctype, Numbers_v35kvsctype, Numbers_v35kvptctype,
+                                    Numbers_v35kvgctype, Numbers_srgstype, Numbers_sttype,
+                                    Numbers_ccgistype, Numbers_ccmtlvtype,
+                                    turbine_numbers):
     dictsum = {}
     project1 = BoxVoltageType()
     project2 = MainTransformerType()
@@ -35,11 +52,33 @@ def generate_electrical_TypeID_dict(TypeID_boxvoltagetype, TypeID_maintransforme
 
     DataBoxVoltageType = project1.extraction_data_BoxVoltageType_resource(TypeID_boxvoltagetype)
     DataMainTransformerType = project2.extraction_data_MainTransformerType_resource(TypeID_maintransformertype)
+    Datav110kVSwitChgearType = project3.extraction_data_110kVSwitChgearType_resource(TypeID_v110kvswitchgeartype)
+    Datav110kVArresterType = project4.extraction_data_110kVArresterType_resource(TypeID_v110kvarrestertype)
+    Datav35kVTICType = project5.extraction_data_35kVTICType_resource(TypeID_v35kvtictype)
+    Datav35kVMTOCType = project6.extraction_data_35kVMTOCType_resource(TypeID_v35kvmtovctype)
+    Datav35kVSCType = project7.extraction_data_35kVSCType_resource(TypeID_v35kvsctype)
+    Datav35kVRPCDCType = project8.extraction_data_35kVRPCDCType_resource(TypeID_v35kvrpcdctype)
+    # DataMainTransformerType = project9.extraction_data_MainTransformerType_resource(TypeID_v35kvptctype)
+    # DataMainTransformerType = project10.extraction_data_MainTransformerType_resource(TypeID_srgstype)
+    # DataMainTransformerType = project11.extraction_data_MainTransformerType_resource(TypeID_sttype)
+    DataSTType = project12.extraction_data_STType_resource(TypeID_sttype)
+    DataCCGISType = project13.extraction_data_CCGISType_resource(TypeID_ccgistype)
+    DataCCMTLVTypeType = project14.extraction_data_CCMTLVType_resource(TypeID_ccmtlvtype)
 
-    dict1 = project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType, turbine_numbers)
-    dict2 = project2.generate_dict_MainTransformerType_resource(DataMainTransformerType, turbine_numbers)
+    dict1 = project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType, Numbers_boxvoltagetype)
+    dict2 = project2.generate_dict_MainTransformerType_resource(DataMainTransformerType, Numbers_maintransformertype)
+    dict3 = project3.generate_dict_110kVSwitChgearType_resource(Datav110kVSwitChgearType, Numbers_v110kvswitchgeartype)
+    dict4 = project4.generate_dict_110kVArresterType_resource(Datav110kVArresterType, Numbers_v110kvarrestertype)
+    dict5 = project5.generate_dict_35kVTICType_resource(Datav35kVTICType, Numbers_v35kvtictype)
+    dict6 = project6.generate_dict_35kVMTOCType_resource(Datav35kVMTOCType, Numbers_v35kvmtovctype)
+    dict7 = project7.generate_dict_35kVSCType_resource(Datav35kVSCType, Numbers_v35kvsctype)
+    dict8 = project8.generate_dict_35kVRPCDCType_resource(Datav35kVRPCDCType, Numbers_v35kvptctype)
 
-    dictsum = dict(dict1, **dict2)
+    dict12 = project12.generate_dict_STType_resource(DataSTType, Numbers_sttype)
+    dict13 = project13.generate_dict_CCGISType_resource(DataCCGISType, Numbers_ccgistype)
+    dict14 = project14.generate_dict_CCMTLVType_resource(DataCCMTLVTypeType, Numbers_ccmtlvtype)
+
+    dictsum = dict(dict1, **dict2, **dict3, **dict4, **dict5, **dict6, **dict7, **dict8, **dict12, **dict13, **dict14)
     return dictsum
 
 

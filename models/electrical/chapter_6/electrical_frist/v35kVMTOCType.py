@@ -80,9 +80,9 @@ class v35kVMTOCType:
 
         return self.DataBoxVoltageType
 
-    def generate_dict_35kVMTOCType_resource(self, data, turbine_num):
+    def generate_dict_35kVMTOCType_resource(self, data, num):
         self.Data35kVMTOCType = data
-        self.turbine_numbers = turbine_num
+        self.numbers = num
         self.TypeName = self.Data35kVMTOCType.at[self.Data35kVMTOCType.index[0], 'TypeName']
         self.RatedVoltage = self.Data35kVMTOCType.at[self.Data35kVMTOCType.index[0], 'RatedVoltage']
         self.RatedCurrent = self.Data35kVMTOCType.at[self.Data35kVMTOCType.index[0], 'RatedCurrent']
@@ -95,7 +95,7 @@ class v35kVMTOCType:
         self.CurrentTransformerArrester = self.Data35kVMTOCType.at[self.Data35kVMTOCType.index[0], 'CurrentTransformerArrester']
      
         self.dict_35kVMTOCType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_35kV主变出线柜': int(self.numbers),
             '型号_35kV主变出线柜': self.TypeName,
             '额定电压_35kV主变出线柜': self.RatedVoltage,
             '额定电流_35kV主变出线柜': self.RatedCurrent,

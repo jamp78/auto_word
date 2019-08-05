@@ -90,7 +90,7 @@ class CCMTLVType:
         self.RatedDynamicCurrent = self.DataCCMTLVType.at[self.DataCCMTLVType.index[0], 'RatedDynamicCurrent']
      
         self.dict_CCMTLVType_resource = {
-            'turbine_numbers': int(self.turbine_numbers),
+            'numbers_导体选择2': int(self.turbine_numbers),
             '型号_导体选择2': self.TypeName,
             '额定电压_导体选择2': self.RatedVoltage,
             '最高运行电压_导体选择2': self.MaximumOperatingVoltage,
