@@ -44,13 +44,8 @@ class auto_word_wind(models.Model):
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交", readonly=True)
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交", readonly=True)
 
-    rate = fields.Float(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
 
-    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True)
-    weak = fields.Char(u'尾流衰减', default="待提交", readonly=True)
-    hours_year = fields.Char(u'满发小时', default="待提交", readonly=True)
-    capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True)
 
     # ####################################功能模块########################
     # --------机型推荐---------
@@ -67,6 +62,13 @@ class auto_word_wind(models.Model):
                                       compute='_compute_compare_case')
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
+
+    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True, compute='_compute_compare_case')
+    weak = fields.Char(u'尾流衰减', default="待提交", readonly=True, compute='_compute_compare_case')
+    hours_year = fields.Char(u'满发小时', default="待提交", readonly=True, compute='_compute_compare_case')
+    capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True, compute='_compute_compare_case')
+    rate = fields.Float(string=u'折减率', readonly=True, compute='_compute_compare_case')
+
     # --------结果文件---------
     png_list = []
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=False)
@@ -98,6 +100,14 @@ class auto_word_wind(models.Model):
             re.farm_capacity = re.recommend_id.farm_capacity
             re.rotor_diameter_suggestion = re.recommend_id.rotor_diameter_case
             re.capacity_suggestion = re.recommend_id.capacity
+
+            re.auto_word_wind_res=re.recommend_id.compare_id.auto_word_wind_res
+            re.ongrid_power=re.recommend_id.ongrid_power
+            re.weak = re.recommend_id.weak
+            re.hours_year = re.recommend_id.hours_year
+            re.rate=re.recommend_id.compare_id.rate
+            re.capacity_coefficient = re.recommend_id.compare_id.capacity_coefficient
+
 
     @api.multi
     def submit_wind(self):

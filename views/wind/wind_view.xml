@@ -75,36 +75,27 @@
                         <group name="group_right">
                             <field name="cft_name_words"/>
                             <field name="string_speed_words"/>
-                            <field name="string_deg_words"/>
-                            <field name="rate"/>
-                            <!--<field name="note"/>-->
                         </group>
                         <group name="group_left">
-                            <field name="ongrid_power"/>
-                            <field name="weak"/>
-                            <field name="hours_year"/>
-                            <field name="capacity_coefficient"/>
-                        </group>
-                    </group>
-                    <group string="方案比选">
-                        <field name="case_names"/>
-                    </group>
 
-                    <group string="方案结果">
-                        <field name="auto_word_wind_res"/>
+                            <field name="string_deg_words"/>
+                        </group>
                     </group>
 
                     <group string="机型推荐">
                         <group name="group_left">
                             <field name="recommend_id"/>
                             <field name="name_tur_suggestion"/>
+                            <field name="capacity_suggestion"/>
+                            <field name="rate"/>
                         </group>
                         <group name="group_right">
-                            <field name="capacity_suggestion"/>
+                            <field name="ongrid_power"/>
+                            <field name="weak"/>
+                            <field name="hours_year"/>
+                            <field name="capacity_coefficient"/>
                         </group>
                     </group>
-
-
 
                     <group name="group_mid">
                         <group name="group_left">
@@ -116,6 +107,15 @@
                             <field name="rotor_diameter_suggestion"/>
                         </group>
                     </group>
+                    <group string="方案比选">
+                        <field name="case_names"/>
+                    </group>
+
+                    <group string="方案结果">
+                        <field name="auto_word_wind_res"/>
+                    </group>
+
+
 
                     <group name="group_bottom">
                         <!--<field name="generator_ids" />-->

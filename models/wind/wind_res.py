@@ -73,6 +73,7 @@ class auto_word_wind_res_form(models.Model):
     ongrid_power_sum = fields.Char(u'上网电量(结果)', readonly=True)
     hours_year_average = fields.Char(u'年发电小时数(结果)', readonly=True)
     wake_average = fields.Char(u'尾流(结果)', readonly=True)
+    capacity_coefficient = fields.Char(u'容量系数', readonly=True)
 
     @api.multi
     def wind_res_submit(self):
@@ -98,6 +99,7 @@ class auto_word_wind_res_form(models.Model):
             ongrid_power_list, hours_year_list, wake_list = [], [], []
             for vaule in re.auto_word_wind_res:
                 if vaule.rate != 0:
+                    re.rate=re.auto_word_wind_res[0].rate
                     vaule.ongrid_power = float(vaule.PowerGeneration_Weak) * vaule.rate
                     vaule.hours_year = float(
                         vaule.PowerGeneration_Weak) * vaule.rate / vaule.turbine_capacity_each * 1000
@@ -113,6 +115,9 @@ class auto_word_wind_res_form(models.Model):
 
             re.ongrid_power_sum = round_up(Get_Sum(ongrid_power_list), 1)
             re.hours_year_average = round_up(Get_Average(hours_year_list), 1)
-            re.wake_average = round_up(Get_Average(wake_list), 1)
+            re.wake_average = round_up(Get_Average(wake_list), 2)
             re.case_name = re.auto_word_wind_res[0].case_name
+
+            re.capacity_coefficient = round_up(float(re.hours_year_average) / 8760 * 100, 2)
+
             re.hub_height_calcuation = re.auto_word_wind_res[0].H
