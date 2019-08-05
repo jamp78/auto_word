@@ -18,26 +18,14 @@
                         <group name="group_left">
                             <field name="project_id" />
                             <field name="content_id" />
-                            <field name="compare_id" />
-                            <field name="WTG_name" />
-                            <field name="weak" />
-                            <field name="ongrid_power" />
-                            <field name="hours_year" />
                         </group>
                         <group name="group_left">
                             <field name="TerrainType_turbines_compare" />
-                            <field name="hub_height_suggestion" />
-                            <field name="jidian_air_wind" />
-                            <field name="jidian_cable_wind" />
-                            <field name="investment_E3" />
-                            <field name="investment_E4" />
                          </group>
                     </group>
                     <group name="group_mid">
                         <field name="case_ids" />
-                    </group>
-                    <group name="group_mid">
-                        <field name="cal_id" />
+
                     </group>
 
                     <group name="group_mid">
@@ -52,14 +40,30 @@
                         </group>
                     </group>
 
+                    <group name="group_mid">
+                        <group name="left">
+                            <field name="compare_id" />
+                            <field name="WTG_name" />
+                            <field name="weak" />
+                        </group>
+                        <group name="right">
+                            <field name="hub_height_suggestion" />
+                            <field name="ongrid_power" />
+                            <field name="hours_year" />
+                        </group>
+                    </group>
                     <group name="group_bottom">
                         <group name="group_left">
+                            <field name="jidian_air_wind" />
+                            <field name="jidian_cable_wind" />
                             <field name="investment_turbines_kws" />
                             <field name="investment_E1" />
                             <field name="investment_E2" />
                             <field name="investment_E5" />
                         </group>
                         <group name="group_right">
+                            <field name="investment_E4" />
+                            <field name="investment_E3" />
                             <field name="investment_E6" />
                             <field name="investment_E7" />
                             <field name="investment" />

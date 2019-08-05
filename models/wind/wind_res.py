@@ -68,6 +68,8 @@ class auto_word_wind_res_form(models.Model):
     note = fields.Char(string=u'备注', readonly=False)
 
     case_name = fields.Char(u'方案名称(结果)', readonly=True)
+    hub_height_calcuation = fields.Char(string=u'计算轮毂高度', readonly=True)
+
     ongrid_power_sum = fields.Char(u'上网电量(结果)', readonly=True)
     hours_year_average = fields.Char(u'年发电小时数(结果)', readonly=True)
     wake_average = fields.Char(u'尾流(结果)', readonly=True)
@@ -102,7 +104,7 @@ class auto_word_wind_res_form(models.Model):
                 else:
                     vaule.ongrid_power = float(vaule.PowerGeneration_Weak) * re.rate
                     vaule.hours_year = float(vaule.PowerGeneration_Weak) * re.rate / vaule.turbine_capacity_each * 1000
-                print("888888888888")
+
                 print(vaule.hours_year)
 
                 ongrid_power_list.append(vaule.ongrid_power)
@@ -113,3 +115,4 @@ class auto_word_wind_res_form(models.Model):
             re.hours_year_average = round_up(Get_Average(hours_year_list), 1)
             re.wake_average = round_up(Get_Average(wake_list), 1)
             re.case_name = re.auto_word_wind_res[0].case_name
+            re.hub_height_calcuation = re.auto_word_wind_res[0].H

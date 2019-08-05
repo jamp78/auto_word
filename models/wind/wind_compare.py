@@ -14,9 +14,9 @@ class auto_word_wind_turbines_compare(models.Model):
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
-    compare_id = fields.Many2one('auto_word_wind_res.form', string=u'上传电量', required=True)
+    compare_id = fields.Many2one('auto_word_wind_res.form', string=u'上传电量', required=False)
 
-    WTG_name = fields.Char(u'风机代号', default="WTG1", required=True)
+    WTG_name = fields.Char(u'风机代号', default="WTG1", required=False)
     # case_name = fields.Char(u'方案名称', readonly=True, compute='_compute_ongrid_power')
     # ongrid_power = fields.Char(u'上网电量(结果)', readonly=True, compute='_compute_ongrid_power')
     # hours_year = fields.Char(u'年发电小时数(结果)', readonly=True, compute='_compute_ongrid_power')
@@ -45,15 +45,15 @@ class auto_word_wind_turbines_compare(models.Model):
 
     investment_E1 = fields.Float(compute='_compute_turbine', string=u'塔筒投资(万元)')
     investment_E2 = fields.Float(compute='_compute_turbine', string=u'风机设备投资(万元)')
-    investment_E3 = fields.Float(string=u'基础投资(万元)', required=True, default=3240)
+    investment_E3 = fields.Float(string=u'基础投资(万元)', required=False, default=3240)
 
     investment_E4 = fields.Float(string=u'道路投资(万元)')
     investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, compute='_compute_turbine')
     investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, compute='_compute_turbine')
     investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, compute='_compute_turbine')
 
-    investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True, compute='_compute_turbine')
-    hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', required=True)
+    investment_turbines_kws = fields.Char(u'风机kw投资', compute='_compute_turbine')
+    hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', compute='_compute_turbine')
 
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, compute='_compute_turbine')
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, compute='_compute_turbine')
@@ -187,14 +187,14 @@ class auto_word_wind_turbines_compare(models.Model):
 
             re.investment_unit = RoundUp.round_up3(
                 (re.investment / float(re.ongrid_power) * 10), 3)
-
+            re.hub_height_suggestion = re.compare_id.hub_height_calcuation
     def wind_turbines_compare_form_refresh(self):
         for re in self:
             re.content_id.rotor_diameter_case = re.rotor_diameter_case
             re.content_id.case_number = re.case_number
 
             re.env['auto_word.wind'].search([('project_id.project_name', '=',
-                                              re.project_id.project_name)]).case_names = re
+                                              re.project_id.project_name)]).recommend_id = re
 
             re.case_name = re.compare_id.case_name
             re.ongrid_power = re.compare_id.ongrid_power_sum
