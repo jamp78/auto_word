@@ -32,12 +32,24 @@
                             <field name="version_id"/>
                     </group>
                     <group name="group_mid">
+                        <group name="group_left">
+                            <field name="Status"/>
+                            <field name="Grade"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="Capacity"/>
+                        </group>
+
+
+                    </group>
+
+
+                    <group name="group_mid">
 
                         <group name="group_left">
                             <field name="boxvoltagetype"/>
                             <field name="maintransformertype"/>
                             <field name="v110kvswitchgeartype"/>
-
 
                             <field name="v110kvarrestertype"/>
                             <field name="v35kvtictype"/>
@@ -64,8 +76,8 @@
 
 
                             <field name="Numbers_sttype"/>
-                            <field name="Numbers_ccgistype"/>
-                            <field name="Numbers_ccmtlvtype"/>
+                            <!--<field name="Numbers_ccgistype"/>-->
+                            <!--<field name="Numbers_ccmtlvtype"/>-->
                         </group>
                     </group>
 

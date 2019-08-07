@@ -23,14 +23,13 @@ class auto_word_electrical(models.Model):
 
     circuit_number = fields.Integer(u'线路回路数', required=False,default="6")
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气章节')
-
-    line_1 = fields.Float(u'线路总挖方', required=False,default="15000")
-    line_2 = fields.Float(u'线路总填方', required=False,default="10000")
-    overhead_line = fields.Float(u'架空线路用地', required=False,default="1500")
-    direct_buried_cable = fields.Float(u'直埋电缆用地', required=False,default="3000")
+    #
+    # line_1 = fields.Float(u'线路总挖方', required=False,default="15000")
+    # line_2 = fields.Float(u'线路总填方', required=False,default="10000")
+    # overhead_line = fields.Float(u'架空线路用地', required=False,default="1500")
+    # direct_buried_cable = fields.Float(u'直埋电缆用地', required=False,default="3000")
     overhead_line_num = fields.Float(u'架空线路塔基数量', required=False,default="20")
     direct_buried_cable_num = fields.Float(u'直埋电缆长度', required=False,default="3.2")
-    main_booster_station_num = fields.Float(u'主变数量', required=False,default="2.0")
 
     #风能
     jidian_air_wind = fields.Float(u'架空长度', required=False,default="74.2")
@@ -93,13 +92,13 @@ class auto_word_electrical(models.Model):
         projectname.electrical_attachment_id = myself
         projectname.electrical_attachment_ok = u"已提交,版本：" + self.version_id
 
-        projectname.line_1 = self.line_1
-        projectname.line_2 = self.line_2
-        projectname.overhead_line = self.overhead_line
-        projectname.direct_buried_cable = self.direct_buried_cable
+        # projectname.line_1 = self.line_1
+        # projectname.line_2 = self.line_2
+        # projectname.overhead_line = self.overhead_line
+        # projectname.direct_buried_cable = self.direct_buried_cable
         projectname.overhead_line_num = self.overhead_line_num
         projectname.direct_buried_cable_num = self.direct_buried_cable_num
-        projectname.main_booster_station_num = self.main_booster_station_num
+        # projectname.main_booster_station_num = self.main_booster_station_num
 
         projectname.turbine_numbers = self.turbine_numbers
         projectname.voltage_class = self.voltage_class

@@ -22,8 +22,10 @@
 
                        <group string="风资源参数">
                             <field name="name_tur_suggestion" />
+                            <field name="TurbineCapacity" />
                             <field name="turbine_numbers" />
                             <field name="hub_height_suggestion" />
+
                        </group>
                    </group>
                    <group string="土建输入参数">
@@ -32,42 +34,39 @@
                             <field name="road_2_num" />
                             <field name="road_3_num" />
                             <field name="total_civil_length" />
-                            <field name="investment_E4" />
+                            <!--<field name="investment_E4" />-->
                             <separator/>
                             <field name="line_1" />
                             <field name="line_2" />
-                            <field name="overhead_line" />
-                            <field name="direct_buried_cable" />
-                            <field name="overhead_line_num" />
-                            <field name="direct_buried_cable_num" />
-                            <field name="main_booster_station_num" />
+                            <!--<field name="overhead_line_num" />-->
+                            <!--<field name="direct_buried_cable_num" />-->
+                            <!--<field name="main_booster_station_num" />-->
                         </group>
                         <group name="group_right">
                             <field name="basic_type" />
+                            <field name="TerrainType" />
                             <field name="ultimate_load" />
                             <field name="fortification_intensity" />
-                            <field name="basic_earthwork_ratio" />
-                            <field name="basic_stone_ratio" />
-                            <field name="TurbineCapacity" />
-                            <field name="road_earthwork_ratio" />
-                            <field name="road_stone_ratio" />
+                            <!--<field name="TurbineCapacity" />-->
                             <!--<field name="Status" />-->
                             <!--<field name="Grade" />-->
                             <!--<field name="Capacity" />-->
-                            <field name="TerrainType" />
+                            <separator/>
+                            <field name="overhead_line" />
+                            <field name="direct_buried_cable" />
                         </group>
                    </group>
 
 
                    <group string="工程等别和建筑物级别、结构安全等级">
-                       <group name="group_right">
+                       <group name="group_left">
                             <field name="ProjectLevel" />
                             <field name="ProjectSize" />
                             <field name="BuildingLevel" />
                             <field name="EStructuralSafetyLevel" />
                             <field name="TStructuralSafetyLevel" />
                        </group>
-                       <group name="group_left">
+                       <group name="group_right">
                             <field name="FloodDesignLevel" />
                             <field name="ReFloodDesignLevel" />
                             <field name="TerrainType_words" />
@@ -76,11 +75,15 @@
                    </group>
 
                    <group string="抗震设计标准">
-                        <field name="BuildingEarthquakeDesignLevel" />
-                        <field name="DesignEarthquakeLevel" />
-                        <field name="Earthquake_g" />
+                       <group name="group_left">
+                           <field name="BuildingEarthquakeDesignLevel" />
+                           <field name="DesignEarthquakeLevel" />
+                           <field name="Earthquake_g" />
+                       </group>
+                       <group name="group_right">
                         <field name="BuildingYardLevel" />
                         <field name="BuildingYardLevel_word" />
+                       </group>
                    </group>
 
                     <group name="group_buttom">

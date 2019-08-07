@@ -41,27 +41,27 @@
                     <group name="group_mid">
                         <group name="group_electrical_left">
                             <field name="voltage_class" />
-                            <field name="length_single_jL240" />
-                            <field name="length_double_jL240" />
+                            <field name="circuit_number" />
+                            <field name="overhead_line_num" />
+                            <field name="direct_buried_cable_num" />
                         </group>
                         <group name="group_electrical_right">
                             <field name="yjlv95" />
                             <field name="yjv300" />
-                            <field name="circuit_number" />
+                            <field name="length_single_jL240" />
+                            <field name="length_double_jL240" />
                             <separator/>
                             <field name="jidian_air_wind" />
                             <field name="jidian_cable_wind" />
                         </group>
 
-                        <group name="group_road">
-                            <field name="line_1" />
-                            <field name="line_2" />
-                            <field name="overhead_line" />
-                            <field name="direct_buried_cable" />
-                            <field name="overhead_line_num" />
-                            <field name="direct_buried_cable_num" />
-                            <field name="main_booster_station_num" />
-                        </group>
+                        <!--<group name="group_road">-->
+                            <!--&lt;!&ndash;<field name="line_1" />&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="line_2" />&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="overhead_line" />&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="direct_buried_cable" />&ndash;&gt;-->
+                            <!--&lt;!&ndash;<field name="main_booster_station_num" />&ndash;&gt;-->
+                        <!--</group>-->
                     </group>
                     <group name="group_buttom">
                         <field name="report_attachment_id" />

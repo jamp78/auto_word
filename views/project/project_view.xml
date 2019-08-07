@@ -50,10 +50,10 @@
                     </group>
                     <group name="group_wind" string="风资源提交明细">
                         <group string="风机信息">
-                            <field name="project_capacity"/>
                             <field name="name_tur_suggestion"/>
                             <field name="turbine_numbers_suggestion"/>
-                            <field name="hub_height_suggestion"/>
+                            <field name="capacity_suggestion"/>
+                            <field name="project_capacity"/>
                             <field name="ongrid_power"/>
                             <field name="Hour_words"/>
                         </group>
@@ -61,7 +61,7 @@
                             <field name="cft_name_words"/>
                             <field name="string_speed_words"/>
                             <field name="string_deg_words"/>
-                            <field name="name_tur_selection"/>
+                            <field name="hub_height_suggestion"/>
                         </group>
                     </group>
                     <group name="风机信息">
@@ -70,20 +70,22 @@
 
                     <group name="group_electrical" string="电气提交明细">
                         <group name="group_left">
-                            <field name="voltage_class"/>
-                            <field name="length_single_jL240"/>
-                            <field name="length_double_jL240"/>
-                            <field name="yjlv95"/>
-                            <field name="yjv300"/>
+                            <!--<field name="voltage_class"/>-->
+                            <!--<field name="length_single_jL240"/>-->
+                            <!--<field name="length_double_jL240"/>-->
+                            <!--<field name="yjlv95"/>-->
+                            <!--<field name="yjv300"/>-->
+
+                            <field name="Status"/>
+                            <field name="Grade"/>
+                            <field name="Capacity"/>
                             <field name="circuit_number"/>
-                            <field name="line_1"/>
-                            <field name="line_2"/>
                         </group>
                         <group name="group_right">
                             <field name="jidian_air_wind"/>
                             <field name="jidian_cable_wind"/>
-                            <field name="overhead_line"/>
-                            <field name="direct_buried_cable"/>
+                            <!--<field name="overhead_line"/>-->
+                            <!--<field name="direct_buried_cable"/>-->
                             <field name="overhead_line_num"/>
                             <field name="direct_buried_cable_num"/>
                             <field name="main_booster_station_num"/>
@@ -96,26 +98,29 @@
                             <field name="road_2_num"/>
                             <field name="road_3_num"/>
                             <field name="total_civil_length"/>
-                            <field name="ProjectLevel"/>
                         </group>
                         <group name="group_right">
                             <field name="basic_type"/>
+                            <field name="TerrainType"/>
                             <field name="ultimate_load"/>
                             <field name="fortification_intensity"/>
-                            <field name="investment_E4"/>
+
                         </group>
                         <group name="group_left">
-                            <field name="basic_earthwork_ratio"/>
-                            <field name="basic_stone_ratio"/>
-                            <field name="road_earthwork_ratio"/>
-                            <field name="road_stone_ratio"/>
+                            <field name="ProjectLevel"/>
+                            <field name="temporary_land_area"/>
+                            <field name="permanent_land_area"/>
                         </group>
                         <group name="group_right">
-                            <field name="TurbineCapacity"/>
-                            <field name="Status"/>
-                            <field name="Grade"/>
-                            <field name="Capacity"/>
-                            <field name="TerrainType"/>
+                            <!--<field name="TurbineCapacity"/>-->
+                            <!--<field name="Status"/>-->
+                            <!--<field name="Grade"/>-->
+                            <!--<field name="Capacity"/>-->
+                            <!--<field name="line_1"/>-->
+                            <!--<field name="line_2"/>-->
+                            <field name="excavation"/>
+                            <field name="backfill"/>
+                            <field name="spoil"/>
                         </group>
                     </group>
                     <group name="group_road" string="投资明细">

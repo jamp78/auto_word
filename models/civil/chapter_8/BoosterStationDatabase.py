@@ -43,6 +43,11 @@ class BoosterStationDatabase:
             self.DataBoosterStation['Grade'] == self.Grade].loc[self.DataBoosterStation['Capacity'] == self.Capacity]
 
         print("asdasdasdasdasdxxxxxxxxx")
+        # print(self.DataBoosterStation)
+        print(self.Status)
+        print(self.Grade)
+        print(self.Capacity)
+        print(self.data_booster_station)
         print(self.data_booster_station['Capacity'])
 
         return self.data_booster_station

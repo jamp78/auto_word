@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
-import base64,os
+import base64, os
 import numpy
 from odoo import models, fields, api
 
@@ -26,8 +26,9 @@ class auto_word_civil_design_safety_standard(models.Model):
     FloodDesignLevel = fields.Integer(u'洪水设计标准', defult='50')
     ReFloodDesignLevel = fields.Selection([("1%", u"1%"), ("2%", u"2%"), ("3%", u"3%")],
                                           string=u"重现期洪水位", defult="2%")
-    TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
-                                          ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
+    # TerrainType_words = fields.Selection([("山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计", u"山地"),
+    #                                       ("地形较为平缓，不需要进行高边坡特别设计", u"平原")], string=u"地形描述")
+    #
     TurbineTowerDesignLevel = fields.Selection([("1级", u"1级"), ("2级", u"2级"), ("3级", u"3级")],
                                                string=u"机组塔架地基设计级别", defult="1级")
     # 抗震
@@ -50,7 +51,7 @@ class auto_word_civil_design_safety_standard(models.Model):
         self.civil_id.TStructuralSafetyLevel = self.TStructuralSafetyLevel
         self.civil_id.FloodDesignLevel = self.FloodDesignLevel
         self.civil_id.ReFloodDesignLevel = self.ReFloodDesignLevel
-        self.civil_id.TerrainType_words = self.TerrainType_words
+        # self.civil_id.TerrainType_words = self.TerrainType_words
         self.civil_id.TurbineTowerDesignLevel = self.TurbineTowerDesignLevel
         # 抗震
         self.civil_id.BuildingEarthquakeDesignLevel = self.BuildingEarthquakeDesignLevel
@@ -60,6 +61,55 @@ class auto_word_civil_design_safety_standard(models.Model):
         self.civil_id.BuildingYardLevel_word = self.BuildingYardLevel_word
 
         return True
+
+
+def civil_generate_docx_dict(self):
+    self.line_data = [float(self.line_1), float(self.line_2)]
+    print("~~~~~~~~~~~~~~~~~~~~~~~")
+    print(self.turbine_numbers)
+    self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
+    list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
+            self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, int(self.TurbineCapacity) / 1000,
+            self.road_earthwork_ratio / 10,
+            self.road_stone_ratio / 10, self.project_id.Status, self.project_id.Grade, self.project_id.Capacity,
+            self.TerrainType,
+            self.numbers_list_road,
+            float(self.overhead_line), float(self.direct_buried_cable), self.line_data,
+            float(self.main_booster_station_num),
+            float(self.overhead_line_num), float(self.direct_buried_cable_num)]
+    np = numpy.array(list)
+    dict_keys = ['turbine_numbers', 'basic_type', 'ultimate_load', 'fortification_intensity',
+                 'basic_earthwork_ratio',
+                 'basic_stone_ratio', 'TurbineCapacity', 'road_earthwork_ratio', 'road_stone_ratio', 'Status',
+                 'Grade', 'Capacity', 'TerrainType', 'numbers_list_road', 'overhead_line', 'direct_buried_cable',
+                 'line_data', 'main_booster_station_num', 'overhead_line_num', 'direct_buried_cable_num']
+
+    dict_8 = get_dict_8(np, dict_keys)
+    dict8 = generate_civil_dict(**dict_8)
+
+    dict_8_word = {
+        # 风能
+        '推荐轮毂高度': self.hub_height_suggestion,
+        # 设计安全标准
+        '项目工程等别': self.ProjectLevel,
+        '工程规模': self.ProjectSize,
+        '建筑物级别': self.BuildingLevel,
+        '变电站结构安全等级': self.EStructuralSafetyLevel,
+        '风机结构安全等级': self.TStructuralSafetyLevel,
+
+        '洪水设计标准': self.FloodDesignLevel,
+        '重现期洪水位': self.ReFloodDesignLevel,
+        '地形描述': self.TerrainType_words,
+        '机组塔架地基设计级别': self.TurbineTowerDesignLevel,
+
+        '建筑物抗震设防类别': self.BuildingEarthquakeDesignLevel,
+        '设计地震分组': self.DesignEarthquakeLevel,
+        '设计基本地震加速度值': self.Earthquake_g,
+        '建筑物场地类别': self.BuildingYardLevel,
+        '建筑物场地抗震类别': self.BuildingYardLevel_word,
+    }
+    Dict8 = dict(dict_8_word, **dict8)
+    return Dict8
 
 
 class auto_word_civil(models.Model):
@@ -77,7 +127,6 @@ class auto_word_civil(models.Model):
     # New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
     # Permanent_land_words = fields.Char(string=u'永久用地', default='38.36')
     # temporary_land_words = fields.Char(string=u'临时用地', default='1467.95')
-
 
     # 风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
@@ -106,14 +155,15 @@ class auto_word_civil(models.Model):
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=False, default=2)
     ####箱变
-    TurbineCapacity = fields.Selection(
-        [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
-         (36, "3.6MW")], string=u"风机容量", required=False, default=25)
+    # TurbineCapacity = fields.Char(
+    #     [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
+    #      (36, "3.6MW")], string=u"风机容量", required=False, default=25)
 
-    ####升压站
-    Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
-    Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
-    Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
+    TurbineCapacity = fields.Char(string=u"风机容量", required=False)
+    # ####升压站
+    # Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
+    # Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
+    # Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
 
     ####道路
     TerrainType = fields.Selection(
@@ -129,13 +179,14 @@ class auto_word_civil(models.Model):
 
     ####线路
 
-    line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
-    line_2 = fields.Char(u'线路总填方', default="待提交", readonly=True)
-    overhead_line = fields.Char(u'架空线路用地', default="待提交", readonly=True)
-    direct_buried_cable = fields.Char(u'直埋电缆用地', default="待提交", readonly=True)
-    overhead_line_num = fields.Char(u'架空线路塔基数量', default="待提交", readonly=True)
-    direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="待提交", readonly=True)
-    main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
+    line_1 = fields.Float(u'线路总挖方', required=False, default="15000")
+    line_2 = fields.Float(u'线路总填方', required=False, default="10000")
+    overhead_line = fields.Float(u'架空线路用地', required=False,default="1500")
+    direct_buried_cable = fields.Float(u'直埋电缆用地', required=False,default="3000")
+
+    overhead_line_num = fields.Char(u'架空线路塔基数量', default="0", readonly=True)
+    direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="0", readonly=True)
+    main_booster_station_num = fields.Char(u'主变数量', default="0", readonly=True)
 
     ####设计安全标准
     # civil_design_safety_standard = fields.Char(compute='_compute_civil_design_safety_standard', string=u'设计安全标准')
@@ -148,7 +199,8 @@ class auto_word_civil(models.Model):
 
     FloodDesignLevel = fields.Char(u'洪水设计标准', default="待提交", readonly=True)
     ReFloodDesignLevel = fields.Char(u'重现期洪水位', default="待提交", readonly=True)
-    TerrainType_words = fields.Char(u'地形描述', default="待提交", readonly=True)
+    TerrainType_words = fields.Char(u'地形描述', default="待提交", readonly=True,compute='_compute_terrain_type_words')
+
     TurbineTowerDesignLevel = fields.Char(u'机组塔架地基设计级别', default="待提交", readonly=True)
 
     BuildingEarthquakeDesignLevel = fields.Char(u'建筑物抗震设防类别', default="待提交", readonly=True)
@@ -156,6 +208,14 @@ class auto_word_civil(models.Model):
     Earthquake_g = fields.Char(u'设计基本地震加速度值', default="待提交", readonly=True)
     BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
     BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
+
+    @api.depends('TerrainType')
+    def _compute_terrain_type_words(self):
+        for re in self:
+            if re.TerrainType == "平原":
+                re.TerrainType_words="地形较为平缓，不需要进行高边坡特别设计"
+            else:
+                re.TerrainType_words = "山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计"
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num', 'TerrainType')
     def _compute_total_civil_length(self):
@@ -167,7 +227,6 @@ class auto_word_civil(models.Model):
                 re.investment_E4 = float(re.total_civil_length) * 80
             else:
                 re.investment_E4 = float(re.total_civil_length) * 140
-
 
     def button_civil(self):
         projectname = self.project_id
@@ -185,15 +244,26 @@ class auto_word_civil(models.Model):
         projectname.fortification_intensity = self.fortification_intensity
         projectname.basic_earthwork_ratio = str(self.basic_earthwork_ratio * 10) + "%"
         projectname.basic_stone_ratio = str(self.basic_stone_ratio * 10) + "%"
-        projectname.TurbineCapacity = self.TurbineCapacity / 10
+        # projectname.TurbineCapacity = self.TurbineCapacity / 10
         projectname.road_earthwork_ratio = str(self.road_earthwork_ratio * 10) + "%"
         projectname.road_stone_ratio = str(self.road_stone_ratio * 10) + "%"
-        projectname.Status = self.Status
-        projectname.Grade = self.Grade
-        projectname.Capacity = self.Capacity
         projectname.TerrainType = self.TerrainType
 
         projectname.ProjectLevel = self.ProjectLevel
+
+        Dict8 = civil_generate_docx_dict(self)
+        projectname.temporary_land_area = Dict8['合计亩_临时用地面积']
+        projectname.permanent_land_area = Dict8['合计亩_永久用地面积']
+        projectname.excavation = Dict8['合计_开挖']
+        projectname.backfill = Dict8['合计_回填']
+        projectname.spoil = Dict8['合计_弃土']
+
+        projectname.line_1 = self.line_1
+        projectname.line_2 = self.line_2
+
+
+
+        print(Dict8['合计亩_永久用地面积'])
         return True
 
     def civil_refresh(self):
@@ -202,66 +272,23 @@ class auto_word_civil(models.Model):
         self.name_tur_suggestion = projectname.name_tur_suggestion
         self.hub_height_suggestion = projectname.hub_height_suggestion
 
-        self.line_1 = projectname.line_1
-        self.line_2 = projectname.line_2
-        self.overhead_line = projectname.overhead_line
-        self.direct_buried_cable = projectname.direct_buried_cable
+        # self.line_1 = projectname.line_1
+        # self.line_2 = projectname.line_2
+        # self.overhead_line = projectname.overhead_line
+        # self.direct_buried_cable = projectname.direct_buried_cable
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
 
+        self.TurbineCapacity = projectname.capacity_suggestion
         return True
 
     def civil_generate(self):
-        self.line_data = [float(self.line_1), float(self.line_2)]
-        print("~~~~~~~~~~~~~~~~~~~~~~~")
-        print(self.turbine_numbers)
-        self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
-        list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
-                self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, self.TurbineCapacity / 10,
-                self.road_earthwork_ratio / 10,
-                self.road_stone_ratio / 10, self.Status, self.Grade, self.Capacity, self.TerrainType,
-                self.numbers_list_road,
-                float(self.overhead_line), float(self.direct_buried_cable), self.line_data,
-                float(self.main_booster_station_num),
-                float(self.overhead_line_num), float(self.direct_buried_cable_num)]
-        np = numpy.array(list)
-        dict_keys = ['turbine_numbers', 'basic_type', 'ultimate_load', 'fortification_intensity',
-                     'basic_earthwork_ratio',
-                     'basic_stone_ratio', 'TurbineCapacity', 'road_earthwork_ratio', 'road_stone_ratio', 'Status',
-                     'Grade', 'Capacity', 'TerrainType', 'numbers_list_road', 'overhead_line', 'direct_buried_cable',
-                     'line_data', 'main_booster_station_num', 'overhead_line_num', 'direct_buried_cable_num']
 
-        dict_8 = get_dict_8(np, dict_keys)
-        print("aasdadad")
-        print(dict_8)
-        dict8 = generate_civil_dict(**dict_8)
-
-        dict_8_word = {
-            # 风能
-            '推荐轮毂高度': self.hub_height_suggestion,
-            # 设计安全标准
-            '项目工程等别': self.ProjectLevel,
-            '工程规模': self.ProjectSize,
-            '建筑物级别': self.BuildingLevel,
-            '变电站结构安全等级': self.EStructuralSafetyLevel,
-            '风机结构安全等级': self.TStructuralSafetyLevel,
-
-            '洪水设计标准': self.FloodDesignLevel,
-            '重现期洪水位': self.ReFloodDesignLevel,
-            '地形描述': self.TerrainType_words,
-            '机组塔架地基设计级别': self.TurbineTowerDesignLevel,
-
-            '建筑物抗震设防类别': self.BuildingEarthquakeDesignLevel,
-            '设计地震分组': self.DesignEarthquakeLevel,
-            '设计基本地震加速度值': self.Earthquake_g,
-            '建筑物场地类别': self.BuildingYardLevel,
-            '建筑物场地抗震类别': self.BuildingYardLevel_word,
-        }
-        Dict8 = dict(dict_8_word, **dict8)
+        Dict8 = civil_generate_docx_dict(self)
 
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
-        generate_civil_docx(Dict8,path_chapter_8)
+        generate_civil_docx(Dict8, path_chapter_8)
         reportfile_name = open(
             file=os.path.join(path_chapter_8, '%s.docx') % 'result_chapter8',
             mode='rb')
@@ -329,9 +356,10 @@ class civil_convertbase(models.Model):
     _name = 'auto_word_civil.convertbase'
     _description = 'Civil ConvertBase'
     _rec_name = 'TurbineCapacity'
-    TurbineCapacity = fields.Selection(
-        [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
-         (36, "3.6MW")], string=u"风机容量", required=True)
+    # TurbineCapacity = fields.Selection(
+    #     [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
+    #      (36, "3.6MW")], string=u"风机容量", required=True)
+    TurbineCapacity = fields.Char(string=u"风机容量", required=True)
 
     ConvertStation = fields.Selection(
         [(2200, "2200"), (2500, "2500"), (2750, "2750"), (3300, "3300"), (3520, "3520"), (4000, "4000")],
@@ -353,9 +381,9 @@ class civil_boosterstation(models.Model):
     _name = 'auto_word_civil.boosterstation'
     _description = 'Civil boosterstation'
     _rec_name = 'Grade'
-    Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"状态", required=True)
-    Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", required=True)
-    Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"容量", required=True)
+    Status = fields.Char(string=u"状态", required=True)
+    Grade = fields.Char(string=u"升压站等级", required=True)
+    Capacity = fields.Char(string=u"容量", required=True)
     Long = fields.Float(u'长')
     Width = fields.Float(u'宽')
     InnerWallArea = fields.Float(u'围墙内面积')

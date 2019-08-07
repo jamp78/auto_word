@@ -65,6 +65,12 @@ class auto_word_electrical_firstsec(models.Model):
     report_attachment_id_input = fields.Many2many('ir.attachment', string=u'电气一次提资')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
 
+    ####升压站
+    Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
+    Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
+    Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
+
+
     Numbers_boxvoltagetype = fields.Integer(string='箱式变电站数量',default="0")
     Numbers_maintransformertype = fields.Integer(string='主变压器数量', default="0")
     Numbers_v110kvswitchgeartype = fields.Integer(string='110kV配电装置数量', default="0")
@@ -231,6 +237,11 @@ class auto_word_electrical_firstsec(models.Model):
             expense.attachment_number = attachment.get(expense.id, 0)
 
     def submit_electrical_firstsec(self):
+        self.project_id.Status=self.Status
+        self.project_id.Grade = self.Grade
+        self.project_id.Capacity = self.Capacity
+        self.project_id.main_booster_station_num = self.Numbers_maintransformertype
+
 
         self.TypeID_boxvoltagetype = self.boxvoltagetype.TypeID
         self.TypeID_maintransformertype = self.maintransformertype.TypeID
@@ -276,9 +287,7 @@ class auto_word_electrical_firstsec(models.Model):
             Numbers_sttype=self.Numbers_sttype,
             Numbers_ccgistype=self.Numbers_ccgistype, Numbers_ccmtlvtype=self.Numbers_ccmtlvtype,
             turbine_numbers=self.project_id.turbine_numbers_suggestion
-
         )
-
 
         print(dict6)
 

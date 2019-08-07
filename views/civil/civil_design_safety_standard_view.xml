@@ -19,24 +19,27 @@
                          <group name="group_left">
                              <field name="ProjectLevel" />
                              <field name="ProjectSize" />
-                             <field name="BuildingLevel" />
                              <field name="EStructuralSafetyLevel" />
                              <field name="TStructuralSafetyLevel" />
                          </group>
                          <group name="group_right">
+                             <field name="BuildingLevel" />
                              <field name="FloodDesignLevel" />
                              <field name="ReFloodDesignLevel" />
-                             <field name="TerrainType_words" />
+                             <!--<field name="TerrainType_words" />-->
                              <field name="TurbineTowerDesignLevel" />
                         </group>
                     </group>
                     <group string="抗震设计标准">
-                        <field name="BuildingEarthquakeDesignLevel" />
-                        <field name="DesignEarthquakeLevel" />
-                        <field name="Earthquake_g" />
-                        <field name="BuildingYardLevel" />
-                        <field name="BuildingYardLevel_word" />
-
+                        <group name="group_left">
+                            <field name="BuildingEarthquakeDesignLevel" />
+                            <field name="DesignEarthquakeLevel" />
+                            <field name="Earthquake_g" />
+                        </group>
+                        <group name="group_right">
+                            <field name="BuildingYardLevel" />
+                            <field name="BuildingYardLevel_word" />
+                        </group>
                     </group>
                     <!--<group name="group_bottom">-->
                         <!--<field name="generator_Output" />-->

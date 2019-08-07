@@ -21,7 +21,7 @@ class BoxVoltageDatabase:
         self.c35_box_voltage_numbers, self.c15_box_voltage_numbers, self.reinforcement_box_voltage_numbers = 0, 0, 0
 
     def extraction_data_box_voltage(self, turbine_capacity):
-        self.TurbineCapacity = turbine_capacity
+        self.TurbineCapacity = str(int(turbine_capacity*1000))
         # col_name = ['TurbineCapacity', 'ConvertStation', 'Long', 'Width', 'High', 'WallThickness', 'HighPressure',
         #             'C35ConcreteTop', 'C15Cushion', 'MU10Brick', 'Reinforcement', 'Area']
         # self.DataBoxVoltage = pd.read_excel(
@@ -31,7 +31,7 @@ class BoxVoltageDatabase:
         sql = "SELECT * FROM auto_word_civil_convertbase"
         self.DataBoxVoltage = connect_sql_pandas(sql)
 
-        self.data_box_voltage = self.DataBoxVoltage.loc[self.DataBoxVoltage['TurbineCapacity'] == self.TurbineCapacity*10]
+        self.data_box_voltage = self.DataBoxVoltage.loc[self.DataBoxVoltage['TurbineCapacity'] == self.TurbineCapacity]
         return self.data_box_voltage
 
     def excavation_cal_box_voltage(self, data_box_voltage, basic_earthwork_ratio, basic_stone_ratio, turbine_num):

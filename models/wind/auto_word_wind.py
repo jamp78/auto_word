@@ -58,7 +58,7 @@ class auto_word_wind(models.Model):
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
                                             compute='_compute_compare_case')
-    capacity_suggestion = fields.Char(string=u'单机容量建议', readonly=True, default="待提交",
+    capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True, default="待提交",
                                       compute='_compute_compare_case')
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
@@ -101,12 +101,12 @@ class auto_word_wind(models.Model):
             re.rotor_diameter_suggestion = re.recommend_id.rotor_diameter_case
             re.capacity_suggestion = re.recommend_id.capacity
 
-            re.auto_word_wind_res=re.recommend_id.compare_id.auto_word_wind_res
+            re.auto_word_wind_res=re.recommend_id.res_form.auto_word_wind_res
             re.ongrid_power=re.recommend_id.ongrid_power
             re.weak = re.recommend_id.weak
             re.hours_year = re.recommend_id.hours_year
-            re.rate=re.recommend_id.compare_id.rate
-            re.capacity_coefficient = re.recommend_id.compare_id.capacity_coefficient
+            re.rate=re.recommend_id.res_form.rate
+            re.capacity_coefficient = re.recommend_id.res_form.capacity_coefficient
 
 
     @api.multi
@@ -166,6 +166,7 @@ class auto_word_wind(models.Model):
         self.project_id.ongrid_power = self.ongrid_power
         self.project_id.weak = self.weak
         self.project_id.Hour_words = self.hours_year
+        self.project_id.capacity_suggestion=self.capacity_suggestion
 
     def take_wind_result(self):
         # 机型结果

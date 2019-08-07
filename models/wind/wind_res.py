@@ -62,7 +62,7 @@ class auto_word_wind_res_form(models.Model):
     _inherit = ['auto_word_wind.res']
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
-    # compare_id = fields.Many2one('auto_word_wind_res.form', string=u'方案名称', required=True)
+
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
     rate = fields.Float(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
@@ -85,8 +85,6 @@ class auto_word_wind_res_form(models.Model):
                 re.content_id.rate = re.auto_word_wind_res[0].rate * 100
 
             re.content_id.note = re.note
-
-            # re.env['auto_word.wind'].search([('project_id.project_name', '=', re.project_id.project_name)]).Lon_words = re.hours_year_average
 
             # re.env['auto_word_wind_turbines.compare'].compare_id = re
             # re.compare_id.case_name = re.auto_word_wind_res[0].case_name
@@ -119,5 +117,4 @@ class auto_word_wind_res_form(models.Model):
             re.case_name = re.auto_word_wind_res[0].case_name
 
             re.capacity_coefficient = round_up(float(re.hours_year_average) / 8760 * 100, 2)
-
             re.hub_height_calcuation = re.auto_word_wind_res[0].H

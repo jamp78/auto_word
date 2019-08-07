@@ -44,7 +44,6 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
                         road_stone_ratio=0, Status='', Grade=0, Capacity=0, TerrainType='', numbers_list_road=[],
                         overhead_line=0, direct_buried_cable=0, line_data=[], main_booster_station_num=0,
                         overhead_line_num=0, direct_buried_cable_num=0):
-    # turbine_numbers = 15
 
     Doc_word = {
         'turbine_numbers': turbine_numbers,
