@@ -42,7 +42,7 @@ class auto_word_wind_turbines_compare(models.Model):
     tower_weight = fields.Char(compute='_compute_turbine', string=u'塔筒重量', default="待提交")
     rotor_diameter_case = fields.Char(compute='_compute_turbine', string=u'叶轮直径', default="待提交")
     case_number = fields.Char(compute='_compute_turbine', string=u'方案数')
-    hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', compute='_compute_turbine')
+    hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', compute='_compute_ongrid_power')
 
     investment_E1 = fields.Float(compute='_compute_turbine', string=u'塔筒投资(万元)')
     investment_E2 = fields.Float(compute='_compute_turbine', string=u'风机设备投资(万元)')
@@ -91,12 +91,12 @@ class auto_word_wind_turbines_compare(models.Model):
                 print("sadasdadad000000000000000000000000")
                 print(re.case_ids[i].tower_weight)
                 print(re.case_ids[i].turbine_numbers)
-                print(re.hub_height_suggestion)
-                if re.hub_height_suggestion == False:
-                    re.hub_height_suggestion = re.env['auto_word_wind_res.form'].search([('case_name', '=',
-                                                                                 re.res_form.case_name)])[
-                        i].hub_height_calcuation
-                print(re.hub_height_suggestion)
+                # print(re.hub_height_suggestion)
+                # if re.hub_height_suggestion == False:
+                #     re.hub_height_suggestion = re.env['auto_word_wind_res.form'].search([('case_name', '=',
+                #                                                                  re.res_form.case_name)])[
+                #         i].hub_height_calcuation
+                # print(re.hub_height_suggestion)
 
                 investment_e1 = RoundUp.round_up(
                     re.case_ids[i].tower_weight * re.case_ids[i].turbine_numbers * 1.05 * int(
@@ -159,10 +159,10 @@ class auto_word_wind_turbines_compare(models.Model):
                     capacity_words = capacity_word
                     name_tur_words = name_tur_word
 
-                if re.ongrid_power == 0:
-                    re.ongrid_power = re.env['auto_word_wind_res.form'].search([('project_id.project_name', '=',
-                                                                                 re.project_id.project_name)])[
-                        i].ongrid_power_sum
+                # if re.ongrid_power == 0:
+                #     re.ongrid_power = re.env['auto_word_wind_res.form'].search([('project_id.project_name', '=',
+                #                                                                  re.project_id.project_name)])[
+                #         i].ongrid_power_sum
 
             re.name_tur = name_tur_words
             re.capacity = capacity_words
@@ -198,7 +198,7 @@ class auto_word_wind_turbines_compare(models.Model):
             # re.ongrid_power=re.res_form.ongrid_power_sum
 
 
-            if re.ongrid_power==0:
+            if re.ongrid_power!=0:
                 re.investment_unit = RoundUp.round_up3(
                     (re.investment / float(re.ongrid_power) * 10), 3)
 

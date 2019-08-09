@@ -59,11 +59,11 @@
                             <field name="investment_turbines_kws" />
                             <field name="investment_E1" />
                             <field name="investment_E2" />
-                            <field name="investment_E5" />
+                            <field name="investment_E3" />
                         </group>
                         <group name="group_right">
                             <field name="investment_E4" />
-                            <field name="investment_E3" />
+                            <field name="investment_E5" />
                             <field name="investment_E6" />
                             <field name="investment_E7" />
                             <field name="investment" />

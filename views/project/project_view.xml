@@ -29,15 +29,17 @@
                     <group name="group_top" string="项目明细">
                         <group name="group_left">
                             <field name="project_name"/>
+                            <field name="Farm_words"/>
+                            <field name="Location_words"/>
                             <field name="order_number"/>
                             <field name="staff"/>
-                            <field name="Lon_words"/>
-                            <field name="Lat_words"/>
                         </group>
                         <group name="group_right">
                             <field name="company_id" options="{'no_create_edit': 1}"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
+                            <field name="Lon_words"/>
+                            <field name="Lat_words"/>
                             <field name="Elevation_words"/>
                             <field name="Relative_height_difference_words"/>
                         </group>
@@ -52,7 +54,7 @@
                         <group string="风机信息">
                             <field name="name_tur_suggestion"/>
                             <field name="turbine_numbers_suggestion"/>
-                            <field name="capacity_suggestion"/>
+                            <field name="investment_turbines_kws"/>
                             <field name="project_capacity"/>
                             <field name="ongrid_power"/>
                             <field name="Hour_words"/>
@@ -66,6 +68,51 @@
                     </group>
                     <group name="风机信息">
                         <field name="select_turbine_ids"/>
+                    </group>
+
+                    <group name="group_road" string="土建提交明细" col="3" colspan="4">
+                        <!--<group name="group_left" decoration-bf="turbine_numbers_civil!=turbine_numbers" >-->
+                        <group string="土建输入参数" col="3" colspan="4">
+                            <group string="道路长度">
+                                <field name="road_1_num"/>
+                                <field name="road_2_num"/>
+                                <field name="road_3_num"/>
+                                <field name="total_civil_length"/>
+                            </group>
+                             <group string="地质形式">
+                                <field name="TerrainType"/>
+                                <field name="basic_type"/>
+                                <field name="ultimate_load"/>
+                                <field name="fortification_intensity"/>
+                             </group>
+                             <group string="线路工程量">
+                                <field name="line_1"/>
+                                <field name="line_2"/>
+                             </group>
+                        </group>
+
+                        <group string="风机基础工程数量表" colspan="4">
+                            <group name="group_left">
+                                <field name="EarthExcavation_WindResource" />
+                                <field name="StoneExcavation_WindResource" />
+                                <field name="EarthWorkBackFill_WindResource" />
+                                <field name="Volume" />
+                                <field name="Cushion" />
+                            </group>
+                            <group name="group_right">
+                                <field name="Reinforcement" />
+                                <field name="stake_number" />
+                                <field name="SinglePileLength" />
+                                <field name="M48PreStressedAnchor" />
+                                <field name="C80SecondaryGrouting" />
+                            </group>
+                        </group>
+                        <group name="group_right">
+                            <field name="civil_all"/>
+                            <field name="excavation"/>
+                            <field name="backfill"/>
+                            <field name="spoil"/>
+                        </group>
                     </group>
 
                     <group name="group_electrical" string="电气提交明细">
@@ -91,38 +138,7 @@
                             <field name="main_booster_station_num"/>
                         </group>
                     </group>
-                    <group name="group_road" string="土建提交明细">
-                        <!--<group name="group_left" decoration-bf="turbine_numbers_civil!=turbine_numbers" >-->
-                        <group name="group_left">
-                            <field name="road_1_num"/>
-                            <field name="road_2_num"/>
-                            <field name="road_3_num"/>
-                            <field name="total_civil_length"/>
-                        </group>
-                        <group name="group_right">
-                            <field name="basic_type"/>
-                            <field name="TerrainType"/>
-                            <field name="ultimate_load"/>
-                            <field name="fortification_intensity"/>
 
-                        </group>
-                        <group name="group_left">
-                            <field name="ProjectLevel"/>
-                            <field name="temporary_land_area"/>
-                            <field name="permanent_land_area"/>
-                        </group>
-                        <group name="group_right">
-                            <!--<field name="TurbineCapacity"/>-->
-                            <!--<field name="Status"/>-->
-                            <!--<field name="Grade"/>-->
-                            <!--<field name="Capacity"/>-->
-                            <!--<field name="line_1"/>-->
-                            <!--<field name="line_2"/>-->
-                            <field name="excavation"/>
-                            <field name="backfill"/>
-                            <field name="spoil"/>
-                        </group>
-                    </group>
                     <group name="group_road" string="投资明细">
                         <group name="group_left">
                             <field name="case_name"/>
@@ -139,6 +155,27 @@
                             <field name="investment_unit"/>
                         </group>
                     </group>
+
+                    <group string="盈利能力分析">
+                        <group name="group_top">
+                            <field name="static_investment_13"/>
+                            <field name="static_investment_unit"/>
+                            <separate/>
+                            <field name="Internal_financial_rate_before"/>
+                            <field name="Internal_financial_rate_after"/>
+                            <field name="Internal_financial_rate_capital"/>
+
+                        </group>
+                        <group name="group_top">
+                            <field name="dynamic_investment_13"/>
+                            <field name="dynamic_investment_unit"/>
+                            <separate/>
+                            <field name="payback_period"/>
+                            <field name="ROI_13"/>
+                            <field name="ROE_13"/>
+                        </group>
+                    </group>
+
                     <group name="group_mid" string="项目资料">
                         <field name="message_main_attachment_id"/>
                     </group>

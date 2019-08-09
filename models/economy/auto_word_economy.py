@@ -27,7 +27,7 @@ def get_dict_economy(index, col_name, data, sheet_name_array):
             value = data_np[i, 1:].tolist()
         for j in range(0, len(value)):
             if type(value[j]).__name__ == 'float':
-                if (index.strip() == '13_4' and i==1) or ('12' in index.strip()):
+                if (index.strip() == '13_4' and i == 1) or ('12' in index.strip()):
                     value[j] = round_up(value[j], 2)
                 else:
                     value[j] = round_up(value[j], 1)
@@ -79,10 +79,10 @@ class auto_word_economy(models.Model):
     xls_list = []
 
     # 风能
-    Lon_words = fields.Char(string=u'东经',default="待提交", readonly=True)
+    Lon_words = fields.Char(string=u'东经', default="待提交", readonly=True)
     Lat_words = fields.Char(string=u'北纬', default="待提交", readonly=True)
     Elevation_words = fields.Char(string=u'海拔高程', default="待提交", readonly=True)
-    Relative_height_difference_words = fields.Char(string=u'相对高差',default="待提交", readonly=True)
+    Relative_height_difference_words = fields.Char(string=u'相对高差', default="待提交", readonly=True)
     # 土建
     Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
     Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
@@ -98,11 +98,11 @@ class auto_word_economy(models.Model):
     Generating_capacity_words = fields.Char(string=u'上网电量', default="待提交", readonly=True)
     Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
 
-    Towter_weight_words = fields.Char(string=u'塔筒', default='8975.72')
-    Earth_excavation_words = fields.Char(string=u'土石方开挖', default='154.7')
-    Earth_backfill_words = fields.Char(string=u'土石方回填', default='56.01')
-    Concrete_words = fields.Char(string=u'混凝土', default='3.62')
-    Steel_weight_words = fields.Char(string=u'钢筋', default='2565.6')
+    Towter_weight_words = fields.Char(string=u'塔筒总重量（吨）', default='8975.72')
+    Earth_excavation_words = fields.Char(string=u'土石方开挖（m3）', default='1125174.45')
+    Earth_backfill_words = fields.Char(string=u'土石方回填（m3）', default='312766.29')
+    Concrete_words = fields.Char(string=u'混凝土(万m³)', default='3.62')
+    Steel_weight_words = fields.Char(string=u'钢筋(吨)', default='2565.6')
 
     # 计划施工时间
     First_turbine_words = fields.Char(string=u'第一台机组发电工期', default='15')
@@ -110,10 +110,10 @@ class auto_word_economy(models.Model):
     staff_words = fields.Char(string=u'生产单位定员', default='12')
 
     # 项目状况
-    Farm_words = fields.Char(string=u'风电场名称', default='华润郁南欣茂风电项目')
-    Location_words = fields.Char(string=u'建设地点', default='广东省云浮市')
-    Construction_words = fields.Char(string=u'建设单位', default='华润电力华南大区')
-    Turbine_cost_words = fields.Char(string=u'风电机组单位造价', default='3500')
+    Farm_words = fields.Char(string=u'风电场名称')
+    Location_words = fields.Char(string=u'建设地点')
+    company_id = fields.Char(string=u'建设单位')
+    investment_turbines_kws = fields.Char(string=u'风电机组单位造价', readonly=True)
     Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
     infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
     unit_cost_words = fields.Char(string=u'单位度电投资', default='3.59')
@@ -132,7 +132,7 @@ class auto_word_economy(models.Model):
     longterm_lending_rate_12 = fields.Char(string=u'长期贷款利率_12')
     capital_rate_12 = fields.Char(string=u'资本金比例')
 
-    static_investment_12 = fields.Char(string=u'静态总投资_12')
+    static_investment_12 = fields.Char(string=u'静态总投资')
     construction_assistance = fields.Char(string=u'施工辅助工程')
     equipment_installation = fields.Char(string=u'设备及安装工程')
     constructional_engineering = fields.Char(string=u'建筑工程')
@@ -143,12 +143,12 @@ class auto_word_economy(models.Model):
     interest_construction_loans_12 = fields.Char(string=u'建设期贷款利息_12')
     dynamic_investment_12 = fields.Char(string=u'动态总投资')
     dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资')
-    dict_12_res_word={}
+    dict_12_res_word = {}
     # chapter 13
     tax_deductible = fields.Char(string=u'可抵扣税金')
-    static_investment_13 = fields.Char(string=u'静态总投资_13')
+    static_investment_13 = fields.Char(string=u'静态总投资')
     interest_construction_loans_13 = fields.Char(string=u'建设期贷款利息_13')
-    dynamic_investment_13 = fields.Char(string=u'动态总投资_13')
+    dynamic_investment_13 = fields.Char(string=u'动态总投资')
     working_fund = fields.Char(string=u'流动资金_13')
     total_investment_13 = fields.Char(string=u'总投资_13')
     capital_rate_13 = fields.Char(string=u'资本金比例')
@@ -163,12 +163,12 @@ class auto_word_economy(models.Model):
     repayment_period = fields.Char(string=u'还款期限_13')
     grid_price = fields.Char(string=u'上网电价_13')
 
-    Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率_13')
-    Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率_13')
-    Internal_financial_rate_capital = fields.Char(string=u'资本金税后财务内部收益率_13')
-    payback_period = fields.Char(string=u'投资回收期_13')
-    ROI_13 = fields.Char(string=u'总投资收益率_13')
-    ROE_13 = fields.Char(string=u'资本金利润率_13')
+    Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率(%)')
+    Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率(%)')
+    Internal_financial_rate_capital = fields.Char(string=u'资本金税后内部收益率(%)')
+    payback_period = fields.Char(string=u'投资回收期(年)')
+    ROI_13 = fields.Char(string=u'总投资收益率(%)')
+    ROE_13 = fields.Char(string=u'资本金利润率(%)')
 
     def economy_generate(self):
         chapter_number = 0
@@ -203,8 +203,8 @@ class auto_word_economy(models.Model):
 
             "风电场名称": self.Farm_words,
             "建设地点": self.Location_words,
-            "建设单位": self.Construction_words,
-            "风电机组单位造价": self.Turbine_cost_words,
+            "建设单位": self.company_id,
+            "风电机组单位造价": self.investment_turbines_kws,
             "塔筒单位造价": self.Tower_cost_words,
             "风电机组基础单价": self.infrastructure_cost_words,
             "单位度电投资": self.unit_cost_words,
@@ -217,7 +217,7 @@ class auto_word_economy(models.Model):
             if '概算' in t:
                 # chapter_number = 12
                 xlsdata_first = base64.standard_b64decode(re.datas)
-                name_first=t
+                name_first = t
                 file_first = True
             elif '经济评价' in t:
                 # chapter_number = 13
@@ -225,17 +225,17 @@ class auto_word_economy(models.Model):
                 name_second = t
                 file_second = True
                 print(name_second)
-        for chapter_number in range(12,14):
-            if file_first== False:
+        for chapter_number in range(12, 14):
+            if file_first == False:
                 return
-            elif chapter_number==13 and file_second == False:
+            elif chapter_number == 13 and file_second == False:
                 return
             economy_path = self.env['auto_word.project'].economy_path + str(chapter_number)
             suffix_in = ".xls"
             suffix_out = ".docx"
-            if chapter_number==12:
+            if chapter_number == 12:
                 inputfile = name_first + suffix_in
-            elif chapter_number==13 and file_second == True:
+            elif chapter_number == 13 and file_second == True:
                 inputfile = name_second + suffix_in
             outputfile = 'result_chapter' + str(chapter_number) + suffix_out
             model_name = 'cr' + str(chapter_number) + suffix_out
@@ -383,7 +383,7 @@ class auto_word_economy(models.Model):
                     "动态总投资_12": self.dynamic_investment_12,
                     "单位千瓦动态投资": self.dynamic_investment_unit,
                 }
-                self.dict_12_res_word=dict_12_res_word
+                self.dict_12_res_word = dict_12_res_word
                 print("~~~~~~~~~~~~~~~~~~~~~")
                 print(self.dict_12_res_word)
                 Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word)
@@ -408,7 +408,7 @@ class auto_word_economy(models.Model):
                 #                   col_name_7, col_name_8, col_name_9, col_name_10, col_name_11, col_name_12, col_name_13]
                 sheet_name_array = ['投资计划与资金筹措表', '财务指标汇总表', '单因素敏感性分析表', '总成本费用表',
                                     '利润和利润分配表', '借款还本付息计划表', '项目投资现金流量表', '项目资本金现金流量表',
-                                    '财务计划现金流量表', '资产负债表', '财务指标汇总表', '参数汇总表','基本参数']
+                                    '财务计划现金流量表', '资产负债表', '财务指标汇总表', '参数汇总表', '基本参数']
                 for i in range(0, len(sheet_name_array)):
                     # print(sheet_name_array[i], i)
                     if i == 6:
@@ -422,7 +422,7 @@ class auto_word_economy(models.Model):
                     elif i == 0 or (i >= 3 and i <= 9):
                         data = pd.read_excel(Pathinput, header=3, sheet_name=sheet_name_array[i],
                                              )
-                        col_name=data.columns.tolist()
+                        col_name = data.columns.tolist()
                     elif i == 12:
                         data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
                                              )
@@ -432,8 +432,8 @@ class auto_word_economy(models.Model):
                                              usecols="A:F")
                         col_name = data.columns.tolist()
                     else:
-                        data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i],)
-                                             # usecols=col_name_array[i])
+                        data = pd.read_excel(Pathinput, header=1, sheet_name=sheet_name_array[i], )
+                        # usecols=col_name_array[i])
                         col_name = data.columns.tolist()
 
                     data = data.replace(np.nan, '-', regex=True)
@@ -457,9 +457,10 @@ class auto_word_economy(models.Model):
                 self.capital_rate_13 = str(dictMerged['result_list13_11'][7]['cols'][2])
                 self.construction_investment_13 = str(dictMerged['result_list13_0'][1]['cols'][1])
 
-                self.fixed_investment_13=str(round_up(float(self.dynamic_investment_13)-float(self.tax_deductible),2))
+                self.fixed_investment_13 = str(
+                    round_up(float(self.dynamic_investment_13) - float(self.tax_deductible), 2))
                 self.fund_raising_13 = str(dictMerged['result_list13_0'][5]['cols'][1])
-                self.load_rate_13=str(100-float(self.capital_rate_13))
+                self.load_rate_13 = str(100 - float(self.capital_rate_13))
                 self.load_investment_13 = str(dictMerged['result_list13_0'][8]['cols'][1])
 
                 self.longterm_lending_13 = str(dictMerged['result_list13_0'][10]['cols'][1])
@@ -531,7 +532,7 @@ class auto_word_economy(models.Model):
                     self.report_attachment_id_output12 = New
                 else:
                     self.report_attachment_id_output12.datas = base64.standard_b64encode(byte)
-            elif (chapter_number == 13 and file_second==True):
+            elif (chapter_number == 13 and file_second == True):
                 if (str(self.report_attachment_id_output13) == 'ir.attachment()'):
                     Attachments = self.env['ir.attachment']
                     print('开始创建新纪录13')
@@ -584,9 +585,29 @@ class auto_word_economy(models.Model):
         self.Generating_capacity_words = self.project_id.ongrid_power
         self.Hour_words = self.project_id.Hour_words
 
+        Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
+        infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
+        unit_cost_words = fields.Char(string=u'单位度电投资', default='3.59')
+        self.Farm_words = self.project_id.Farm_words
+        self.Location_words = self.project_id.Location_words
+        self.company_id = self.project_id.company_id.name
+        self.investment_turbines_kws = self.project_id.investment_turbines_kws
+
         return True
 
     def submit_economy(self):
+
+        self.project_id.static_investment_13 = self.static_investment_13
+        self.project_id.static_investment_unit = self.static_investment_unit
+        self.project_id.Internal_financial_rate_before = self.Internal_financial_rate_before
+        self.project_id.Internal_financial_rate_after = self.Internal_financial_rate_after
+        self.project_id.Internal_financial_rate_capital = self.Internal_financial_rate_capital
+        self.project_id.dynamic_investment_13 = self.dynamic_investment_13
+        self.project_id.dynamic_investment_unit = self.dynamic_investment_unit
+        self.project_id.payback_period = self.payback_period
+        self.project_id.ROI_13 = self.ROI_13
+        self.project_id.ROE_13 = self.ROE_13
+
         return True
     #
     # # 土建

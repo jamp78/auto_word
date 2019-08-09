@@ -259,7 +259,7 @@ def generate_electrical_dict(project_chapter6_type, args):
 
 
 def generate_electrical_docx(Dict, path_images):
-    filename_box = ['cr6', 'result_chapter6']
+    filename_box = ['cr6_集电线路', 'result_chapter6']
     read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
     save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
     tpl = DocxTemplate(read_path)

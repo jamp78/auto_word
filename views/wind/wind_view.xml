@@ -86,7 +86,7 @@
                         <group name="group_left">
                             <field name="recommend_id"/>
                             <field name="name_tur_suggestion"/>
-                            <field name="capacity_suggestion"/>
+                            <field name="investment_turbines_kws"/>
                             <field name="rate"/>
                         </group>
                         <group name="group_right">

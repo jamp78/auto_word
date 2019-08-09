@@ -24,8 +24,8 @@ class auto_word_electrical(models.Model):
     circuit_number = fields.Integer(u'线路回路数', required=False,default="6")
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气章节')
     #
-    # line_1 = fields.Float(u'线路总挖方', required=False,default="15000")
-    # line_2 = fields.Float(u'线路总填方', required=False,default="10000")
+    line_1 = fields.Float(u'线路总挖方', required=False,default="15000")
+    line_2 = fields.Float(u'线路总填方', required=False,default="10000")
     # overhead_line = fields.Float(u'架空线路用地', required=False,default="1500")
     # direct_buried_cable = fields.Float(u'直埋电缆用地', required=False,default="3000")
     overhead_line_num = fields.Float(u'架空线路塔基数量', required=False,default="20")
@@ -40,6 +40,18 @@ class auto_word_electrical(models.Model):
     # def _compute_total_length(self):
     #     for re in self:
     #         re.total_length = re.length_singlejL240 + re.length_doublejL240 * 2
+
+    @api.multi
+    def take_electrical_result(self):
+        args = [self.length_single_jL240, self.length_double_jL240, self.yjlv95, self.yjv300,
+                int(self.turbine_numbers), self.circuit_number]
+        dict6 = doc_6.generate_electrical_dict(self.voltage_class, args)
+
+    #    挖方量每基铁塔按照140立方米，填方量按照每基100立方米，混凝土按照每基40立方米，钢筋按照每基0.8吨，
+    #    地脚螺栓按照每基0.3吨
+
+        self.line_1= float(dict6['铁塔合计'])*140
+        self.line_2 = float(dict6['铁塔合计']) * 100
 
     @api.multi
     def electrical_generate(self):
@@ -92,8 +104,8 @@ class auto_word_electrical(models.Model):
         projectname.electrical_attachment_id = myself
         projectname.electrical_attachment_ok = u"已提交,版本：" + self.version_id
 
-        # projectname.line_1 = self.line_1
-        # projectname.line_2 = self.line_2
+        projectname.line_1 = self.line_1
+        projectname.line_2 = self.line_2
         # projectname.overhead_line = self.overhead_line
         # projectname.direct_buried_cable = self.direct_buried_cable
         projectname.overhead_line_num = self.overhead_line_num

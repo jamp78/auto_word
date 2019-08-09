@@ -19,6 +19,8 @@
         <field name="arch" type="xml">
             <form string="Electrical">
                 <header>
+                  <button name="take_electrical_result" type="object" groups="auto_word.wind_group_user"
+                           string="计算" class="btn btn-info"/>
                   <button name="electrical_generate" type="object" groups="auto_word.electrical_group_user"
                            string="生成报告" />
                   <button name="button_electrical" type="object"  groups="auto_word.electrical_group_user"
@@ -44,6 +46,9 @@
                             <field name="circuit_number" />
                             <field name="overhead_line_num" />
                             <field name="direct_buried_cable_num" />
+                            <separator/>
+                            <field name="line_1" />
+                            <field name="line_2" />
                         </group>
                         <group name="group_electrical_right">
                             <field name="yjlv95" />

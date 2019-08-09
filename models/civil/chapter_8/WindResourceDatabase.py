@@ -102,6 +102,7 @@ class WindResourceDatabase:
             '预制桩长_风机': self.data_wind_resource.at[self.data_wind_resource.index[0], 'SinglePileLength'],
             'M48预应力锚栓_风机': self.data_wind_resource.at[self.data_wind_resource.index[0], 'M48PreStressedAnchor'],
             'C80二次灌浆_风机': self.data_wind_resource.at[self.data_wind_resource.index[0], 'C80SecondaryGrouting'],
+            '单台风机桩根数_风机':self.data_wind_resource.at[self.data_wind_resource.index[0], 'Number'],
         }
         return self.dict_wind_resource
 

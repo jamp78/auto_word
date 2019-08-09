@@ -6,6 +6,9 @@
         <field name="arch" type="xml">
             <form string="Civil">
                 <header>
+
+                  <button name="take_civil_result" type="object" groups="auto_word.wind_group_user"
+                           string="计算" class="btn btn-info"/>
                   <button name="civil_generate" type="object" groups="auto_word.civil_group_user"
                            string="生成报告" />
                   <button name="button_civil" type="object"  groups="auto_word.civil_group_user"
@@ -28,63 +31,115 @@
 
                        </group>
                    </group>
-                   <group string="土建输入参数">
+                   <group string="土建输入参数" col="3" colspan="4">
                         <group name="group_left">
                             <field name="road_1_num" />
                             <field name="road_2_num" />
                             <field name="road_3_num" />
                             <field name="total_civil_length" />
-                            <!--<field name="investment_E4" />-->
-                            <separator/>
-                            <field name="line_1" />
-                            <field name="line_2" />
-                            <!--<field name="overhead_line_num" />-->
-                            <!--<field name="direct_buried_cable_num" />-->
-                            <!--<field name="main_booster_station_num" />-->
+
                         </group>
-                        <group name="group_right">
+                        <group name="group_mid">
                             <field name="basic_type" />
                             <field name="TerrainType" />
                             <field name="ultimate_load" />
                             <field name="fortification_intensity" />
-                            <!--<field name="TurbineCapacity" />-->
-                            <!--<field name="Status" />-->
-                            <!--<field name="Grade" />-->
-                            <!--<field name="Capacity" />-->
-                            <separator/>
-                            <field name="overhead_line" />
-                            <field name="direct_buried_cable" />
+
                         </group>
-                   </group>
-
-
-                   <group string="工程等别和建筑物级别、结构安全等级">
-                       <group name="group_left">
-                            <field name="ProjectLevel" />
-                            <field name="ProjectSize" />
-                            <field name="BuildingLevel" />
-                            <field name="EStructuralSafetyLevel" />
-                            <field name="TStructuralSafetyLevel" />
-                       </group>
                        <group name="group_right">
-                            <field name="FloodDesignLevel" />
-                            <field name="ReFloodDesignLevel" />
-                            <field name="TerrainType_words" />
-                            <field name="TurbineTowerDesignLevel" />
-                       </group>
+                            <field name="basic_earthwork_ratio" />
+                            <field name="basic_stone_ratio" />
+                            <field name="road_earthwork_ratio" />
+                            <field name="road_stone_ratio" />
+
+                        </group>
+
                    </group>
 
-                   <group string="抗震设计标准">
-                       <group name="group_left">
-                           <field name="BuildingEarthquakeDesignLevel" />
-                           <field name="DesignEarthquakeLevel" />
-                           <field name="Earthquake_g" />
-                       </group>
-                       <group name="group_right">
-                        <field name="BuildingYardLevel" />
-                        <field name="BuildingYardLevel_word" />
-                       </group>
+                   <group string="土建计算结果">
+                        <group string="风机基础工程数量表" colspan="4">
+                            <group name="group_left">
+                                <field name="EarthExcavation_WindResource" />
+                                <field name="StoneExcavation_WindResource" />
+                                <field name="EarthWorkBackFill_WindResource" />
+                                <field name="Volume" />
+                                <field name="Cushion" />
+                            </group>
+                            <group name="group_right">
+                                <field name="Reinforcement" />
+                                <field name="stake_number" />
+                                <field name="SinglePileLength" />
+                                <field name="M48PreStressedAnchor" />
+                                <field name="C80SecondaryGrouting" />
+                            </group>
+                        </group>
+
+                        <group string="土石方平衡表" col="6" colspan="4">
+                            <group string="风机基础及箱变">
+                                <field name="turbine_foundation_box_voltage_excavation" />
+                                <field name="turbine_foundation_box_voltage_back_fill" />
+                                <field name="turbine_foundation_box_voltage_spoil" />
+                            </group>
+                            <group string="升压站工程">
+                                <field name="booster_station_engineering_excavation" />
+                                <field name="booster_station_engineering_back_fill" />
+                                <field name="booster_station_engineering_spoil" />
+                            </group>
+                            <group string="道路工程">
+                                <field name="road_engineering_excavation" />
+                                <field name="road_engineering_back_fill" />
+                                <field name="road_engineering_spoil" />
+                            </group>
+                            <group string="吊装平台">
+                                <field name="hoisting_platform_excavation" />
+                                <field name="hoisting_platform_back_fill" />
+                                <field name="hoisting_platform_spoil" />
+                            </group>
+                            <group string="集电线路">
+                                <field name="total_line_excavation" />
+                                <field name="total_line_back_fill" />
+                                <field name="total_line_spoil" />
+                            </group>
+                            <group string="合计">
+                                <field name="sum_EarthStoneBalance_excavation" />
+                                <field name="sum_EarthStoneBalance_back_fill" />
+                                <field name="sum_EarthStoneBalance_spoil" />
+                            </group>
+
+                        </group>
+
+
                    </group>
+
+
+                   <!--<group string="工程等别和建筑物级别、结构安全等级">-->
+                       <!--<group name="group_left">-->
+                            <!--&lt;!&ndash;<field name="ProjectLevel" />&ndash;&gt;-->
+                            <!--<field name="ProjectLevel_all" />-->
+                            <!--<field name="ProjectSize" />-->
+                            <!--<field name="BuildingLevel" />-->
+                            <!--<field name="EStructuralSafetyLevel" />-->
+                            <!--<field name="TStructuralSafetyLevel" />-->
+                       <!--</group>-->
+                       <!--<group name="group_right">-->
+                            <!--<field name="FloodDesignLevel" />-->
+                            <!--<field name="ReFloodDesignLevel" />-->
+                            <!--<field name="TerrainType_words" />-->
+                            <!--<field name="TurbineTowerDesignLevel" />-->
+                       <!--</group>-->
+                   <!--</group>-->
+
+                   <!--<group string="抗震设计标准">-->
+                       <!--<group name="group_left">-->
+                           <!--<field name="BuildingEarthquakeDesignLevel" />-->
+                           <!--<field name="DesignEarthquakeLevel" />-->
+                           <!--<field name="Earthquake_g" />-->
+                       <!--</group>-->
+                       <!--<group name="group_right">-->
+                        <!--<field name="BuildingYardLevel" />-->
+                        <!--<field name="BuildingYardLevel_word" />-->
+                       <!--</group>-->
+                   <!--</group>-->
 
                     <group name="group_buttom">
                         <field name="report_attachment_id" />

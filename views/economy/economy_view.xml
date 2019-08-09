@@ -37,7 +37,7 @@
                             <field name="content_id"/>
                             <field name="version_id"/>
                             <field name="Location_words"/>
-                            <field name="Construction_words"/>
+                            <field name="company_id"/>
                         </group>
                         <group name="group_top">
                             <field name="Farm_words"/>
@@ -57,9 +57,10 @@
                         <group name="group_top">
                             <field name="Turbine_capacity_words"/>
                             <field name="Turbine_number_words"/>
-                            <field name="Farm_capacity_words"/>
+                            <field name="investment_turbines_kws"/>
                         </group>
                         <group name="group_top">
+                            <field name="Farm_capacity_words"/>
                             <field name="Generating_capacity_words"/>
                             <field name="Hour_words"/>
                         </group>
@@ -84,18 +85,40 @@
                     <group string="经评结果">
                         <group name="group_top">
                             <field name="Project_time_words"/>
-                            <field name="Towter_weight_words"/>
                             <field name="First_turbine_words"/>
                             <field name="total_turbine_words"/>
                             <field name="staff_words"/>
                         </group>
                         <group name="group_top">
-                            <field name="Turbine_cost_words"/>
+                            <field name="Towter_weight_words"/>
                             <field name="Tower_cost_words"/>
                             <field name="infrastructure_cost_words"/>
                             <field name="unit_cost_words"/>
                         </group>
                     </group>
+
+
+                    <group string="盈利能力分析">
+                        <group name="group_top">
+                            <field name="static_investment_13"/>
+                            <field name="static_investment_unit"/>
+                            <separate/>
+                            <field name="Internal_financial_rate_before"/>
+                            <field name="Internal_financial_rate_after"/>
+                            <field name="Internal_financial_rate_capital"/>
+
+                        </group>
+                        <group name="group_top">
+                            <field name="dynamic_investment_13"/>
+                            <field name="dynamic_investment_unit"/>
+                            <separate/>
+                            <field name="payback_period"/>
+                            <field name="ROI_13"/>
+                            <field name="ROE_13"/>
+                        </group>
+                    </group>
+
+
 
                     <group string="经评结果导入">
                         <field name="report_attachment_id_input"/>

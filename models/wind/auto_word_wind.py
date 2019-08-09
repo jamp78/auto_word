@@ -60,6 +60,9 @@ class auto_word_wind(models.Model):
                                             compute='_compute_compare_case')
     capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True, default="待提交",
                                       compute='_compute_compare_case')
+
+    investment_turbines_kws = fields.Char(u'风机kW投资',compute='_compute_compare_case')
+
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
 
@@ -108,6 +111,7 @@ class auto_word_wind(models.Model):
             re.rate=re.recommend_id.res_form.rate
             re.capacity_coefficient = re.recommend_id.res_form.capacity_coefficient
 
+            re.investment_turbines_kws=re.recommend_id.investment_turbines_kws
 
     @api.multi
     def submit_wind(self):
@@ -134,6 +138,7 @@ class auto_word_wind(models.Model):
         self.project_id.investment_unit = self.recommend_id.investment_unit
         limited_str_0 = "本项目区域内存在部分限制性因素，需重点对"
         limited_str_2 = "等限制性因素进行排查。"
+        self.project_id.investment_turbines_kws=self.investment_turbines_kws
 
         if self.limited_1 == True:
             if self.limited_2 == False and self.limited_3 == False:

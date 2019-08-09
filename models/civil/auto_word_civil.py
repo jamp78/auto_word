@@ -10,7 +10,7 @@ class auto_word_civil_design_safety_standard(models.Model):
     _name = 'auto_word_civil.design_safety_standard'
     _description = 'Civil Design Safety Standard'
     _rec_name = 'civil_id'
-    civil_id = fields.Many2one('auto_word.civil', string=u'项目名称', required=True)
+    civil_id = fields.Many2one('auto_word.civil', string=u'项目名称', required=False)
     # civil_id = fields.Many2one('auto_word.project', string=u'项目名称', required=True)
 
     ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
@@ -44,7 +44,6 @@ class auto_word_civil_design_safety_standard(models.Model):
                                               string=u"建筑物场地抗震类别", defult="抗震不利地段")
 
     def button_civil_design_safety_standard(self):
-        self.civil_id.ProjectLevel = self.ProjectLevel
         self.civil_id.ProjectSize = self.ProjectSize
         self.civil_id.BuildingLevel = self.BuildingLevel
         self.civil_id.EStructuralSafetyLevel = self.EStructuralSafetyLevel
@@ -60,6 +59,7 @@ class auto_word_civil_design_safety_standard(models.Model):
         self.civil_id.BuildingYardLevel = self.BuildingYardLevel
         self.civil_id.BuildingYardLevel_word = self.BuildingYardLevel_word
 
+        self.civil_id.project_id.ProjectLevel_all = self
         return True
 
 
@@ -159,7 +159,7 @@ class auto_word_civil(models.Model):
     #     [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
     #      (36, "3.6MW")], string=u"风机容量", required=False, default=25)
 
-    TurbineCapacity = fields.Char(string=u"风机容量", required=False)
+    TurbineCapacity = fields.Char(string=u"风机容量", required=False, readonly=True)
     # ####升压站
     # Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
     # Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
@@ -181,8 +181,8 @@ class auto_word_civil(models.Model):
 
     line_1 = fields.Float(u'线路总挖方', required=False, default="15000")
     line_2 = fields.Float(u'线路总填方', required=False, default="10000")
-    overhead_line = fields.Float(u'架空线路用地', required=False,default="1500")
-    direct_buried_cable = fields.Float(u'直埋电缆用地', required=False,default="3000")
+    overhead_line = fields.Float(u'架空线路用地', required=False, default="1500")
+    direct_buried_cable = fields.Float(u'直埋电缆用地', required=False, default="3000")
 
     overhead_line_num = fields.Char(u'架空线路塔基数量', default="0", readonly=True)
     direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="0", readonly=True)
@@ -192,6 +192,9 @@ class auto_word_civil(models.Model):
     # civil_design_safety_standard = fields.Char(compute='_compute_civil_design_safety_standard', string=u'设计安全标准')
 
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
+
+    ProjectLevel_all = fields.Many2one('auto_word_civil.design_safety_standard', string=u'项目工程等别')
+
     ProjectSize = fields.Char(u'工程规模', default="待提交", readonly=True)
     BuildingLevel = fields.Char(u'建筑物级别', default="待提交", readonly=True)
     EStructuralSafetyLevel = fields.Char(u'变电站结构安全等级', default="待提交", readonly=True)
@@ -199,7 +202,7 @@ class auto_word_civil(models.Model):
 
     FloodDesignLevel = fields.Char(u'洪水设计标准', default="待提交", readonly=True)
     ReFloodDesignLevel = fields.Char(u'重现期洪水位', default="待提交", readonly=True)
-    TerrainType_words = fields.Char(u'地形描述', default="待提交", readonly=True,compute='_compute_terrain_type_words')
+    TerrainType_words = fields.Char(u'地形描述', default="待提交", readonly=True, compute='_compute_terrain_type_words')
 
     TurbineTowerDesignLevel = fields.Char(u'机组塔架地基设计级别', default="待提交", readonly=True)
 
@@ -209,11 +212,48 @@ class auto_word_civil(models.Model):
     BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
     BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
 
+    # 土建结果
+    # 风机基础工程数量表
+    EarthExcavation_WindResource = fields.Char(u'土方开挖（m3）')
+    StoneExcavation_WindResource = fields.Char(u'石方开挖（m3）')
+    EarthWorkBackFill_WindResource = fields.Char(u'土石方回填（m3）')
+    Volume = fields.Char(u'C40混凝土（m3）')
+    Cushion = fields.Char(u'C15混凝土（m3）')
+    Reinforcement = fields.Char(u'钢筋（t）')
+    Based_Waterproof = fields.Char(u'基础防水', default=1)
+    Settlement_Observation = fields.Char(u'沉降观测', default=4)
+    SinglePileLength = fields.Char(u'总预制桩长（m）')
+    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）')
+    C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）')
+    stake_number = fields.Char(u'单台风机桩根数（根）')
+
+    #土石方平衡表
+
+    turbine_foundation_box_voltage_excavation = fields.Char(u'开挖')
+    turbine_foundation_box_voltage_back_fill = fields.Char(u'回填')
+    turbine_foundation_box_voltage_spoil = fields.Char(u'弃土')
+    booster_station_engineering_excavation = fields.Char(u'开挖')
+    booster_station_engineering_back_fill = fields.Char(u'回填')
+    booster_station_engineering_spoil = fields.Char(u'弃土')
+    road_engineering_excavation = fields.Char(u'开挖')
+    road_engineering_back_fill = fields.Char(u'回填')
+    road_engineering_spoil = fields.Char(u'弃土')
+    hoisting_platform_excavation = fields.Char(u'开挖')
+    hoisting_platform_back_fill = fields.Char(u'回填')
+    hoisting_platform_spoil = fields.Char(u'弃土')
+    total_line_excavation = fields.Char(u'开挖')
+    total_line_back_fill = fields.Char(u'回填')
+    total_line_spoil = fields.Char(u'弃土')
+    sum_EarthStoneBalance_excavation = fields.Char(u'开挖')
+    sum_EarthStoneBalance_back_fill = fields.Char(u'回填')
+    sum_EarthStoneBalance_spoil = fields.Char(u'弃土')
+
+
     @api.depends('TerrainType')
     def _compute_terrain_type_words(self):
         for re in self:
             if re.TerrainType == "平原":
-                re.TerrainType_words="地形较为平缓，不需要进行高边坡特别设计"
+                re.TerrainType_words = "地形较为平缓，不需要进行高边坡特别设计"
             else:
                 re.TerrainType_words = "山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计"
 
@@ -248,8 +288,20 @@ class auto_word_civil(models.Model):
         projectname.road_earthwork_ratio = str(self.road_earthwork_ratio * 10) + "%"
         projectname.road_stone_ratio = str(self.road_stone_ratio * 10) + "%"
         projectname.TerrainType = self.TerrainType
-
         projectname.ProjectLevel = self.ProjectLevel
+
+        projectname.EarthExcavation_WindResource = self.EarthExcavation_WindResource
+        projectname.StoneExcavation_WindResource = self.StoneExcavation_WindResource
+        projectname.EarthWorkBackFill_WindResource = self.EarthWorkBackFill_WindResource
+        projectname.Volume = self.Volume
+        projectname.Cushion = self.Cushion
+        projectname.Reinforcement = self.Reinforcement
+        projectname.Based_Waterproof = self.Based_Waterproof
+        projectname.Settlement_Observation = self.Settlement_Observation
+        projectname.SinglePileLength = self.SinglePileLength
+        projectname.M48PreStressedAnchor = self.M48PreStressedAnchor
+        projectname.C80SecondaryGrouting = self.C80SecondaryGrouting
+        projectname.stake_number = self.stake_number
 
         Dict8 = civil_generate_docx_dict(self)
         projectname.temporary_land_area = Dict8['合计亩_临时用地面积']
@@ -261,9 +313,8 @@ class auto_word_civil(models.Model):
         projectname.line_1 = self.line_1
         projectname.line_2 = self.line_2
 
+        projectname.civil_all=self
 
-
-        print(Dict8['合计亩_永久用地面积'])
         return True
 
     def civil_refresh(self):
@@ -271,9 +322,11 @@ class auto_word_civil(models.Model):
         self.turbine_numbers = projectname.turbine_numbers_suggestion
         self.name_tur_suggestion = projectname.name_tur_suggestion
         self.hub_height_suggestion = projectname.hub_height_suggestion
+        self.ProjectLevel_all = self.env['auto_word_civil.design_safety_standard'].search(
+            [('civil_id.project_id.project_name', '=', self.project_id.project_name)])
 
-        # self.line_1 = projectname.line_1
-        # self.line_2 = projectname.line_2
+        self.line_1 = projectname.line_1
+        self.line_2 = projectname.line_2
         # self.overhead_line = projectname.overhead_line
         # self.direct_buried_cable = projectname.direct_buried_cable
         self.overhead_line_num = projectname.overhead_line_num
@@ -282,6 +335,42 @@ class auto_word_civil(models.Model):
 
         self.TurbineCapacity = projectname.capacity_suggestion
         return True
+
+    def take_civil_result(self):
+        Dict8 = civil_generate_docx_dict(self)
+        print(Dict8)
+        self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
+        self.StoneExcavation_WindResource = Dict8['石方开挖_风机_numbers']
+        self.EarthWorkBackFill_WindResource = Dict8['土石方回填_风机_numbers']
+        self.Volume = Dict8['C40混凝土_风机_numbers']
+        self.Cushion = Dict8['C15混凝土_风机_numbers']
+        self.Reinforcement = Dict8['钢筋_风机_numbers']
+        self.SinglePileLength = Dict8['预制桩长_风机_numbers']
+        self.M48PreStressedAnchor = Dict8['M48预应力锚栓_风机_numbers']
+        self.C80SecondaryGrouting = Dict8['C80二次灌浆_风机_numbers']
+        self.stake_number = Dict8['单台风机桩根数_风机']
+
+
+        self.turbine_foundation_box_voltage_excavation = Dict8['风机基础及箱变_开挖']
+        self.turbine_foundation_box_voltage_back_fill = Dict8['风机基础及箱变_回填']
+        self.turbine_foundation_box_voltage_spoil = Dict8['风机基础及箱变_弃土']
+        self.booster_station_engineering_excavation = Dict8['升压站工程_开挖']
+        self.booster_station_engineering_back_fill = Dict8['升压站工程_回填']
+        self.booster_station_engineering_spoil = Dict8['升压站工程_弃土']
+
+
+        self.road_engineering_excavation = Dict8['道路工程_开挖']
+        self.road_engineering_back_fill = Dict8['道路工程_回填']
+        self.road_engineering_spoil = Dict8['道路工程_弃土']
+        self.hoisting_platform_excavation = Dict8['吊装平台_开挖']
+        self.hoisting_platform_back_fill = Dict8['吊装平台_回填']
+        self.hoisting_platform_spoil = Dict8['吊装平台_弃土']
+        self.total_line_excavation = Dict8['集电线路_开挖']
+        self.total_line_back_fill = Dict8['集电线路_回填']
+        self.total_line_spoil = Dict8['集电线路_弃土']
+        self.sum_EarthStoneBalance_excavation = Dict8['合计_开挖']
+        self.sum_EarthStoneBalance_back_fill = Dict8['合计_回填']
+        self.sum_EarthStoneBalance_spoil = Dict8['合计_弃土']
 
     def civil_generate(self):
 
@@ -468,3 +557,24 @@ class auto_word_civil_road4(models.Model):
     StoneMasonryDrainageDitch_4 = fields.Float(u'浆砌石排水沟')
     MortarStoneProtectionSlope_4 = fields.Float(u'M7.5浆砌片石护坡')
     TurfSlopeProtection_4 = fields.Float(u'草皮护坡')
+
+
+class auto_word_windresourcedatabase(models.Model):
+    _name = 'auto_word_civil.windresourcedatabase'
+    _description = 'WindResourceDatabase'
+    _rec_name = 'project_id'
+
+    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=False)
+    EarthExcavation_WindResource = fields.Char(u'土方开挖')
+    StoneExcavation_WindResource = fields.Char(u'石方开挖')
+    EarthWorkBackFill_WindResource = fields.Char(u'土石方回填')
+
+    Volume = fields.Char(u'C40混凝土')
+    Cushion = fields.Char(u'C15混凝土')
+    Reinforcement = fields.Char(u'钢筋')
+    Based_Waterproof = fields.Char(u'基础防水', default=1)
+    Settlement_Observation = fields.Char(u'沉降观测', default=4)
+
+    SinglePileLength = fields.Char(u'预制桩长')
+    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓')
+    C80SecondaryGrouting = fields.Char(u'C80二次灌浆')
