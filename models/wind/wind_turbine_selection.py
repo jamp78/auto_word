@@ -78,8 +78,6 @@ class auto_word_wind_cft(models.Model):
             re.string_deg_words = string_deg_words_final
 
 
-
-
     def button_cft(self):
 
         for re in self:

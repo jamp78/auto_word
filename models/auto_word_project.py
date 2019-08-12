@@ -116,7 +116,7 @@ class auto_word_project(models.Model):
 
     TerrainType = fields.Char(u'山地类型', default="待提交", readonly=True)
 
-    # ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
+    ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
     ProjectLevel_all = fields.Many2one('auto_word_civil.design_safety_standard', string=u'项目工程等别')
 
     civil_all = fields.Many2one('auto_word.civil', string=u'详细用量表')

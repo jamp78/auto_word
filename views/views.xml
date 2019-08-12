@@ -106,11 +106,7 @@
           </field>
         </record>
 
-    <!--<record model="ir.actions.act_window" id="auto_word_wind_turbines_act_window">-->
-      <!--<field name="name">风机列表</field>-->
-      <!--<field name="res_model">auto_word_wind.turbines</field>-->
-      <!--<field name="view_mode">tree,form</field>-->
-    <!--</record>-->
+
   <!--##########数据库##########-->
   <!--风能    -->
     <record model="ir.actions.act_window" id="auto_word_wind_turbines_act_window">
@@ -154,89 +150,89 @@
     <!--</record>-->
 
 <!--电气-->
-        <record model="ir.actions.act_window" id="auto_word_boxvoltagetype_act_window">
-          <field name="name">箱式变电站数据</field>
-          <field name="res_model">auto_word_electrical.boxvoltagetype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--      <record model="ir.actions.act_window" id="auto_word_boxvoltagetype_act_window">-->
+<!--          <field name="name">箱式变电站数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.boxvoltagetype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_maintransformertype_act_window">
-          <field name="name">主变压器数据</field>
-          <field name="res_model">auto_word_electrical.maintransformertype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_maintransformertype_act_window">-->
+<!--          <field name="name">主变压器数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.maintransformertype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_110kvswitchgeartype_act_window">
-          <field name="name">110kV配电装置数据</field>
-          <field name="res_model">auto_word_electrical.110kvswitchgeartype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_110kvswitchgeartype_act_window">-->
+<!--          <field name="name">110kV配电装置数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.110kvswitchgeartype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_110kvarrestertype_act_window">
-          <field name="name">110kV避雷器数据</field>
-          <field name="res_model">auto_word_electrical.110kvarrestertype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_110kvarrestertype_act_window">-->
+<!--          <field name="name">110kV避雷器数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.110kvarrestertype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_35kvtictype_act_window">
-          <field name="name">35kV风机进线柜数据</field>
-          <field name="res_model">auto_word_electrical.35kvtictype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_35kvtictype_act_window">-->
+<!--          <field name="name">35kV风机进线柜数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.35kvtictype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_35kvmtovctype_act_window">
-          <field name="name">35kV主变出线柜数据</field>
-          <field name="res_model">auto_word_electrical.35kvmtovctype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_35kvmtovctype_act_window">-->
+<!--          <field name="name">35kV主变出线柜数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.35kvmtovctype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_35kvsctype_act_window">
-          <field name="name">35kV站用变柜数据</field>
-          <field name="res_model">auto_word_electrical.35kvsctype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_35kvsctype_act_window">-->
+<!--          <field name="name">35kV站用变柜数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.35kvsctype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_35kvrpcdctype_act_window">
-          <field name="name">35kV无功补偿装置柜数据</field>
-          <field name="res_model">auto_word_electrical.35kvrpcdctype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_35kvrpcdctype_act_window">-->
+<!--          <field name="name">35kV无功补偿装置柜数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.35kvrpcdctype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_35kvgctype_act_window">
-          <field name="name">35kV接地变柜数据</field>
-          <field name="res_model">auto_word_electrical.35kvgctype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_35kvgctype_act_window">-->
+<!--          <field name="name">35kV接地变柜数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.35kvgctype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_35kvptctype_act_window">
-          <field name="name">35kVPT柜数据</field>
-          <field name="res_model">auto_word_electrical.35kvptctype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_35kvptctype_act_window">-->
+<!--          <field name="name">35kVPT柜数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.35kvptctype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_srgstype_act_window">
-          <field name="name">小电阻成套接地装置数据</field>
-          <field name="res_model">auto_word_electrical.srgstype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_srgstype_act_window">-->
+<!--          <field name="name">小电阻成套接地装置数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.srgstype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_sttype_act_window">
-          <field name="name">站用变压器数据</field>
-          <field name="res_model">auto_word_electrical.sttype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_sttype_act_window">-->
+<!--          <field name="name">站用变压器数据</field>-->
+<!--          <field name="res_model">auto_word_electrical.sttype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <record model="ir.actions.act_window" id="auto_word_ccgistype_act_window">
-          <field name="name">导体选择数据1</field>
-          <field name="res_model">auto_word_electrical.ccgistype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record model="ir.actions.act_window" id="auto_word_ccgistype_act_window">-->
+<!--          <field name="name">导体选择数据1</field>-->
+<!--          <field name="res_model">auto_word_electrical.ccgistype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-         <record model="ir.actions.act_window" id="auto_word_ccmtlvtype_act_window">
-          <field name="name">导体选择数据2</field>
-          <field name="res_model">auto_word_electrical.ccmtlvtype</field>
-          <field name="view_mode">tree,form</field>
-        </record>
+<!--         <record model="ir.actions.act_window" id="auto_word_ccmtlvtype_act_window">-->
+<!--          <field name="name">导体选择数据2</field>-->
+<!--          <field name="res_model">auto_word_electrical.ccmtlvtype</field>-->
+<!--          <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
 
         <record model="ir.actions.act_window" id="auto_word_civil_windbase_act_window">
@@ -349,35 +345,35 @@
       <menuitem name="风机效率" id="auto_word_wind_turbines_efficiency_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_turbines_efficiency_act_window"/>
       <menuitem name="发电量" id="auto_word_wind_res_menu" parent="auto_word_wind_turbines_menu" action="auto_word_wind_chapter5_4_v1_act_window"/>
 
-    <menuitem name="电气信息" id="auto_word_electrical_information_menu" parent="auto_word.menu_root" sequence="14"/>
-        <menuitem name="箱式变电站数据表" id="auto_word_electrical_boxvoltagetype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_boxvoltagetype_act_window" sequence="1"/>
-        <menuitem name="主变压器数据表" id="auto_word_electrical_maintransformertype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_maintransformertype_act_window" sequence="3"/>
-        <menuitem name="110kV配电装置数据表" id="auto_word_electrical_110kvswitchgeartype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_110kvswitchgeartype_act_window" sequence="5"/>
-        <menuitem name="110kV避雷器数据表" id="auto_word_electrical_110kvarrestertype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_110kvarrestertype_act_window" sequence="7"/>
-        <menuitem name="35kV风机进线柜数据表" id="auto_word_electrical_35kvtictype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_35kvtictype_act_window" sequence="9"/>
-        <menuitem name="35kV主变出线柜数据表" id="auto_word_electrical_35kvmtovctype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_35kvmtovctype_act_window" sequence="11"/>
-        <menuitem name="35kV站用变柜数据表" id="auto_word_electrical_35kvsctype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_35kvsctype_act_window" sequence="13"/>
-        <menuitem name="35kV无功补偿装置柜数据表" id="auto_word_electrical_35kvrpcdctype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_35kvrpcdctype_act_window" sequence="15"/>
-        <menuitem name="35kV接地变柜数据表" id="auto_word_electrical_35kvgctype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_35kvgctype_act_window" sequence="17"/>
-        <menuitem name="35kVPT柜数据表" id="auto_word_electrical_35kvptctype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_35kvptctype_act_window" sequence="19"/>
-        <menuitem name="小电阻成套接地装置数据表" id="auto_word_electrical_srgstype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_srgstype_act_window" sequence="21"/>
-        <menuitem name="站用变压器数据表" id="auto_word_electrical_sttype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_sttype_act_window" sequence="23"/>
-        <menuitem name="导体选择数据表1" id="auto_word_electrical_ccgistype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_ccgistype_act_window" sequence="25"/>
-        <menuitem name="导体选择数据表2" id="auto_word_electrical_ccmtlvtype_list" parent="auto_word_electrical_information_menu"
-              groups="wind_group_user" action="auto_word_ccmtlvtype_act_window" sequence="27"/>
+<!--    <menuitem name="电气信息" id="auto_word_electrical_information_menu" parent="auto_word.menu_root" sequence="14"/>-->
+<!--        <menuitem name="箱式变电站数据表" id="auto_word_electrical_boxvoltagetype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_boxvoltagetype_act_window" sequence="1"/>-->
+<!--        <menuitem name="主变压器数据表" id="auto_word_electrical_maintransformertype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_maintransformertype_act_window" sequence="3"/>-->
+<!--        <menuitem name="110kV配电装置数据表" id="auto_word_electrical_110kvswitchgeartype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_110kvswitchgeartype_act_window" sequence="5"/>-->
+<!--        <menuitem name="110kV避雷器数据表" id="auto_word_electrical_110kvarrestertype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_110kvarrestertype_act_window" sequence="7"/>-->
+<!--        <menuitem name="35kV风机进线柜数据表" id="auto_word_electrical_35kvtictype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_35kvtictype_act_window" sequence="9"/>-->
+<!--        <menuitem name="35kV主变出线柜数据表" id="auto_word_electrical_35kvmtovctype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_35kvmtovctype_act_window" sequence="11"/>-->
+<!--        <menuitem name="35kV站用变柜数据表" id="auto_word_electrical_35kvsctype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_35kvsctype_act_window" sequence="13"/>-->
+<!--        <menuitem name="35kV无功补偿装置柜数据表" id="auto_word_electrical_35kvrpcdctype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_35kvrpcdctype_act_window" sequence="15"/>-->
+<!--        <menuitem name="35kV接地变柜数据表" id="auto_word_electrical_35kvgctype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_35kvgctype_act_window" sequence="17"/>-->
+<!--        <menuitem name="35kVPT柜数据表" id="auto_word_electrical_35kvptctype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_35kvptctype_act_window" sequence="19"/>-->
+<!--        <menuitem name="小电阻成套接地装置数据表" id="auto_word_electrical_srgstype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_srgstype_act_window" sequence="21"/>-->
+<!--        <menuitem name="站用变压器数据表" id="auto_word_electrical_sttype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_sttype_act_window" sequence="23"/>-->
+<!--        <menuitem name="导体选择数据表1" id="auto_word_electrical_ccgistype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_ccgistype_act_window" sequence="25"/>-->
+<!--        <menuitem name="导体选择数据表2" id="auto_word_electrical_ccmtlvtype_list" parent="auto_word_electrical_information_menu"-->
+<!--              groups="wind_group_user" action="auto_word_ccmtlvtype_act_window" sequence="27"/>-->
 
     <menuitem name="土建信息" id="auto_word_civil_information_menu" parent="auto_word.menu_root" sequence="15" />
       <menuitem name="风机基础数据表" id="auto_word_civil_windbase_list" parent="auto_word_civil_information_menu"

@@ -39,6 +39,38 @@
         </field>
     </record>
 
+    <record id="auto_word_civil_windbase_list" model="ir.ui.view">
+        <field name="name">风机基础数据</field>
+        <field name="model">auto_word_civil.windbase</field>
+        <field name="arch" type="xml">
+                <tree>
+                    <field name="FortificationIntensity" />
+                    <field name="BearingCapacity" />
+                    <field name="BasicType" />
+                    <field name="UltimateLoad" />
+                    <field name="FloorRadiusR" />
+                    <field name="PileDiameter" />
+                    <field name="M48PreStressedAnchor" />
+                    <field name="C80SecondaryGrouting" />
+                    <field name="Cushion" />
+                    <field name="R1" />
+                    <field name="R2" />
+                    <field name="H1" />
+                    <field name="H2" />
+                    <field name="H3" />
+                    <field name="Number" />
+                    <field name="Length" />
+                    <field name="SinglePileLength" />
+                    <field name="Area" />
+                    <field name="Volume" />
+
+                    <!--<group name="group_bottom">-->
+                        <!--<field name="generator_Output" />-->
+                    <!--</group>-->
+                </tree>
+        </field>
+    </record>
+
     <record id="auto_word_civil_convertbase_form" model="ir.ui.view">
         <field name="name">箱变基础</field>
         <field name="model">auto_word_civil.convertbase</field>

@@ -20,6 +20,7 @@
                             <field name="content_id" />
                         </group>
                         <group name="group_left">
+                            <field name="case_name" />
                             <field name="TerrainType_turbines_compare" />
                          </group>
                     </group>

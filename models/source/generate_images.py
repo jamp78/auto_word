@@ -11,7 +11,10 @@ def generate_images(save_path, power_np, efficiency_np):
     png_box = ('powers', 'efficiency')
 
     # tur_np, power_np, efficiency_np = connect_sql(*turbine_list)
+    print("power_np")
     print(power_np)
+    print(efficiency_np)
+
     speed = np.zeros(power_np.shape[1] - 6)  # 标注
     for i in range(0, power_np.shape[1] - 6):  # 标注
         if i == 0:
