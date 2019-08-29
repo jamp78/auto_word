@@ -1,11 +1,15 @@
 import os
 from docxtpl import DocxTemplate
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/electrical/chapter_6")))
+print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/electrical/chapter_6")))
 
 from WireRod import WireRod
 from ElectricalInsulator import ElectricalInsulator
 from TowerType import TowerType
 from TowerBase import TowerBase
 from Cable import Cable
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/electrical/chapter_6/electrical_frist")))
 
 from BoxVoltageType import BoxVoltageType
 from MainTransformerType import MainTransformerType

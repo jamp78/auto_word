@@ -4,6 +4,11 @@ from odoo import models, fields, api
 import base64, os
 import numpy as np
 import pandas as pd
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
+print("ffffffffffffffff")
+print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
+
 import doc_5
 from RoundUp import round_up, Get_Average, Get_Sum
 import re

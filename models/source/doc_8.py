@@ -1,7 +1,7 @@
 from docxtpl import DocxTemplate
 import os
 import sys
-
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/civil/chapter_8")))
 from MainConstructionQuantitySummarySheet import *
 import RoundUp
 
