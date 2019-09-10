@@ -71,7 +71,7 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     Dict2 = RoundUp.round_dict_numbers(dict_box_voltage, turbine_numbers, 1)
     # ==============================================
     # data3 = project10.extraction_data_booster_station('新建', 110, 100)
-    data3 = project10.extraction_data_booster_station(Status, Grade, Capacity)
+    data3 = project10.extraction_data_booster_station('新建', Grade, Capacity)
     data_cal = project10.excavation_cal_booster_station(data3, road_earthwork_ratio, road_stone_ratio, TerrainType)
     Dict3 = RoundUp.round_dict(project10.generate_dict_booster_station(data_cal))
     # ==============================================

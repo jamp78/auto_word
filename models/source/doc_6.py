@@ -69,18 +69,32 @@ def generate_electrical_TypeID_dict(TypeID_boxvoltagetype, TypeID_maintransforme
     DataCCGISType = project13.extraction_data_CCGISType_resource(TypeID_ccgistype)
     DataCCMTLVTypeType = project14.extraction_data_CCMTLVType_resource(TypeID_ccmtlvtype)
 
-    dict1 = project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType, Numbers_boxvoltagetype)
-    dict2 = project2.generate_dict_MainTransformerType_resource(DataMainTransformerType, Numbers_maintransformertype)
-    dict3 = project3.generate_dict_110kVSwitChgearType_resource(Datav110kVSwitChgearType, Numbers_v110kvswitchgeartype)
-    dict4 = project4.generate_dict_110kVArresterType_resource(Datav110kVArresterType, Numbers_v110kvarrestertype)
-    dict5 = project5.generate_dict_35kVTICType_resource(Datav35kVTICType, Numbers_v35kvtictype)
-    dict6 = project6.generate_dict_35kVMTOCType_resource(Datav35kVMTOCType, Numbers_v35kvmtovctype)
-    dict7 = project7.generate_dict_35kVSCType_resource(Datav35kVSCType, Numbers_v35kvsctype)
-    dict8 = project8.generate_dict_35kVRPCDCType_resource(Datav35kVRPCDCType, Numbers_v35kvptctype)
+    # dict1 = project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType, Numbers_boxvoltagetype)
+    # dict2 = project2.generate_dict_MainTransformerType_resource(DataMainTransformerType, Numbers_maintransformertype)
+    # dict3 = project3.generate_dict_110kVSwitChgearType_resource(Datav110kVSwitChgearType, Numbers_v110kvswitchgeartype)
+    # dict4 = project4.generate_dict_110kVArresterType_resource(Datav110kVArresterType, Numbers_v110kvarrestertype)
+    # dict5 = project5.generate_dict_35kVTICType_resource(Datav35kVTICType, Numbers_v35kvtictype)
+    # dict6 = project6.generate_dict_35kVMTOCType_resource(Datav35kVMTOCType, Numbers_v35kvmtovctype)
+    # dict7 = project7.generate_dict_35kVSCType_resource(Datav35kVSCType, Numbers_v35kvsctype)
+    # dict8 = project8.generate_dict_35kVRPCDCType_resource(Datav35kVRPCDCType, Numbers_v35kvptctype)
+    #
+    # dict12 = project12.generate_dict_STType_resource(DataSTType, Numbers_sttype)
+    # dict13 = project13.generate_dict_CCGISType_resource(DataCCGISType, Numbers_ccgistype)
+    # dict14 = project14.generate_dict_CCMTLVType_resource(DataCCMTLVTypeType, Numbers_ccmtlvtype)
 
-    dict12 = project12.generate_dict_STType_resource(DataSTType, Numbers_sttype)
-    dict13 = project13.generate_dict_CCGISType_resource(DataCCGISType, Numbers_ccgistype)
-    dict14 = project14.generate_dict_CCMTLVType_resource(DataCCMTLVTypeType, Numbers_ccmtlvtype)
+
+    dict1 = project1.generate_dict_BoxVoltageType_resource(DataBoxVoltageType, turbine_numbers)
+    dict2 = project2.generate_dict_MainTransformerType_resource(DataMainTransformerType, turbine_numbers)
+    dict3 = project3.generate_dict_110kVSwitChgearType_resource(Datav110kVSwitChgearType, turbine_numbers)
+    dict4 = project4.generate_dict_110kVArresterType_resource(Datav110kVArresterType, turbine_numbers)
+    dict5 = project5.generate_dict_35kVTICType_resource(Datav35kVTICType, turbine_numbers)
+    dict6 = project6.generate_dict_35kVMTOCType_resource(Datav35kVMTOCType, turbine_numbers)
+    dict7 = project7.generate_dict_35kVSCType_resource(Datav35kVSCType, turbine_numbers)
+    dict8 = project8.generate_dict_35kVRPCDCType_resource(Datav35kVRPCDCType, turbine_numbers)
+
+    dict12 = project12.generate_dict_STType_resource(DataSTType, turbine_numbers)
+    dict13 = project13.generate_dict_CCGISType_resource(DataCCGISType, turbine_numbers)
+    dict14 = project14.generate_dict_CCMTLVType_resource(DataCCMTLVTypeType, turbine_numbers)
 
     dictsum = dict(dict1, **dict2, **dict3, **dict4, **dict5, **dict6, **dict7, **dict8, **dict12, **dict13, **dict14)
     return dictsum

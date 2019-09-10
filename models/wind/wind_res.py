@@ -96,6 +96,7 @@ class auto_word_wind_res_form(models.Model):
         for re in self:
             ongrid_power_list, hours_year_list, wake_list = [], [], []
             for vaule in re.auto_word_wind_res:
+                print(vaule)
                 if vaule.rate != 0:
                     re.rate=re.auto_word_wind_res[0].rate
                     vaule.ongrid_power = float(vaule.PowerGeneration_Weak) * vaule.rate

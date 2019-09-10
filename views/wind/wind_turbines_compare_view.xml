@@ -6,6 +6,8 @@
         <field name="arch" type="xml">
             <form string="机型方案比选表">
                 <header>
+                 <button name="take_compare_result" type="object" groups="auto_word.wind_group_user"
+                           string="计算" class="btn btn-info"/>
                  <button name="wind_turbines_compare_form_refresh" type="object" groups="auto_word.wind_group_user"
                            string="提交结果" class="btn btn-info"/>
                  <button name="take_result_refresh" type="object" groups="auto_word.wind_group_user"

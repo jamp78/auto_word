@@ -43,7 +43,7 @@ class BoosterStationDatabase:
             self.DataBoosterStation['Grade'] == self.Grade].loc[self.DataBoosterStation['Capacity'] == self.Capacity]
 
         print("asdasdasdasdasdxxxxxxxxx")
-        # print(self.DataBoosterStation)
+        print(self.DataBoosterStation)
         print(self.Status)
         print(self.Grade)
         print(self.Capacity)
@@ -69,6 +69,8 @@ class BoosterStationDatabase:
             self.earth_excavation_booster_station = self.slope_area * 3 * self.road_basic_earthwork_ratio
             self.stone_excavation_booster_station = self.slope_area * 3 * self.road_basic_stone_ratio
             self.earthwork_back_fill_booster_station = self.slope_area * 0.5
+        print("mmmmmmmmmmmmmmmmmmmmmmmm")
+        print(self.data_booster_station.index[0])
 
         self.c30_booster_station = self.data_booster_station.at[self.data_booster_station.index[0], 'C30Concrete']
 

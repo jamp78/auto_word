@@ -81,6 +81,8 @@ class BoxVoltageType:
     def generate_dict_BoxVoltageType_resource(self, data, turbine_num):
         self.DataBoxVoltageType = data
         self.turbine_numbers = turbine_num
+        print("hhhhhhhhhh")
+        print(self.turbine_numbers)
         self.TypeName = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'TypeName']
         self.CapacityBoxVoltage = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'Capacity']
         self.VoltageClasses = self.DataBoxVoltageType.at[self.DataBoxVoltageType.index[0], 'VoltageClasses']

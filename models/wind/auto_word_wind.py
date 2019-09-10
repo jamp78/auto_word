@@ -58,7 +58,7 @@ class auto_word_wind(models.Model):
     # --------方案比选---------
     recommend_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案推荐', required=False)
     case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案名称', required=False)
-    name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
+    name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=False)
     turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
