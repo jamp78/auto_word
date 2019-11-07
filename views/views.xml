@@ -149,7 +149,7 @@
       <!--<field name="view_mode">tree,form</field>-->
     <!--</record>-->
 
-<!--电气-->
+电气
       <record model="ir.actions.act_window" id="auto_word_boxvoltagetype_act_window">
           <field name="name">箱式变电站数据</field>
           <field name="res_model">auto_word_electrical.boxvoltagetype</field>

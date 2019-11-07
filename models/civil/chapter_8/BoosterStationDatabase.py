@@ -16,7 +16,7 @@ class BoosterStationDatabase:
         self.road_basic_earthwork_ratio, self.road_basic_stone_ratio, self.TerrainType = 0, 0, []
         self.dict_booster_station = {}
         # ===========Calculated parameters==============
-        self.slope_area, self.earth_excavation_booster_station, self.stone_excavation_booster_station = 0, 0, 0
+        self.slope_area, BoosterStationDatabaseself.earth_excavation_booster_station, self.stone_excavation_booster_station = 0, 0, 0
         self.earthwork_back_fill_booster_station, self.c30_booster_station, self.c15_booster_station = 0, 0, 0
         self.c15_oil_pool_booster_station, self.c30_oil_pool_booster_station = 0, 0
         self.c25_foundation_booster_station, self.reinforcement_booster_station = 0, 0

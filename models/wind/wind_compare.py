@@ -37,7 +37,7 @@ class auto_word_wind_turbines_compare(models.Model):
     case_ids = fields.Many2many('wind_turbines.case', string=u'方案机型')
     cal_id = fields.Selection([(0, u"线性"), (1, u"非线性")], string=u"采用算法")
 
-    turbine_numbers = fields.Char(string=u'风机数量', readonly=True, default="1")
+    turbine_numbers = fields.Char(string=u'风机数量', readonly=True, default="0")
     name_tur = fields.Char(string=u'风机类型', readonly=True,    default="待提交")
     capacity = fields.Char(string=u'风机容量', readonly=True,    default="1")
     farm_capacity = fields.Char(string=u'装机容量', readonly=True,    default="0")
