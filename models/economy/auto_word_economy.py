@@ -668,16 +668,16 @@ class auto_word_economy(models.Model):
     def economy_refresh(self):
         # 风能
 
-        # self.Lon_words = self.project_id.Lon_words
-        # self.Lat_words = self.project_id.Lat_words
+        self.Lon_words = self.project_id.Lon_words
+        self.Lat_words = self.project_id.Lat_words
         # self.Elevation_words = self.project_id.Elevation_words
         # self.Relative_height_difference_words = self.project_id.Relative_height_difference_words
         #
         # self.Turbine_capacity_words = self.project_id.TurbineCapacity
         # self.Turbine_number_words = self.project_id.turbine_numbers_suggestion
-        # self.Farm_capacity_words = self.project_id.project_capacity
-        # self.Generating_capacity_words = self.project_id.ongrid_power
-        # self.Hour_words = self.project_id.Hour_words
+        self.Farm_capacity_words = self.project_id.project_capacity
+        self.Generating_capacity_words = self.project_id.ongrid_power
+        self.Hour_words = self.project_id.Hour_words
         #
         # Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
         # infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')

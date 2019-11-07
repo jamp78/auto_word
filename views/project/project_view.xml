@@ -21,10 +21,10 @@
         <field name="model">auto_word.project</field>
         <field name="arch" type="xml">
             <form string="">
-                <!--<header>-->
-                    <!--<button name="button_project" type="object" groups="auto_word.project_group_user"-->
-                            <!--string="报告合并"/>-->
-                <!--</header>-->
+                <header>
+                    <button name="button_project" type="object" groups="auto_word.project_group_user"
+                            string="生成报告"/>
+                </header>
                 <sheet>
                     <group name="group_top" string="项目明细">
                         <group name="group_left">
@@ -180,7 +180,7 @@
                         <field name="message_main_attachment_id"/>
                     </group>
                     <group name="group_bottom">
-                        <field name="report_attachment_id"/>
+                        <field name="report_attachment_id_output1"/>
                     </group>
                 </sheet>
             </form>

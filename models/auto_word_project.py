@@ -2,8 +2,18 @@
 
 from odoo import models, fields, api
 from odoo import exceptions
-import base64
+import base64, os
+from docxtpl import DocxTemplate
 import datetime
+
+
+def generate_docx(Dict, path_images, model_name, outputfile):
+    filename_box = [model_name, outputfile]
+    read_path = os.path.join(path_images, '%s') % filename_box[0]
+    save_path = os.path.join(path_images, '%s') % filename_box[1]
+    tpl = DocxTemplate(read_path)
+    tpl.render(Dict)
+    tpl.save(save_path)
 
 
 class auto_word_project(models.Model):
@@ -12,14 +22,14 @@ class auto_word_project(models.Model):
     _rec_name = 'project_name'
     path_images_chapter_2 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_2"
     path_images_chapter_5 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
-    economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_'
+    project_path = r'D:\GOdoo12_community\myaddons\auto_word\models\project\chapter_'
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
     # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
-    Farm_words = fields.Char(string=u'风电场名称', default='华润郁南欣茂风电项目')
-    Location_words = fields.Char(string=u'建设地点', default='广东省云浮市')
+    Farm_words = fields.Char(string=u'风电场名称')
+    Location_words = fields.Char(string=u'建设地点')
     order_number = fields.Char(u'项目编号', required=True)
     active = fields.Boolean(u'续存？', default=True)
     date_start = fields.Date(u'项目启动日期', default=fields.date.today())
@@ -157,6 +167,64 @@ class auto_word_project(models.Model):
     payback_period = fields.Char(string=u'投资回收期(年)')
     ROI_13 = fields.Char(string=u'总投资收益率(%)')
     ROE_13 = fields.Char(string=u'资本金利润率(%)')
+
+    report_attachment_id_output1 = fields.Many2one('ir.attachment', string=u'可研报告章节-1')
+
+    def button_project(self):
+        chapter_number = 1
+        project_path = self.env['auto_word.project'].project_path + str(chapter_number)
+        suffix_in = ".xls"
+        suffix_out = ".docx"
+        name_first, file_second, name_second = "", "", ""
+        if chapter_number == 12:
+            inputfile = name_first + suffix_in
+        elif chapter_number == 13 and file_second == True:
+            inputfile = name_second + suffix_in
+        outputfile = 'result_chapter' + str(chapter_number) + suffix_out
+        model_name = 'cr' + str(chapter_number) + suffix_out
+        # Pathinput = os.path.join(project_path, '%s') % inputfile
+        Pathoutput = os.path.join(project_path, '%s') % outputfile
+
+        dict_12_word = {
+            "东经": self.Lon_words,
+            "北纬": self.Lat_words,
+            "风电场名称": self.Farm_words
+        }
+
+        dict_12_res_word = {
+            "装机容量": self.Farm_capacity_words,
+            "上网电量": self.ongrid_power,
+            "满发小时": self.Hour_words,
+        }
+
+        Dict1 = {}
+        Dict1 = dict(dict_12_word, **dict_12_res_word)
+        print(Dict1)
+        generate_docx(Dict1, project_path, model_name, outputfile)
+
+        # ###########################
+
+        reportfile_name = open(file=Pathoutput, mode='rb')
+        byte = reportfile_name.read()
+        reportfile_name.close()
+        if (str(self.report_attachment_id_output1) == 'ir.attachment()'):
+            Attachments = self.env['ir.attachment']
+            print('开始创建新纪录1')
+            New = Attachments.create({
+                'name': self.project_name + '可研报告章节chapter' + str(chapter_number) + '下载页',
+                'datas_fname': self.project_name + '可研报告章节chapter' + str(chapter_number) + '.docx',
+                'datas': base64.standard_b64encode(byte),
+                'display_name': self.project_name + '可研报告章节',
+                'create_date': fields.date.today(),
+                'public': True,  # 此处需设置为true 否则attachments.read  读不到
+            })
+            print('已创建新纪录：', New)
+            print('new dataslen：', len(New.datas))
+            self.report_attachment_id_output1 = New
+        else:
+            self.report_attachment_id_output1.datas = base64.standard_b64encode(byte)
+
+        return True
 
 
 class auto_word_null_project(models.Model):
