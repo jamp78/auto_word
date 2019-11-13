@@ -44,6 +44,10 @@ class auto_word_wind(models.Model):
                                  ("IB", u"IB"), ("IIB", u"IIB"), ("IIIB", u"IIIB"),
                                  ("IC", u"IC"), ("IIC", u"IIC"), ("IIIC", u"IIIC"),
                                  ], string=u"IEC等级", default="IIIB", required=True)
+    PWDLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III"),
+                                 ("IV", u"IV"), ("V", u"V"), ("VI", u"VI"),
+                                 ("VII", u"VII")], string=u"风功率密度等级", default="I", required=True)
+
     # --------测风信息---------
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交", readonly=True)
@@ -145,6 +149,11 @@ class auto_word_wind(models.Model):
         limited_str_2 = "等限制性因素进行排查。"
         self.project_id.investment_turbines_kws=self.investment_turbines_kws
 
+        self.project_id.rate=self.rate
+        self.project_id.IECLevel = self.IECLevel
+        self.project_id.PWDLevel = self.PWDLevel
+        self.project_id.farm_speed_range_words = self.farm_speed_range_words
+
         if self.limited_1 == True:
             if self.limited_2 == False and self.limited_3 == False:
                 limited_str_1 = "基本农田"
@@ -177,6 +186,8 @@ class auto_word_wind(models.Model):
         self.project_id.weak = self.weak
         self.project_id.Hour_words = self.hours_year
         self.project_id.capacity_suggestion=self.capacity_suggestion
+
+
 
     def take_wind_result(self):
         # 机型结果
@@ -267,7 +278,6 @@ class auto_word_wind(models.Model):
         for i in range(0, len(self.select_turbine_ids)):
             tur_name.append(self.select_turbine_ids[i].name_tur)
 
-        print("lllllllllllllllllllllllll")
         print(tur_name)
         path_images = self.env['auto_word.project'].path_images_chapter_5
 

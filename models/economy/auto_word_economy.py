@@ -702,6 +702,22 @@ class auto_word_economy(models.Model):
 
     def submit_economy(self):
 
+
+
+        self.project_id.static_investment_12 = self.static_investment_12
+        self.project_id.construction_assistance = self.construction_assistance
+        self.project_id.equipment_installation = self.equipment_installation
+        self.project_id.constructional_engineering = self.constructional_engineering
+        self.project_id.other_expenses = self.other_expenses
+        self.project_id.static_investment_unit = self.static_investment_unit
+
+        self.project_id.capital_rate_12 = self.capital_rate_12
+        self.project_id.domestic_bank_loan = self.domestic_bank_loan
+        self.project_id.interest_construction_loans_12 = self.interest_construction_loans_12
+        self.project_id.dynamic_investment_12 = self.dynamic_investment_12
+        self.project_id.dynamic_investment_unit = self.dynamic_investment_unit
+
+
         self.project_id.static_investment_13 = self.static_investment_13
         self.project_id.static_investment_unit = self.static_investment_unit
         self.project_id.Internal_financial_rate_before = self.Internal_financial_rate_before

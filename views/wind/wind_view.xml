@@ -57,6 +57,9 @@
                             <field name="farm_speed_range_words"/>
                             <field name="air_density_words"/>
                             <field name="IECLevel"/>
+                            <field name="PWDLevel"/>
+
+
                         </group>
                         <!--<field name="project_res" />-->
                     </group>

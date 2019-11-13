@@ -33,6 +33,7 @@
                             <field name="Location_words"/>
                             <field name="order_number"/>
                             <field name="staff"/>
+                            <field name="road_names"/>
                         </group>
                         <group name="group_right">
                             <field name="company_id" options="{'no_create_edit': 1}"/>
@@ -42,7 +43,10 @@
                             <field name="Lat_words"/>
                             <field name="Elevation_words"/>
                             <field name="Relative_height_difference_words"/>
+                            <field name="area_words"/>
+                            <field name="conservation_water_soil"/>
                         </group>
+
                     </group>
                     <group name="group_sumbit" string="项目提交情况" col="4" colspan="2">
                         <field name="wind_attachment_ok"/>

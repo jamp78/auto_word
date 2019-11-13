@@ -4,6 +4,7 @@ from odoo import models, fields, api
 from odoo import exceptions
 import base64, os
 from docxtpl import DocxTemplate
+from RoundUp import round_up
 import datetime
 
 
@@ -30,11 +31,13 @@ class auto_word_project(models.Model):
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     Farm_words = fields.Char(string=u'风电场名称')
     Location_words = fields.Char(string=u'建设地点')
+    area_words = fields.Char(string=u'风场面积')
+
     order_number = fields.Char(u'项目编号', required=True)
     active = fields.Boolean(u'续存？', default=True)
     date_start = fields.Date(u'项目启动日期', default=fields.date.today())
     date_end = fields.Date(u'项目要求完成日期', default=fields.date.today() + datetime.timedelta(days=10))
-    company_id = fields.Many2one('res.company', string=u'项目所在大区')
+    company_id = fields.Many2one('res.company', string=u'项目大区')
     contacts_ids = fields.Many2many('res.partner', string=u'项目联系人')
     favorite_user_ids = fields.Many2many('res.users', string=u'项目组成员')
     staff = fields.Integer(u'工程定员')
@@ -54,12 +57,13 @@ class auto_word_project(models.Model):
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告成果')
 
     ###风能
-    project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)
+    project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)  ######################
     name_tur_suggestion = fields.Char(u'风机推荐型号', default="待提交", readonly=True)
     name_tur_selection = fields.Char(u'风机比选型号', default="待提交", readonly=True)
-    turbine_numbers_suggestion = fields.Char(u'机位数', default="0", readonly=True)
+    turbine_numbers_suggestion = fields.Char(u'机组数量', default="0", readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
     capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True)
+
     investment_turbines_kws = fields.Char(u'风机kw投资')
 
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
@@ -72,18 +76,18 @@ class auto_word_project(models.Model):
     note = fields.Char(string=u'备注', readonly=False)
     limited_words = fields.Char(u'限制性因素', required=False)
 
-    # 风能
     Lon_words = fields.Char(string=u'东经', default='待提交')
     Lat_words = fields.Char(string=u'北纬', default='待提交')
     Elevation_words = fields.Char(string=u'海拔高程', default='待提交')
     Relative_height_difference_words = fields.Char(string=u'相对高差', default='待提交')
 
-    Turbine_number_words = fields.Char(string=u'风力发电机组', default="待提交", readonly=True)
-    Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)
+    Turbine_number_words = fields.Char(string=u'机组数量', default="待提交", readonly=True)  ######################
+    Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)  ######################
     Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
 
     ongrid_power = fields.Char(u'上网电量', default="待提交")
     weak = fields.Char(u'尾流衰减', default="待提交")
+    PWDLevel = fields.Char(u'风功率密度等级', default="待提交")
 
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="0", readonly=True)
@@ -105,9 +109,9 @@ class auto_word_project(models.Model):
     jidian_cable_wind = fields.Char(u'电缆长度', readonly=True, default="0")
 
     ###土建
-    road_1_num = fields.Char(u'场外改扩建道路', default="待提交", readonly=True)
+    road_1_num = fields.Char(u'改扩建进场道路', default="待提交", readonly=True)
     road_2_num = fields.Char(u'进站道路', default="待提交", readonly=True)
-    road_3_num = fields.Char(u'施工检修道路工程', default="待提交", readonly=True)
+    road_3_num = fields.Char(u'新建施工检修道路', default="待提交", readonly=True)
     total_civil_length = fields.Float(u'道路工程长度', default="0", readonly=True)
 
     basic_type = fields.Char(u'基础形式', default="待提交", readonly=True)
@@ -115,7 +119,7 @@ class auto_word_project(models.Model):
     fortification_intensity = fields.Char(u'设防烈度', default="待提交", readonly=True)
     temporary_land_area = fields.Char(u'临时用地面积（亩）', default="0", readonly=True)
     permanent_land_area = fields.Char(u'永久用地面积（亩）', default="0", readonly=True)
-    TurbineCapacity = fields.Char(u'风机容量', default="0", readonly=True)
+    TurbineCapacity = fields.Char(u'风机容量', default="0", readonly=True)  ######################
     excavation = fields.Char(u'总开挖量（m3）', default="0", readonly=True)
     backfill = fields.Char(u'总回填量（m3）', default="0", readonly=True)
     spoil = fields.Char(u'弃土量（m3）', default="0", readonly=True)
@@ -157,6 +161,21 @@ class auto_word_project(models.Model):
     investment = fields.Char(u'发电部分投资(万元)', readonly=True, default="0")
     investment_unit = fields.Char(u'单位度电投资(万元)', readonly=True, default="0")
 
+    # 经评
+    capital_rate_12 = fields.Char(string=u'资本金比例')
+
+    static_investment_12 = fields.Char(string=u'静态总投资')
+    construction_assistance = fields.Char(string=u'施工辅助工程')
+    equipment_installation = fields.Char(string=u'设备及安装工程')
+    constructional_engineering = fields.Char(string=u'建筑工程')
+    other_expenses = fields.Char(string=u'其他费用')
+    static_investment_unit = fields.Char(string=u'单位千瓦静态投资')
+
+    domestic_bank_loan = fields.Char(string=u'国内银行贷款')
+    interest_construction_loans_12 = fields.Char(string=u'建设期贷款利息')
+    dynamic_investment_12 = fields.Char(string=u'动态总投资')
+    dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资')
+
     static_investment_13 = fields.Char(string=u'静态总投资')
     static_investment_unit = fields.Char(string=u'单位千瓦静态投资')
     dynamic_investment_13 = fields.Char(string=u'动态总投资')
@@ -170,8 +189,20 @@ class auto_word_project(models.Model):
 
     report_attachment_id_output1 = fields.Many2one('ir.attachment', string=u'可研报告章节-1')
 
+    conservation_water_soil = fields.Char(string=u'水土保持费用（万元）')
+    environmental_protection_investment = fields.Char(string=u'环境保护总投资（万元）')
+
+    capacity_coefficient = fields.Char(string=u'容量系数')
+    IECLevel = fields.Char(string=u'IEC等级')
+    rotor_diameter_suggestion = fields.Char(string=u'叶轮直径')
+
+    road_names = fields.Char(string=u'周边道路')
+    land_area = fields.Char(string=u'总用地面积')
+
+    farm_speed_range_words=fields.Char(string=u'平均风速区间')
+
     def button_project(self):
-        chapter_number = 1
+        chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
         suffix_out = ".docx"
@@ -185,20 +216,87 @@ class auto_word_project(models.Model):
         # Pathinput = os.path.join(project_path, '%s') % inputfile
         Pathoutput = os.path.join(project_path, '%s') % outputfile
 
-        dict_12_word = {
+        mei_t = round_up(float(self.ongrid_power) * 2.29 / 7151.69)
+        s02 = round_up(float(self.ongrid_power) * 1716.41 / 7151.69)
+        n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
+        c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
+
+        if float(self.project_capacity) >= 100:
+            self.environmental_protection_investment = '170'
+        elif float(self.project_capacity) < 100 and float(self.project_capacity) >= 50:
+            self.environmental_protection_investment = '123'
+        elif float(self.project_capacity) < 50:
+            self.environmental_protection_investment = '50'
+
+        self.TurbineCapacity = float(self.capacity_suggestion) / 1000
+        self.capacity_coefficient = round_up(float(self.Hour_words) / 8760)
+
+        self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
+
+        dict_1_word = {
+            "风电场名称": self.Farm_words,
+            "建设地点": self.Location_words,
+            "山地类型": self.TerrainType,
+            "海拔高程": self.Elevation_words,
             "东经": self.Lon_words,
             "北纬": self.Lat_words,
-            "风电场名称": self.Farm_words
-        }
-
-        dict_12_res_word = {
-            "装机容量": self.Farm_capacity_words,
+            "风场面积": self.area_words,
+            "机组数量": self.turbine_numbers_suggestion,
+            "单机容量": self.TurbineCapacity,
+            "装机容量": self.project_capacity,
             "上网电量": self.ongrid_power,
             "满发小时": self.Hour_words,
+            "容量系数": self.capacity_coefficient,
+            "项目大区": self.company_id.name,
+            "周边道路": self.road_names,
+            "风功率密度等级": self.PWDLevel,
+
+            "资本金比例_12": self.capital_rate_12,
+            "静态总投资_12": self.static_investment_12,
+            "施工辅助工程": self.construction_assistance,
+            "设备及安装工程": self.equipment_installation,
+            "建筑工程": self.constructional_engineering,
+            "其他费用": self.other_expenses,
+            "单位千瓦静态投资": self.static_investment_unit,
+            "国内银行贷款": self.domestic_bank_loan,
+            "建设期贷款利息_12": self.interest_construction_loans_12,
+            "动态总投资_12": self.dynamic_investment_12,
+            "单位千瓦动态投资": self.dynamic_investment_unit,
+
+            "税前财务内部收益率_13": self.Internal_financial_rate_before,
+            "税后财务内部收益率_13": self.Internal_financial_rate_after,
+            "资本金税后财务内部收益率_13": self.Internal_financial_rate_capital,
+            "投资回收期_13": self.payback_period,
+            "总投资收益率_13": self.ROI_13,
+            "资本金利润率_13": self.ROE_13,
+
+            "改扩建进场道路": self.road_1_num,
+            "新建进站道路": self.road_2_num,
+            "新建施工检修道路": self.road_3_num,
+            "道路工程长度": self.total_civil_length,
+            "折减率": self.rate,
+            "IEC等级": self.IECLevel,
+            "叶轮直径": self.rotor_diameter_suggestion,
+            "推荐轮毂高度": self.hub_height_suggestion,
+            "永久用地面积": self.permanent_land_area,
+            "临时用地面积": self.temporary_land_area,
+            "总用地面积": self.land_area,
+            "风速区间": self.farm_speed_range_words,
+
+        }
+
+        dict_1_res_word = {
+
+            "标煤": mei_t,
+            "SO2": s02,
+            "NOx": n02,
+            "CO2": c02,
+            "环境保护总投资": self.environmental_protection_investment,
+            "水土保持": self.conservation_water_soil,
         }
 
         Dict1 = {}
-        Dict1 = dict(dict_12_word, **dict_12_res_word)
+        Dict1 = dict(dict_1_word, **dict_1_res_word)
         print(Dict1)
         generate_docx(Dict1, project_path, model_name, outputfile)
 

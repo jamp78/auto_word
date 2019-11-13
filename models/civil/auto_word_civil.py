@@ -170,9 +170,9 @@ class auto_word_civil(models.Model):
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=False, default="缓坡低山")
 
-    road_1_num = fields.Float(u'场外改扩建道路', required=False, default=5)
-    road_2_num = fields.Float(u'进站道路', required=False, default=1.5)
-    road_3_num = fields.Float(u'施工检修道路工程', required=False, default=10)
+    road_1_num = fields.Float(u'改扩建进场道路', required=False, default=5)
+    road_2_num = fields.Float(u'新建进站道路', required=False, default=1.5)
+    road_3_num = fields.Float(u'新建施工检修道路', required=False, default=10)
 
     total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路线路总长度')
     investment_E4 = fields.Float(compute='_compute_total_civil_length', string=u'道路投资(万元)')
