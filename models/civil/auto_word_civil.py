@@ -170,8 +170,8 @@ class auto_word_civil(models.Model):
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=False, default="缓坡低山")
 
-    road_1_num = fields.Float(u'改扩建进场道路', required=False, default=5)
-    road_2_num = fields.Float(u'新建进站道路', required=False, default=1.5)
+    road_1_num = fields.Float(u'改扩建道路', required=False, default=5)
+    road_2_num = fields.Float(u'进站道路', required=False, default=1.5)
     road_3_num = fields.Float(u'新建施工检修道路', required=False, default=10)
 
     total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路线路总长度')
@@ -304,6 +304,14 @@ class auto_word_civil(models.Model):
         projectname.stake_number = self.stake_number
 
         Dict8 = civil_generate_docx_dict(self)
+
+        projectname.BasicType=Dict8['基础形式']
+        projectname.FloorRadiusR = Dict8['基础底面圆直径']
+        projectname.H1 = Dict8['基础底板外缘高度']
+        projectname.R2 = Dict8['台柱圆直径']
+        projectname.H2 = Dict8['基础底板圆台高度']
+        projectname.H3 = Dict8['台柱高度']
+
         projectname.temporary_land_area = Dict8['合计亩_临时用地面积']
         projectname.permanent_land_area = Dict8['合计亩_永久用地面积']
         projectname.excavation = Dict8['合计_开挖']

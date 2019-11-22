@@ -59,8 +59,12 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     data1 = project10.extraction_data_wind_resource(basic_type=basic_type, ultimate_load=ultimate_load,
                                                     fortification_intensity=fortification_intensity)
     data_cal1 = project10.excavation_cal_wind_resource(data1, basic_earthwork_ratio, basic_stone_ratio, turbine_numbers)
-    Dict1 = RoundUp.round_dict_numbers(project10.generate_dict_wind_resource(data_cal1, turbine_numbers),
+
+    dict1_01,dict1_02=project10.generate_dict_wind_resource(data_cal1, turbine_numbers)
+    Dict1 = RoundUp.round_dict_numbers(dict1_01,
                                        turbine_numbers, 2)
+
+    Dict1 = dict(Dict1, **dict1_02)
     # ==============================================
     data2 = project10.extraction_data_box_voltage(TurbineCapacity)
     print("~~~~~~~~~~~~~~~@@@!!!!")

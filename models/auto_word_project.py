@@ -89,6 +89,14 @@ class auto_word_project(models.Model):
     weak = fields.Char(u'尾流衰减', default="待提交")
     PWDLevel = fields.Char(u'风功率密度等级', default="待提交")
 
+    summary_txt = fields.Char(u'概述', default="待提交")
+
+    wind_time_txt = fields.Char(u'选取时段', default="待提交")
+    wind_txt = fields.Char(u'风能信息', default="待提交")
+    wind_TI_txt = fields.Char(u'湍流信息', default="待提交")
+
+    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交")
+
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="0", readonly=True)
     line_2 = fields.Char(u'线路总填方', default="0", readonly=True)
@@ -149,6 +157,15 @@ class auto_word_project(models.Model):
     M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）')
     C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）')
     stake_number = fields.Char(u'单台风机桩根数（根）')
+
+
+    BasicType = fields.Char(u'基础形式')
+    FloorRadiusR = fields.Char(u'基础底面圆直径')
+    H1 = fields.Char(u'基础底板外缘高度')
+    R2 = fields.Char(u'台柱圆直径')
+    H2 = fields.Char(u'基础底板圆台高度')
+    H3 = fields.Char(u'台柱高度')
+
 
     case_name = fields.Char(u'方案名', readonly=True, default="待提交")
     investment_E1 = fields.Char(u'塔筒投资(万元)', readonly=True, default="0")
@@ -221,6 +238,9 @@ class auto_word_project(models.Model):
         n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
         c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
 
+
+        extreme_wind=round_up(float(self.max_wind_txt) * 1.4)
+
         if float(self.project_capacity) >= 100:
             self.environmental_protection_investment = '170'
         elif float(self.project_capacity) < 100 and float(self.project_capacity) >= 50:
@@ -234,6 +254,7 @@ class auto_word_project(models.Model):
         self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
 
         dict_1_word = {
+            "概述": self.summary_txt,
             "风电场名称": self.Farm_words,
             "建设地点": self.Location_words,
             "山地类型": self.TerrainType,
@@ -270,8 +291,14 @@ class auto_word_project(models.Model):
             "总投资收益率_13": self.ROI_13,
             "资本金利润率_13": self.ROE_13,
 
-            "改扩建进场道路": self.road_1_num,
-            "新建进站道路": self.road_2_num,
+            "选取时段": self.wind_time_txt,
+            "风能信息": self.wind_txt,
+            "湍流信息": self.wind_TI_txt,
+            "五十年一遇最大风速": self.max_wind_txt,
+            "五十年一遇极大风速": extreme_wind,
+
+            "改扩建道路": self.road_1_num,
+            "进站道路": self.road_2_num,
             "新建施工检修道路": self.road_3_num,
             "道路工程长度": self.total_civil_length,
             "折减率": self.rate,
@@ -283,6 +310,12 @@ class auto_word_project(models.Model):
             "总用地面积": self.land_area,
             "风速区间": self.farm_speed_range_words,
 
+            '基础形式': self.BasicType,
+            '基础底面圆直径': self.FloorRadiusR,
+            '基础底板外缘高度': self.H1,
+            '台柱圆直径': self.R2,
+            '基础底板圆台高度': self.H2,
+            '台柱高度': self.H3,
         }
 
         dict_1_res_word = {

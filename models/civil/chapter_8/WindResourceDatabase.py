@@ -3,6 +3,7 @@ import pandas as pd
 from connect_sql import connect_sql_pandas
 import numpy as np
 
+
 # from docxtpl import DocxTemplate
 # from RoundUp import round_dict_numbers
 
@@ -15,7 +16,7 @@ class WindResourceDatabase:
         # ===========basic parameters==============
         self.data_wind_resource, self.DataWindResource = pd.DataFrame(), pd.DataFrame()
         self.basic_earthwork_ratio, self.basic_stone_ratio, self.turbine_numbers = 0, 0, 0
-        self.dict_wind_resource = {}
+        self.dict_wind_resource, self.dict_wind_resource_02 = {}, {}
         # ===========Calculated parameters==============
         self.earth_excavation_wind_resource, self.stone_excavation_wind_resource = 0, 0
         self.earth_work_back_fill_wind_resource, self.earth_excavation_wind_resource_numbers = 0, 0
@@ -63,7 +64,7 @@ class WindResourceDatabase:
         self.earth_work_back_fill_wind_resource = \
             self.earth_excavation_wind_resource + self.stone_excavation_wind_resource - \
             self.data_wind_resource['Volume'] - self.data_wind_resource['Cushion']
-        
+
         self.stone_excavation_wind_resource_numbers = self.stone_excavation_wind_resource * int(self.turbine_numbers)
         self.earth_excavation_wind_resource_numbers = self.earth_excavation_wind_resource * self.turbine_numbers
         self.earth_work_back_fill_wind_resource_numbers = self.earth_work_back_fill_wind_resource * self.turbine_numbers
@@ -102,9 +103,17 @@ class WindResourceDatabase:
             '预制桩长_风机': self.data_wind_resource.at[self.data_wind_resource.index[0], 'SinglePileLength'],
             'M48预应力锚栓_风机': self.data_wind_resource.at[self.data_wind_resource.index[0], 'M48PreStressedAnchor'],
             'C80二次灌浆_风机': self.data_wind_resource.at[self.data_wind_resource.index[0], 'C80SecondaryGrouting'],
-            '单台风机桩根数_风机':self.data_wind_resource.at[self.data_wind_resource.index[0], 'Number'],
+            '单台风机桩根数_风机': self.data_wind_resource.at[self.data_wind_resource.index[0], 'Number'],
         }
-        return self.dict_wind_resource
+        self.dict_wind_resource_02 = {
+            '基础形式': self.data_wind_resource.at[self.data_wind_resource.index[0], 'BasicType'],
+            '基础底面圆直径': self.data_wind_resource.at[self.data_wind_resource.index[0], 'FloorRadiusR']*2,
+            '基础底板外缘高度': self.data_wind_resource.at[self.data_wind_resource.index[0], 'H1'],
+            '台柱圆直径': self.data_wind_resource.at[self.data_wind_resource.index[0], 'R2']*2,
+            '基础底板圆台高度': self.data_wind_resource.at[self.data_wind_resource.index[0], 'H2'],
+            '台柱高度': self.data_wind_resource.at[self.data_wind_resource.index[0], 'H3'],
+        }
+        return self.dict_wind_resource,self.dict_wind_resource_02
 
 # project01 = WindResourceDatabase()
 # data = project01.extraction_data_wind_resource(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)
