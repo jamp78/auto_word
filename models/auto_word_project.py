@@ -330,7 +330,9 @@ class auto_word_project(models.Model):
 
         Dict1 = {}
         Dict1 = dict(dict_1_word, **dict_1_res_word)
-        print(Dict1)
+
+
+
         generate_docx(Dict1, project_path, model_name, outputfile)
 
         # ###########################

@@ -112,6 +112,7 @@ class WindResourceDatabase:
             '台柱圆直径': self.data_wind_resource.at[self.data_wind_resource.index[0], 'R2']*2,
             '基础底板圆台高度': self.data_wind_resource.at[self.data_wind_resource.index[0], 'H2'],
             '台柱高度': self.data_wind_resource.at[self.data_wind_resource.index[0], 'H3'],
+            '抗震烈度': self.data_wind_resource.at[self.data_wind_resource.index[0], 'FortificationIntensity'],
         }
         return self.dict_wind_resource,self.dict_wind_resource_02
 

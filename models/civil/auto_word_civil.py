@@ -3,6 +3,7 @@
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
 import base64, os
 import numpy
+from RoundUp import round_up
 from odoo import models, fields, api
 
 
@@ -85,6 +86,7 @@ def civil_generate_docx_dict(self):
                  'line_data', 'main_booster_station_num', 'overhead_line_num', 'direct_buried_cable_num']
 
     dict_8 = get_dict_8(np, dict_keys)
+
     dict8 = generate_civil_dict(**dict_8)
 
     dict_8_word = {
@@ -121,12 +123,7 @@ class auto_word_civil(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
 
-    # # 土建
-    # Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
-    # Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
-    # New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
-    # Permanent_land_words = fields.Char(string=u'永久用地', default='38.36')
-    # temporary_land_words = fields.Char(string=u'临时用地', default='1467.95')
+
 
     # 风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
@@ -249,13 +246,32 @@ class auto_word_civil(models.Model):
     sum_EarthStoneBalance_spoil = fields.Char(u'弃土')
 
 
+    # project information
+
+    Farm_words = fields.Char(string=u'风电场名称')
+    Location_words = fields.Char(string=u'建设地点')
+    Elevation_words = fields.Char(string=u'海拔高程', default='待提交')
+    Lon_words = fields.Char(string=u'东经', default='待提交')
+    Lat_words = fields.Char(string=u'北纬', default='待提交')
+    area_words = fields.Char(string=u'风场面积')
+
+    wind_txt = fields.Char(u'风能信息', default="待提交")
+    PWDLevel = fields.Char(u'风功率密度等级', default="待提交")
+    road_names = fields.Char(string=u'周边道路')
+    turbine_numbers_suggestion = fields.Char(u'机组数量', default="0", readonly=True)
+    TerrainType_type = fields.Char(string=u'_山地类型_',compute='_compute_terrain_type_words')
+
+    sum_acres_landuse_all = fields.Char(string=u'总用地面积（亩）')
+
     @api.depends('TerrainType')
     def _compute_terrain_type_words(self):
         for re in self:
             if re.TerrainType == "平原":
                 re.TerrainType_words = "地形较为平缓，不需要进行高边坡特别设计"
+                re.TerrainType_type = "平原"
             else:
                 re.TerrainType_words = "山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计"
+                re.TerrainType_type = "山地"
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num', 'TerrainType')
     def _compute_total_civil_length(self):
@@ -332,7 +348,6 @@ class auto_word_civil(models.Model):
         self.hub_height_suggestion = projectname.hub_height_suggestion
         self.ProjectLevel_all = self.env['auto_word_civil.design_safety_standard'].search(
             [('civil_id.project_id.project_name', '=', self.project_id.project_name)])
-
         self.line_1 = projectname.line_1
         self.line_2 = projectname.line_2
         # self.overhead_line = projectname.overhead_line
@@ -340,13 +355,23 @@ class auto_word_civil(models.Model):
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
-
         self.TurbineCapacity = projectname.capacity_suggestion
+
+        self.Farm_words=projectname.Farm_words
+        self.Location_words = projectname.Location_words
+        self.Elevation_words = projectname.Elevation_words
+        self.Lon_words = projectname.Lon_words
+        self.Lat_words = projectname.Lat_words
+        self.area_words = projectname.area_words
+        self.wind_txt = projectname.wind_txt
+        self.PWDLevel = projectname.PWDLevel
+        self.road_names = projectname.road_names
+        self.turbine_numbers_suggestion = projectname.turbine_numbers_suggestion
+
         return True
 
     def take_civil_result(self):
         Dict8 = civil_generate_docx_dict(self)
-        print(Dict8)
         self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = Dict8['石方开挖_风机_numbers']
         self.EarthWorkBackFill_WindResource = Dict8['土石方回填_风机_numbers']
@@ -380,10 +405,30 @@ class auto_word_civil(models.Model):
         self.sum_EarthStoneBalance_back_fill = Dict8['合计_回填']
         self.sum_EarthStoneBalance_spoil = Dict8['合计_弃土']
 
+        self.sum_acres_landuse_all = round_up(float(Dict8['合计亩_永久用地面积'])+float(Dict8['合计亩_临时用地面积']),2)
+
     def civil_generate(self):
 
-        Dict8 = civil_generate_docx_dict(self)
+        Dict8_0 = civil_generate_docx_dict(self)
+        Dict8_1 = {
 
+            "风电场名称": self.Farm_words,
+            "建设地点": self.Location_words,
+            "山地类型": self.TerrainType_type,
+            "海拔高程": self.Elevation_words,
+            "东经": self.Lon_words,
+            "北纬": self.Lat_words,
+            "风场面积": self.area_words,
+            "周边道路": self.road_names,
+            "风功率密度等级": self.PWDLevel,
+            "风能信息": self.wind_txt,
+            "机组数量": self.turbine_numbers_suggestion,
+            "总用地面积": self.sum_acres_landuse_all,
+
+        }
+
+        Dict8 = dict(Dict8_0, **Dict8_1)
+        print(Dict8)
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
         generate_civil_docx(Dict8, path_chapter_8)
         reportfile_name = open(
