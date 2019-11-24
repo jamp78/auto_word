@@ -245,6 +245,10 @@ class auto_word_wind(models.Model):
             ongrid_power_dict.append(round_up(float(re.ongrid_power), 1))
             hours_year_dict.append(round_up(float(re.hours_year), 1))
 
+        print("Elevation_dict")
+
+        print(Z_dict)
+        print(Elevation_dict)
         self.ave_elevation = round_up(Get_Average(Elevation_dict), 1)
         self.ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict), 2)
         self.ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict), 1)

@@ -24,8 +24,10 @@ class auto_word_project(models.Model):
     path_images_chapter_2 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_2"
     path_images_chapter_5 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
     project_path = r'D:\GOdoo12_community\myaddons\auto_word\models\project\chapter_'
+    economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_'
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
+
 
     # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
@@ -33,7 +35,7 @@ class auto_word_project(models.Model):
     Location_words = fields.Char(string=u'建设地点')
     area_words = fields.Char(string=u'风场面积')
 
-    order_number = fields.Char(u'项目编号', required=True)
+    order_number = fields.Char(u'项目编号')
     active = fields.Boolean(u'续存？', default=True)
     date_start = fields.Date(u'项目启动日期', default=fields.date.today())
     date_end = fields.Date(u'项目要求完成日期', default=fields.date.today() + datetime.timedelta(days=10))
