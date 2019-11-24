@@ -3,6 +3,7 @@
 from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
 import base64, os
 import numpy
+from RoundUp import round_up
 from odoo import models, fields, api
 
 
@@ -121,17 +122,10 @@ class auto_word_civil(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
 
-    # # 土建
-    # Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
-    # Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
-    # New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
-    # Permanent_land_words = fields.Char(string=u'永久用地', default='38.36')
-    # temporary_land_words = fields.Char(string=u'临时用地', default='1467.95')
-
     # 风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型型号', readonly=True)
-    hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
+    hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
 
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
@@ -227,7 +221,7 @@ class auto_word_civil(models.Model):
     C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）')
     stake_number = fields.Char(u'单台风机桩根数（根）')
 
-    #土石方平衡表
+    # 土石方平衡表
 
     turbine_foundation_box_voltage_excavation = fields.Char(u'开挖')
     turbine_foundation_box_voltage_back_fill = fields.Char(u'回填')
@@ -248,6 +242,9 @@ class auto_word_civil(models.Model):
     sum_EarthStoneBalance_back_fill = fields.Char(u'回填')
     sum_EarthStoneBalance_spoil = fields.Char(u'弃土')
 
+    temporary_land_area = fields.Char(u'临时用地面积（亩）')
+    permanent_land_area = fields.Char(u'永久用地面积（亩）')
+    land_area = fields.Char(u'总用地面积')
 
     @api.depends('TerrainType')
     def _compute_terrain_type_words(self):
@@ -284,7 +281,6 @@ class auto_word_civil(models.Model):
         projectname.fortification_intensity = self.fortification_intensity
         projectname.basic_earthwork_ratio = str(self.basic_earthwork_ratio * 10) + "%"
         projectname.basic_stone_ratio = str(self.basic_stone_ratio * 10) + "%"
-        # projectname.TurbineCapacity = self.TurbineCapacity / 10
         projectname.road_earthwork_ratio = str(self.road_earthwork_ratio * 10) + "%"
         projectname.road_stone_ratio = str(self.road_stone_ratio * 10) + "%"
         projectname.TerrainType = self.TerrainType
@@ -305,7 +301,7 @@ class auto_word_civil(models.Model):
 
         Dict8 = civil_generate_docx_dict(self)
 
-        projectname.BasicType=Dict8['基础形式']
+        projectname.BasicType = Dict8['基础形式']
         projectname.FloorRadiusR = Dict8['基础底面圆直径']
         projectname.H1 = Dict8['基础底板外缘高度']
         projectname.R2 = Dict8['台柱圆直径']
@@ -321,11 +317,15 @@ class auto_word_civil(models.Model):
         projectname.line_1 = self.line_1
         projectname.line_2 = self.line_2
 
-        projectname.civil_all=self
+        projectname.civil_all = self
 
         return True
 
     def civil_refresh(self):
+         return True
+
+    #   计算
+    def take_civil_result(self):
         projectname = self.project_id
         self.turbine_numbers = projectname.turbine_numbers_suggestion
         self.name_tur_suggestion = projectname.name_tur_suggestion
@@ -335,18 +335,13 @@ class auto_word_civil(models.Model):
 
         self.line_1 = projectname.line_1
         self.line_2 = projectname.line_2
-        # self.overhead_line = projectname.overhead_line
-        # self.direct_buried_cable = projectname.direct_buried_cable
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
 
         self.TurbineCapacity = projectname.capacity_suggestion
-        return True
 
-    def take_civil_result(self):
         Dict8 = civil_generate_docx_dict(self)
-        print(Dict8)
         self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = Dict8['石方开挖_风机_numbers']
         self.EarthWorkBackFill_WindResource = Dict8['土石方回填_风机_numbers']
@@ -358,14 +353,12 @@ class auto_word_civil(models.Model):
         self.C80SecondaryGrouting = Dict8['C80二次灌浆_风机_numbers']
         self.stake_number = Dict8['单台风机桩根数_风机']
 
-
         self.turbine_foundation_box_voltage_excavation = Dict8['风机基础及箱变_开挖']
         self.turbine_foundation_box_voltage_back_fill = Dict8['风机基础及箱变_回填']
         self.turbine_foundation_box_voltage_spoil = Dict8['风机基础及箱变_弃土']
         self.booster_station_engineering_excavation = Dict8['升压站工程_开挖']
         self.booster_station_engineering_back_fill = Dict8['升压站工程_回填']
         self.booster_station_engineering_spoil = Dict8['升压站工程_弃土']
-
 
         self.road_engineering_excavation = Dict8['道路工程_开挖']
         self.road_engineering_back_fill = Dict8['道路工程_回填']
@@ -380,6 +373,11 @@ class auto_word_civil(models.Model):
         self.sum_EarthStoneBalance_back_fill = Dict8['合计_回填']
         self.sum_EarthStoneBalance_spoil = Dict8['合计_弃土']
 
+        self.temporary_land_area = Dict8['合计亩_临时用地面积']
+        self.permanent_land_area = Dict8['合计亩_永久用地面积']
+        self.land_area = round_up(float(self.permanent_land_area) + float(self.temporary_land_area),2)
+
+    #   生成报告
     def civil_generate(self):
 
         Dict8 = civil_generate_docx_dict(self)

@@ -2,24 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b61773cf-16a4-4355-a7c1-a006fe9551bd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/auto_word.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/auto_word.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/auto_word_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/auto_word_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/auto_word_economy.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/auto_word_economy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_12/cr12.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_12/cr12.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/project/chapter_x/crx.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/project/chapter_x/crx.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/auto_word_wind.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/auto_word_wind.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/economy/economy_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/economy/economy_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/civil/auto_word_civil.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/auto_word_civil.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/civil/civil_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/civil/civil_view.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,71 +14,70 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/auto_word$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1574594516442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../.." />
+    <SUITE FILE_PATH="coverage/auto_word$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1574604748202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../.." />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/economy/economy_view.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="58" column="64" lean-forward="true" selection-start-line="58" selection-start-column="64" selection-end-line="58" selection-end-column="64" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1834">
-              <caret line="270" column="17" selection-start-line="270" selection-start-column="13" selection-end-line="270" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/wind/auto_word_wind.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="30" column="13" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/economy/auto_word_economy.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="401" column="35" selection-start-line="401" selection-start-column="25" selection-end-line="401" selection-end-column="35" />
-              <folding>
-                <element signature="e#251#1390#0" />
-                <element signature="e#1446#1646#0" />
-                <element signature="e#1723#1973#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/wind/wind_view.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="49" column="122" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="122" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.70031154">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/economy/economy_view.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="457">
+                  <caret line="58" column="64" selection-start-line="58" selection-start-column="64" selection-end-line="58" selection-end-column="64" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="180">
+                  <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="28" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="573">
+                  <caret line="127" column="50" selection-start-line="127" selection-start-column="50" selection-end-line="127" selection-end-column="50" />
+                  <folding>
+                    <element signature="e#25#95#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/views/wind/wind_view.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="264">
+                  <caret line="49" column="122" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="122" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/views/civil/civil_view.xml">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="333">
+                  <caret line="17" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="17" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>order_number</find>
-      <find>chapter_number</find>
-      <find>Elevation_dict</find>
-      <find>auto_word_wind_res</find>
-      <find>水土保持</find>
-      <find>economy_path</find>
-      <find>turbine_numbers</find>
       <find>Location_words</find>
       <find>area_words</find>
       <find>Farm_words</find>
@@ -116,6 +101,13 @@
       <find>北纬</find>
       <find>Lat_words</find>
       <find>check it</find>
+      <find>永久</find>
+      <find>Permanent</find>
+      <find>temporary_land_area</find>
+      <find>area</find>
+      <find>permanent</find>
+      <find>land_area</find>
+      <find>hub_height_suggestion</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -129,6 +121,8 @@
         <option value="$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py" />
         <option value="$PROJECT_DIR$/models/economy/auto_word_economy.py" />
         <option value="$PROJECT_DIR$/views/economy/economy_view.xml" />
+        <option value="$PROJECT_DIR$/views/civil/civil_view.xml" />
+        <option value="$PROJECT_DIR$/models/civil/auto_word_civil.py" />
       </list>
     </option>
   </component>
@@ -154,19 +148,24 @@
             <path>
               <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
               <item name="auto_word" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="civil" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
               <item name="auto_word" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="economy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
-              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="wind" type="462c0819:PsiDirectoryNode" />
+              <item name="civil" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -263,23 +262,31 @@
       <workItem from="1574473915111" duration="692000" />
       <workItem from="1574571288439" duration="715000" />
       <workItem from="1574582307722" duration="9617000" />
+      <workItem from="1574602845070" duration="1979000" />
     </task>
+    <task id="LOCAL-00001" summary="home 20191124">
+      <created>1574602904229</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574602904229</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11051000" />
+    <option name="totallyTimeSpent" value="13030000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14285715" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1444563" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="DB Browser" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.21800433" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.21800433" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -358,14 +365,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="home 20191124" />
+    <option name="LAST_COMMIT_MESSAGE" value="home 20191124" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="384" column="31" lean-forward="true" selection-start-line="384" selection-start-column="31" selection-end-line="384" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/source/doc_8.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -403,10 +407,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/economy/economy_view.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1834">
-          <caret line="270" column="17" selection-start-line="270" selection-start-column="13" selection-end-line="270" selection-end-column="17" />
+        <state relative-caret-position="457">
+          <caret line="58" column="64" selection-start-line="58" selection-start-column="64" selection-end-line="58" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/economy/auto_word_economy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="413">
+          <caret line="402" column="37" selection-start-line="402" selection-start-column="37" selection-end-line="402" selection-end-column="37" />
+          <folding>
+            <element signature="e#251#1390#0" />
+            <element signature="e#1446#1646#0" />
+            <element signature="e#1723#1973#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -417,18 +436,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/economy/auto_word_economy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="401" column="35" selection-start-line="401" selection-start-column="25" selection-end-line="401" selection-end-column="35" />
-          <folding>
-            <element signature="e#251#1390#0" />
-            <element signature="e#1446#1646#0" />
-            <element signature="e#1723#1973#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/wind/wind_view.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -436,13 +443,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/economy/economy_view.xml">
+    <entry file="file://$PROJECT_DIR$/views/civil/civil_view.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="58" column="64" lean-forward="true" selection-start-line="58" selection-start-column="64" selection-end-line="58" selection-end-column="64" />
+        <state relative-caret-position="333">
+          <caret line="17" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="573">
+          <caret line="127" column="50" selection-start-line="127" selection-start-column="50" selection-end-line="127" selection-end-column="50" />
+          <folding>
+            <element signature="e#25#95#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
