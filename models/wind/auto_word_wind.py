@@ -48,6 +48,10 @@ class auto_word_wind(models.Model):
                                  ("IV", u"IV"), ("V", u"V"), ("VI", u"VI"),
                                  ("VII", u"VII")], string=u"风功率密度等级", default="I", required=True)
 
+    TerrainType = fields.Selection(
+        [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
+         ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
+
     # --------测风信息---------
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交", readonly=True)
@@ -153,6 +157,7 @@ class auto_word_wind(models.Model):
         self.project_id.IECLevel = self.IECLevel
         self.project_id.PWDLevel = self.PWDLevel
         self.project_id.farm_speed_range_words = self.farm_speed_range_words
+        self.project_id.TerrainType = self.TerrainType
 
         if self.limited_1 == True:
             if self.limited_2 == False and self.limited_3 == False:

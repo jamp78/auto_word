@@ -36,20 +36,20 @@
                             <field name="road_3_num"/>
                             <field name="road_1_num"/>
                             <field name="road_2_num"/>
-                            <field name="total_civil_length"/>
+                            <!--<field name="total_civil_length"/>-->
                         </group>
                         <group name="group_mid">
                             <field name="basic_type"/>
-                            <field name="TerrainType"/>
                             <field name="ultimate_load"/>
                             <field name="fortification_intensity"/>
 
                         </group>
                         <group name="group_right">
+                            <field name="TerrainType"/>
                             <field name="basic_earthwork_ratio"/>
-                            <field name="basic_stone_ratio"/>
+                            <!--<field name="basic_stone_ratio"/>-->
                             <field name="road_earthwork_ratio"/>
-                            <field name="road_stone_ratio"/>
+                            <!--<field name="road_stone_ratio"/>-->
 
                         </group>
 

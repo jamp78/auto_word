@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 import base64
 import RoundUp
-
+from RoundUp import round_up
 
 # 机型比选
 class auto_word_wind_turbines_compare(models.Model):
@@ -29,8 +29,10 @@ class auto_word_wind_turbines_compare(models.Model):
     # hours_year = fields.Char(u'年发电小时数(结果)', readonly=True)
     # weak = fields.Char(u'尾流衰减(结果)', readonly=True)
 
-    TerrainType_turbines_compare = fields.Selection(
-        [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True, default="山地")
+    # TerrainType_turbines_compare = fields.Selection(
+    #     [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True, default="山地")
+    TerrainType_turbines_compare = fields.Char(string=u'山地类型')
+
     jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
     jidian_cable_wind = fields.Float(u'电缆长度', default=0, help='若不填写即采用电气集电线路')
 
@@ -38,24 +40,24 @@ class auto_word_wind_turbines_compare(models.Model):
     cal_id = fields.Selection([(0, u"线性"), (1, u"非线性")], string=u"采用算法")
 
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, default="0")
-    name_tur = fields.Char(string=u'风机类型', readonly=True,    default="待提交")
-    capacity = fields.Char(string=u'风机容量', readonly=True,    default="1")
-    farm_capacity = fields.Char(string=u'装机容量', readonly=True,    default="0")
-    tower_weight = fields.Char(   string=u'塔筒重量', default="待提交")
-    rotor_diameter_case = fields.Char(   string=u'叶轮直径', default="待提交")
-    case_number = fields.Char(  string=u'方案数')
+    name_tur = fields.Char(string=u'风机类型', readonly=True, default="待提交")
+    capacity = fields.Char(string=u'风机容量', readonly=True, default="1")
+    farm_capacity = fields.Char(string=u'装机容量', readonly=True, default="0")
+    tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
+    rotor_diameter_case = fields.Char(string=u'叶轮直径', default="待提交")
+    case_number = fields.Char(string=u'方案数')
     hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', compute='_compute_ongrid_power')
 
-    investment_E1 = fields.Float(   string=u'塔筒投资(万元)')
-    investment_E2 = fields.Float(   string=u'风机设备投资(万元)')
-    investment_E3 = fields.Float(string=u'基础投资(万元)', required=False,   )
+    investment_E1 = fields.Float(string=u'塔筒投资(万元)')
+    investment_E2 = fields.Float(string=u'风机设备投资(万元)')
+    investment_E3 = fields.Float(string=u'基础投资(万元)', required=False, )
     investment_E4 = fields.Float(string=u'道路投资(万元)')
-    investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True,   )
-    investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True,   )
-    investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True,   )
-    investment_turbines_kws = fields.Char(u'风机kw投资',   )
-    investment = fields.Float(string=u'发电部分投资(万元)', readonly=True,   )
-    investment_unit = fields.Float(string=u'单位度电投资', readonly=True,  )
+    investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, )
+    investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, )
+    investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, )
+    investment_turbines_kws = fields.Char(u'风机kw投资', )
+    investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, )
+    investment_unit = fields.Float(string=u'单位度电投资', readonly=True, )
 
     @api.depends('res_form')
     def _compute_ongrid_power(self):
@@ -65,8 +67,6 @@ class auto_word_wind_turbines_compare(models.Model):
             re.hours_year = re.res_form.hours_year_average
             re.weak = re.res_form.wake_average
             re.hub_height_suggestion = re.res_form.hub_height_calcuation
-
-
 
     def wind_turbines_compare_form_refresh(self):
         for re in self:
@@ -101,6 +101,8 @@ class auto_word_wind_turbines_compare(models.Model):
             case_hub_height_word, case_hub_height_words, capacity_words = '', '', ''
             name_tur_words, investment_e5 = '', 0
             re.case_number = str(len(re.case_ids))
+            re.turbine_numbers = 0
+            re.farm_capacity = 0
             for i in range(0, len(re.case_ids)):
 
                 tower_weight_word = str(re.case_ids[i].tower_weight)
@@ -111,10 +113,10 @@ class auto_word_wind_turbines_compare(models.Model):
 
                 re.turbine_numbers = int(re.case_ids[i].turbine_numbers) + int(re.turbine_numbers)
                 print(re.case_ids[i].capacity)
-                print(re.farm_capacity)
                 re.farm_capacity = int(re.case_ids[i].turbine_numbers) * float(re.case_ids[i].capacity) + float(
                     re.farm_capacity)
 
+                print(re.farm_capacity)
                 # print(re.hub_height_suggestion)
                 # if re.hub_height_suggestion == False:
                 #     re.hub_height_suggestion = re.env['auto_word_wind_res.form'].search([('case_name', '=',
@@ -210,10 +212,18 @@ class auto_word_wind_turbines_compare(models.Model):
             re.rotor_diameter_case = rotor_diameter_words
             re.investment_turbines_kws = investment_turbines_kw_words
 
-            re.farm_capacity = float(re.farm_capacity) / 1000
+            re.farm_capacity = round_up(float(re.farm_capacity) / 1000,2)
             re.investment_E1 = investment_e1_sum
             re.investment_E2 = investment_e2_sum
             re.investment_E3 = investment_e3_sum
+
+            if re.content_id.TerrainType=="平原":
+                re.TerrainType_turbines_compare='平原'
+            elif re.content_id.TerrainType=="丘陵":
+                re.TerrainType_turbines_compare = '丘陵'
+            else:
+                re.TerrainType_turbines_compare = '山地'
+
             if re.investment_E4 == 0:
                 if re.TerrainType_turbines_compare == "平原":
                     re.investment_E4 = float(re.project_id.total_civil_length) * 50

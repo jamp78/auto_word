@@ -68,6 +68,10 @@ def civil_generate_docx_dict(self):
     self.line_data = [float(self.line_1), float(self.line_2)]
     print("~~~~~~~~~~~~~~~~~~~~~~~")
     print(self.turbine_numbers)
+
+    self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
+    self.road_stone_ratio = 10 - self.road_earthwork_ratio
+
     self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
     list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
             self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, int(self.TurbineCapacity) / 1000,
@@ -139,15 +143,15 @@ class auto_word_civil(models.Model):
     basic_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础土方比", required=False, default=8)
-    basic_stone_ratio = fields.Selection(
-        [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础石方比", required=False, default=2)
+    # basic_stone_ratio = fields.Selection(
+    #     [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
+    #      (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础石方比", required=False, default=2)
     road_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=False, default=8)
-    road_stone_ratio = fields.Selection(
-        [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-         (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=False, default=2)
+    # road_stone_ratio = fields.Selection(
+    #     [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
+    #      (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=False, default=2)
     ####箱变
     # TurbineCapacity = fields.Char(
     #     [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
@@ -160,9 +164,11 @@ class auto_word_civil(models.Model):
     # Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
 
     ####道路
-    TerrainType = fields.Selection(
-        [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
-         ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=False, default="缓坡低山")
+    # TerrainType = fields.Selection(
+    #     [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
+    #      ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=False, default="缓坡低山")
+
+    TerrainType = fields.Char(u'山地类型', readonly=True)
 
     road_1_num = fields.Float(u'改扩建道路', required=False, default=5)
     road_2_num = fields.Float(u'进站道路', required=False, default=1.5)
@@ -266,6 +272,9 @@ class auto_word_civil(models.Model):
                 re.investment_E4 = float(re.total_civil_length) * 140
 
     def button_civil(self):
+        self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
+        self.road_stone_ratio = 10 - self.road_earthwork_ratio
+
         projectname = self.project_id
         projectname.civil_attachment_id = self
         projectname.civil_attachment_ok = u"已提交,版本：" + self.version_id
@@ -283,7 +292,6 @@ class auto_word_civil(models.Model):
         projectname.basic_stone_ratio = str(self.basic_stone_ratio * 10) + "%"
         projectname.road_earthwork_ratio = str(self.road_earthwork_ratio * 10) + "%"
         projectname.road_stone_ratio = str(self.road_stone_ratio * 10) + "%"
-        projectname.TerrainType = self.TerrainType
         projectname.ProjectLevel = self.ProjectLevel
 
         projectname.EarthExcavation_WindResource = self.EarthExcavation_WindResource
@@ -322,7 +330,7 @@ class auto_word_civil(models.Model):
         return True
 
     def civil_refresh(self):
-         return True
+        return True
 
     #   计算
     def take_civil_result(self):
@@ -340,6 +348,7 @@ class auto_word_civil(models.Model):
         self.main_booster_station_num = projectname.main_booster_station_num
 
         self.TurbineCapacity = projectname.capacity_suggestion
+        self.TerrainType = projectname.TerrainType
 
         Dict8 = civil_generate_docx_dict(self)
         self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
@@ -375,7 +384,7 @@ class auto_word_civil(models.Model):
 
         self.temporary_land_area = Dict8['合计亩_临时用地面积']
         self.permanent_land_area = Dict8['合计亩_永久用地面积']
-        self.land_area = round_up(float(self.permanent_land_area) + float(self.temporary_land_area),2)
+        self.land_area = round_up(float(self.permanent_land_area) + float(self.temporary_land_area), 2)
 
     #   生成报告
     def civil_generate(self):
@@ -509,7 +518,6 @@ class auto_word_civil_road1(models.Model):
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
-
     GradedGravelPavement_1 = fields.Float(u'级配碎石路面(20cm厚)')
     RoundTubeCulvert_1 = fields.Float(u'D1000mm圆管涵')
     StoneMasonryDrainageDitch_1 = fields.Float(u'浆砌石排水沟')
