@@ -39,23 +39,23 @@ def get_dict_8(np, dict_keys):
     return dict
 
 
-def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, fortification_intensity=0,
+def generate_civil_dict(turbine_numbers=0, basic_type="", ultimate_load=0, fortification_intensity=0,
                         basic_earthwork_ratio=0, basic_stone_ratio=0, TurbineCapacity=0, road_earthwork_ratio=0,
-                        road_stone_ratio=0, Status='', Grade=0, Capacity=0, TerrainType='', numbers_list_road=[],
+                        road_stone_ratio=0, Status="", Grade=0, Capacity=0, TerrainType="", numbers_list_road=[],
                         overhead_line=0, direct_buried_cable=0, line_data=[], main_booster_station_num=0,
                         overhead_line_num=0, direct_buried_cable_num=0):
 
     Doc_word = {
-        'turbine_numbers': turbine_numbers,
-        'TurbineCapacity': TurbineCapacity,
-        'fortification_intensity': fortification_intensity,
-        '风电场总装机容量': TurbineCapacity * turbine_numbers,
-        '变电站电压等级': Grade
+        "turbine_numbers": turbine_numbers,
+        "TurbineCapacity": TurbineCapacity,
+        "fortification_intensity": fortification_intensity,
+        "风电场总装机容量": TurbineCapacity * turbine_numbers,
+        "变电站电压等级": Grade
 
     }
 
     project10 = MainConstructionQuantitySummarySheet()
-    # data1 = project10.extraction_data_wind_resource(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)
+    # data1 = project10.extraction_data_wind_resource(basic_type="扩展基础", ultimate_load=70000, fortification_intensity=7)
     data1 = project10.extraction_data_wind_resource(basic_type=basic_type, ultimate_load=ultimate_load,
                                                     fortification_intensity=fortification_intensity)
     data_cal1 = project10.excavation_cal_wind_resource(data1, basic_earthwork_ratio, basic_stone_ratio, turbine_numbers)
@@ -72,8 +72,8 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     dict_box_voltage = project10.generate_dict_box_voltage(data_cal2, turbine_numbers)
     Dict2 = RoundUp.round_dict_numbers(dict_box_voltage, turbine_numbers, 1)
     # ==============================================
-    # data3 = project10.extraction_data_booster_station('新建', 110, 100)
-    data3 = project10.extraction_data_booster_station('新建', Grade, Capacity)
+    # data3 = project10.extraction_data_booster_station("新建", 110, 100)
+    data3 = project10.extraction_data_booster_station("新建", Grade, Capacity)
     data_cal = project10.excavation_cal_booster_station(data3, road_earthwork_ratio, road_stone_ratio, TerrainType)
     Dict3 = RoundUp.round_dict(project10.generate_dict_booster_station(data_cal))
     # ==============================================
@@ -88,10 +88,10 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
 
     dict_road_base_1, dict_road_base_2, dict_road_base_3, dict_road_base_4 = \
         project10.generate_dict_road_basement(data_ca1, data_ca2, data_ca3, data_ca4, numbers_list_road)
-    Dict_1 = RoundUp.round_dict_numbers(dict_road_base_1, dict_road_base_1['改扩建道路'], 2)
-    Dict_2 = RoundUp.round_dict_numbers(dict_road_base_2, dict_road_base_2['进站道路'], 2)
-    Dict_3 = RoundUp.round_dict_numbers(dict_road_base_3, dict_road_base_3['新建施工检修道路'], 2)
-    Dict_4 = RoundUp.round_dict_numbers(dict_road_base_4, dict_road_base_4['吊装平台工程'], 2)
+    Dict_1 = RoundUp.round_dict_numbers(dict_road_base_1, dict_road_base_1["改扩建道路"], 2)
+    Dict_2 = RoundUp.round_dict_numbers(dict_road_base_2, dict_road_base_2["进站道路"], 2)
+    Dict_3 = RoundUp.round_dict_numbers(dict_road_base_3, dict_road_base_3["新建施工检修道路"], 2)
+    Dict_4 = RoundUp.round_dict_numbers(dict_road_base_4, dict_road_base_4["吊装平台工程"], 2)
     Dict4 = dict(Dict_1, **Dict_2, **Dict_3, **Dict_4)
     # ==============================================
 
@@ -122,9 +122,9 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     Dict = dict(Doc_word,**Dict1, **Dict2, **Dict3, **Dict4, **Dict5, **Dict6, **Dict7, **Dict8, **Dict9, **Dict10)
     return Dict
 def generate_civil_docx(Dict,save_path):
-    filename_box = ['cr8', 'result_chapter8']
-    read_path = os.path.join(save_path, '%s.docx') % filename_box[0]
-    save_path = os.path.join(save_path, '%s.docx') % filename_box[1]
+    filename_box = ["cr8", "result_chapter8"]
+    read_path = os.path.join(save_path, "%s.docx") % filename_box[0]
+    save_path = os.path.join(save_path, "%s.docx") % filename_box[1]
     tpl = DocxTemplate(read_path)
     tpl.render(Dict)
     tpl.save(save_path)

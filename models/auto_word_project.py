@@ -28,7 +28,7 @@ class auto_word_project(models.Model):
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
-
+    Dict_8 = fields.Char(u'字典_8')
     # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     Farm_words = fields.Char(string=u'风电场名称')
@@ -221,6 +221,10 @@ class auto_word_project(models.Model):
     farm_speed_range_words=fields.Char(string=u'平均风速区间')
 
     def button_project(self):
+        Dict8_aa = eval(self.Dict_8)
+        print(type(Dict8_aa))
+        print(Dict8_aa)
+        print(Dict8_aa["变电站电压等级"])
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
