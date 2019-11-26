@@ -92,18 +92,20 @@ class auto_word_economy(models.Model):
 
     # 经评
     Project_time_words = fields.Char(string=u'施工总工期', default='待提交')
-    Turbine_capacity_words = fields.Char(string=u'单机容量', default="待提交", readonly=True)
-    Turbine_number_words = fields.Char(string=u'风力发电机组', default="待提交", readonly=True)
-    Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)
+    TurbineCapacity = fields.Char(string=u'单机容量', default="待提交", readonly=True)
+    project_capacity = fields.Char(string=u'装机容量')
+    project_capacity_B = fields.Char(string=u'装机容量_B')
+    turbine_numbers_suggestion = fields.Char(string=u'机组数量')
+
     Generating_capacity_words = fields.Char(string=u'年发电量', default="待提交", readonly=True)
     Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
     ongrid_power = fields.Char(u'上网电量', default="待提交")
 
     Towter_weight_words = fields.Char(string=u'塔筒总重量（吨）', default='待提交')
     Earth_excavation_words = fields.Char(string=u'土石方开挖（m3）', default='待提交')
-    Earth_backfill_words = fields.Char(string=u'土石方回填（m3）', default='待提交')
+    EarthWorkBackFill_WindResource = fields.Char(string=u'土石方回填（m3）', default='待提交')
     Concrete_words = fields.Char(string=u'混凝土(万m³)', default='待提交')
-    Steel_weight_words = fields.Char(string=u'钢筋(吨)', default='待提交')
+    Reinforcement = fields.Char(string=u'钢筋(吨)', default='待提交')
 
     # 计划施工时间
     First_turbine_words = fields.Char(string=u'第一台机组发电工期', default='待提交')
@@ -177,6 +179,7 @@ class auto_word_economy(models.Model):
             print("check it")
 
     def economy_generate(self):
+        # 风能
         chapter_number = 0
         dictMerged, dictMerged_rows, Dict, dict_content, dict_head = {}, [], {}, {}, {}
 
@@ -325,9 +328,9 @@ class auto_word_economy(models.Model):
                     if str(dictMerged['result_list12_6'][i]['cols'][1]) == '建设单位':
                         self.company_id = str(dictMerged['result_list12_6'][i]['cols'][2])
                     if str(dictMerged['result_list12_6'][i]['cols'][0]) == '装机规模':
-                        self.Farm_capacity_words = str(dictMerged['result_list12_6'][i]['cols'][2])
+                        self.project_capacity = str(dictMerged['result_list12_6'][i]['cols'][2])
                     if str(dictMerged['result_list12_6'][i]['cols'][0]) == '单机容量':
-                        self.Turbine_capacity_words = str(dictMerged['result_list12_6'][i]['cols'][2])
+                        self.TurbineCapacity = str(dictMerged['result_list12_6'][i]['cols'][2])
                     if str(dictMerged['result_list12_6'][i]['cols'][0]) == '年发电量':
                         self.Generating_capacity_words = str(dictMerged['result_list12_6'][i]['cols'][2])
                     if str(dictMerged['result_list12_6'][i]['cols'][0]) == '年利用小时数':
@@ -342,6 +345,9 @@ class auto_word_economy(models.Model):
                         self.unit_cost_words = str(dictMerged['result_list12_6'][i]['cols'][2])
                     if str(dictMerged['result_list12_6'][i]['cols'][0]) == '建设期利息':
                         self.interest_construction_loans_12 = str(dictMerged['result_list12_6'][i]['cols'][2])
+
+                    print("str(dictMerged['result_list12_6'][i]['cols'][3])")
+                    print(str(dictMerged['result_list12_6'][i]['cols'][3]))
                     if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组设备价格':
                         self.investment_turbines_kws = str(dictMerged['result_list12_6'][i]['cols'][6])
                     if str(dictMerged['result_list12_6'][i]['cols'][3]) == '塔筒(架)设备价格':
@@ -351,9 +357,9 @@ class auto_word_economy(models.Model):
                     if str(dictMerged['result_list12_6'][i]['cols'][4]) == '土石方开挖':
                         self.Earth_excavation_words = str(dictMerged['result_list12_6'][i]['cols'][6])
                     if str(dictMerged['result_list12_6'][i]['cols'][4]) == '回填':
-                        self.Earth_backfill_words = str(dictMerged['result_list12_6'][i]['cols'][6])
+                        self.EarthWorkBackFill_WindResource = str(dictMerged['result_list12_6'][i]['cols'][6])
                     if str(dictMerged['result_list12_6'][i]['cols'][4]) == '钢筋':
-                        self.Steel_weight_words = str(dictMerged['result_list12_6'][i]['cols'][6])
+                        self.Reinforcement = str(dictMerged['result_list12_6'][i]['cols'][6])
                     if str(dictMerged['result_list12_6'][i]['cols'][4]) == '混凝土':
                         self.Concrete_words = str(dictMerged['result_list12_6'][i]['cols'][6])
                     if str(dictMerged['result_list12_6'][i]['cols'][4]) == '塔筒':
@@ -395,12 +401,48 @@ class auto_word_economy(models.Model):
                     if str(dictMerged['result_list12_7'][i]['cols'][1]) == '单位千瓦动态投资(元/kW)':
                         self.dynamic_investment_unit = str(dictMerged['result_list12_7'][i]['cols'][5])
 
-                self.Turbine_number_words = int(
-                    int(self.Farm_capacity_words) / (int(self.Turbine_capacity_words) / 1000))
+                self.Farm_words = self.project_id.Farm_words
+                self.Lon_words = self.project_id.Lon_words
+                self.Lat_words = self.project_id.Lat_words
+                self.Location_words = self.project_id.Location_words
+                self.Elevation_words = self.project_id.Elevation_words
+                self.area_words = self.project_id.area_words
+                self.company_id = self.project_id.company_id.name
 
-                if self.Hour_words != self.project_id.Hour_words:
-                    self.Hour_words = ""
-                    print("check it")
+                self.project_capacity = self.project_id.project_capacity
+                self.TurbineCapacity = self.project_id.TurbineCapacity
+                self.turbine_numbers_suggestion = self.project_id.turbine_numbers_suggestion
+
+                self.ongrid_power = self.project_id.ongrid_power
+                self.Hour_words = self.project_id.Hour_words
+
+                self.road_1_num = self.project_id.road_1_num
+                self.road_2_num = self.project_id.road_2_num
+                self.road_3_num = self.project_id.road_3_num
+                self.total_civil_length = self.project_id.total_civil_length
+
+                self.Permanent_land_words = self.project_id.permanent_land_area
+                self.temporary_land_words = self.project_id.temporary_land_area
+
+                self.Reinforcement = self.project_id.Reinforcement
+                self.EarthWorkBackFill_WindResource = self.project_id.EarthWorkBackFill_WindResource
+
+                self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
+                    self.project_id.StoneExcavation_WindResource),2)
+
+                self.Concrete_words = round_up(float(self.project_id.Volume) + float(
+                    self.project_id.Cushion),2)
+
+                # if self.Hour_words != self.project_id.Hour_words:
+                #     self.Hour_words = self.project_id.Hour_words
+                #     print("check it")
+                # if self.project_capacity != self.project_id.project_capacity:
+                #     self.project_capacity_B = '0'
+                #     self.project_capacity=self.project_id.project_capacity
+                #     print("check it")
+
+                self.turbine_numbers_suggestion = int(
+                    float(self.project_capacity) / (int(self.TurbineCapacity) / 1000))
 
                 dict_12_res_word = {
                     "价格日期": self.cost_time,
@@ -433,27 +475,29 @@ class auto_word_economy(models.Model):
                 dict_12_word = {
                     "东经": self.Lon_words,
                     "北纬": self.Lat_words,
+                    "风电场名称": self.Farm_words,
                     "海拔高程": self.Elevation_words,
                     "相对高差": self.Relative_height_difference_words,
                     "道路工程长度": self.total_civil_length,
-                    "改扩建道路": self.road_1_num,
+                    "改扩建进场道路": self.road_1_num,
                     "进站道路": self.road_2_num,
                     "新建施工检修道路": self.road_3_num,
                     "永久用地": self.Permanent_land_words,
                     "临时用地": self.temporary_land_words,
+                    "风场面积": self.area_words,
 
                     "施工总工期": self.Project_time_words,
-                    "单机容量": self.Turbine_capacity_words,
-                    "风力发电机组": self.Turbine_number_words,
-                    "装机容量": self.Farm_capacity_words,
-                    "发电量": self.Generating_capacity_words,
+                    "单机容量": self.TurbineCapacity,
+                    "机组数量": self.turbine_numbers_suggestion,
+                    "装机容量": self.project_capacity,
+                    "上网电量": self.ongrid_power,
                     "满发小时": self.Hour_words,
 
                     "塔筒": self.Towter_weight_words,
                     "土石方开挖": self.Earth_excavation_words,
-                    "土石方回填": self.Earth_backfill_words,
+                    "土石方回填": self.EarthWorkBackFill_WindResource,
                     "混凝土": self.Concrete_words,
-                    "钢筋": self.Steel_weight_words,
+                    "钢筋": self.Reinforcement,
 
                     "第一台机组发电工期": self.First_turbine_words,
                     "总工期": self.Project_time_words,
@@ -609,7 +653,7 @@ class auto_word_economy(models.Model):
                 }
 
                 Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word)
-                print("ssssssssssssssssssssss")
+
                 print(self.dict_12_res_word)
                 generate_economy_docx(Dict13, economy_path, model_name, outputfile)
 
@@ -697,22 +741,6 @@ class auto_word_economy(models.Model):
 
         self.Permanent_land_words = self.project_id.permanent_land_area
         self.temporary_land_words = self.project_id.temporary_land_area
-
-        # Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
-        # infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
-        # unit_cost_words = fields.Char(string=u'单位度电投资', default='3.59')
-        # self.Farm_words = self.project_id.Farm_words
-
-        # self.investment_turbines_kws = self.project_id.investment_turbines_kws
-        # self.Earth_excavation_words = self.project_id.excavation
-        # self.Earth_backfill_words = self.project_id.backfill
-        #
-        # self.Re_road_words = self.project_id.road_1_num
-        # self.Extension_road_words = self.project_id.road_2_num
-        # self.New_road_words = self.project_id.road_3_num
-        #
-        # self.Steel_weight_words = self.project_id.Reinforcement
-
         return True
 
     def submit_economy(self):

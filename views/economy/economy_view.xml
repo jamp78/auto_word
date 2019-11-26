@@ -17,13 +17,13 @@
         <field name="arch" type="xml">
             <form string="Wind">
                 <header>
-
-                    <button name="submit_economy" type="object" groups="auto_word.wind_group_user"
-                            string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
                     <button name="economy_generate" type="object" groups="auto_word.wind_group_user"
                             string="生成报告"/>
-                  <button name="economy_refresh" type="object" groups="auto_word.wind_group_user"
-                           string="刷新" class="btn btn-info"/>
+                    <button name="submit_economy" type="object" groups="auto_word.wind_group_user"
+                            string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
+
+                  <!--<button name="economy_refresh" type="object" groups="auto_word.wind_group_user"-->
+                           <!--string="刷新" class="btn btn-info"/>-->
 
                     <button name="action_get_attachment_economy_view" class="oe_stat_button" icon="fa-book" type="object">
                             <field name="attachment_number" widget="statinfo" string="附件上传"/>
@@ -55,16 +55,16 @@
                     <!--</group>-->
                     <group string="风能结果">
                         <group name="group_top">
-                            <field name="Turbine_capacity_words"/>
-                            <field name="Turbine_number_words"/>
+                            <field name="TurbineCapacity"/>
+                            <field name="turbine_numbers_suggestion"/>
                             <field name="investment_turbines_kws"/>
                         </group>
                         <group name="group_top">
-                            <field name="Farm_capacity_words"/>
-                            <field name="Generating_capacity_words"/>
+                            <field name="project_capacity"/>
                             <field name="ongrid_power"/>
                             <!--<field name="Hour_words"/>-->
                             <field name="Hour_words" attrs="{'invisible': [('Hour_words', '=', '0')]}" style='color:red'/>
+
                         </group>
                     </group>
 
@@ -78,9 +78,9 @@
                         </group>
                         <group name="group_top">
                             <field name="Earth_excavation_words"/>
-                            <field name="Earth_backfill_words"/>
+                            <field name="EarthWorkBackFill_WindResource"/>
                             <field name="Concrete_words"/>
-                            <field name="Steel_weight_words"/>
+                            <field name="Reinforcement"/>
                         </group>
                     </group>
 
