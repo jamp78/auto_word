@@ -28,7 +28,6 @@ class auto_word_project(models.Model):
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
-
     # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     Farm_words = fields.Char(string=u'风电场名称')
@@ -160,14 +159,12 @@ class auto_word_project(models.Model):
     C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）')
     stake_number = fields.Char(u'单台风机桩根数（根）')
 
-
     BasicType = fields.Char(u'基础形式')
     FloorRadiusR = fields.Char(u'基础底面圆直径')
     H1 = fields.Char(u'基础底板外缘高度')
     R2 = fields.Char(u'台柱圆直径')
     H2 = fields.Char(u'基础底板圆台高度')
     H3 = fields.Char(u'台柱高度')
-
 
     case_name = fields.Char(u'方案名', readonly=True, default="待提交")
     investment_E1 = fields.Char(u'塔筒投资(万元)', readonly=True, default="0")
@@ -218,9 +215,17 @@ class auto_word_project(models.Model):
     road_names = fields.Char(string=u'周边道路')
     land_area = fields.Char(string=u'总用地面积')
 
-    farm_speed_range_words=fields.Char(string=u'平均风速区间')
+    farm_speed_range_words = fields.Char(string=u'平均风速区间')
+
+    Dict_5_Final = fields.Char(string=u'字典5')
+    Dict_8_Final = fields.Char(string=u'字典8_9')
+    Dict_x_Final = fields.Char(string=u'字典x')
 
     def button_project(self):
+
+        Dict_8_Final = eval(self.Dict_8_Final)
+        print(Dict_8_Final)
+
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
@@ -240,8 +245,7 @@ class auto_word_project(models.Model):
         n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
         c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
 
-
-        extreme_wind=round_up(float(self.max_wind_txt) * 1.4)
+        extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
 
         if float(self.project_capacity) >= 100:
             self.environmental_protection_investment = '170'
@@ -332,8 +336,6 @@ class auto_word_project(models.Model):
 
         Dict1 = {}
         Dict1 = dict(dict_1_word, **dict_1_res_word)
-
-
 
         generate_docx(Dict1, project_path, model_name, outputfile)
 

@@ -428,10 +428,11 @@ class auto_word_economy(models.Model):
                 self.EarthWorkBackFill_WindResource = self.project_id.EarthWorkBackFill_WindResource
 
                 self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
-                    self.project_id.StoneExcavation_WindResource),2)
+                    self.project_id.StoneExcavation_WindResource), 2)
 
                 self.Concrete_words = round_up(float(self.project_id.Volume) + float(
-                    self.project_id.Cushion),2)
+                    self.project_id.Cushion), 2)
+                2
 
                 # if self.Hour_words != self.project_id.Hour_words:
                 #     self.Hour_words = self.project_id.Hour_words
@@ -442,7 +443,7 @@ class auto_word_economy(models.Model):
                 #     print("check it")
 
                 self.turbine_numbers_suggestion = int(
-                    float(self.project_capacity) / (int(self.TurbineCapacity) / 1000))
+                    float(self.project_capacity) / (float(self.TurbineCapacity)))
 
                 dict_12_res_word = {
                     "价格日期": self.cost_time,

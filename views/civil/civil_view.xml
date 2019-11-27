@@ -7,11 +7,11 @@
             <form string="Civil">
                 <header>
 
-                    <button name="take_civil_result" type="object" groups="auto_word.wind_group_user"
+                    <button name="cal_civil" type="object" groups="auto_word.wind_group_user"
                             string="计算" class="btn btn-info"/>
                     <button name="civil_generate" type="object" groups="auto_word.civil_group_user"
                             string="生成报告"/>
-                    <button name="button_civil" type="object" groups="auto_word.civil_group_user"
+                    <button name="submit_civil" type="object" groups="auto_word.civil_group_user"
                             string="提交报告" confirm="是否确认提交该项目土建资料？"/>
                     <!--<button name="civil_refresh" type="object" groups="auto_word.civil_group_user"-->
                             <!--string="刷新" class="btn btn-info"/>-->

@@ -125,7 +125,6 @@ class auto_word_civil(models.Model):
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
-
     # 风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型型号', readonly=True)
@@ -271,7 +270,7 @@ class auto_word_civil(models.Model):
             else:
                 re.investment_E4 = float(re.total_civil_length) * 140
 
-    def button_civil(self):
+    def submit_civil(self):
         self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
         self.road_stone_ratio = 10 - self.road_earthwork_ratio
 
@@ -329,11 +328,8 @@ class auto_word_civil(models.Model):
 
         return True
 
-    def civil_refresh(self):
-        return True
-
     #   计算
-    def take_civil_result(self):
+    def cal_civil(self):
         projectname = self.project_id
         self.turbine_numbers = projectname.turbine_numbers_suggestion
         self.name_tur_suggestion = projectname.name_tur_suggestion
@@ -351,6 +347,8 @@ class auto_word_civil(models.Model):
         self.TerrainType = projectname.TerrainType
 
         Dict8 = civil_generate_docx_dict(self)
+        projectname.Dict_8_Final=Dict8
+
         self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = Dict8['石方开挖_风机_numbers']
         self.EarthWorkBackFill_WindResource = Dict8['土石方回填_风机_numbers']
@@ -386,11 +384,10 @@ class auto_word_civil(models.Model):
         self.permanent_land_area = Dict8['合计亩_永久用地面积']
         self.land_area = round_up(float(self.permanent_land_area) + float(self.temporary_land_area), 2)
 
+
     #   生成报告
     def civil_generate(self):
-
         Dict8 = civil_generate_docx_dict(self)
-
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
         generate_civil_docx(Dict8, path_chapter_8)
         reportfile_name = open(
