@@ -58,6 +58,9 @@ def generate_wind_docx1(Dict, path_images,png_list):
     filename_box = ['cr5', 'result_chapter5']
     read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
     save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
+
+    print("Patt")
+    print(read_path)
     tpl = DocxTemplate(read_path)
     png_box = ('powers', 'efficiency')
     for i in range(0, 2):

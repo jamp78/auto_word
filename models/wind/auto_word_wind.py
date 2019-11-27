@@ -3,15 +3,206 @@
 from odoo import models, fields, api
 import base64, os
 import numpy as np
-import pandas as pd
+from array import array
 import sys
+
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
-print("ffffffffffffffff")
 print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
 
 import doc_5
 from RoundUp import round_up, Get_Average, Get_Sum
-import re
+
+
+def cal_wind_result(self):
+    tur_name = []
+    for i in range(0, len(self.select_turbine_ids)):
+        tur_name.append(self.select_turbine_ids[i].name_tur)
+
+    print(tur_name)
+    self.path_images = self.env['auto_word.project'].path_images_chapter_5
+
+    case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
+    farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
+    case_hub_height_dict, power_generation_dict, weak_dict = [], [], []
+    power_hours_dict, investment_dict, investment_unit_dict = [], [], []
+    investment_E1_dict, investment_E2_dict, investment_E3_dict = [], [], []
+    investment_E4_dict, investment_E5_dict, investment_E6_dict, investment_E7_dict = [], [], [], []
+    investment_turbines_kws_dict = []
+
+    # 机型结果
+    project_id_input_dict, case_name_dict, Turbine_dict, tur_id_dict = [], [], [], []
+    X_dict, Y_dict, Z_dict, H_dict, Latitude_dict, Longitude_dict, TrustCoefficient_dict = [], [], [], [], [], [], []
+    WeibullA_dict, WeibullK_dict, EnergyDensity_dict, PowerGeneration_dict = [], [], [], []
+    PowerGeneration_Weak_dict, CapacityCoe_dict, AverageWindSpeed_dict = [], [], []
+    TurbulenceEnv_StrongWind_dict, Turbulence_StrongWind_dict, AverageWindSpeed_Weak_dict = [], [], []
+    Weak_res_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
+    InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
+    NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
+    rate_dict, hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], [], []
+    ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
+    ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
+
+    # 结果 Dict
+    for re in self.auto_word_wind_res:
+        project_id_input_dict.append(re.project_id_input)
+        Turbine_dict.append(re.Turbine)
+        tur_id_dict.append(re.tur_id)
+        X_dict.append(re.X)
+        Y_dict.append(re.Y)
+        Z_dict.append(round_up(float(re.Z)))
+        H_dict.append(round_up(float(re.H)))
+        Elevation_dict.append(round_up(float(re.Z)) - round_up(float(re.H)))
+        Latitude_dict.append(re.Latitude)
+        Longitude_dict.append(re.Longitude)
+        TrustCoefficient_dict.append(re.TrustCoefficient)
+        WeibullA_dict.append(re.WeibullA)
+        WeibullK_dict.append(re.WeibullK)
+        EnergyDensity_dict.append(re.EnergyDensity)
+        PowerGeneration_dict.append(round_up(float(re.PowerGeneration), 1))
+        PowerGeneration_Weak_dict.append(round_up(float(re.PowerGeneration_Weak), 1))
+        CapacityCoe_dict.append(re.CapacityCoe)
+        AverageWindSpeed_dict.append(round_up(float(re.AverageWindSpeed), 2))
+        TurbulenceEnv_StrongWind_dict.append(re.TurbulenceEnv_StrongWind)
+        Turbulence_StrongWind_dict.append(re.Turbulence_StrongWind)
+        AverageWindSpeed_Weak_dict.append(round_up(float(re.AverageWindSpeed_Weak), 2))
+        Weak_res_dict.append(round_up(float(re.Weak)))
+        AirDensity_dict.append(re.AirDensity)
+        WindShear_Avg_dict.append(re.WindShear_Avg)
+        WindShear_Max_dict.append(re.WindShear_Max)
+        WindShear_Max_Deg_dict.append(re.WindShear_Max_Deg)
+        InflowAngle_Avg_dict.append(re.InflowAngle_Avg)
+        InflowAngle_Max_dict.append(re.InflowAngle_Max)
+        InflowAngle_Max_Deg_dict.append(re.InflowAngle_Max_Deg)
+        NextTur_dict.append(re.NextTur)
+        NextLength_M_dict.append(re.NextLength_M)
+        Diameter_dict.append(re.Diameter)
+        NextLength_D_dict.append(re.NextLength_D)
+        NextDeg_dict.append(re.NextDeg)
+        Sectors_dict.append(re.Sectors)
+        rate_dict.append(re.rate)
+
+        ongrid_power_dict.append(round_up(float(re.ongrid_power), 1))
+        hours_year_dict.append(round_up(float(re.hours_year), 1))
+
+    ave_elevation = round_up(Get_Average(Elevation_dict), 1)
+    ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict), 2)
+    ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict), 1)
+    ave_weak_res = round_up(Get_Average(Weak_res_dict))
+    ave_weak_res_xz = 1 + ave_weak_res
+    ave_hours_year = round_up(Get_Average(hours_year_dict), 1)
+    capacity_coefficient = round_up(ave_hours_year / 8760 * 100, 2)
+    ave_ongrid_power = round_up(Get_Average(ongrid_power_dict), 1)
+    total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict), 1)
+    total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict), 1)
+    total_ongrid_power = round_up(Get_Sum(ongrid_power_dict), 1)
+
+    # 方案比选 Dict
+    for i in range(0, len(self.case_names)):
+        case_name_dict.append(self.case_names[i].case_name)
+        name_tur_dict.append('WTG' + str(int(i + 1)))
+        turbine_numbers_dict.append(self.case_names[i].turbine_numbers)
+        capacity_dict.append(self.case_names[i].capacity)
+        farm_capacity_dict.append(self.case_names[i].farm_capacity)
+        rotor_diameter_dict.append(self.case_names[i].rotor_diameter_case)
+        case_hub_height_dict.append(self.case_names[i].hub_height_suggestion)
+        power_generation_dict.append(self.case_names[i].ongrid_power)
+        weak_dict.append(self.case_names[i].weak)
+        power_hours_dict.append(self.case_names[i].hours_year)
+        tower_weight_dict.append(str(self.case_names[i].tower_weight))
+        investment_E1_dict.append(str(self.case_names[i].investment_E1))
+        investment_E2_dict.append(str(self.case_names[i].investment_E2))
+        investment_E3_dict.append(str(self.case_names[i].investment_E3))
+        investment_E4_dict.append(str(self.case_names[i].investment_E4))
+        investment_E5_dict.append(str(self.case_names[i].investment_E5))
+        investment_E6_dict.append(str(self.case_names[i].investment_E6))
+        investment_E7_dict.append(str(self.case_names[i].investment_E7))
+        investment_dict.append(str(self.case_names[i].investment))
+        investment_unit_dict.append(str(self.case_names[i].investment_unit))
+        investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
+
+    result = np.vstack((np.array(X_dict), np.array(Y_dict), np.array(Z_dict),
+                        np.array(AverageWindSpeed_Weak_dict),
+                        np.array(InflowAngle_Max_dict), np.array(PowerGeneration_dict),
+                        np.array(Weak_res_dict), np.array(hours_year_dict),
+                        np.array(ongrid_power_dict)
+                        ))
+    result = result.T
+
+    context = {}
+    result_list = []
+    result_lables_chapter5 = ['X', 'Y', 'Z', '尾流后风速', '最大入流角', '理论发电量',
+                              '尾流损失', '满发小时', '上网电量']
+
+    context['result_labels'] = result_lables_chapter5
+    for i in range(0, len(result)):
+        result_dict = {'number': tur_id_dict[i], 'cols': result[i]}
+        result_list.append(result_dict)
+    context['result_list'] = result_list
+    dict5 = doc_5.generate_wind_dict(tur_name, self.path_images)
+    print("dict5")
+    print(context)
+    dict_5_word = {
+        "最终方案": self.project_id.case_name,
+        "方案e": case_name_dict,
+        "风机类型e": name_tur_dict,
+        "风机台数e": turbine_numbers_dict,
+        "单机容量e": capacity_dict,
+        "装机容量e": farm_capacity_dict,
+        "叶轮直径e": rotor_diameter_dict,
+        "轮毂高度e": case_hub_height_dict,
+        "上网电量e": power_generation_dict,
+        "尾流衰减e": weak_dict,
+        "满发小时e": power_hours_dict,
+        "塔筒重量e": tower_weight_dict,
+        "风机投资e": investment_turbines_kws_dict,
+        "塔筒投资e": investment_E1_dict,
+        "风机设备投资e": investment_E2_dict,
+        "基础投资e": investment_E3_dict,
+        "道路投资e": investment_E4_dict,
+        "吊装费用e": investment_E5_dict,
+        "箱变投资e": investment_E6_dict,
+        "集电线路e": investment_E7_dict,
+        "发电部分投资e": investment_dict,
+        "单位度电投资e": investment_unit_dict,
+    }
+    dict_5_suggestion_word = {
+        "平均海拔": ave_elevation,
+        "尾流后平均风速": ave_AverageWindSpeed_Weak,
+        "平均发电量": ave_powerGeneration,
+        "总发电量": total_powerGeneration,
+        "平均尾流损失": ave_weak_res,
+        "折减率": self.project_id.rate,
+        "折减率备注": self.project_id.note,
+        "满发小时": ave_hours_year,
+        "容量系数": capacity_coefficient,
+        "平均上网电量": ave_ongrid_power,
+        "总上网电量": total_ongrid_power,
+        "尾流损失修正系数": ave_weak_res_xz,
+        "尾流修正后的总理论发电量": total_powerGeneration_weak,
+
+        "叶轮直径": self.rotor_diameter_suggestion,
+        "方案数": self.case_number,
+        "海拔高程": self.Elevation_words,
+        "区域面积": self.farm_area_words,
+        "空气密度": self.air_density_words,
+        "山地类型": self.project_id.TerrainType,
+        "平均风速区间": self.farm_speed_range_words,
+        '测风塔名字': self.cft_name_words,
+        '测风塔风速信息': self.string_speed_words,
+        '测风塔风向信息': self.string_deg_words,
+        '推荐轮毂高度': self.hub_height_suggestion,
+        'IEC等级': self.IECLevel,
+        'WTG数量': str(len(self.select_turbine_ids)),
+
+        '推荐机位数': self.project_id.turbine_numbers_suggestion,
+        '推荐单机容量': self.project_id.TurbineCapacity,
+        '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
+        '项目容量': self.project_id.project_capacity,
+        '限制性因素': self.project_id.limited_words,
+    }
+    Dict_5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)
+    Dict_5_Final = dict_5_suggestion_word
+    return Dict_5, Dict_5_Final
 
 
 class auto_word_wind(models.Model):
@@ -59,7 +250,6 @@ class auto_word_wind(models.Model):
 
     note = fields.Char(string=u'备注', readonly=False)
 
-
     # ####################################功能模块########################
     # --------机型推荐---------
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型', required=False)
@@ -74,7 +264,7 @@ class auto_word_wind(models.Model):
     capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True, default="待提交",
                                       compute='_compute_compare_case')
 
-    investment_turbines_kws = fields.Char(u'风机kW投资',compute='_compute_compare_case')
+    investment_turbines_kws = fields.Char(u'风机kW投资', compute='_compute_compare_case')
 
     farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
@@ -84,6 +274,9 @@ class auto_word_wind(models.Model):
     hours_year = fields.Char(u'满发小时', default="待提交", readonly=True, compute='_compute_compare_case')
     capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True, compute='_compute_compare_case')
     rate = fields.Float(string=u'折减率', readonly=True, compute='_compute_compare_case')
+
+    path_images = fields.Char(u'图片路径')
+    Dict_5_Final = fields.Char(u'字典5_')
 
     # --------结果文件---------
     png_list = []
@@ -117,14 +310,14 @@ class auto_word_wind(models.Model):
             re.rotor_diameter_suggestion = re.recommend_id.rotor_diameter_case
             re.capacity_suggestion = re.recommend_id.capacity
 
-            re.auto_word_wind_res=re.recommend_id.res_form.auto_word_wind_res
-            re.ongrid_power=re.recommend_id.ongrid_power
+            re.auto_word_wind_res = re.recommend_id.res_form.auto_word_wind_res
+            re.ongrid_power = re.recommend_id.ongrid_power
             re.weak = re.recommend_id.weak
             re.hours_year = re.recommend_id.hours_year
-            re.rate=re.recommend_id.res_form.rate
+            re.rate = re.recommend_id.res_form.rate
             re.capacity_coefficient = re.recommend_id.res_form.capacity_coefficient
 
-            re.investment_turbines_kws=re.recommend_id.investment_turbines_kws
+            re.investment_turbines_kws = re.recommend_id.investment_turbines_kws
 
     @api.multi
     def submit_wind(self):
@@ -151,9 +344,9 @@ class auto_word_wind(models.Model):
         self.project_id.investment_unit = self.recommend_id.investment_unit
         limited_str_0 = "本项目区域内存在部分限制性因素，需重点对"
         limited_str_2 = "等限制性因素进行排查。"
-        self.project_id.investment_turbines_kws=self.investment_turbines_kws
+        self.project_id.investment_turbines_kws = self.investment_turbines_kws
 
-        self.project_id.rate=self.rate
+        self.project_id.rate = self.rate
         self.project_id.IECLevel = self.IECLevel
         self.project_id.PWDLevel = self.PWDLevel
         self.project_id.farm_speed_range_words = self.farm_speed_range_words
@@ -190,289 +383,13 @@ class auto_word_wind(models.Model):
         self.project_id.ongrid_power = self.ongrid_power
         self.project_id.weak = self.weak
         self.project_id.Hour_words = self.hours_year
-        self.project_id.capacity_suggestion=self.capacity_suggestion
+        self.project_id.capacity_suggestion = self.capacity_suggestion
 
-
-
-    def take_wind_result(self):
-        # 机型结果
-        project_id_input_dict, case_name_dict, Turbine_dict, tur_id_dict = [], [], [], []
-        X_dict, Y_dict, Z_dict, H_dict, Latitude_dict, Longitude_dict, TrustCoefficient_dict = [], [], [], [], [], [], []
-        WeibullA_dict, WeibullK_dict, EnergyDensity_dict, PowerGeneration_dict = [], [], [], []
-        PowerGeneration_Weak_dict, CapacityCoe_dict, AverageWindSpeed_dict = [], [], []
-        TurbulenceEnv_StrongWind_dict, Turbulence_StrongWind_dict, AverageWindSpeed_Weak_dict = [], [], []
-        Weak_res_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
-        InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
-        NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
-        rate_dict, hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], [], []
-        ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
-        ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
-
-        # 结果 Dict
-        for re in self.auto_word_wind_res:
-            project_id_input_dict.append(re.project_id_input)
-            Turbine_dict.append(re.Turbine)
-            tur_id_dict.append(re.tur_id)
-            X_dict.append(re.X)
-            Y_dict.append(re.Y)
-            Z_dict.append(round_up(float(re.Z)))
-            H_dict.append(round_up(float(re.H)))
-            Elevation_dict.append(round_up(float(re.Z)) - round_up(float(re.H)))
-            Latitude_dict.append(re.Latitude)
-            Longitude_dict.append(re.Longitude)
-            TrustCoefficient_dict.append(re.TrustCoefficient)
-            WeibullA_dict.append(re.WeibullA)
-            WeibullK_dict.append(re.WeibullK)
-            EnergyDensity_dict.append(re.EnergyDensity)
-            PowerGeneration_dict.append(round_up(float(re.PowerGeneration), 1))
-            PowerGeneration_Weak_dict.append(round_up(float(re.PowerGeneration_Weak), 1))
-            CapacityCoe_dict.append(re.CapacityCoe)
-            AverageWindSpeed_dict.append(round_up(float(re.AverageWindSpeed), 2))
-            TurbulenceEnv_StrongWind_dict.append(re.TurbulenceEnv_StrongWind)
-            Turbulence_StrongWind_dict.append(re.Turbulence_StrongWind)
-            AverageWindSpeed_Weak_dict.append(round_up(float(re.AverageWindSpeed_Weak), 2))
-            Weak_res_dict.append(round_up(float(re.Weak)))
-            AirDensity_dict.append(re.AirDensity)
-            WindShear_Avg_dict.append(re.WindShear_Avg)
-            WindShear_Max_dict.append(re.WindShear_Max)
-            WindShear_Max_Deg_dict.append(re.WindShear_Max_Deg)
-            InflowAngle_Avg_dict.append(re.InflowAngle_Avg)
-            InflowAngle_Max_dict.append(re.InflowAngle_Max)
-            InflowAngle_Max_Deg_dict.append(re.InflowAngle_Max_Deg)
-            NextTur_dict.append(re.NextTur)
-            NextLength_M_dict.append(re.NextLength_M)
-            Diameter_dict.append(re.Diameter)
-            NextLength_D_dict.append(re.NextLength_D)
-            NextDeg_dict.append(re.NextDeg)
-            Sectors_dict.append(re.Sectors)
-            rate_dict.append(re.rate)
-
-            ongrid_power_dict.append(round_up(float(re.ongrid_power), 1))
-            hours_year_dict.append(round_up(float(re.hours_year), 1))
-
-        print("Elevation_dict")
-
-        print(Z_dict)
-        print(Elevation_dict)
-        self.ave_elevation = round_up(Get_Average(Elevation_dict), 1)
-        self.ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict), 2)
-        self.ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict), 1)
-        self.ave_weak_res = round_up(Get_Average(Weak_res_dict))
-        self.ave_weak_res_xz = 1 + ave_weak_res
-        self.ave_hours_year = round_up(Get_Average(hours_year_dict), 1)
-        self.capacity_coefficient = round_up(ave_hours_year / 8760 * 100, 2)
-        self.ave_ongrid_power = round_up(Get_Average(ongrid_power_dict), 1)
-        self.total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict), 1)
-        self.total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict), 1)
-        self.total_ongrid_power = round_up(Get_Sum(ongrid_power_dict), 1)
-
-        self.ongrid_power = self.total_ongrid_power
-        self.weak = self.ave_weak_res
-        self.hours_year = self.ave_hours_year
-
-        self.X_dict = X_dict
-        self.Y_dict = Y_dict
-        self.Z_dict = Z_dict
-        self.AverageWindSpeed_Weak_dict = AverageWindSpeed_Weak_dict
-        self.InflowAngle_Max_dict = InflowAngle_Max_dict
-        self.PowerGeneration_dict = PowerGeneration_dict
-        self.Weak_res_dict = Weak_res_dict
-        self.hours_year_dict = hours_year_dict
-        self.ongrid_power_dict = ongrid_power_dict
-
-        return
+        self.project_id.Dict_5_Final = self.Dict_5_Final
 
     def wind_generate(self):
-        tur_name = []
-        for i in range(0, len(self.select_turbine_ids)):
-            tur_name.append(self.select_turbine_ids[i].name_tur)
-
-        print(tur_name)
-        path_images = self.env['auto_word.project'].path_images_chapter_5
-
-        case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
-        farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
-        case_hub_height_dict, power_generation_dict, weak_dict = [], [], []
-        power_hours_dict, investment_dict, investment_unit_dict = [], [], []
-        investment_E1_dict, investment_E2_dict, investment_E3_dict = [], [], []
-        investment_E4_dict, investment_E5_dict, investment_E6_dict, investment_E7_dict = [], [], [], []
-        investment_turbines_kws_dict = []
-
-        # 机型结果
-        project_id_input_dict, case_name_dict, Turbine_dict, tur_id_dict = [], [], [], []
-        X_dict, Y_dict, Z_dict, H_dict, Latitude_dict, Longitude_dict, TrustCoefficient_dict = [], [], [], [], [], [], []
-        WeibullA_dict, WeibullK_dict, EnergyDensity_dict, PowerGeneration_dict = [], [], [], []
-        PowerGeneration_Weak_dict, CapacityCoe_dict, AverageWindSpeed_dict = [], [], []
-        TurbulenceEnv_StrongWind_dict, Turbulence_StrongWind_dict, AverageWindSpeed_Weak_dict = [], [], []
-        Weak_res_dict, AirDensity_dict, WindShear_Avg_dict, WindShear_Max_dict, WindShear_Max_Deg_dict = [], [], [], [], []
-        InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
-        NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
-        rate_dict, hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], [], []
-        ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
-        ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
-
-        # 结果 Dict
-        for re in self.auto_word_wind_res:
-            project_id_input_dict.append(re.project_id_input)
-            Turbine_dict.append(re.Turbine)
-            tur_id_dict.append(re.tur_id)
-            X_dict.append(re.X)
-            Y_dict.append(re.Y)
-            Z_dict.append(round_up(float(re.Z)))
-            H_dict.append(round_up(float(re.H)))
-            Elevation_dict.append(round_up(float(re.Z)) - round_up(float(re.H)))
-            Latitude_dict.append(re.Latitude)
-            Longitude_dict.append(re.Longitude)
-            TrustCoefficient_dict.append(re.TrustCoefficient)
-            WeibullA_dict.append(re.WeibullA)
-            WeibullK_dict.append(re.WeibullK)
-            EnergyDensity_dict.append(re.EnergyDensity)
-            PowerGeneration_dict.append(round_up(float(re.PowerGeneration), 1))
-            PowerGeneration_Weak_dict.append(round_up(float(re.PowerGeneration_Weak), 1))
-            CapacityCoe_dict.append(re.CapacityCoe)
-            AverageWindSpeed_dict.append(round_up(float(re.AverageWindSpeed), 2))
-            TurbulenceEnv_StrongWind_dict.append(re.TurbulenceEnv_StrongWind)
-            Turbulence_StrongWind_dict.append(re.Turbulence_StrongWind)
-            AverageWindSpeed_Weak_dict.append(round_up(float(re.AverageWindSpeed_Weak), 2))
-            Weak_res_dict.append(round_up(float(re.Weak)))
-            AirDensity_dict.append(re.AirDensity)
-            WindShear_Avg_dict.append(re.WindShear_Avg)
-            WindShear_Max_dict.append(re.WindShear_Max)
-            WindShear_Max_Deg_dict.append(re.WindShear_Max_Deg)
-            InflowAngle_Avg_dict.append(re.InflowAngle_Avg)
-            InflowAngle_Max_dict.append(re.InflowAngle_Max)
-            InflowAngle_Max_Deg_dict.append(re.InflowAngle_Max_Deg)
-            NextTur_dict.append(re.NextTur)
-            NextLength_M_dict.append(re.NextLength_M)
-            Diameter_dict.append(re.Diameter)
-            NextLength_D_dict.append(re.NextLength_D)
-            NextDeg_dict.append(re.NextDeg)
-            Sectors_dict.append(re.Sectors)
-            rate_dict.append(re.rate)
-
-            ongrid_power_dict.append(round_up(float(re.ongrid_power), 1))
-            hours_year_dict.append(round_up(float(re.hours_year), 1))
-
-        ave_elevation = round_up(Get_Average(Elevation_dict), 1)
-        ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict), 2)
-        ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict), 1)
-        ave_weak_res = round_up(Get_Average(Weak_res_dict))
-        ave_weak_res_xz = 1 + ave_weak_res
-        ave_hours_year = round_up(Get_Average(hours_year_dict), 1)
-        capacity_coefficient = round_up(ave_hours_year / 8760 * 100, 2)
-        ave_ongrid_power = round_up(Get_Average(ongrid_power_dict), 1)
-        total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict), 1)
-        total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict), 1)
-        total_ongrid_power = round_up(Get_Sum(ongrid_power_dict), 1)
-
-        # 方案比选 Dict
-        for i in range(0, len(self.case_names)):
-            case_name_dict.append(self.case_names[i].case_name)
-            name_tur_dict.append('WTG' + str(int(i + 1)))
-            turbine_numbers_dict.append(self.case_names[i].turbine_numbers)
-            capacity_dict.append(self.case_names[i].capacity)
-            farm_capacity_dict.append(self.case_names[i].farm_capacity)
-            rotor_diameter_dict.append(self.case_names[i].rotor_diameter_case)
-            case_hub_height_dict.append(self.case_names[i].hub_height_suggestion)
-            power_generation_dict.append(self.case_names[i].ongrid_power)
-            weak_dict.append(self.case_names[i].weak)
-            power_hours_dict.append(self.case_names[i].hours_year)
-            tower_weight_dict.append(str(self.case_names[i].tower_weight))
-            investment_E1_dict.append(str(self.case_names[i].investment_E1))
-            investment_E2_dict.append(str(self.case_names[i].investment_E2))
-            investment_E3_dict.append(str(self.case_names[i].investment_E3))
-            investment_E4_dict.append(str(self.case_names[i].investment_E4))
-            investment_E5_dict.append(str(self.case_names[i].investment_E5))
-            investment_E6_dict.append(str(self.case_names[i].investment_E6))
-            investment_E7_dict.append(str(self.case_names[i].investment_E7))
-            investment_dict.append(str(self.case_names[i].investment))
-            investment_unit_dict.append(str(self.case_names[i].investment_unit))
-            investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
-
-        result = np.vstack((np.array(X_dict), np.array(Y_dict), np.array(Z_dict),
-                            np.array(AverageWindSpeed_Weak_dict),
-                            np.array(InflowAngle_Max_dict), np.array(PowerGeneration_dict),
-                            np.array(Weak_res_dict), np.array(hours_year_dict),
-                            np.array(ongrid_power_dict)
-                            ))
-        result = result.T
-
-        context = {}
-        result_list = []
-        result_lables_chapter5 = ['X', 'Y', 'Z', '尾流后风速', '最大入流角', '理论发电量',
-                                  '尾流损失', '满发小时', '上网电量']
-
-        context['result_labels'] = result_lables_chapter5
-        for i in range(0, len(result)):
-            result_dict = {'number': tur_id_dict[i], 'cols': result[i]}
-            result_list.append(result_dict)
-
-        context['result_list'] = result_list
-
-        dict5 = doc_5.generate_wind_dict(tur_name, path_images)
-        dict_5_word = {
-
-            "最终方案": self.project_id.case_name,
-            "方案e": case_name_dict,
-            "风机类型e": name_tur_dict,
-            "风机台数e": turbine_numbers_dict,
-            "单机容量e": capacity_dict,
-            "装机容量e": farm_capacity_dict,
-            "叶轮直径e": rotor_diameter_dict,
-            "轮毂高度e": case_hub_height_dict,
-            "上网电量e": power_generation_dict,
-            "尾流衰减e": weak_dict,
-            "满发小时e": power_hours_dict,
-            "塔筒重量e": tower_weight_dict,
-            "风机投资e": investment_turbines_kws_dict,
-            "塔筒投资e": investment_E1_dict,
-            "风机设备投资e": investment_E2_dict,
-            "基础投资e": investment_E3_dict,
-            "道路投资e": investment_E4_dict,
-            "吊装费用e": investment_E5_dict,
-            "箱变投资e": investment_E6_dict,
-            "集电线路e": investment_E7_dict,
-            "发电部分投资e": investment_dict,
-            "单位度电投资e": investment_unit_dict,
-
-            "平均海拔": ave_elevation,
-            "尾流后平均风速": ave_AverageWindSpeed_Weak,
-            "平均发电量": ave_powerGeneration,
-            "总发电量": total_powerGeneration,
-            "平均尾流损失": ave_weak_res,
-            "折减率": self.project_id.rate,
-            "折减率备注": self.project_id.note,
-            "满发小时": ave_hours_year,
-            "容量系数": capacity_coefficient,
-            "平均上网电量": ave_ongrid_power,
-            "总上网电量": total_ongrid_power,
-            "尾流损失修正系数": ave_weak_res_xz,
-            "尾流修正后的总理论发电量": total_powerGeneration_weak,
-
-            "叶轮直径": self.rotor_diameter_suggestion,
-            "方案数": self.case_number,
-            "海拔高程": self.Elevation_words,
-            "区域面积": self.farm_area_words,
-            "空气密度": self.air_density_words,
-            "山地类型": self.project_id.TerrainType,
-            "平均风速区间": self.farm_speed_range_words,
-            '测风塔名字': self.cft_name_words,
-            '测风塔风速信息': self.string_speed_words,
-            '测风塔风向信息': self.string_deg_words,
-            '推荐轮毂高度': self.hub_height_suggestion,
-            'IEC等级': self.IECLevel,
-            'WTG数量': str(len(self.select_turbine_ids)),
-        }
-        dict_5_suggestion_word = {
-            '推荐机位数': self.project_id.turbine_numbers_suggestion,
-            '推荐单机容量': self.project_id.TurbineCapacity,
-            '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
-            '项目容量': self.project_id.project_capacity,
-            '限制性因素': self.project_id.limited_words,
-        }
-        print(dict_5_word)
-        Dict5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)
-        # doc_5.generate_wind_docx(Dict5, path_images)
+        Dict_5, Dict_5_Final = cal_wind_result(self)
+        self.Dict_5_Final = Dict_5_Final
 
         for re in self.report_attachment_id2:
             imgdata = base64.standard_b64decode(re.datas)
@@ -480,7 +397,7 @@ class auto_word_wind(models.Model):
             suffix = ".png"
             # suffix = ".xls"
             newfile = t + suffix
-            Patt = os.path.join(path_images, '%s') % newfile
+            Patt = os.path.join(self.path_images, '%s') % newfile
             if not os.path.exists(Patt):
                 f = open(Patt, 'wb+')
                 f.write(imgdata)
@@ -492,13 +409,11 @@ class auto_word_wind(models.Model):
                 f.close()
             self.png_list.append(t)
 
-        doc_5.generate_wind_docx1(Dict5, path_images, self.png_list)
+        doc_5.generate_wind_docx1(Dict_5, self.path_images, self.png_list)
         ###########################
 
-        reportfile_name = open(
-
-            file=os.path.join(path_images, '%s.docx') % 'result_chapter5',
-            mode='rb')
+        reportfile_name = open(file=os.path.join(self.path_images, '%s.docx') % 'result_chapter5',
+                               mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()
         print('file lenth=', len(byte))

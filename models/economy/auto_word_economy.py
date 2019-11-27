@@ -174,10 +174,6 @@ class auto_word_economy(models.Model):
     ROI_13 = fields.Char(string=u'总投资收益率(%)')
     ROE_13 = fields.Char(string=u'资本金利润率(%)')
 
-    def check_vaule(self):
-        if self.Hour_words != self.project_id.Hour_words:
-            print("check it")
-
     def economy_generate(self):
         # 风能
         chapter_number = 0
