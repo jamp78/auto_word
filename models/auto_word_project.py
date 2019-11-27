@@ -114,6 +114,8 @@ def dict_project(self):
         self.Dict_x_Final = dict(dict_1_word, **dict_1_res_word)
         Dict_5_Final = eval(self.Dict_5_Final)
         Dict_8_Final = eval(self.Dict_8_Final)
+        Dict_12_Final = eval(self.Dict_12_Final)
+        Dict_13_Final = eval(self.Dict_13_Final)
 
         print("Dict_x_Final")
         print(self.Dict_x_Final)
@@ -121,6 +123,10 @@ def dict_project(self):
         print(Dict_5_Final)
         print("Dict_8_Final")
         print(Dict_8_Final)
+        print("Dict_12_Final")
+        print(Dict_12_Final)
+        print("Dict_13_Final")
+        print(Dict_13_Final)
 
         return True
 
@@ -328,7 +334,8 @@ class auto_word_project(models.Model):
     Dict_8_Final = fields.Char(string=u'字典8_9')
     Dict_x_Final = fields.Char(string=u'字典x')
 
-
+    Dict_12_Final = fields.Char(string=u'字典12')
+    Dict_13_Final = fields.Char(string=u'字典13')
 
     def button_project(self):
         dict_project(self)
