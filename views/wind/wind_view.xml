@@ -10,7 +10,7 @@
                 <field name="name_tur_suggestion"/>
                 <field name="turbine_numbers_suggestion"/>
                 <field name="hub_height_suggestion"/>
-                <field name="farm_capacity"/>
+                <field name="project_capacity"/>
                 <field name="version_id"/>
                 <field name="write_date"/>
                 <field name="write_uid"/>
@@ -26,12 +26,11 @@
                 <header>
                     <!--<button name="wind_open" type="object" groups="auto_word.wind_group_user"-->
                             <!--string="打开Excel"/>-->
-                    <button name="take_wind_result" type="object" groups="auto_word.wind_group_user"
-                           string="计算" class="btn btn-info"/>
-                    <button name="submit_wind" type="object" groups="auto_word.wind_group_user"
-                            string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
                     <button name="wind_generate" type="object" groups="auto_word.wind_group_user"
                             string="生成报告"/>
+                    <button name="submit_wind" type="object" groups="auto_word.wind_group_user"
+                            string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
+
                     <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-book" type="object">
                             <field name="attachment_number" widget="statinfo" string="附件上传"/>
                         </button>
@@ -52,7 +51,7 @@
                         <group name="group_right">
                             <field name="Elevation_words"/>
                             <field name="Relative_height_difference_words"/>
-                            <field name="farm_area_words"/>
+                            <field name="area_words"/>
                             <field name="farm_speed_range_words"/>
                             <field name="air_density_words"/>
                             <field name="IECLevel"/>
@@ -102,7 +101,7 @@
                     <group name="group_mid">
                         <group name="group_left">
                             <field name="hub_height_suggestion"/>
-                            <field name="farm_capacity"/>
+                            <field name="project_capacity"/>
                         </group>
                         <group name="group_right">
                             <field name="turbine_numbers_suggestion"/>

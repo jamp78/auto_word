@@ -17,6 +17,125 @@ def generate_docx(Dict, path_images, model_name, outputfile):
     tpl.save(save_path)
 
 
+def dict_project(self):
+    mei_t = round_up(float(self.ongrid_power) * 2.29 / 7151.69)
+    s02 = round_up(float(self.ongrid_power) * 1716.41 / 7151.69)
+    n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
+    c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
+
+    extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
+
+    if float(self.project_capacity) >= 100:
+        self.environmental_protection_investment = '170'
+    elif float(self.project_capacity) < 100 and float(self.project_capacity) >= 50:
+        self.environmental_protection_investment = '123'
+    elif float(self.project_capacity) < 50:
+        self.environmental_protection_investment = '50'
+
+    self.TurbineCapacity = float(self.capacity_suggestion) / 1000
+    self.capacity_coefficient = round_up(float(self.Hour_words) / 8760)
+
+    self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
+
+    dict_1_word = {
+        "概述": self.summary_txt,
+        "风电场名称": self.Farm_words,
+        "建设地点": self.Location_words,
+        "项目大区": self.company_id.name,
+
+        # "山地类型": self.TerrainType,
+        # "海拔高程": self.Elevation_words,
+        # "东经": self.Lon_words,
+        # "北纬": self.Lat_words,
+        # "风场面积": self.area_words,
+        # "机组数量": self.turbine_numbers_suggestion,
+        # "单机容量": self.TurbineCapacity,
+        # "装机容量": self.project_capacity,
+        # "上网电量": self.ongrid_power,
+####################
+
+
+
+
+        # "满发小时": self.Hour_words,
+        # "容量系数": self.capacity_coefficient,
+        # "风功率密度等级": self.PWDLevel,
+        # "选取时段": self.wind_time_txt,
+        # "风能信息": self.wind_txt,
+        # "湍流信息": self.wind_TI_txt,
+        # "五十年一遇最大风速": self.max_wind_txt,
+        # "五十年一遇极大风速": extreme_wind,
+        # "折减率": self.rate,
+        # "IEC等级": self.IECLevel,
+        # "叶轮直径": self.rotor_diameter_suggestion,
+        # # "推荐轮毂高度": self.hub_height_suggestion,
+        # "风速区间": self.farm_speed_range_words,
+
+        # "施工辅助工程": self.construction_assistance,
+        # "设备及安装工程": self.equipment_installation,
+        # "建筑工程": self.constructional_engineering,
+        # "其他费用": self.other_expenses,
+        # "单位千瓦静态投资": self.static_investment_unit,
+        # "国内银行贷款": self.domestic_bank_loan,
+        # "建设期贷款利息_12": self.interest_construction_loans_12,
+        # "动态总投资_12": self.dynamic_investment_12,
+        # "单位千瓦动态投资": self.dynamic_investment_unit,
+        # "资本金比例_12": self.capital_rate_12,
+        # "静态总投资_12": self.static_investment_12,
+        # "税前财务内部收益率_13": self.Internal_financial_rate_before,
+        # "税后财务内部收益率_13": self.Internal_financial_rate_after,
+        # "资本金税后财务内部收益率_13": self.Internal_financial_rate_capital,
+        # "投资回收期_13": self.payback_period,
+        # "总投资收益率_13": self.ROI_13,
+        # "资本金利润率_13": self.ROE_13,
+        #
+        # "周边道路": self.road_names,
+        # "改扩建道路": self.road_1_num,
+        # "进站道路": self.road_2_num,
+        # "新建施工检修道路": self.road_3_num,
+        # "道路工程长度": self.total_civil_length,
+        # "永久用地面积": self.permanent_land_area,
+        # "临时用地面积": self.temporary_land_area,
+        # "总用地面积": self.land_area,
+        # '基础形式': self.BasicType,
+        # '基础底面圆直径': self.FloorRadiusR,
+        # '基础底板外缘高度': self.H1,
+        # '台柱圆直径': self.R2,
+        # '基础底板圆台高度': self.H2,
+        # '台柱高度': self.H3,
+    }
+    dict_1_res_word = {
+
+        "标煤": mei_t,
+        "SO2": s02,
+        "NOx": n02,
+        "CO2": c02,
+        "环境保护总投资": self.environmental_protection_investment,
+        "水土保持": self.conservation_water_soil,
+    }
+    Dict_5_Final = eval(self.Dict_5_Final)
+    Dict_8_Final = eval(self.Dict_8_Final)
+    Dict_12_Final = eval(self.Dict_12_Final)
+    Dict_13_Final = eval(self.Dict_13_Final)
+
+    self.Dict_x_Final = dict(dict_1_word, **dict_1_res_word, **Dict_5_Final
+                             # , **Dict_8_Final, **Dict_12_Final
+                             , **Dict_13_Final)
+
+    print("Dict_x_Final")
+    print(self.Dict_x_Final)
+    print("Dict_5_Final")
+    print(Dict_5_Final)
+    print("Dict_8_Final")
+    print(Dict_8_Final)
+    print("Dict_12_Final")
+    print(Dict_12_Final)
+    print("Dict_13_Final")
+    print(Dict_13_Final)
+
+    return True
+
+
 class auto_word_project(models.Model):
     _name = 'auto_word.project'
     _description = 'Project'
@@ -28,7 +147,6 @@ class auto_word_project(models.Model):
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
-    Dict_8 = fields.Char(u'字典_8')
     # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     Farm_words = fields.Char(string=u'风电场名称')
@@ -160,14 +278,12 @@ class auto_word_project(models.Model):
     C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）')
     stake_number = fields.Char(u'单台风机桩根数（根）')
 
-
     BasicType = fields.Char(u'基础形式')
     FloorRadiusR = fields.Char(u'基础底面圆直径')
     H1 = fields.Char(u'基础底板外缘高度')
     R2 = fields.Char(u'台柱圆直径')
     H2 = fields.Char(u'基础底板圆台高度')
     H3 = fields.Char(u'台柱高度')
-
 
     case_name = fields.Char(u'方案名', readonly=True, default="待提交")
     investment_E1 = fields.Char(u'塔筒投资(万元)', readonly=True, default="0")
@@ -218,128 +334,30 @@ class auto_word_project(models.Model):
     road_names = fields.Char(string=u'周边道路')
     land_area = fields.Char(string=u'总用地面积')
 
-    farm_speed_range_words=fields.Char(string=u'平均风速区间')
+    farm_speed_range_words = fields.Char(string=u'平均风速区间')
+
+    Dict_5_Final = fields.Char(string=u'字典5')
+    Dict_8_Final = fields.Char(string=u'字典8_9')
+    Dict_x_Final = fields.Char(string=u'字典x')
+
+    Dict_12_Final = fields.Char(string=u'字典12')
+    Dict_13_Final = fields.Char(string=u'字典13')
 
     def button_project(self):
-        Dict8_aa = eval(self.Dict_8)
-        print(type(Dict8_aa))
-        print(Dict8_aa)
-        print(Dict8_aa["变电站电压等级"])
+        dict_project(self)
+
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
         suffix_out = ".docx"
         name_first, file_second, name_second = "", "", ""
-        if chapter_number == 12:
-            inputfile = name_first + suffix_in
-        elif chapter_number == 13 and file_second == True:
-            inputfile = name_second + suffix_in
         outputfile = 'result_chapter' + str(chapter_number) + suffix_out
         model_name = 'cr' + str(chapter_number) + suffix_out
         # Pathinput = os.path.join(project_path, '%s') % inputfile
         Pathoutput = os.path.join(project_path, '%s') % outputfile
 
-        mei_t = round_up(float(self.ongrid_power) * 2.29 / 7151.69)
-        s02 = round_up(float(self.ongrid_power) * 1716.41 / 7151.69)
-        n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
-        c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
-
-
-        extreme_wind=round_up(float(self.max_wind_txt) * 1.4)
-
-        if float(self.project_capacity) >= 100:
-            self.environmental_protection_investment = '170'
-        elif float(self.project_capacity) < 100 and float(self.project_capacity) >= 50:
-            self.environmental_protection_investment = '123'
-        elif float(self.project_capacity) < 50:
-            self.environmental_protection_investment = '50'
-
-        self.TurbineCapacity = float(self.capacity_suggestion) / 1000
-        self.capacity_coefficient = round_up(float(self.Hour_words) / 8760)
-
-        self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
-
-        dict_1_word = {
-            "概述": self.summary_txt,
-            "风电场名称": self.Farm_words,
-            "建设地点": self.Location_words,
-            "山地类型": self.TerrainType,
-            "海拔高程": self.Elevation_words,
-            "东经": self.Lon_words,
-            "北纬": self.Lat_words,
-            "风场面积": self.area_words,
-            "机组数量": self.turbine_numbers_suggestion,
-            "单机容量": self.TurbineCapacity,
-            "装机容量": self.project_capacity,
-            "上网电量": self.ongrid_power,
-            "满发小时": self.Hour_words,
-            "容量系数": self.capacity_coefficient,
-            "项目大区": self.company_id.name,
-            "周边道路": self.road_names,
-            "风功率密度等级": self.PWDLevel,
-
-            "资本金比例_12": self.capital_rate_12,
-            "静态总投资_12": self.static_investment_12,
-            "施工辅助工程": self.construction_assistance,
-            "设备及安装工程": self.equipment_installation,
-            "建筑工程": self.constructional_engineering,
-            "其他费用": self.other_expenses,
-            "单位千瓦静态投资": self.static_investment_unit,
-            "国内银行贷款": self.domestic_bank_loan,
-            "建设期贷款利息_12": self.interest_construction_loans_12,
-            "动态总投资_12": self.dynamic_investment_12,
-            "单位千瓦动态投资": self.dynamic_investment_unit,
-
-            "税前财务内部收益率_13": self.Internal_financial_rate_before,
-            "税后财务内部收益率_13": self.Internal_financial_rate_after,
-            "资本金税后财务内部收益率_13": self.Internal_financial_rate_capital,
-            "投资回收期_13": self.payback_period,
-            "总投资收益率_13": self.ROI_13,
-            "资本金利润率_13": self.ROE_13,
-
-            "选取时段": self.wind_time_txt,
-            "风能信息": self.wind_txt,
-            "湍流信息": self.wind_TI_txt,
-            "五十年一遇最大风速": self.max_wind_txt,
-            "五十年一遇极大风速": extreme_wind,
-
-            "改扩建道路": self.road_1_num,
-            "进站道路": self.road_2_num,
-            "新建施工检修道路": self.road_3_num,
-            "道路工程长度": self.total_civil_length,
-            "折减率": self.rate,
-            "IEC等级": self.IECLevel,
-            "叶轮直径": self.rotor_diameter_suggestion,
-            "推荐轮毂高度": self.hub_height_suggestion,
-            "永久用地面积": self.permanent_land_area,
-            "临时用地面积": self.temporary_land_area,
-            "总用地面积": self.land_area,
-            "风速区间": self.farm_speed_range_words,
-
-            '基础形式': self.BasicType,
-            '基础底面圆直径': self.FloorRadiusR,
-            '基础底板外缘高度': self.H1,
-            '台柱圆直径': self.R2,
-            '基础底板圆台高度': self.H2,
-            '台柱高度': self.H3,
-        }
-
-        dict_1_res_word = {
-
-            "标煤": mei_t,
-            "SO2": s02,
-            "NOx": n02,
-            "CO2": c02,
-            "环境保护总投资": self.environmental_protection_investment,
-            "水土保持": self.conservation_water_soil,
-        }
-
-        Dict1 = {}
-        Dict1 = dict(dict_1_word, **dict_1_res_word)
-
-
-
-        generate_docx(Dict1, project_path, model_name, outputfile)
+        Dict_x_Final = eval(self.Dict_x_Final)
+        generate_docx(Dict_x_Final, project_path, model_name, outputfile)
 
         # ###########################
 
