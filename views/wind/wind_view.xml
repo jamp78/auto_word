@@ -10,7 +10,7 @@
                 <field name="name_tur_suggestion"/>
                 <field name="turbine_numbers_suggestion"/>
                 <field name="hub_height_suggestion"/>
-                <field name="farm_capacity"/>
+                <field name="project_capacity"/>
                 <field name="version_id"/>
                 <field name="write_date"/>
                 <field name="write_uid"/>
@@ -101,7 +101,7 @@
                     <group name="group_mid">
                         <group name="group_left">
                             <field name="hub_height_suggestion"/>
-                            <field name="farm_capacity"/>
+                            <field name="project_capacity"/>
                         </group>
                         <group name="group_right">
                             <field name="turbine_numbers_suggestion"/>

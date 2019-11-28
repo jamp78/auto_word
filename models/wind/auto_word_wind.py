@@ -94,7 +94,7 @@ def cal_wind_result(self):
     ave_ongrid_power = round_up(Get_Average(ongrid_power_dict), 1)
     total_powerGeneration_weak = round_up(Get_Sum(PowerGeneration_Weak_dict), 1)
     total_powerGeneration = round_up(Get_Sum(PowerGeneration_dict), 1)
-    total_ongrid_power = round_up(Get_Sum(ongrid_power_dict), 1)
+    self.ongrid_power = round_up(Get_Sum(ongrid_power_dict), 1)
 
     # 方案比选 Dict
     for i in range(0, len(self.case_names)):
@@ -172,6 +172,9 @@ def cal_wind_result(self):
         "北纬": self.Lat_words,
         "风场面积": self.area_words,
         '机组数量': self.turbine_numbers_suggestion,
+        '单机容量': self.TurbineCapacity,
+        '装机容量': self.project_capacity,
+        "上网电量": self.ongrid_power,
 
         "平均海拔": ave_elevation,
         "尾流后平均风速": ave_AverageWindSpeed_Weak,
@@ -182,8 +185,9 @@ def cal_wind_result(self):
         "折减率备注": self.project_id.note,
         "满发小时": ave_hours_year,
         "容量系数": capacity_coefficient,
+
         "平均上网电量": ave_ongrid_power,
-        "总上网电量": total_ongrid_power,
+
         "尾流损失修正系数": ave_weak_res_xz,
         "尾流修正后的总理论发电量": total_powerGeneration_weak,
 
@@ -200,9 +204,9 @@ def cal_wind_result(self):
         'IEC等级': self.IECLevel,
         'WTG数量': str(len(self.select_turbine_ids)),
 
-        '推荐单机容量': self.project_id.TurbineCapacity,
+
         '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
-        '项目容量': self.project_id.project_capacity,
+
         '限制性因素': self.project_id.limited_words,
     }
     Dict_5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)
@@ -266,15 +270,15 @@ class auto_word_wind(models.Model):
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
                                             compute='_compute_compare_case')
-    capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True, default="待提交",
-                                      compute='_compute_compare_case')
+    TurbineCapacity = fields.Char(string=u'单机容量', readonly=True, default="待提交",
+                                  compute='_compute_compare_case')
 
     investment_turbines_kws = fields.Char(u'风机kW投资', compute='_compute_compare_case')
 
-    farm_capacity = fields.Char(string=u'风电场容量', readonly=True, compute='_compute_compare_case', default="待提交")
+    project_capacity = fields.Char(string=u'装机容量', readonly=True, compute='_compute_compare_case', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
 
-    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True, compute='_compute_compare_case')
+    ongrid_power = fields.Char(u'上网电量', default="待提交")
     weak = fields.Char(u'尾流衰减', default="待提交", readonly=True, compute='_compute_compare_case')
     hours_year = fields.Char(u'满发小时', default="待提交", readonly=True, compute='_compute_compare_case')
     capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True, compute='_compute_compare_case')
@@ -311,12 +315,11 @@ class auto_word_wind(models.Model):
             re.name_tur_suggestion = re.recommend_id.name_tur
             re.hub_height_suggestion = re.recommend_id.hub_height_suggestion
             re.turbine_numbers_suggestion = re.recommend_id.turbine_numbers
-            re.farm_capacity = re.recommend_id.farm_capacity
+            re.project_capacity = re.recommend_id.farm_capacity
             re.rotor_diameter_suggestion = re.recommend_id.rotor_diameter_case
-            re.capacity_suggestion = re.recommend_id.capacity
+            re.TurbineCapacity = float(re.recommend_id.capacity) / 1000
 
             re.auto_word_wind_res = re.recommend_id.res_form.auto_word_wind_res
-            re.ongrid_power = re.recommend_id.ongrid_power
             re.weak = re.recommend_id.weak
             re.hours_year = re.recommend_id.hours_year
             re.rate = re.recommend_id.res_form.rate
@@ -331,9 +334,7 @@ class auto_word_wind(models.Model):
         self.project_id.case_name = str(self.recommend_id.case_name)
         self.project_id.turbine_model_suggestion = self.recommend_id.WTG_name
         self.project_id.turbine_numbers_suggestion = self.recommend_id.turbine_numbers
-        self.project_id.TurbineCapacity = self.recommend_id.capacity
         self.project_id.hub_height_suggestion = self.recommend_id.hub_height_suggestion
-        self.project_id.project_capacity = self.recommend_id.farm_capacity
         self.project_id.name_tur_suggestion = self.recommend_id.name_tur
         self.project_id.investment_E1 = self.recommend_id.investment_E1
         self.project_id.investment_E2 = self.recommend_id.investment_E2
@@ -384,10 +385,11 @@ class auto_word_wind(models.Model):
         self.project_id.ongrid_power = self.ongrid_power
         self.project_id.weak = self.weak
         self.project_id.Hour_words = self.hours_year
-        self.project_id.capacity_suggestion = self.capacity_suggestion
+        self.project_id.TurbineCapacity = self.TurbineCapacity
         self.project_id.Dict_5_Final = self.Dict_5_Final
         self.project_id.area_words = self.area_words
 
+        self.project_id.project_capacity = self.project_capacity
 
     def wind_generate(self):
         Dict_5, Dict_5_Final = cal_wind_result(self)

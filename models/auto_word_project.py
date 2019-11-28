@@ -49,12 +49,14 @@ def dict_project(self):
         # "北纬": self.Lat_words,
         # "风场面积": self.area_words,
         # "机组数量": self.turbine_numbers_suggestion,
-
-####################
-
         # "单机容量": self.TurbineCapacity,
         # "装机容量": self.project_capacity,
         # "上网电量": self.ongrid_power,
+####################
+
+
+
+
         # "满发小时": self.Hour_words,
         # "容量系数": self.capacity_coefficient,
         # "风功率密度等级": self.PWDLevel,
