@@ -52,11 +52,6 @@ def dict_project(self):
         # "单机容量": self.TurbineCapacity,
         # "装机容量": self.project_capacity,
         # "上网电量": self.ongrid_power,
-####################
-
-
-
-
         # "满发小时": self.Hour_words,
         # "容量系数": self.capacity_coefficient,
         # "风功率密度等级": self.PWDLevel,
@@ -68,8 +63,10 @@ def dict_project(self):
         # "折减率": self.rate,
         # "IEC等级": self.IECLevel,
         # "叶轮直径": self.rotor_diameter_suggestion,
-        # # "推荐轮毂高度": self.hub_height_suggestion,
+        # "推荐轮毂高度": self.hub_height_suggestion,
         # "风速区间": self.farm_speed_range_words,
+####################
+
 
         # "施工辅助工程": self.construction_assistance,
         # "设备及安装工程": self.equipment_installation,
@@ -214,7 +211,6 @@ class auto_word_project(models.Model):
     wind_time_txt = fields.Char(u'选取时段', default="待提交")
     wind_txt = fields.Char(u'风能信息', default="待提交")
     wind_TI_txt = fields.Char(u'湍流信息', default="待提交")
-
     max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交")
 
     ###电气

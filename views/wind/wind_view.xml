@@ -56,12 +56,15 @@
                             <field name="air_density_words"/>
                             <field name="IECLevel"/>
                             <field name="PWDLevel"/>
-
-
+                            <field name="max_wind_txt"/>
                         </group>
                         <!--<field name="project_res" />-->
                     </group>
-
+                    <group name="group_right" string="风能资源">
+                        <field name="wind_time_txt"/>
+                        <field name="wind_txt"/>
+                        <field name="wind_TI_txt"/>
+                    </group>
                     <group string="限制性因素排查">
                         <group name="group_right">
                             <field name="limited_1"/>
