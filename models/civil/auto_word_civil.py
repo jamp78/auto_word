@@ -110,6 +110,23 @@ def civil_generate_docx_dict(self):
         '设计基本地震加速度值': self.Earthquake_g,
         '建筑物场地类别': self.BuildingYardLevel,
         '建筑物场地抗震类别': self.BuildingYardLevel_word,
+
+        "周边道路": self.road_names,
+        "改扩建道路": self.road_1_num,
+        "进站道路": self.road_2_num,
+        "新建施工检修道路": self.road_3_num,
+        "道路工程长度": self.total_civil_length,
+        "合计亩_永久用地面积": self.permanent_land_area,
+        "合计亩_临时用地面积": self.temporary_land_area,
+        "总用地面积": self.land_area,
+
+        # '基础形式': self.basic_type,
+        # '基础底面圆直径': self.FloorRadiusR,
+        # '基础底板外缘高度': self.H1,
+        # '台柱圆直径': self.R2,
+        # '基础底板圆台高度': self.H2,
+        # '台柱高度': self.H3,
+
     }
     Dict8 = dict(dict_8_word, **dict8)
     return Dict8
@@ -119,10 +136,10 @@ class auto_word_civil(models.Model):
     _name = 'auto_word.civil'
     _description = 'Civil input'
     _rec_name = 'project_id'
-    # _inherit = ['auto_word_civil.design_safety_standard']
+    # _inherit = ['auto_word_civil.windbase']
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    # turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
+    road_names = fields.Char(string=u'周边道路')
     # 风能
     turbine_numbers = fields.Char(u'机位数', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型型号', readonly=True)
@@ -140,38 +157,17 @@ class auto_word_civil(models.Model):
     basic_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础土方比", required=False, default=8)
-    # basic_stone_ratio = fields.Selection(
-    #     [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-    #      (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础石方比", required=False, default=2)
     road_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=False, default=8)
-    # road_stone_ratio = fields.Selection(
-    #     [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
-    #      (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路石方比", required=False, default=2)
-    ####箱变
-    # TurbineCapacity = fields.Char(
-    #     [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
-    #      (36, "3.6MW")], string=u"风机容量", required=False, default=25)
 
     TurbineCapacity = fields.Char(string=u"风机容量", required=False, readonly=True)
-    # ####升压站
-    # Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
-    # Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
-    # Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
-
-    ####道路
-    # TerrainType = fields.Selection(
-    #     [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
-    #      ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=False, default="缓坡低山")
-
     TerrainType = fields.Char(u'山地类型', readonly=True)
-
     road_1_num = fields.Float(u'改扩建道路', required=False, default=5)
     road_2_num = fields.Float(u'进站道路', required=False, default=1.5)
     road_3_num = fields.Float(u'新建施工检修道路', required=False, default=10)
+    total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路工程长度')
 
-    total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路线路总长度')
     investment_E4 = fields.Float(compute='_compute_total_civil_length', string=u'道路投资(万元)')
 
     ####线路
@@ -186,7 +182,6 @@ class auto_word_civil(models.Model):
     main_booster_station_num = fields.Char(u'主变数量', default="0", readonly=True)
 
     ####设计安全标准
-    # civil_design_safety_standard = fields.Char(compute='_compute_civil_design_safety_standard', string=u'设计安全标准')
 
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
 
@@ -315,6 +310,8 @@ class auto_word_civil(models.Model):
 
         projectname.temporary_land_area = Dict8['合计亩_临时用地面积']
         projectname.permanent_land_area = Dict8['合计亩_永久用地面积']
+        projectname.land_area=self.land_area
+
         projectname.excavation = Dict8['合计_开挖']
         projectname.backfill = Dict8['合计_回填']
         projectname.spoil = Dict8['合计_弃土']
@@ -455,9 +452,6 @@ class civil_convertbase(models.Model):
     _name = 'auto_word_civil.convertbase'
     _description = 'Civil ConvertBase'
     _rec_name = 'TurbineCapacity'
-    # TurbineCapacity = fields.Selection(
-    #     [(20, "2MW"), (22, "2.2MW"), (25, "2.5MW"), (30, "3MW"), (32, "3.2MW"), (33, "3.3MW"), (34, "3.4MW"),
-    #      (36, "3.6MW")], string=u"风机容量", required=True)
     TurbineCapacity = fields.Char(string=u"风机容量", required=True)
 
     ConvertStation = fields.Selection(
