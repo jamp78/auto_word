@@ -171,6 +171,7 @@ def cal_wind_result(self):
         "东经": self.Lon_words,
         "北纬": self.Lat_words,
         "风场面积": self.area_words,
+        '机组数量': self.turbine_numbers_suggestion,
 
         "平均海拔": ave_elevation,
         "尾流后平均风速": ave_AverageWindSpeed_Weak,
@@ -189,7 +190,6 @@ def cal_wind_result(self):
         "叶轮直径": self.rotor_diameter_suggestion,
         "方案数": self.case_number,
 
-
         "空气密度": self.air_density_words,
 
         "平均风速区间": self.farm_speed_range_words,
@@ -200,7 +200,6 @@ def cal_wind_result(self):
         'IEC等级': self.IECLevel,
         'WTG数量': str(len(self.select_turbine_ids)),
 
-        '推荐机位数': self.project_id.turbine_numbers_suggestion,
         '推荐单机容量': self.project_id.TurbineCapacity,
         '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
         '项目容量': self.project_id.project_capacity,
@@ -263,7 +262,7 @@ class auto_word_wind(models.Model):
     recommend_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案推荐', required=False)
     case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案名称', required=False)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=False)
-    turbine_numbers_suggestion = fields.Char(u'机位数', compute='_compute_compare_case', readonly=True)
+    turbine_numbers_suggestion = fields.Char(u'机组数量', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
                                             compute='_compute_compare_case')
@@ -329,13 +328,10 @@ class auto_word_wind(models.Model):
     def submit_wind(self):
         limited_str_1, limited_str_2, limited_str_3, limited_words = "", "", "", ""
         self.project_id.wind_attachment_ok = u"已提交,版本：" + self.version_id
-
         self.project_id.case_name = str(self.recommend_id.case_name)
         self.project_id.turbine_model_suggestion = self.recommend_id.WTG_name
-
         self.project_id.turbine_numbers_suggestion = self.recommend_id.turbine_numbers
         self.project_id.TurbineCapacity = self.recommend_id.capacity
-
         self.project_id.hub_height_suggestion = self.recommend_id.hub_height_suggestion
         self.project_id.project_capacity = self.recommend_id.farm_capacity
         self.project_id.name_tur_suggestion = self.recommend_id.name_tur

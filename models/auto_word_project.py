@@ -48,9 +48,10 @@ def dict_project(self):
         # "东经": self.Lon_words,
         # "北纬": self.Lat_words,
         # "风场面积": self.area_words,
+        # "机组数量": self.turbine_numbers_suggestion,
 
 ####################
-        # "机组数量": self.turbine_numbers_suggestion,
+
         # "单机容量": self.TurbineCapacity,
         # "装机容量": self.project_capacity,
         # "上网电量": self.ongrid_power,
