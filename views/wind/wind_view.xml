@@ -51,7 +51,7 @@
                         <group name="group_right">
                             <field name="Elevation_words"/>
                             <field name="Relative_height_difference_words"/>
-                            <field name="farm_area_words"/>
+                            <field name="area_words"/>
                             <field name="farm_speed_range_words"/>
                             <field name="air_density_words"/>
                             <field name="IECLevel"/>

@@ -93,8 +93,6 @@ def civil_generate_docx_dict(self):
     dict8 = generate_civil_dict(**dict_8)
 
     dict_8_word = {
-        # 风能
-        '推荐轮毂高度': self.hub_height_suggestion,
         # 设计安全标准
         '项目工程等别': self.ProjectLevel,
         '工程规模': self.ProjectSize,

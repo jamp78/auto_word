@@ -166,6 +166,12 @@ def cal_wind_result(self):
         "单位度电投资e": investment_unit_dict,
     }
     dict_5_suggestion_word = {
+        "山地类型": self.TerrainType,
+        "海拔高程": self.Elevation_words,
+        "东经": self.Lon_words,
+        "北纬": self.Lat_words,
+        "风场面积": self.area_words,
+
         "平均海拔": ave_elevation,
         "尾流后平均风速": ave_AverageWindSpeed_Weak,
         "平均发电量": ave_powerGeneration,
@@ -182,10 +188,10 @@ def cal_wind_result(self):
 
         "叶轮直径": self.rotor_diameter_suggestion,
         "方案数": self.case_number,
-        "海拔高程": self.Elevation_words,
-        "区域面积": self.farm_area_words,
+
+
         "空气密度": self.air_density_words,
-        "山地类型": self.project_id.TerrainType,
+
         "平均风速区间": self.farm_speed_range_words,
         '测风塔名字': self.cft_name_words,
         '测风塔风速信息': self.string_speed_words,
@@ -222,7 +228,7 @@ class auto_word_wind(models.Model):
     Lat_words = fields.Char(string=u'北纬', default='23.132694', required=True)
     Elevation_words = fields.Char(string=u'海拔高程', default='588m～852m', required=True)
     Relative_height_difference_words = fields.Char(string=u'相对高差', default='100m-218m', required=True)
-    farm_area_words = fields.Char(string=u'区域面积', default="150", required=True)
+    area_words = fields.Char(string=u'风场面积')
     farm_speed_range_words = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
     air_density_words = fields.Char(string=u'空气密度', default="1.096", required=True)
     # 限制性因素
@@ -379,13 +385,13 @@ class auto_word_wind(models.Model):
         self.project_id.Lat_words = self.Lat_words
         self.project_id.Elevation_words = self.Elevation_words
         self.project_id.Relative_height_difference_words = self.Relative_height_difference_words
-
         self.project_id.ongrid_power = self.ongrid_power
         self.project_id.weak = self.weak
         self.project_id.Hour_words = self.hours_year
         self.project_id.capacity_suggestion = self.capacity_suggestion
-
         self.project_id.Dict_5_Final = self.Dict_5_Final
+        self.project_id.area_words = self.area_words
+
 
     def wind_generate(self):
         Dict_5, Dict_5_Final = cal_wind_result(self)
