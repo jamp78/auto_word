@@ -119,22 +119,11 @@ def dict_project(self):
     Dict_13_Final = eval(self.Dict_13_Final)
 
     self.Dict_x_Final = dict(dict_1_word, **dict_1_res_word,
-                             **Dict_5_Final,
-                             **Dict_8_Final,
+                             **Dict_5_Final, #5
+                             **Dict_8_Final, #8,9
                              **Dict_12_Final,
                              **Dict_13_Final
                              )
-
-    print("Dict_x_Final")
-    print(self.Dict_x_Final)
-    print("Dict_5_Final")
-    print(Dict_5_Final)
-    print("Dict_8_Final")
-    print(Dict_8_Final)
-    print("Dict_12_Final")
-    print(Dict_12_Final)
-    print("Dict_13_Final")
-    print(Dict_13_Final)
 
     return True
 
