@@ -125,6 +125,17 @@ def dict_project(self):
                              **Dict_13_Final
                              )
 
+    print("Dict_x_Final")
+    print(self.Dict_x_Final)
+    print("Dict_5_Final")
+    print(Dict_5_Final)
+    print("Dict_8_Final")
+    print(Dict_8_Final)
+    print("Dict_12_Final")
+    print(Dict_12_Final)
+    print("Dict_13_Final")
+    print(Dict_13_Final)
+
     return True
 
 
@@ -325,7 +336,7 @@ class auto_word_project(models.Model):
     road_names = fields.Char(string=u'周边道路')
     land_area = fields.Char(string=u'总用地面积')
 
-    farm_speed_range_words = fields.Char(string=u'平均风速区间')
+    farm_speed_range_words = fields.Char(string=u'风速区间')
 
     Dict_5_Final = fields.Char(string=u'字典5')
     Dict_8_Final = fields.Char(string=u'字典8_9')
