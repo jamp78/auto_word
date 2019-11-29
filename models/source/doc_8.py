@@ -51,7 +51,6 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
         'fortification_intensity': fortification_intensity,
         '风电场总装机容量': TurbineCapacity * turbine_numbers,
         '变电站电压等级': Grade
-
     }
 
     project10 = MainConstructionQuantitySummarySheet()

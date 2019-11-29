@@ -66,7 +66,9 @@ def generate_economy_docx(Dict, path_images, model_name, outputfile):
 def cal_economy_result(self):
     # 风能
     dictMerged, dictMerged_rows, Dict, dict_content, dict_head = {}, [], {}, {}, {}
-    global file_first, file_second
+    global file_first
+    global file_second
+    Dict_12_Final, Dict_13_Final = {}, {}
     file_first = False;
     file_second = False
     for re in self.report_attachment_id_input:
@@ -117,6 +119,9 @@ def cal_economy_result(self):
 
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
+
+        dict5 = eval(self.project_id.Dict_5_Final)
+        dict8 = eval(self.project_id.Dict_8_Final)
 
         if chapter_number == 12:
             col_name_0 = ['设备', '单位', '设备价', '备注']
@@ -176,8 +181,8 @@ def cal_economy_result(self):
                 dictMerged.update(dict_content)
 
             self.cost_time = str(dictMerged['result_list12_1'][len(dictMerged['result_list12_1']) - 4]['cols'][0])
-            self.cost_location = str(
-                dictMerged['result_list12_1'][len(dictMerged['result_list12_1']) - 3]['cols'][0])
+            # self.cost_location = str(
+            #     dictMerged['result_list12_1'][len(dictMerged['result_list12_1']) - 3]['cols'][0])
             self.cost_water = str(dictMerged['result_list12_1'][len(dictMerged['result_list12_2']) - 1]['cols'][2])
             self.cost_electricity = str(
                 dictMerged['result_list12_1'][len(dictMerged['result_list12_1']) - 1]['cols'][2])
@@ -226,8 +231,6 @@ def cal_economy_result(self):
                 if str(dictMerged['result_list12_6'][i]['cols'][0]) == '建设期利息':
                     self.interest_construction_loans_12 = str(dictMerged['result_list12_6'][i]['cols'][2])
 
-                print("str(dictMerged['result_list12_6'][i]['cols'][3])")
-                print(str(dictMerged['result_list12_6'][i]['cols'][3]))
                 if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组设备价格':
                     self.investment_turbines_kws = str(dictMerged['result_list12_6'][i]['cols'][6])
                 if str(dictMerged['result_list12_6'][i]['cols'][3]) == '塔筒(架)设备价格':
@@ -305,10 +308,10 @@ def cal_economy_result(self):
             self.temporary_land_words = self.project_id.temporary_land_area
 
             self.Reinforcement = self.project_id.Reinforcement
-            self.EarthWorkBackFill_WindResource = self.project_id.EarthWorkBackFill_WindResource
 
-            self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
-                self.project_id.StoneExcavation_WindResource), 2)
+            # self.EarthWorkBackFill_WindResource = self.project_id.EarthWorkBackFill_WindResource
+            # self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
+            #     self.project_id.StoneExcavation_WindResource), 2)
 
             self.Concrete_words = round_up(float(self.project_id.Volume) + float(
                 self.project_id.Cushion), 2)
@@ -318,7 +321,7 @@ def cal_economy_result(self):
 
             dict_12_res_word = {
                 "价格日期": self.cost_time,
-                "价格地点": self.cost_location,
+                # "价格地点": self.cost_location,
                 "施工水价": self.cost_water,
                 "施工电价": self.cost_electricity,
 
@@ -345,38 +348,38 @@ def cal_economy_result(self):
             }
             self.dict_12_res_word = dict_12_res_word
             dict_12_word = {
-                "东经": self.Lon_words,
-                "北纬": self.Lat_words,
-                "风电场名称": self.Farm_words,
-                "海拔高程": self.Elevation_words,
-                "相对高差": self.Relative_height_difference_words,
-                "道路工程长度": self.total_civil_length,
-                "改扩建进场道路": self.road_1_num,
-                "进站道路": self.road_2_num,
-                "新建施工检修道路": self.road_3_num,
-                "永久用地": self.Permanent_land_words,
-                "临时用地": self.temporary_land_words,
-                "风场面积": self.area_words,
+                # "东经": self.Lon_words,
+                # "北纬": self.Lat_words,
+                # "风电场名称": self.Farm_words,
+                # "海拔高程": self.Elevation_words,
+                # "相对高差": self.Relative_height_difference_words,
+                # "道路工程长度": self.total_civil_length,
+                # "改扩建道路": self.road_1_num,
+                # "进站道路": self.road_2_num,
+                # "新建施工检修道路": self.road_3_num,
+                # "合计亩_永久用地面积": self.Permanent_land_words,
+                # "合计亩_临时用地面积": self.temporary_land_words,
+                # "风场面积": self.area_words,
 
                 "施工总工期": self.Project_time_words,
-                "单机容量": self.TurbineCapacity,
-                "机组数量": self.turbine_numbers_suggestion,
-                "装机容量": self.project_capacity,
-                "上网电量": self.ongrid_power,
-                "满发小时": self.Hour_words,
+                # "单机容量": self.TurbineCapacity,
+                # "机组数量": self.turbine_numbers_suggestion,
+                # "装机容量": self.project_capacity,
+                # "上网电量": self.ongrid_power,
+                # "满发小时": self.Hour_words,
 
                 "塔筒": self.Towter_weight_words,
-                "土石方开挖": self.Earth_excavation_words,
-                "土石方回填": self.EarthWorkBackFill_WindResource,
+                # "土石方开挖": self.Earth_excavation_words,
+                # "土石方回填": self.EarthWorkBackFill_WindResource,
                 "混凝土": self.Concrete_words,
                 "钢筋": self.Reinforcement,
 
                 "第一台机组发电工期": self.First_turbine_words,
                 "总工期": self.Project_time_words,
                 "生产单位定员": self.staff_words,
-                "风电场名称": self.Farm_words,
-                "建设地点": self.Location_words,
-                "建设单位": self.company_id,
+                # "风电场名称": self.Farm_words,
+                # "建设地点": self.Location_words,
+                # "建设单位": self.company_id,
                 "风电机组单位造价": self.investment_turbines_kws,
                 "塔筒单位造价": self.Tower_cost_words,
                 "风电机组基础单价": self.infrastructure_cost_words,
@@ -384,7 +387,7 @@ def cal_economy_result(self):
 
             }
 
-            Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word)
+            Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word, **dict5, **dict8)
             Dict_12_Final = dict(dict_12_word, **dict_12_res_word)
             generate_economy_docx(Dict12, economy_path, model_name, outputfile)
         if chapter_number == 13:
@@ -501,11 +504,57 @@ def cal_economy_result(self):
                 "资本金利润率_13": self.ROE_13,
             }
 
-
-            Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word)
-
+            Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word, **dict5,
+                          **dict8)
             generate_economy_docx(Dict13, economy_path, model_name, outputfile)
             Dict_13_Final = dict_13_res_word
+
+        # ###########################
+        reportfile_name = open(file=self.Pathoutput, mode='rb')
+        byte = reportfile_name.read()
+        reportfile_name.close()
+        print("file_second")
+        print(file_second)
+        if (chapter_number == 12):
+            if (str(self.report_attachment_id_output12) == 'ir.attachment()'):
+                Attachments = self.env['ir.attachment']
+                print('开始创建新纪录12')
+                New = Attachments.create({
+                    'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
+                    'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
+                    'datas': base64.standard_b64encode(byte),
+                    'display_name': self.project_id.project_name + '可研报告经评章节',
+                    'create_date': fields.date.today(),
+                    'public': True,  # 此处需设置为true 否则attachments.read  读不到
+                })
+                print('已创建新纪录：', New)
+                print('new dataslen：', len(New.datas))
+                self.report_attachment_id_output12 = New
+            else:
+                print('chapter_number')
+                print(chapter_number)
+                self.report_attachment_id_output12.datas = base64.standard_b64encode(byte)
+        elif (chapter_number == 13 and file_second == True):
+            if (str(self.report_attachment_id_output13) == 'ir.attachment()'):
+                Attachments = self.env['ir.attachment']
+                print('开始创建新纪录13')
+                New = Attachments.create({
+                    'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
+                    'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
+                    'datas': base64.standard_b64encode(byte),
+                    'display_name': self.project_id.project_name + '可研报告经评章节',
+                    'create_date': fields.date.today(),
+                    'public': True,  # 此处需设置为true 否则attachments.read  读不到
+                })
+                print('已创建新纪录：', New)
+                print('new dataslen：', len(New.datas))
+                self.report_attachment_id_output13 = New
+            else:
+                self.report_attachment_id_output13.datas = base64.standard_b64encode(byte)
+
+            print('new attachment：', self.report_attachment_id_output13)
+            print('new datas len：', len(self.report_attachment_id_output13.datas))
+
 
     return Dict_12_Final, Dict_13_Final
 
@@ -515,10 +564,9 @@ class auto_word_economy(models.Model):
     _description = 'economy res'
     _rec_name = 'content_id'
     # 项目参数
-
     Pathoutput = fields.Char(u'输出路径')
-    Dict_12_Final = fields.Char(string=u'字典12')
-    Dict_13_Final = fields.Char(string=u'字典13')
+    # Dict_12_Final = fields.Char(string=u'字典12')
+    # Dict_13_Final = fields.Char(string=u'字典13')
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),
@@ -576,7 +624,7 @@ class auto_word_economy(models.Model):
 
     # 结果
     cost_time = fields.Char(string=u'价格日期')
-    cost_location = fields.Char(string=u'价格地点')
+    # cost_location = fields.Char(string=u'价格地点')
     cost_water = fields.Char(string=u'施工水价')
     cost_electricity = fields.Char(string=u'施工电价')
     additional_construction_rate = fields.Char(string=u'建筑措施费利率')
@@ -628,52 +676,11 @@ class auto_word_economy(models.Model):
 
     def economy_generate(self):
 
-        self.Dict_12_Final, self.Dict_13_Final = cal_economy_result(self)
-        self.project_id.Dict_12_Final=self.Dict_12_Final
-        self.project_id.Dict_13_Final = self.Dict_13_Final
+        Dict_12_Final, Dict_13_Final = cal_economy_result(self)
+        self.project_id.Dict_12_Final = Dict_12_Final
+        self.project_id.Dict_13_Final = Dict_13_Final
 
-        # ###########################
-        reportfile_name = open(file=self.Pathoutput, mode='rb')
-        byte = reportfile_name.read()
-        reportfile_name.close()
-        for chapter_number in range(12, 14):
-            if (chapter_number == 12):
-                if (str(self.report_attachment_id_output12) == 'ir.attachment()'):
-                    Attachments = self.env['ir.attachment']
-                    print('开始创建新纪录12')
-                    New = Attachments.create({
-                        'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
-                        'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
-                        'datas': base64.standard_b64encode(byte),
-                        'display_name': self.project_id.project_name + '可研报告经评章节',
-                        'create_date': fields.date.today(),
-                        'public': True,  # 此处需设置为true 否则attachments.read  读不到
-                    })
-                    print('已创建新纪录：', New)
-                    print('new dataslen：', len(New.datas))
-                    self.report_attachment_id_output12 = New
-                else:
-                    self.report_attachment_id_output12.datas = base64.standard_b64encode(byte)
-            elif (chapter_number == 13 and file_second == True):
-                if (str(self.report_attachment_id_output13) == 'ir.attachment()'):
-                    Attachments = self.env['ir.attachment']
-                    print('开始创建新纪录13')
-                    New = Attachments.create({
-                        'name': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '下载页',
-                        'datas_fname': self.project_id.project_name + '可研报告经评章节chapter' + str(chapter_number) + '.docx',
-                        'datas': base64.standard_b64encode(byte),
-                        'display_name': self.project_id.project_name + '可研报告经评章节',
-                        'create_date': fields.date.today(),
-                        'public': True,  # 此处需设置为true 否则attachments.read  读不到
-                    })
-                    print('已创建新纪录：', New)
-                    print('new dataslen：', len(New.datas))
-                    self.report_attachment_id_output13 = New
-                else:
-                    self.report_attachment_id_output13.datas = base64.standard_b64encode(byte)
 
-                print('new attachment：', self.report_attachment_id_output13)
-                print('new datas len：', len(self.report_attachment_id_output13.datas))
         return True
 
     @api.multi
@@ -744,32 +751,3 @@ class auto_word_economy(models.Model):
         self.project_id.ROE_13 = self.ROE_13
 
         return True
-    #
-    # # 土建
-    # Re_road_words = fields.Char(string=u'新改建道路', default='66.64')
-    # Extension_road_words = fields.Char(string=u'场内改扩建道路', default='15')
-    # New_road_words = fields.Char(string=u'新建施工检修道路', default='51.64')
-    # Permanent_land_words = fields.Char(string=u'永久用地', default='38.36')
-    # temporary_land_words = fields.Char(string=u'临时用地', default='1467.95')
-    #
-
-    #
-    # Towter_weight_words = fields.Char(string=u'塔筒', default='8975.72')
-    # Earth_excavation_words = fields.Char(string=u'土石方开挖', default='154.7')
-    # Earth_backfill_words = fields.Char(string=u'土石方回填', default='56.01')
-    # Concrete_words = fields.Char(string=u'混凝土', default='3.62')
-    # Steel_weight_words = fields.Char(string=u'钢筋', default='2565.6')
-    #
-    # # 计划施工时间
-    # First_turbine_words = fields.Char(string=u'第一台机组发电工期', default='15')
-    # Project_time_words = fields.Char(string=u'总工期', default='18')
-    # staff_words = fields.Char(string=u'生产单位定员', default='12')
-    #
-    # # 项目状况
-    # Farm_words = fields.Char(string=u'风电场名称', default='8975.72')
-    # Location_words = fields.Char(string=u'建设地点', default='154.7')
-    # Construction_words = fields.Char(string=u'建设单位', default='56.01')
-    # Turbine_cost_words = fields.Char(string=u'风电机组单位造价', default='3500')
-    # Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='10500')
-    # infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='841155')
-    # unit_cost_words = fields.Char(string=u'单位度电投资', default='3.59')

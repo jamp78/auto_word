@@ -66,9 +66,6 @@ class auto_word_civil_design_safety_standard(models.Model):
 
 def civil_generate_docx_dict(self):
     self.line_data = [float(self.line_1), float(self.line_2)]
-    print("~~~~~~~~~~~~~~~~~~~~~~~")
-    print(self.turbine_numbers)
-
     self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
     self.road_stone_ratio = 10 - self.road_earthwork_ratio
 
@@ -91,6 +88,8 @@ def civil_generate_docx_dict(self):
 
     dict_8 = get_dict_8(np, dict_keys)
     dict8 = generate_civil_dict(**dict_8)
+    dict5 = eval(self.project_id.Dict_5_Final)
+
 
     dict_8_word = {
         # 设计安全标准
@@ -120,16 +119,10 @@ def civil_generate_docx_dict(self):
         "合计亩_临时用地面积": self.temporary_land_area,
         "总用地面积": self.land_area,
 
-        # '基础形式': self.basic_type,
-        # '基础底面圆直径': self.FloorRadiusR,
-        # '基础底板外缘高度': self.H1,
-        # '台柱圆直径': self.R2,
-        # '基础底板圆台高度': self.H2,
-        # '台柱高度': self.H3,
-
     }
-    Dict8 = dict(dict_8_word, **dict8)
-    return Dict8
+    Dict_8_Final = dict(dict_8_word, **dict8)
+    Dict8 = dict(dict_8_word, **dict8, **dict5)
+    return Dict8,Dict_8_Final
 
 
 class auto_word_civil(models.Model):
@@ -248,9 +241,9 @@ class auto_word_civil(models.Model):
     def _compute_terrain_type_words(self):
         for re in self:
             if re.TerrainType == "平原":
-                re.TerrainType_words = "地形较为平缓，不需要进行高边坡特别设计"
+                re.TerrainType_words = "地形较为平缓，不需要进行高边坡特别设计."
             else:
-                re.TerrainType_words = "山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计"
+                re.TerrainType_words = "山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计."
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num', 'TerrainType')
     def _compute_total_civil_length(self):
@@ -299,7 +292,7 @@ class auto_word_civil(models.Model):
         projectname.C80SecondaryGrouting = self.C80SecondaryGrouting
         projectname.stake_number = self.stake_number
 
-        Dict8 = civil_generate_docx_dict(self)
+        Dict8,Dict_8_Final = civil_generate_docx_dict(self)
 
         projectname.BasicType = Dict8['基础形式']
         projectname.FloorRadiusR = Dict8['基础底面圆直径']
@@ -341,8 +334,8 @@ class auto_word_civil(models.Model):
         self.TurbineCapacity = projectname.capacity_suggestion
         self.TerrainType = projectname.TerrainType
 
-        Dict8 = civil_generate_docx_dict(self)
-        projectname.Dict_8_Final=Dict8
+        Dict8,Dict_8_Final = civil_generate_docx_dict(self)
+        projectname.Dict_8_Final=Dict_8_Final
 
         self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = Dict8['石方开挖_风机_numbers']
@@ -379,10 +372,9 @@ class auto_word_civil(models.Model):
         self.permanent_land_area = Dict8['合计亩_永久用地面积']
         self.land_area = round_up(float(self.permanent_land_area) + float(self.temporary_land_area), 2)
 
-
     #   生成报告
     def civil_generate(self):
-        Dict8 = civil_generate_docx_dict(self)
+        Dict8,Dict_8_Final = civil_generate_docx_dict(self)
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
         generate_civil_docx(Dict8, path_chapter_8)
         reportfile_name = open(

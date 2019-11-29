@@ -22,7 +22,6 @@
                             <field name="project_id"/>
                             <field name="version_id"/>
                             <field name="road_names"/>
-
                         </group>
 
                         <group string="风资源参数">

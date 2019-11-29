@@ -42,7 +42,7 @@ def dict_project(self):
         "风电场名称": self.Farm_words,
         "建设地点": self.Location_words,
         "项目大区": self.company_id.name,
-
+        "相对高差": self.Relative_height_difference_words,
         # "山地类型": self.TerrainType,
         # "海拔高程": self.Elevation_words,
         # "东经": self.Lon_words,
@@ -118,20 +118,23 @@ def dict_project(self):
     Dict_12_Final = eval(self.Dict_12_Final)
     Dict_13_Final = eval(self.Dict_13_Final)
 
-    self.Dict_x_Final = dict(dict_1_word, **dict_1_res_word, **Dict_5_Final, **Dict_8_Final
-                             # , **Dict_12_Final
-                             , **Dict_13_Final)
+    self.Dict_x_Final = dict(dict_1_word, **dict_1_res_word,
+                             **Dict_5_Final,
+                             **Dict_8_Final,
+                             **Dict_12_Final,
+                             **Dict_13_Final
+                             )
 
     print("Dict_x_Final")
     print(self.Dict_x_Final)
     print("Dict_5_Final")
-    # print(Dict_5_Final)
+    print(Dict_5_Final)
     print("Dict_8_Final")
     print(Dict_8_Final)
     print("Dict_12_Final")
-    # print(Dict_12_Final)
+    print(Dict_12_Final)
     print("Dict_13_Final")
-    # print(Dict_13_Final)
+    print(Dict_13_Final)
 
     return True
 
