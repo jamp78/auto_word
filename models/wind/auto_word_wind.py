@@ -3,8 +3,10 @@
 from odoo import models, fields, api
 import base64, os
 import numpy as np
+import global_dict as gl
 from array import array
 import sys
+
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
 print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
@@ -210,6 +212,12 @@ def cal_wind_result(self):
     }
     Dict_5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)
     Dict_5_Final = dict_5_suggestion_word
+
+    gl._init()
+    for key, value in Dict_5.items():
+        gl.set_value(key, value)
+
+    print(gl.get_value("东经"))
     return Dict_5, Dict_5_Final
 
 
@@ -255,7 +263,6 @@ class auto_word_wind(models.Model):
     wind_txt = fields.Char(u'风能信息', default="待提交")
     wind_TI_txt = fields.Char(u'湍流信息', default="待提交")
     max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交")
-
 
     # --------测风信息---------
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)

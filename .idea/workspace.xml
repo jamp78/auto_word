@@ -2,23 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b61773cf-16a4-4355-a7c1-a006fe9551bd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/models/source/global_dict.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/auto_word.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/auto_word.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/auto_word_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/auto_word_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/auto_word_civil.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/auto_word_civil.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/BoxVoltageDatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/BoxVoltageDatabase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/ConstructionLandUseSummary.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/ConstructionLandUseSummary.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/EarthStoneBalanceSheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/EarthStoneBalanceSheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/MainConstructionQuantitySummarySheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/MainConstructionQuantitySummarySheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/PermanentLandAreaSheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/PermanentLandAreaSheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/RoadBasementDatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/RoadBasementDatabase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/TemporaryLandAreaSheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/TemporaryLandAreaSheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/WasteSlagSheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/WasteSlagSheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/WindResourceDatabase.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/WindResourceDatabase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/cr8.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/cr8.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/source/doc_8.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/source/doc_8.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/source/generate_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/source/generate_dict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/wind/auto_word_wind.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/auto_word_wind.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/project/project_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/project/project_view.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,15 +25,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/auto_word$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1574781356766" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../.." />
+    <SUITE FILE_PATH="coverage/auto_word$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1575123906799" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../.." />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="371" column="76" lean-forward="true" selection-start-line="371" selection-start-column="8" selection-end-line="371" selection-end-column="76" />
+            <state relative-caret-position="3810">
+              <caret line="127" column="6" selection-start-line="127" selection-start-column="6" selection-end-line="127" selection-end-column="6" />
               <folding>
                 <element signature="e#25#95#0" expanded="true" />
               </folding>
@@ -43,11 +41,33 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/wind/auto_word_wind.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="269">
+              <caret line="217" column="16" selection-start-line="217" selection-start-column="16" selection-end-line="217" selection-end-column="16" />
+              <folding>
+                <element signature="e#25#61#0" expanded="true" />
+                <element signature="e#5274#6732#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/source/global_dict.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="11" column="17" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="226" column="34" selection-start-line="226" selection-start-column="34" selection-end-line="226" selection-end-column="34" />
+            <state relative-caret-position="480">
+              <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
               <folding>
                 <element signature="e#25#61#0" expanded="true" />
               </folding>
@@ -56,24 +76,14 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/source/doc_8.py">
+        <entry file="file://$PROJECT_DIR$/models/economy/auto_word_economy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2229">
-              <caret line="126" column="49" selection-start-line="126" selection-start-column="49" selection-end-line="126" selection-end-column="49" />
+            <state relative-caret-position="120">
+              <caret line="4" column="12" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="12" />
               <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="104" column="18" selection-start-line="104" selection-start-column="13" selection-end-line="104" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#251#1390#0" />
+                <element signature="e#1446#1646#0" />
+                <element signature="e#1723#1973#0" />
               </folding>
             </state>
           </provider>
@@ -81,18 +91,15 @@
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>改扩建道路</find>
-      <find>新建施工检修道路</find>
-      <find>road_1_num</find>
-      <find>Permanent_land_words</find>
-      <find>新建进站道路</find>
-      <find>economy_generate</find>
-      <find>if str(dictMerged['result_list12_6'][i]['cols'][1]) == '风电场名称':</find>
-      <find>年发电量</find>
-      <find>上网电量</find>
-      <find>economy_refresh</find>
       <find>Generating_capacity_words</find>
       <find>电量</find>
       <find>北纬</find>
@@ -113,6 +120,16 @@
       <find>含放坡面积</find>
       <find>'</find>
       <find>civil_generate_docx_dict</find>
+      <find>combine_all_docx</find>
+      <find>path_chapter_8</find>
+      <find>combine_word_documents</find>
+      <find>Dict_5_Final</find>
+      <find>generate_wind_dict</find>
+      <find>dict_5_word</find>
+      <find>for</find>
+      <find>gl.get_value(&quot;东经&quot;)</find>
+      <find>write_context</find>
+      <find>gl</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;</replace>
@@ -124,7 +141,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/models/wind/auto_word_wind.py" />
         <option value="$PROJECT_DIR$/models/economy/auto_word_economy.py" />
         <option value="$PROJECT_DIR$/views/economy/economy_view.xml" />
         <option value="$PROJECT_DIR$/views/civil/civil_view.xml" />
@@ -140,13 +156,18 @@
         <option value="$PROJECT_DIR$/models/civil/chapter_8/WasteSlagSheet.py" />
         <option value="$PROJECT_DIR$/models/source/doc_8.py" />
         <option value="$PROJECT_DIR$/models/civil/auto_word_civil.py" />
+        <option value="$PROJECT_DIR$/views/project/project_view.xml" />
+        <option value="$PROJECT_DIR$/models/source/global_dict.py" />
+        <option value="$PROJECT_DIR$/models/source/doc_5.py" />
+        <option value="$PROJECT_DIR$/models/source/generate_dict.py" />
+        <option value="$PROJECT_DIR$/models/wind/auto_word_wind.py" />
         <option value="$PROJECT_DIR$/models/auto_word_project.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="771" />
+    <option name="y" value="37" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -156,6 +177,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -172,13 +194,7 @@
               <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
               <item name="auto_word" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="civil" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
-              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="wind" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
@@ -190,12 +206,17 @@
               <item name="auto_word" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="civil" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -205,7 +226,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.templateLanguages.PyTemplateLanguageModulesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -287,7 +308,12 @@
       <workItem from="1574571288439" duration="715000" />
       <workItem from="1574582307722" duration="9617000" />
       <workItem from="1574602845070" duration="1979000" />
-      <workItem from="1574778639345" duration="2721000" />
+      <workItem from="1574778639345" duration="2802000" />
+      <workItem from="1574860039174" duration="641000" />
+      <workItem from="1574860696785" duration="1813000" />
+      <workItem from="1574946944437" duration="5884000" />
+      <workItem from="1575075193061" duration="272000" />
+      <workItem from="1575095623524" duration="11109000" />
     </task>
     <task id="LOCAL-00001" summary="home 20191124">
       <created>1574602904229</created>
@@ -296,23 +322,39 @@
       <option name="project" value="LOCAL" />
       <updated>1574602904229</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="home 20191124">
+      <created>1574781433942</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1574781433942</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15751000" />
+    <option name="totallyTimeSpent" value="35551000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14605543" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4983871" visible="true" weight="0.22441365" />
+      <window_info id="Structure" order="1" sideWeight="0.5016129" side_tool="true" visible="true" weight="0.22441365" />
       <window_info id="DB Browser" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.36008677" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.3275488" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -416,25 +458,6 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/economy/auto_word_economy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
-          <caret line="402" column="37" selection-start-line="402" selection-start-column="37" selection-end-line="402" selection-end-column="37" />
-          <folding>
-            <element signature="e#251#1390#0" />
-            <element signature="e#1446#1646#0" />
-            <element signature="e#1723#1973#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/wind/auto_word_wind.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/economy/economy_view.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1740">
@@ -528,40 +551,97 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="104" column="18" selection-start-line="104" selection-start-column="13" selection-end-line="104" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/source/doc_8.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2229">
-          <caret line="126" column="49" selection-start-line="126" selection-start-column="49" selection-end-line="126" selection-end-column="49" />
+        <state relative-caret-position="3690">
+          <caret line="125" column="49" selection-start-line="125" selection-start-column="49" selection-end-line="125" selection-end-column="49" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/civil/chapter_8/BoosterStationDatabase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2850">
+          <caret line="96" column="18" selection-start-line="96" selection-start-column="18" selection-end-line="96" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/project/project_view.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="26" column="47" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/source/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/source/generate_dict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="58" column="18" selection-start-line="58" selection-start-column="18" selection-end-line="58" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/economy/auto_word_economy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="4" column="12" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="12" />
+          <folding>
+            <element signature="e#251#1390#0" />
+            <element signature="e#1446#1646#0" />
+            <element signature="e#1723#1973#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/source/doc_5.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="59">
+          <caret line="29" column="50" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="371" column="76" lean-forward="true" selection-start-line="371" selection-start-column="8" selection-end-line="371" selection-end-column="76" />
+        <state relative-caret-position="3810">
+          <caret line="127" column="6" selection-start-line="127" selection-start-column="6" selection-end-line="127" selection-end-column="6" />
           <folding>
             <element signature="e#25#95#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models/source/global_dict.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/wind/auto_word_wind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="217" column="16" selection-start-line="217" selection-start-column="16" selection-end-line="217" selection-end-column="16" />
+          <folding>
+            <element signature="e#25#61#0" expanded="true" />
+            <element signature="e#5274#6732#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="226" column="34" selection-start-line="226" selection-start-column="34" selection-end-line="226" selection-end-column="34" />
+        <state relative-caret-position="480">
+          <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
           <folding>
             <element signature="e#25#61#0" expanded="true" />
           </folding>
