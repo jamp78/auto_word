@@ -123,6 +123,8 @@
                             <group>
                                 <field name="line_1"/>
                                 <field name="line_2"/>
+                                <field name="permanent_land_area"/>
+                                <field name="permanent_land_area"/>
                             </group>
                         </group>
                     </group>

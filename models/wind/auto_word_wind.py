@@ -15,6 +15,8 @@ from RoundUp import round_up, Get_Average, Get_Sum
 
 def cal_wind_result(self):
     tur_name = []
+    extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
+
     for i in range(0, len(self.select_turbine_ids)):
         tur_name.append(self.select_turbine_ids[i].name_tur)
 
@@ -139,8 +141,7 @@ def cal_wind_result(self):
         result_list.append(result_dict)
     context['result_list'] = result_list
     dict5 = doc_5.generate_wind_dict(tur_name, self.path_images)
-    print("dict5")
-    print(context)
+
     dict_5_word = {
         "最终方案": self.project_id.case_name,
         "方案e": case_name_dict,
@@ -175,38 +176,36 @@ def cal_wind_result(self):
         '单机容量': self.TurbineCapacity,
         '装机容量': self.project_capacity,
         "上网电量": self.ongrid_power,
+        "满发小时": ave_hours_year,
+        "容量系数": capacity_coefficient,
+        "风功率密度等级": self.PWDLevel,
+        "选取时段": self.wind_time_txt,
+        "风能信息": self.wind_txt,
+        "湍流信息": self.wind_TI_txt,
+        "五十年一遇最大风速": self.max_wind_txt,
+        "五十年一遇极大风速": extreme_wind,
+        "折减率": self.project_id.rate,
+        "折减率备注": self.project_id.note,
+        'IEC等级': self.IECLevel,
+        "叶轮直径": self.rotor_diameter_suggestion,
+        '推荐轮毂高度': self.hub_height_suggestion,
+        "风速区间": self.farm_speed_range_words,
 
         "平均海拔": ave_elevation,
         "尾流后平均风速": ave_AverageWindSpeed_Weak,
         "平均发电量": ave_powerGeneration,
         "总发电量": total_powerGeneration,
         "平均尾流损失": ave_weak_res,
-        "折减率": self.project_id.rate,
-        "折减率备注": self.project_id.note,
-        "满发小时": ave_hours_year,
-        "容量系数": capacity_coefficient,
-
         "平均上网电量": ave_ongrid_power,
-
         "尾流损失修正系数": ave_weak_res_xz,
         "尾流修正后的总理论发电量": total_powerGeneration_weak,
-
-        "叶轮直径": self.rotor_diameter_suggestion,
         "方案数": self.case_number,
-
         "空气密度": self.air_density_words,
-
-        "平均风速区间": self.farm_speed_range_words,
         '测风塔名字': self.cft_name_words,
         '测风塔风速信息': self.string_speed_words,
         '测风塔风向信息': self.string_deg_words,
-        '推荐轮毂高度': self.hub_height_suggestion,
-        'IEC等级': self.IECLevel,
         'WTG数量': str(len(self.select_turbine_ids)),
-
-
         '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
-
         '限制性因素': self.project_id.limited_words,
     }
     Dict_5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)
@@ -251,6 +250,12 @@ class auto_word_wind(models.Model):
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
+
+    wind_time_txt = fields.Char(u'选取时段', default="待提交")
+    wind_txt = fields.Char(u'风能信息', default="待提交")
+    wind_TI_txt = fields.Char(u'湍流信息', default="待提交")
+    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交")
+
 
     # --------测风信息---------
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
@@ -354,6 +359,11 @@ class auto_word_wind(models.Model):
         self.project_id.PWDLevel = self.PWDLevel
         self.project_id.farm_speed_range_words = self.farm_speed_range_words
         self.project_id.TerrainType = self.TerrainType
+
+        self.project_id.wind_time_txt = self.wind_time_txt
+        self.project_id.wind_txt = self.wind_txt
+        self.project_id.wind_TI_txt = self.wind_TI_txt
+        self.project_id.max_wind_txt = self.max_wind_txt
 
         if self.limited_1 == True:
             if self.limited_2 == False and self.limited_3 == False:
