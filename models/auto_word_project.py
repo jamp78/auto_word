@@ -29,14 +29,13 @@ def generate_docx(Dict, path_images, model_name, outputfile):
     tpl.render(Dict)
     tpl.save(save_path)
 
-
 def dict_project(self):
     mei_t = round_up(float(self.ongrid_power) * 2.29 / 7151.69)
     s02 = round_up(float(self.ongrid_power) * 1716.41 / 7151.69)
     n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
     c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
 
-    extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
+    # extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
 
     if float(self.project_capacity) >= 100:
         self.environmental_protection_investment = '170'
@@ -309,25 +308,63 @@ class auto_word_project(models.Model):
 
 
     def merge_project(self):
-        path_chapter_x = r'D:\GOdoo12_community\myaddons\auto_word\models\project\chapter_x'
-        path_chapter_5 = r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5'
-        path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
+        Dict_x = dict_project(self)
+        chapter_number = 'x'
+        project_path = self.env['auto_word.project'].project_path + str(chapter_number)
+        suffix_in = ".xls"
         suffix_out = ".docx"
-        outputfilex = 'result_chapter' + str('x') + suffix_out
-        outputfile5 = 'result_chapter' + str(5) + suffix_out
-        outputfile8 = 'result_chapter' + str(8) + suffix_out
-        outputfile9 = 'result_chapter' + str(9) + suffix_out
-        outputfile = 'result_chapterx5' + suffix_out
+        name_first, file_second, name_second = "", "", ""
+        outputfile = 'result_chapter' + str(chapter_number) +"_final"+ suffix_out
+        model_name = 'cr' + str(chapter_number) +"_final"+ suffix_out
+        # Pathinput = os.path.join(project_path, '%s') % inputfile
+        Pathoutput = os.path.join(project_path, '%s') % outputfile
 
-        Pathoutputx = os.path.join(path_chapter_x, '%s') % outputfilex
-        Pathoutput5 = os.path.join(path_chapter_5, '%s') % outputfile5
-        Pathoutput8 = os.path.join(path_chapter_8, '%s') % outputfile8
-        Pathoutput9 = os.path.join(path_chapter_8, '%s') % outputfile9
-        Pathoutput = os.path.join(path_chapter_x, '%s') % outputfile
-        files = [Pathoutputx,Pathoutput5]
+        generate_docx(Dict_x, project_path, model_name, outputfile)
 
-        combine_all_docx(Pathoutputx,files,Pathoutput)
+        # ###########################
+
+        reportfile_name = open(file=Pathoutput, mode='rb')
+        byte = reportfile_name.read()
+        reportfile_name.close()
+        if (str(self.report_attachment_id_output1) == 'ir.attachment()'):
+            Attachments = self.env['ir.attachment']
+            print('开始创建新纪录1')
+            New = Attachments.create({
+                'name': self.project_name + '可研报告章节chapter' + str(chapter_number) + '下载页',
+                'datas_fname': self.project_name + '可研报告章节chapter' + str(chapter_number) + '.docx',
+                'datas': base64.standard_b64encode(byte),
+                'display_name': self.project_name + '可研报告章节',
+                'create_date': fields.date.today(),
+                'public': True,  # 此处需设置为true 否则attachments.read  读不到
+            })
+            print('已创建新纪录：', New)
+            print('new dataslen：', len(New.datas))
+            self.report_attachment_id_output1 = New
+        else:
+            self.report_attachment_id_output1.datas = base64.standard_b64encode(byte)
+
+        return True
+
+        # path_chapter_x = r'D:\GOdoo12_community\myaddons\auto_word\models\project\chapter_x'
+        # path_chapter_5 = r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5'
+        # path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
+        #
+        # suffix_out = ".docx"
+        # outputfilex = 'result_chapter' + str('x') + suffix_out
+        # outputfile5 = 'result_chapter' + str(5) + suffix_out
+        # outputfile8 = 'result_chapter' + str(8) + suffix_out
+        # outputfile9 = 'result_chapter' + str(9) + suffix_out
+        # outputfile = 'result_chapterx5' + suffix_out
+        #
+        # Pathoutputx = os.path.join(path_chapter_x, '%s') % outputfilex
+        # Pathoutput5 = os.path.join(path_chapter_5, '%s') % outputfile5
+        # Pathoutput8 = os.path.join(path_chapter_8, '%s') % outputfile8
+        # Pathoutput9 = os.path.join(path_chapter_8, '%s') % outputfile9
+        # Pathoutput = os.path.join(path_chapter_x, '%s') % outputfile
+        # files = [Pathoutputx,Pathoutput5]
+        #
+        # combine_all_docx(Pathoutputx,files,Pathoutput)
 
 
     def button_project(self):
