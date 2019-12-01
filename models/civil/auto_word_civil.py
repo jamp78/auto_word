@@ -5,7 +5,7 @@ import base64, os
 import numpy
 from RoundUp import round_up
 from odoo import models, fields, api
-
+import global_dict as gl
 
 class auto_word_civil_design_safety_standard(models.Model):
     _name = 'auto_word_civil.design_safety_standard'
@@ -122,6 +122,10 @@ def civil_generate_docx_dict(self):
     }
     Dict_8_Final = dict(dict_8_word, **dict8)
     Dict8 = dict(dict_8_word, **dict8, **dict5)
+
+    for key, value in Dict_8_Final.items():
+        gl.set_value(key, value)
+
     return Dict8,Dict_8_Final
 
 
@@ -293,7 +297,7 @@ class auto_word_civil(models.Model):
         projectname.stake_number = self.stake_number
 
         Dict8,Dict_8_Final = civil_generate_docx_dict(self)
-
+        projectname.Dict_8_Final = Dict_8_Final
         projectname.BasicType = Dict8['基础形式']
         projectname.FloorRadiusR = Dict8['基础底面圆直径']
         projectname.H1 = Dict8['基础底板外缘高度']
@@ -335,8 +339,6 @@ class auto_word_civil(models.Model):
         self.TerrainType = projectname.TerrainType
 
         Dict8,Dict_8_Final = civil_generate_docx_dict(self)
-        projectname.Dict_8_Final=Dict_8_Final
-
         self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = Dict8['石方开挖_风机_numbers']
         self.EarthWorkBackFill_WindResource = Dict8['土石方回填_风机_numbers']

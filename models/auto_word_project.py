@@ -19,6 +19,8 @@ from docx import Document
 from docxcompose.composer import Composer
 from docx import Document as Document_compose
 
+gl._init()
+
 def generate_docx(Dict, path_images, model_name, outputfile):
     filename_box = [model_name, outputfile]
     read_path = os.path.join(path_images, '%s') % filename_box[0]
@@ -64,24 +66,20 @@ def dict_project(self):
         "环境保护总投资": self.environmental_protection_investment,
         "水土保持": self.conservation_water_soil,
     }
-    Dict_5_Final = eval(self.Dict_5_Final)
-    Dict_8_Final = eval(self.Dict_8_Final)
-    Dict_12_Final = eval(self.Dict_12_Final)
-    Dict_13_Final = eval(self.Dict_13_Final)
 
-    self.Dict_x_Final = dict(dict_1_word, **dict_1_res_word,
-                             **Dict_5_Final, #5
-                             **Dict_8_Final, #8,9
-                             **Dict_12_Final,
-                             **Dict_13_Final
-                             )
+
+    Dict_x_Final = dict(dict_1_word, **dict_1_res_word)
+    for key, value in Dict_x_Final.items():
+        gl.set_value(key, value)
+
+    Dict_x = gl._global_dict
+
 
     print('gl._global_dict')
-    print(gl.get_value("上网电量e"))
     print(gl._global_dict)
 
 
-    return True
+    return Dict_x
 
 
 #Filename_master is the name of the file you want to merge all the document into
@@ -304,7 +302,7 @@ class auto_word_project(models.Model):
 
     Dict_5_Final = fields.Char(string=u'字典5')
     Dict_8_Final = fields.Char(string=u'字典8_9')
-    Dict_x_Final = fields.Char(string=u'字典x')
+    Dict_x = fields.Char(string=u'字典x')
 
     Dict_12_Final = fields.Char(string=u'字典12')
     Dict_13_Final = fields.Char(string=u'字典13')
@@ -333,7 +331,7 @@ class auto_word_project(models.Model):
 
 
     def button_project(self):
-        dict_project(self)
+        Dict_x=dict_project(self)
 
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
@@ -345,8 +343,7 @@ class auto_word_project(models.Model):
         # Pathinput = os.path.join(project_path, '%s') % inputfile
         Pathoutput = os.path.join(project_path, '%s') % outputfile
 
-        Dict_x_Final = eval(self.Dict_x_Final)
-        generate_docx(Dict_x_Final, project_path, model_name, outputfile)
+        generate_docx(Dict_x, project_path, model_name, outputfile)
 
         # ###########################
 

@@ -213,7 +213,7 @@ def cal_wind_result(self):
     Dict_5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)
     Dict_5_Final = dict_5_suggestion_word
 
-    gl._init()
+
     for key, value in Dict_5.items():
         gl.set_value(key, value)
 
