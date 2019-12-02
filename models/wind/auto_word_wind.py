@@ -189,8 +189,6 @@ def cal_wind_result(self):
         '推荐额定功率': self.rated_power_suggestion,
         '推荐额定电压': self.voltage_suggestion,
 
-
-
         '装机容量': self.project_capacity,
         "上网电量": self.ongrid_power,
         "满发小时": ave_hours_year,

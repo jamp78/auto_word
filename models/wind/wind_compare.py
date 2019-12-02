@@ -108,7 +108,7 @@ class auto_word_wind_turbines_compare(models.Model):
             investment_turbines_kw_word, investment_turbines_kw_words = '', ''
             case_hub_height_word, case_hub_height_words, capacity_words = '', '', ''
             name_tur_words, investment_e5 = '', 0
-            re.case_number = str(len(re.case_ids))
+            re.case_number = str(len(re.content_id.case_names))
             re.turbine_numbers = 0
             re.farm_capacity = 0
             for i in range(0, len(re.case_ids)):
