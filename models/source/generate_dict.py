@@ -12,6 +12,7 @@ def get_dict(np, dict_keys):
         key_dict = dict_keys[i]
         value_dict = np[:, i]
         dict[key_dict] = value_dict
+        # gl.set_value(key_dict, value_dict)
     return dict
 
 
@@ -27,6 +28,7 @@ def write_context(dict, *context_keys):
         key = i
         value = dict.get(i, None)
         context[key] = value
+        # gl.set_value(key,value)
     return context
 
 
@@ -51,7 +53,9 @@ def write_context_numbers(dict, *context_keys, numbers):
             value = None
             value_numbers = None
         context[key] = value
+        # gl.set_value(key, value)
         context[key_numbers] = value_numbers
+        # gl.set_value(key_numbers, value_numbers)
     return context
 
 

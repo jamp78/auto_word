@@ -6,7 +6,20 @@ import base64, os
 from docxtpl import DocxTemplate
 from RoundUp import round_up
 import datetime
+import global_dict as gl
 
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/wind")))
+import auto_word_wind
+
+import win32com.client as win32
+import pythoncom
+
+from docx import Document
+from docxcompose.composer import Composer
+from docx import Document as Document_compose
+
+gl._init()
 
 def generate_docx(Dict, path_images, model_name, outputfile):
     filename_box = [model_name, outputfile]
@@ -16,14 +29,13 @@ def generate_docx(Dict, path_images, model_name, outputfile):
     tpl.render(Dict)
     tpl.save(save_path)
 
-
 def dict_project(self):
     mei_t = round_up(float(self.ongrid_power) * 2.29 / 7151.69)
     s02 = round_up(float(self.ongrid_power) * 1716.41 / 7151.69)
     n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
     c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
 
-    extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
+    # extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
 
     if float(self.project_capacity) >= 100:
         self.environmental_protection_investment = '170'
@@ -43,66 +55,6 @@ def dict_project(self):
         "建设地点": self.Location_words,
         "项目大区": self.company_id.name,
         "相对高差": self.Relative_height_difference_words,
-        # "山地类型": self.TerrainType,
-        # "海拔高程": self.Elevation_words,
-        # "东经": self.Lon_words,
-        # "北纬": self.Lat_words,
-        # "风场面积": self.area_words,
-        # "机组数量": self.turbine_numbers_suggestion,
-        # "单机容量": self.TurbineCapacity,
-        # "装机容量": self.project_capacity,
-        # "上网电量": self.ongrid_power,
-        # "满发小时": self.Hour_words,
-        # "容量系数": self.capacity_coefficient,
-        # "风功率密度等级": self.PWDLevel,
-        # "选取时段": self.wind_time_txt,
-        # "风能信息": self.wind_txt,
-        # "湍流信息": self.wind_TI_txt,
-        # "五十年一遇最大风速": self.max_wind_txt,
-        # "五十年一遇极大风速": extreme_wind,
-        # "折减率": self.rate,
-        # "IEC等级": self.IECLevel,
-        # "叶轮直径": self.rotor_diameter_suggestion,
-        # "推荐轮毂高度": self.hub_height_suggestion,
-        # "风速区间": self.farm_speed_range_words,
-
-        # "周边道路": self.road_names,
-        # "改扩建道路": self.road_1_num,
-        # "进站道路": self.road_2_num,
-        # "新建施工检修道路": self.road_3_num,
-        # "道路工程长度": self.total_civil_length,
-        # "永久用地面积": self.permanent_land_area,
-        # "临时用地面积": self.temporary_land_area,
-        # "总用地面积": self.land_area,
-        # '基础形式': self.BasicType,
-        # '基础底面圆直径': self.FloorRadiusR,
-        # '基础底板外缘高度': self.H1,
-        # '台柱圆直径': self.R2,
-        # '基础底板圆台高度': self.H2,
-        # '台柱高度': self.H3,
-        ####################
-        # "施工辅助工程": self.construction_assistance,
-        # "设备及安装工程": self.equipment_installation,
-        # "建筑工程": self.constructional_engineering,
-        # "其他费用": self.other_expenses,
-        # "单位千瓦静态投资": self.static_investment_unit,
-        # "国内银行贷款": self.domestic_bank_loan,
-        # "建设期贷款利息_12": self.interest_construction_loans_12,
-        # "动态总投资_12": self.dynamic_investment_12,
-        # "单位千瓦动态投资": self.dynamic_investment_unit,
-        # "资本金比例_12": self.capital_rate_12,
-        # "静态总投资_12": self.static_investment_12,
-        # "税前财务内部收益率_13": self.Internal_financial_rate_before,
-        # "税后财务内部收益率_13": self.Internal_financial_rate_after,
-        # "资本金税后财务内部收益率_13": self.Internal_financial_rate_capital,
-        # "投资回收期_13": self.payback_period,
-        # "总投资收益率_13": self.ROI_13,
-        # "资本金利润率_13": self.ROE_13,
-        #
-
-
-
-
     }
     dict_1_res_word = {
 
@@ -113,30 +65,39 @@ def dict_project(self):
         "环境保护总投资": self.environmental_protection_investment,
         "水土保持": self.conservation_water_soil,
     }
-    Dict_5_Final = eval(self.Dict_5_Final)
-    Dict_8_Final = eval(self.Dict_8_Final)
-    Dict_12_Final = eval(self.Dict_12_Final)
-    Dict_13_Final = eval(self.Dict_13_Final)
 
-    self.Dict_x_Final = dict(dict_1_word, **dict_1_res_word,
-                             **Dict_5_Final, #5
-                             **Dict_8_Final, #8,9
-                             **Dict_12_Final,
-                             **Dict_13_Final
-                             )
 
-    print("Dict_x_Final")
-    print(self.Dict_x_Final)
-    print("Dict_5_Final")
-    print(Dict_5_Final)
-    print("Dict_8_Final")
-    print(Dict_8_Final)
-    print("Dict_12_Final")
-    print(Dict_12_Final)
-    print("Dict_13_Final")
-    print(Dict_13_Final)
+    Dict_x_Final = dict(dict_1_word, **dict_1_res_word)
+    for key, value in Dict_x_Final.items():
+        gl.set_value(key, value)
 
-    return True
+    Dict_x = gl._global_dict
+
+
+    print('gl._global_dict')
+    print(gl._global_dict)
+
+
+    return Dict_x
+
+
+#Filename_master is the name of the file you want to merge all the document into
+#files_list is a list containing all the filename of the docx file to be merged
+def combine_all_docx(filename_master,files_list,Pathoutput):
+    number_of_sections=len(files_list)
+    master = Document_compose(filename_master)
+    composer = Composer(master)
+    for i in range(0, number_of_sections):
+        doc_temp = Document_compose(files_list[i])
+        composer.append(doc_temp)
+    composer.save(Pathoutput)
+#For Example
+#filename_master="file1.docx"
+#files_list=["file2.docx","file3.docx","file4.docx",file5.docx"]
+#Calling the function
+#combine_all_docx(filename_master,files_list)
+#This function will combine all the document in the array files_list into the file1.docx and save the merged document into combined_file.docx
+
 
 
 class auto_word_project(models.Model):
@@ -336,17 +297,78 @@ class auto_word_project(models.Model):
     road_names = fields.Char(string=u'周边道路')
     land_area = fields.Char(string=u'总用地面积')
 
-    farm_speed_range_words = fields.Char(string=u'风速区间')
+    farm_speed_range_words = fields.Char(string=u'平均风速区间')
 
     Dict_5_Final = fields.Char(string=u'字典5')
     Dict_8_Final = fields.Char(string=u'字典8_9')
-    Dict_x_Final = fields.Char(string=u'字典x')
+    Dict_x = fields.Char(string=u'字典x')
 
     Dict_12_Final = fields.Char(string=u'字典12')
     Dict_13_Final = fields.Char(string=u'字典13')
 
+
+    def merge_project(self):
+
+        Dict_x = dict_project(self)
+        chapter_number = 'x'
+        project_path = self.env['auto_word.project'].project_path + str(chapter_number)
+        suffix_in = ".xls"
+        suffix_out = ".docx"
+        name_first, file_second, name_second = "", "", ""
+        outputfile = 'result_chapter' + str(chapter_number) +"_final"+ suffix_out
+        model_name = 'cr' + str(chapter_number) +"_final"+ suffix_out
+        # Pathinput = os.path.join(project_path, '%s') % inputfile
+        Pathoutput = os.path.join(project_path, '%s') % outputfile
+
+        generate_docx(Dict_x, project_path, model_name, outputfile)
+
+        # ###########################
+
+        reportfile_name = open(file=Pathoutput, mode='rb')
+        byte = reportfile_name.read()
+        reportfile_name.close()
+        if (str(self.report_attachment_id_output1) == 'ir.attachment()'):
+            Attachments = self.env['ir.attachment']
+            print('开始创建新纪录1')
+            New = Attachments.create({
+                'name': self.project_name + '可研报告章节chapter' + str(chapter_number) + '下载页',
+                'datas_fname': self.project_name + '可研报告章节chapter' + str(chapter_number) + '.docx',
+                'datas': base64.standard_b64encode(byte),
+                'display_name': self.project_name + '可研报告章节',
+                'create_date': fields.date.today(),
+                'public': True,  # 此处需设置为true 否则attachments.read  读不到
+            })
+            print('已创建新纪录：', New)
+            print('new dataslen：', len(New.datas))
+            self.report_attachment_id_output1 = New
+        else:
+            self.report_attachment_id_output1.datas = base64.standard_b64encode(byte)
+
+        return True
+
+        # path_chapter_x = r'D:\GOdoo12_community\myaddons\auto_word\models\project\chapter_x'
+        # path_chapter_5 = r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5'
+        # path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
+        #
+        # suffix_out = ".docx"
+        # outputfilex = 'result_chapter' + str('x') + suffix_out
+        # outputfile5 = 'result_chapter' + str(5) + suffix_out
+        # outputfile8 = 'result_chapter' + str(8) + suffix_out
+        # outputfile9 = 'result_chapter' + str(9) + suffix_out
+        # outputfile = 'result_chapterx5' + suffix_out
+        #
+        # Pathoutputx = os.path.join(path_chapter_x, '%s') % outputfilex
+        # Pathoutput5 = os.path.join(path_chapter_5, '%s') % outputfile5
+        # Pathoutput8 = os.path.join(path_chapter_8, '%s') % outputfile8
+        # Pathoutput9 = os.path.join(path_chapter_8, '%s') % outputfile9
+        # Pathoutput = os.path.join(path_chapter_x, '%s') % outputfile
+        # files = [Pathoutputx,Pathoutput5]
+        #
+        # combine_all_docx(Pathoutputx,files,Pathoutput)
+
+
     def button_project(self):
-        dict_project(self)
+        Dict_x=dict_project(self)
 
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
@@ -358,8 +380,7 @@ class auto_word_project(models.Model):
         # Pathinput = os.path.join(project_path, '%s') % inputfile
         Pathoutput = os.path.join(project_path, '%s') % outputfile
 
-        Dict_x_Final = eval(self.Dict_x_Final)
-        generate_docx(Dict_x_Final, project_path, model_name, outputfile)
+        generate_docx(Dict_x, project_path, model_name, outputfile)
 
         # ###########################
 

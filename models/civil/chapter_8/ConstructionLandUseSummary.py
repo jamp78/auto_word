@@ -68,18 +68,18 @@ class ConstructionLandUseSummary:
 
     def generate_dict_construction_land_use_summary(self):
         dict_construction_land_use_summary = {
-            '材料仓库_1': self.material_warehouse_1,
-            '材料仓库_2': self.material_warehouse_2,
-            '临时住宅及办公室施工生活区_1': self.temporary_residential_office_1,
-            '临时住宅及办公室施工生活区_2': self.temporary_residential_office_2,
-            '钢筋加工厂_1': self.steel_processing_plant_1,
-            '钢筋加工厂_2': self.steel_processing_plant_2,
-            '设备存放场_1': self.equipment_storage_1,
-            '设备存放场_2': self.equipment_storage_2,
-            '施工机械停放场_1': self.construction_machinery_parking_1,
-            '施工机械停放场_2': self.construction_machinery_parking_2,
-            '合计_1': self.total_1_construction_land_use_summary,
-            '合计_2': self.total_2_construction_land_use_summary,
+            "材料仓库_1": self.material_warehouse_1,
+            "材料仓库_2": self.material_warehouse_2,
+            "临时住宅及办公室施工生活区_1": self.temporary_residential_office_1,
+            "临时住宅及办公室施工生活区_2": self.temporary_residential_office_2,
+            "钢筋加工厂_1": self.steel_processing_plant_1,
+            "钢筋加工厂_2": self.steel_processing_plant_2,
+            "设备存放场_1": self.equipment_storage_1,
+            "设备存放场_2": self.equipment_storage_2,
+            "施工机械停放场_1": self.construction_machinery_parking_1,
+            "施工机械停放场_2": self.construction_machinery_parking_2,
+            "合计_1": self.total_1_construction_land_use_summary,
+            "合计_2": self.total_2_construction_land_use_summary,
         }
         return dict_construction_land_use_summary
 
@@ -88,10 +88,10 @@ class ConstructionLandUseSummary:
 # project05.extraction_data_construction_land_use_summary(3, 15)
 # Dict = round_dict(project05.generate_dict())
 # print(Dict)
-# filename_box = ['cr8', 'result_chapter8']
-# save_path = r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8'
-# read_path = os.path.join(save_path, '%s.docx') % filename_box[0]
-# save_path = os.path.join(save_path, '%s.docx') % filename_box[1]
+# filename_box = ["cr8", "result_chapter8"]
+# save_path = r"C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8"
+# read_path = os.path.join(save_path, "%s.docx") % filename_box[0]
+# save_path = os.path.join(save_path, "%s.docx") % filename_box[1]
 # tpl = DocxTemplate(read_path)
 # tpl.render(Dict)
 # tpl.save(save_path)

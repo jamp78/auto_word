@@ -24,6 +24,8 @@
                 <header>
                      <button name="button_project" type="object" groups="auto_word.project_group_user"
                             string="生成报告"/>
+                    <button name="merge_project" type="object" groups="auto_word.project_group_user"
+                            string="合并报告"/>
                 </header>
                 <sheet>
                     <group name="group_top" string="项目明细">

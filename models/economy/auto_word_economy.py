@@ -5,7 +5,7 @@ import base64, os
 from docxtpl import DocxTemplate
 import pandas as pd
 import numpy as np
-
+import global_dict as gl
 from RoundUp import round_up
 
 
@@ -120,6 +120,7 @@ def cal_economy_result(self):
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
 
+        print(self.project_id.Dict_5_Final)
         dict5 = eval(self.project_id.Dict_5_Final)
         dict8 = eval(self.project_id.Dict_8_Final)
 
@@ -348,47 +349,25 @@ def cal_economy_result(self):
             }
             self.dict_12_res_word = dict_12_res_word
             dict_12_word = {
-                # "东经": self.Lon_words,
-                # "北纬": self.Lat_words,
-                # "风电场名称": self.Farm_words,
-                # "海拔高程": self.Elevation_words,
-                # "相对高差": self.Relative_height_difference_words,
-                # "道路工程长度": self.total_civil_length,
-                # "改扩建道路": self.road_1_num,
-                # "进站道路": self.road_2_num,
-                # "新建施工检修道路": self.road_3_num,
-                # "合计亩_永久用地面积": self.Permanent_land_words,
-                # "合计亩_临时用地面积": self.temporary_land_words,
-                # "风场面积": self.area_words,
-
                 "施工总工期": self.Project_time_words,
-                # "单机容量": self.TurbineCapacity,
-                # "机组数量": self.turbine_numbers_suggestion,
-                # "装机容量": self.project_capacity,
-                # "上网电量": self.ongrid_power,
-                # "满发小时": self.Hour_words,
-
                 "塔筒": self.Towter_weight_words,
-                # "土石方开挖": self.Earth_excavation_words,
-                # "土石方回填": self.EarthWorkBackFill_WindResource,
                 "混凝土": self.Concrete_words,
                 "钢筋": self.Reinforcement,
 
                 "第一台机组发电工期": self.First_turbine_words,
                 "总工期": self.Project_time_words,
                 "生产单位定员": self.staff_words,
-                # "风电场名称": self.Farm_words,
-                # "建设地点": self.Location_words,
-                # "建设单位": self.company_id,
                 "风电机组单位造价": self.investment_turbines_kws,
                 "塔筒单位造价": self.Tower_cost_words,
                 "风电机组基础单价": self.infrastructure_cost_words,
                 "单位度电投资": self.unit_cost_words,
-
             }
 
             Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word, **dict5, **dict8)
-            Dict_12_Final = dict(dict_12_word, **dict_12_res_word)
+            Dict_12_Final = dict(dict_12_word, **dict_12_res_word, **dictMerged)
+            for key, value in Dict_12_Final.items():
+                gl.set_value(key, value)
+
             generate_economy_docx(Dict12, economy_path, model_name, outputfile)
         if chapter_number == 13:
             sheet_name_array = ['投资计划与资金筹措表', '财务指标汇总表', '单因素敏感性分析表', '总成本费用表',
@@ -506,8 +485,13 @@ def cal_economy_result(self):
 
             Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word, **dict5,
                           **dict8)
+            Dict_13_Final = dict(dictMerged, **dict_13_res_word)
+
+            for key, value in Dict_13_Final.items():
+                gl.set_value(key, value)
+
             generate_economy_docx(Dict13, economy_path, model_name, outputfile)
-            Dict_13_Final = dict_13_res_word
+
 
         # ###########################
         reportfile_name = open(file=self.Pathoutput, mode='rb')
