@@ -15,9 +15,9 @@ import auto_word_wind
 import win32com.client as win32
 import pythoncom
 
-from docx import Document
-from docxcompose.composer import Composer
-from docx import Document as Document_compose
+# from docx import Document
+# from docxcompose.composer import Composer
+# from docx import Document as Document_compose
 
 gl._init()
 
@@ -73,24 +73,22 @@ def dict_project(self):
 
     Dict_x = gl._global_dict
 
-
     print('gl._global_dict')
     print(gl._global_dict)
-
 
     return Dict_x
 
 
 #Filename_master is the name of the file you want to merge all the document into
 #files_list is a list containing all the filename of the docx file to be merged
-def combine_all_docx(filename_master,files_list,Pathoutput):
-    number_of_sections=len(files_list)
-    master = Document_compose(filename_master)
-    composer = Composer(master)
-    for i in range(0, number_of_sections):
-        doc_temp = Document_compose(files_list[i])
-        composer.append(doc_temp)
-    composer.save(Pathoutput)
+# def combine_all_docx(filename_master,files_list,Pathoutput):
+#     number_of_sections=len(files_list)
+#     master = Document_compose(filename_master)
+#     composer = Composer(master)
+#     for i in range(0, number_of_sections):
+#         doc_temp = Document_compose(files_list[i])
+#         composer.append(doc_temp)
+#     composer.save(Pathoutput)
 #For Example
 #filename_master="file1.docx"
 #files_list=["file2.docx","file3.docx","file4.docx",file5.docx"]

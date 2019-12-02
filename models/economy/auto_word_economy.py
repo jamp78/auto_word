@@ -273,6 +273,9 @@ def cal_economy_result(self):
                 if str(dictMerged['result_list12_7'][i]['cols'][1]) == '其他费用':
                     self.other_expenses = str(dictMerged['result_list12_7'][i]['cols'][5])
 
+                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '基本预备费':
+                    self.basic_funds = str(dictMerged['result_list12_7'][i]['cols'][5])
+
                 if str(dictMerged['result_list12_7'][i]['cols'][1]) == '建设期利息':
                     self.interest_construction_loans_12 = str(dictMerged['result_list12_7'][i]['cols'][5])
 
@@ -341,6 +344,7 @@ def cal_economy_result(self):
                 "设备及安装工程": self.equipment_installation,
                 "建筑工程": self.constructional_engineering,
                 "其他费用": self.other_expenses,
+                "基本预备费": self.basic_funds,
                 "单位千瓦静态投资": self.static_investment_unit,
                 "国内银行贷款": self.domestic_bank_loan,
                 "建设期贷款利息_12": self.interest_construction_loans_12,
@@ -436,6 +440,11 @@ def cal_economy_result(self):
             self.capital_rate_13 = str(dictMerged['result_list13_11'][7]['cols'][2])
             self.construction_investment_13 = str(dictMerged['result_list13_0'][1]['cols'][1])
 
+            self.profit_tax_investment_ratio = str(dictMerged['result_list13_10'][20]['cols'][2])
+            self.pre_tax_investment_net_value = str(dictMerged['result_list13_10'][15]['cols'][2])
+            self.tax_investment_net_value = str(dictMerged['result_list13_10'][16]['cols'][2])
+            self.asset_liability_ratio = str(dictMerged['result_list13_10'][22]['cols'][2])
+
             self.fixed_investment_13 = str(
                 round_up(float(self.dynamic_investment_13) - float(self.tax_deductible), 2))
             self.fund_raising_13 = str(dictMerged['result_list13_0'][5]['cols'][1])
@@ -474,6 +483,11 @@ def cal_economy_result(self):
                 "长期贷款利率_13": self.longterm_lending_rate_13,
                 "还款期限_13": self.repayment_period,
                 "上网电价_13": self.grid_price,
+                "投资利税率": self.profit_tax_investment_ratio,
+                "税前项目投资财务净现值": self.pre_tax_investment_net_value,
+                "税后项目投资财务净现值": self.tax_investment_net_value,
+                "资产负债率": self.asset_liability_ratio,
+
                 "税前财务内部收益率_13": self.Internal_financial_rate_before,
                 "税后财务内部收益率_13": self.Internal_financial_rate_after,
                 "资本金税后财务内部收益率_13": self.Internal_financial_rate_capital,
@@ -491,7 +505,6 @@ def cal_economy_result(self):
                 gl.set_value(key, value)
 
             generate_economy_docx(Dict13, economy_path, model_name, outputfile)
-
 
         # ###########################
         reportfile_name = open(file=self.Pathoutput, mode='rb')
@@ -538,7 +551,6 @@ def cal_economy_result(self):
 
             print('new attachment：', self.report_attachment_id_output13)
             print('new datas len：', len(self.report_attachment_id_output13.datas))
-
 
     return Dict_12_Final, Dict_13_Final
 
@@ -625,6 +637,8 @@ class auto_word_economy(models.Model):
     equipment_installation = fields.Char(string=u'设备及安装工程')
     constructional_engineering = fields.Char(string=u'建筑工程')
     other_expenses = fields.Char(string=u'其他费用')
+    basic_funds= fields.Char(string=u'基本预备费')
+
     static_investment_unit = fields.Char(string=u'单位千瓦静态投资')
 
     domestic_bank_loan = fields.Char(string=u'国内银行贷款')
@@ -650,6 +664,11 @@ class auto_word_economy(models.Model):
 
     repayment_period = fields.Char(string=u'还款期限_13')
     grid_price = fields.Char(string=u'上网电价_13')
+    profit_tax_investment_ratio=fields.Char(string=u'投资利税率')
+    pre_tax_investment_net_value = fields.Char(string=u'税前项目投资财务净现值')
+    tax_investment_net_value = fields.Char(string=u'税后项目投资财务净现值')
+    asset_liability_ratio = fields.Char(string=u'资产负债率')
+
 
     Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率(%)')
     Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率(%)')
@@ -659,11 +678,9 @@ class auto_word_economy(models.Model):
     ROE_13 = fields.Char(string=u'资本金利润率(%)')
 
     def economy_generate(self):
-
         Dict_12_Final, Dict_13_Final = cal_economy_result(self)
         self.project_id.Dict_12_Final = Dict_12_Final
         self.project_id.Dict_13_Final = Dict_13_Final
-
 
         return True
 
@@ -709,7 +726,6 @@ class auto_word_economy(models.Model):
         return True
 
     def submit_economy(self):
-
         self.project_id.static_investment_12 = self.static_investment_12
         self.project_id.construction_assistance = self.construction_assistance
         self.project_id.equipment_installation = self.equipment_installation

@@ -5,32 +5,32 @@ import base64
 import RoundUp
 from RoundUp import round_up
 
+
 # 机型比选
 class auto_word_wind_turbines_compare(models.Model):
     # _inherit = 'auto_word.wind'
     _name = 'auto_word_wind_turbines.compare'
     _description = 'turbines_compare'
     _rec_name = 'case_name'
+    _inherit = ['wind_turbines.case']
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
     res_form = fields.Many2one('auto_word_wind_res.form', string=u'上传电量', required=False)
-
     # civil_id = fields.Many2one('auto_word.civil', string=u'项目名', required=True)
 
     WTG_name = fields.Char(u'风机代号', default="WTG1", required=False)
     case_name = fields.Char(u'方案名称')
-    ongrid_power = fields.Char(u'上网电量(结果)', readonly=True, compute='_compute_ongrid_power')
-    hours_year = fields.Char(u'年发电小时数(结果)', readonly=True, compute='_compute_ongrid_power')
-    weak = fields.Char(u'尾流衰减(结果)', readonly=True, compute='_compute_ongrid_power')
+    ongrid_power = fields.Char(u'上网电量(结果)', readonly=False)
+    hours_year = fields.Char(u'年发电小时数(结果)', readonly=False)
+    weak = fields.Char(u'尾流衰减(结果)', readonly=False)
+    hub_height_suggestion = fields.Char(string=u'推荐轮毂高度')
 
-    # case_name = fields.Char(u'方案名称', readonly=True)
-    # ongrid_power = fields.Char(u'上网电量(结果)', readonly=True)
-    # hours_year = fields.Char(u'年发电小时数(结果)', readonly=True)
-    # weak = fields.Char(u'尾流衰减(结果)', readonly=True)
+    # ongrid_power = fields.Char(u'上网电量(结果)', readonly=False, compute='_compute_ongrid_power')
+    # hours_year = fields.Char(u'年发电小时数(结果)', readonly=False, compute='_compute_ongrid_power')
+    # weak = fields.Char(u'尾流衰减(结果)', readonly=False, compute='_compute_ongrid_power')
+    # hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', compute='_compute_ongrid_power')
 
-    # TerrainType_turbines_compare = fields.Selection(
-    #     [("平原", u"平原"), ("丘陵", u"丘陵"), ("山地", u"山地")], string=u"山地类型", required=True, default="山地")
     TerrainType_turbines_compare = fields.Char(string=u'山地类型')
 
     jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
@@ -46,7 +46,18 @@ class auto_word_wind_turbines_compare(models.Model):
     tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
     rotor_diameter_case = fields.Char(string=u'叶轮直径', default="待提交")
     case_number = fields.Char(string=u'方案数')
-    hub_height_suggestion = fields.Char(string=u'推荐轮毂高度', compute='_compute_ongrid_power')
+
+    rotor_swept_area_suggestion = fields.Char(string=u'推荐扫风面积', default="待提交")
+    blade_number_suggestion = fields.Char(string=u'推荐叶片数', default="待提交")
+
+    cut_in_wind_speed_suggestion = fields.Float(u'推荐切入风速', readonly=False)
+    cut_out_wind_speed_suggestion = fields.Float(u'推荐切出风速', readonly=False)
+    rated_wind_speed_suggestion = fields.Float(u'推荐额定风速', readonly=False)
+    three_second_maximum_suggestion = fields.Char(u'推荐生存风速', readonly=False)
+    rated_power_suggestion = fields.Float(u'推荐额定功率', readonly=False)
+    voltage_suggestion = fields.Float(u'推荐额定电压', readonly=False)
+
+
 
     investment_E1 = fields.Float(string=u'塔筒投资(万元)')
     investment_E2 = fields.Float(string=u'风机设备投资(万元)')
@@ -59,16 +70,16 @@ class auto_word_wind_turbines_compare(models.Model):
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, )
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, )
 
-    @api.depends('res_form')
-    def _compute_ongrid_power(self):
-        for re in self:
-            re.case_name = re.res_form.case_name
-            re.ongrid_power = re.res_form.ongrid_power_sum
-            re.hours_year = re.res_form.hours_year_average
-            re.weak = re.res_form.wake_average
-            re.hub_height_suggestion = re.res_form.hub_height_calcuation
+    # @api.depends('res_form')
+    # def _compute_ongrid_power(self):
+    #     for re in self:
+    #         # re.case_name = re.res_form.case_name
+    #         re.ongrid_power = re.res_form.ongrid_power_sum
+    #         re.hours_year = re.res_form.hours_year_average
+    #         re.weak = re.res_form.wake_average
+    #         re.hub_height_suggestion = re.res_form.hub_height_calcuation
 
-    def wind_turbines_compare_form_refresh(self):
+    def wind_turbines_compare_form_submit(self):
         for re in self:
             re.content_id.rotor_diameter_case = re.rotor_diameter_case
             re.content_id.case_number = re.case_number
@@ -76,20 +87,17 @@ class auto_word_wind_turbines_compare(models.Model):
             re.env['auto_word.wind'].search([('project_id.project_name', '=',
                                               re.project_id.project_name)]).recommend_id = re
 
-            re.case_name = re.res_form.case_name
-            re.ongrid_power = re.res_form.ongrid_power_sum
-            re.hours_year = re.res_form.hours_year_average
-            re.weak = re.res_form.wake_average
-
     def take_result_refresh(self):
         for re in self:
             re.jidian_air_wind = re.project_id.jidian_air_wind
             re.jidian_cable_wind = re.project_id.jidian_cable_wind
             re.investment_E4 = re.project_id.investment_E4
 
-            re.ongrid_power = re.content_id.ongrid_power
-            re.weak = re.content_id.weak
-            re.hours_year = re.content_id.hours_year
+            re.ongrid_power = re.res_form.ongrid_power_sum
+            re.hours_year = re.res_form.hours_year_average
+            re.weak = re.res_form.wake_average
+            re.hub_height_suggestion = re.res_form.hub_height_calcuation
+
 
     def take_compare_result(self):
         investment_e1_sum, investment_e2_sum, investment_e3_sum = 0, 0, 0
@@ -105,6 +113,15 @@ class auto_word_wind_turbines_compare(models.Model):
             re.farm_capacity = 0
             for i in range(0, len(re.case_ids)):
 
+                rotor_swept_area_suggestion_word = str(re.case_ids[i].rotor_swept_area)
+                blade_number_suggestion_word = str(re.case_ids[i].blade_number)
+                cut_in_wind_speed_word = str(re.case_ids[i].cut_in_wind_speed)
+                cut_out_wind_speed_word = str(re.case_ids[i].cut_out_wind_speed)
+                rated_wind_speed_word = str(re.case_ids[i].rated_wind_speed)
+                three_second_maximum_word = str(re.case_ids[i].three_second_maximum)
+                rated_power_word = str(re.case_ids[i].rated_power)
+                voltage_word = str(re.case_ids[i].voltage)
+
                 tower_weight_word = str(re.case_ids[i].tower_weight)
                 rotor_diameter_word = str(re.case_ids[i].rotor_diameter)
                 investment_turbines_kw_word = str(re.case_ids[i].investment_turbines_kw)
@@ -115,13 +132,6 @@ class auto_word_wind_turbines_compare(models.Model):
                 print(re.case_ids[i].capacity)
                 re.farm_capacity = int(re.case_ids[i].turbine_numbers) * float(re.case_ids[i].capacity) + float(
                     re.farm_capacity)
-
-                print(re.farm_capacity)
-                # print(re.hub_height_suggestion)
-                # if re.hub_height_suggestion == False:
-                #     re.hub_height_suggestion = re.env['auto_word_wind_res.form'].search([('case_name', '=',
-                #                                                                  re.res_form.case_name)])[i].hub_height_calcuation
-                # print(re.hub_height_suggestion)
 
                 investment_e1 = RoundUp.round_up(
                     re.case_ids[i].tower_weight * re.case_ids[i].turbine_numbers * 1.05 * int(
@@ -187,6 +197,16 @@ class auto_word_wind_turbines_compare(models.Model):
                         name_tur_words = name_tur_word + "/" + name_tur_words
                         capacity_words = capacity_word + "/" + capacity_words
 
+                        rotor_swept_area_suggestion_word = rotor_swept_area_suggestion_word + "/" + rotor_swept_area_suggestion_word
+                        blade_number_suggestion_word = blade_number_suggestion_word + "/" + blade_number_suggestion_word
+
+                        cut_in_wind_speed_word = cut_in_wind_speed_word + "/" + cut_in_wind_speed_word
+                        cut_out_wind_speed_word = cut_out_wind_speed_word + "/" + cut_out_wind_speed_word
+                        rated_wind_speed_word = rated_wind_speed_word + "/" + rated_wind_speed_word
+                        three_second_maximum_word = three_second_maximum_word + "/" + three_second_maximum_word
+                        rated_power_word = rated_power_word + "/" + rated_power_word
+                        voltage_word = voltage_word + "/" + voltage_word
+
                     else:
                         tower_weight_words = tower_weight_words + tower_weight_word
                         rotor_diameter_words = rotor_diameter_words + rotor_diameter_word
@@ -194,32 +214,56 @@ class auto_word_wind_turbines_compare(models.Model):
                         name_tur_words = name_tur_words + name_tur_word
                         capacity_words = capacity_words + capacity_word
 
+                        rotor_swept_area_suggestion_words = rotor_swept_area_suggestion_words + rotor_swept_area_suggestion_word
+                        blade_number_suggestion_words = blade_number_suggestion_words + blade_number_suggestion_word
+
+                        cut_in_wind_speed_words = cut_in_wind_speed_word + cut_in_wind_speed_words
+                        cut_out_wind_speed_words = cut_out_wind_speed_word + cut_out_wind_speed_words
+                        rated_wind_speed_words = rated_wind_speed_word + rated_wind_speed_words
+                        three_second_maximum_words = three_second_maximum_word + three_second_maximum_words
+                        rated_power_words = rated_power_word + rated_power_words
+                        voltage_words = voltage_word + voltage_words
+
                 if len(re.case_ids) == 1:
                     tower_weight_words = tower_weight_word
                     rotor_diameter_words = rotor_diameter_word
                     investment_turbines_kw_words = investment_turbines_kw_word
                     capacity_words = capacity_word
                     name_tur_words = name_tur_word
+                    rotor_swept_area_suggestion_words = rotor_swept_area_suggestion_word
+                    blade_number_suggestion_words = blade_number_suggestion_word
 
-                # if re.ongrid_power == 0:
-                #     re.ongrid_power = re.env['auto_word_wind_res.form'].search([('project_id.project_name', '=',
-                #                                                                  re.project_id.project_name)])[
-                #         i].ongrid_power_sum
+                    cut_in_wind_speed_words = cut_in_wind_speed_word
+                    cut_out_wind_speed_words = cut_out_wind_speed_word
+                    rated_wind_speed_words = rated_wind_speed_word
+                    three_second_maximum_words = three_second_maximum_word
+                    rated_power_words = rated_power_word
+                    voltage_words = voltage_word
 
             re.name_tur = name_tur_words
             re.capacity = capacity_words
             re.tower_weight = tower_weight_words
             re.rotor_diameter_case = rotor_diameter_words
+            re.rotor_swept_area_suggestion = rotor_swept_area_suggestion_words
+            re.blade_number_suggestion = blade_number_suggestion_words
+
+            re.cut_in_wind_speed_suggestion = cut_in_wind_speed_words
+            re.cut_out_wind_speed_suggestion = cut_out_wind_speed_words
+            re.rated_wind_speed_suggestion = rated_wind_speed_words
+            re.three_second_maximum_suggestion = three_second_maximum_words
+            re.rated_power_suggestion = rated_power_words
+            re.voltage_suggestion = voltage_words
+
             re.investment_turbines_kws = investment_turbines_kw_words
 
-            re.farm_capacity = round_up(float(re.farm_capacity) / 1000,2)
+            re.farm_capacity = round_up(float(re.farm_capacity) / 1000, 2)
             re.investment_E1 = investment_e1_sum
             re.investment_E2 = investment_e2_sum
             re.investment_E3 = investment_e3_sum
 
-            if re.content_id.TerrainType=="平原":
-                re.TerrainType_turbines_compare='平原'
-            elif re.content_id.TerrainType=="丘陵":
+            if re.content_id.TerrainType == "平原":
+                re.TerrainType_turbines_compare = '平原'
+            elif re.content_id.TerrainType == "丘陵":
                 re.TerrainType_turbines_compare = '丘陵'
             else:
                 re.TerrainType_turbines_compare = '山地'
