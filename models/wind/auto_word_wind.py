@@ -7,7 +7,6 @@ import global_dict as gl
 from array import array
 import sys
 
-
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
 print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
 
@@ -43,6 +42,7 @@ def cal_wind_result(self):
     InflowAngle_Avg_dict, InflowAngle_Max_dict, InflowAngle_Max_Deg_dict, NextTur_dict = [], [], [], []
     NextLength_M_dict, Diameter_dict, NextLength_D_dict, NextDeg_dict, Sectors_dict = [], [], [], [], []
     rate_dict, hours_year_dict, ongrid_power_dict, Elevation_dict = [], [], [], []
+    rotor_diameter_dict_words = ""
     ave_elevation, ave_powerGeneration, ave_weak_res, ave_hours_year, ave_ongrid_power = 0, 0, 0, 0, 0
     ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
 
@@ -124,6 +124,14 @@ def cal_wind_result(self):
         investment_unit_dict.append(str(self.case_names[i].investment_unit))
         investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
 
+    rotor_diameter_dict_words_only = list(set(rotor_diameter_dict))
+    print(rotor_diameter_dict_words)
+    for j in range(0, len(rotor_diameter_dict_words_only)):
+        if j != len(rotor_diameter_dict_words_only) - 1:
+            rotor_diameter_dict_words = str(rotor_diameter_dict_words_only[j]) + '/' + rotor_diameter_dict_words
+        else:
+            rotor_diameter_dict_words = rotor_diameter_dict_words + str(rotor_diameter_dict_words_only[j])
+
     result = np.vstack((np.array(X_dict), np.array(Y_dict), np.array(Z_dict),
                         np.array(AverageWindSpeed_Weak_dict),
                         np.array(InflowAngle_Max_dict), np.array(PowerGeneration_dict),
@@ -145,6 +153,8 @@ def cal_wind_result(self):
     dict5 = doc_5.generate_wind_dict(tur_name, self.path_images)
 
     dict_5_word = {
+        "叶轮直径words": rotor_diameter_dict_words,
+        "方案数": len(rotor_diameter_dict),
         "最终方案": self.recommend_id.case_name,
         "方案e": case_name_dict,
         "风机类型e": name_tur_dict,
@@ -212,7 +222,6 @@ def cal_wind_result(self):
         "平均上网电量": ave_ongrid_power,
         "尾流损失修正系数": ave_weak_res_xz,
         "尾流修正后的总理论发电量": total_powerGeneration_weak,
-        "方案数": self.case_number,
         "空气密度": self.air_density_words,
         '测风塔名字': self.cft_name_words,
         '测风塔风速信息': self.string_speed_words,
@@ -225,7 +234,7 @@ def cal_wind_result(self):
     Dict_5_Final = dict_5_suggestion_word
 
     print("dict_5_suggestion_word")
-    print(Dict_5_Final)
+    print(Dict_5)
     for key, value in Dict_5.items():
         gl.set_value(key, value)
 
@@ -295,28 +304,28 @@ class auto_word_wind(models.Model):
     rotor_diameter_suggestion = fields.Char(string=u'推荐叶轮直径', readonly=True, default="待提交",
                                             compute='_compute_compare_case')
     TurbineCapacity_suggestion = fields.Char(string=u'推荐单机容量', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                             compute='_compute_compare_case')
     rotor_swept_area_suggestion = fields.Char(string=u'推荐扫风面积', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                              compute='_compute_compare_case')
     blade_number_suggestion = fields.Char(string=u'推荐叶片数', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                          compute='_compute_compare_case')
     cut_in_wind_speed_suggestion = fields.Char(string=u'推荐切入风速', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                               compute='_compute_compare_case')
     cut_out_wind_speed_suggestion = fields.Char(string=u'推荐切出风速', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                                compute='_compute_compare_case')
     rated_wind_speed_suggestion = fields.Char(string=u'推荐额定风速', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                              compute='_compute_compare_case')
     three_second_maximum_suggestion = fields.Char(string=u'推荐生存风速', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                                  compute='_compute_compare_case')
     rated_power_suggestion = fields.Char(string=u'推荐额定功率', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                         compute='_compute_compare_case')
     voltage_suggestion = fields.Char(string=u'推荐额定电压', readonly=True, default="待提交",
-                                  compute='_compute_compare_case')
+                                     compute='_compute_compare_case')
     investment_turbines_kws = fields.Char(u'风机kW投资', compute='_compute_compare_case')
     project_capacity = fields.Char(string=u'装机容量', readonly=True, compute='_compute_compare_case', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
 
-    ongrid_power = fields.Char(u'上网电量',readonly=True, compute='_compute_compare_case')
+    ongrid_power = fields.Char(u'上网电量', readonly=True, compute='_compute_compare_case')
     weak = fields.Char(u'尾流衰减', default="待提交", readonly=True, compute='_compute_compare_case')
     hours_year = fields.Char(u'满发小时', default="待提交", readonly=True, compute='_compute_compare_case')
     capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True, compute='_compute_compare_case')
@@ -371,6 +380,7 @@ class auto_word_wind(models.Model):
             re.capacity_coefficient = re.recommend_id.res_form.capacity_coefficient
             re.investment_turbines_kws = re.recommend_id.investment_turbines_kws
             re.ongrid_power = re.recommend_id.ongrid_power
+
     @api.multi
     def submit_wind(self):
         limited_str_1, limited_str_2, limited_str_3, limited_words = "", "", "", ""

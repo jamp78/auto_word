@@ -45,7 +45,6 @@ class auto_word_wind_turbines_compare(models.Model):
     farm_capacity = fields.Char(string=u'装机容量', readonly=True, default="0")
     tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
     rotor_diameter_case = fields.Char(string=u'叶轮直径', default="待提交")
-    case_number = fields.Char(string=u'方案数')
 
     rotor_swept_area_suggestion = fields.Char(string=u'推荐扫风面积', default="待提交")
     blade_number_suggestion = fields.Char(string=u'推荐叶片数', default="待提交")
@@ -82,8 +81,6 @@ class auto_word_wind_turbines_compare(models.Model):
     def wind_turbines_compare_form_submit(self):
         for re in self:
             re.content_id.rotor_diameter_case = re.rotor_diameter_case
-            re.content_id.case_number = re.case_number
-
             re.env['auto_word.wind'].search([('project_id.project_name', '=',
                                               re.project_id.project_name)]).recommend_id = re
 
@@ -108,7 +105,6 @@ class auto_word_wind_turbines_compare(models.Model):
             investment_turbines_kw_word, investment_turbines_kw_words = '', ''
             case_hub_height_word, case_hub_height_words, capacity_words = '', '', ''
             name_tur_words, investment_e5 = '', 0
-            re.case_number = str(len(re.content_id.case_names))
             re.turbine_numbers = 0
             re.farm_capacity = 0
             for i in range(0, len(re.case_ids)):
