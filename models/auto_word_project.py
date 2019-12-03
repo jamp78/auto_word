@@ -7,8 +7,9 @@ from docxtpl import DocxTemplate
 from RoundUp import round_up
 import datetime
 import global_dict as gl
-
+from energy_saving import energy_saving_cal, energy_using_cal
 import sys
+
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/wind")))
 import auto_word_wind
 
@@ -21,6 +22,7 @@ import pythoncom
 
 gl._init()
 
+
 def generate_docx(Dict, path_images, model_name, outputfile):
     filename_box = [model_name, outputfile]
     read_path = os.path.join(path_images, '%s') % filename_box[0]
@@ -28,6 +30,7 @@ def generate_docx(Dict, path_images, model_name, outputfile):
     tpl = DocxTemplate(read_path)
     tpl.render(Dict)
     tpl.save(save_path)
+
 
 def dict_project(self):
     mei_t = round_up(float(self.ongrid_power) * 2.29 / 7151.69)
@@ -49,6 +52,12 @@ def dict_project(self):
 
     # self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
 
+    dict_14_1=energy_saving_cal(self.ongrid_power, self.project_capacity, self.TurbineCapacity, self.Grade, self.Hour_words,
+                      self.turbine_numbers_suggestion,self.total_civil_length,self.grid_price)
+
+
+    dict_14_2=energy_using_cal(self.excavation,self.backfill,self.Concrete_words,self.Reinforcement)
+
     dict_1_word = {
         "概述": self.summary_txt,
         "风电场名称": self.Farm_words,
@@ -66,8 +75,7 @@ def dict_project(self):
         "水土保持": self.conservation_water_soil,
     }
 
-
-    Dict_x_Final = dict(dict_1_word, **dict_1_res_word)
+    Dict_x_Final = dict(dict_1_word, **dict_1_res_word,**dict_14_1,**dict_14_2)
     for key, value in Dict_x_Final.items():
         gl.set_value(key, value)
 
@@ -79,8 +87,8 @@ def dict_project(self):
     return Dict_x
 
 
-#Filename_master is the name of the file you want to merge all the document into
-#files_list is a list containing all the filename of the docx file to be merged
+# Filename_master is the name of the file you want to merge all the document into
+# files_list is a list containing all the filename of the docx file to be merged
 # def combine_all_docx(filename_master,files_list,Pathoutput):
 #     number_of_sections=len(files_list)
 #     master = Document_compose(filename_master)
@@ -89,14 +97,12 @@ def dict_project(self):
 #         doc_temp = Document_compose(files_list[i])
 #         composer.append(doc_temp)
 #     composer.save(Pathoutput)
-#For Example
-#filename_master="file1.docx"
-#files_list=["file2.docx","file3.docx","file4.docx",file5.docx"]
-#Calling the function
-#combine_all_docx(filename_master,files_list)
-#This function will combine all the document in the array files_list into the file1.docx and save the merged document into combined_file.docx
-
-
+# For Example
+# filename_master="file1.docx"
+# files_list=["file2.docx","file3.docx","file4.docx",file5.docx"]
+# Calling the function
+# combine_all_docx(filename_master,files_list)
+# This function will combine all the document in the array files_list into the file1.docx and save the merged document into combined_file.docx
 
 class auto_word_project(models.Model):
     _name = 'auto_word.project'
@@ -257,6 +263,8 @@ class auto_word_project(models.Model):
     investment = fields.Char(u'发电部分投资(万元)', readonly=True, default="0")
     investment_unit = fields.Char(u'单位度电投资(万元)', readonly=True, default="0")
 
+    Concrete_words = fields.Char(string=u'混凝土(万m³)', default='待提交')
+
     # 经评
     capital_rate_12 = fields.Char(string=u'资本金比例')
 
@@ -282,19 +290,18 @@ class auto_word_project(models.Model):
     payback_period = fields.Char(string=u'投资回收期(年)')
     ROI_13 = fields.Char(string=u'总投资收益率(%)')
     ROE_13 = fields.Char(string=u'资本金利润率(%)')
+    grid_price = fields.Char(string=u'上网电价')
+
 
     report_attachment_id_output1 = fields.Many2one('ir.attachment', string=u'可研报告章节-1')
 
     conservation_water_soil = fields.Char(string=u'水土保持费用（万元）')
     environmental_protection_investment = fields.Char(string=u'环境保护总投资（万元）')
-
     capacity_coefficient = fields.Char(string=u'容量系数')
     IECLevel = fields.Char(string=u'IEC等级')
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径')
-
     road_names = fields.Char(string=u'周边道路')
     land_area = fields.Char(string=u'总用地面积')
-
     farm_speed_range_words = fields.Char(string=u'平均风速区间')
 
     Dict_5_Final = fields.Char(string=u'字典5')
@@ -304,7 +311,6 @@ class auto_word_project(models.Model):
     Dict_12_Final = fields.Char(string=u'字典12')
     Dict_13_Final = fields.Char(string=u'字典13')
 
-
     def merge_project(self):
 
         Dict_x = dict_project(self)
@@ -313,8 +319,8 @@ class auto_word_project(models.Model):
         suffix_in = ".xls"
         suffix_out = ".docx"
         name_first, file_second, name_second = "", "", ""
-        outputfile = 'result_chapter' + str(chapter_number) +"_final"+ suffix_out
-        model_name = 'cr' + str(chapter_number) +"_final"+ suffix_out
+        outputfile = 'result_chapter' + str(chapter_number) + "_final" + suffix_out
+        model_name = 'cr' + str(chapter_number) + "_final" + suffix_out
         # Pathinput = os.path.join(project_path, '%s') % inputfile
         Pathoutput = os.path.join(project_path, '%s') % outputfile
 
@@ -364,9 +370,8 @@ class auto_word_project(models.Model):
         #
         # combine_all_docx(Pathoutputx,files,Pathoutput)
 
-
     def button_project(self):
-        Dict_x=dict_project(self)
+        Dict_x = dict_project(self)
 
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)

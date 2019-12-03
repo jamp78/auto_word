@@ -749,5 +749,8 @@ class auto_word_economy(models.Model):
         self.project_id.payback_period = self.payback_period
         self.project_id.ROI_13 = self.ROI_13
         self.project_id.ROE_13 = self.ROE_13
+        self.project_id.grid_price=self.grid_price
+        self.project_id.Concrete_words=self.Concrete_words
+        self.project_id.Reinforcement=self.Reinforcement
 
         return True
