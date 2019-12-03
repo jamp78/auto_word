@@ -33,10 +33,10 @@ def generate_docx(Dict, path_images, model_name, outputfile):
 
 
 def dict_project(self):
-    mei_t = round_up(float(self.ongrid_power) * 2.29 / 7151.69)
-    s02 = round_up(float(self.ongrid_power) * 1716.41 / 7151.69)
-    n02 = round_up(float(self.ongrid_power) * 858.2 / 7151.69)
-    c02 = round_up(float(self.ongrid_power) * 5.71 / 7151.69)
+    mei_t = round_up(float(self.ongrid_power) / 10 * 2.29 / 7151.69)
+    s02 = round_up(float(self.ongrid_power) / 10 * 1716.41 / 7151.69)
+    n02 = round_up(float(self.ongrid_power) / 10 * 858.2 / 7151.69)
+    c02 = round_up(float(self.ongrid_power) / 10 * 5.71 / 7151.69)
 
     # extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
 
@@ -52,11 +52,11 @@ def dict_project(self):
 
     # self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
 
-    dict_14_1=energy_saving_cal(self.ongrid_power, self.project_capacity, self.TurbineCapacity, self.Grade, self.Hour_words,
-                      self.turbine_numbers_suggestion,self.total_civil_length,self.grid_price)
+    dict_14_1 = energy_saving_cal(self.ongrid_power, self.project_capacity, self.TurbineCapacity, self.Grade,
+                                  self.Hour_words,
+                                  self.turbine_numbers_suggestion, self.total_civil_length, self.grid_price)
 
-
-    dict_14_2=energy_using_cal(self.excavation,self.backfill,self.Concrete_words,self.Reinforcement)
+    dict_14_2 = energy_using_cal(self.excavation, self.backfill, self.Concrete_words, self.Reinforcement)
 
     dict_1_word = {
         "概述": self.summary_txt,
@@ -75,7 +75,7 @@ def dict_project(self):
         "水土保持": self.conservation_water_soil,
     }
 
-    Dict_x_Final = dict(dict_1_word, **dict_1_res_word,**dict_14_1,**dict_14_2)
+    Dict_x_Final = dict(dict_1_word, **dict_1_res_word, **dict_14_1, **dict_14_2)
     for key, value in Dict_x_Final.items():
         gl.set_value(key, value)
 
@@ -291,7 +291,6 @@ class auto_word_project(models.Model):
     ROI_13 = fields.Char(string=u'总投资收益率(%)')
     ROE_13 = fields.Char(string=u'资本金利润率(%)')
     grid_price = fields.Char(string=u'上网电价')
-
 
     report_attachment_id_output1 = fields.Many2one('ir.attachment', string=u'可研报告章节-1')
 

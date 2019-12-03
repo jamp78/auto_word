@@ -3,7 +3,7 @@ from RoundUp import round_up
 
 def energy_saving_cal(ongrid_power, project_capacity, TurbineCapacity, Grade, hours, turbine_numbers,
                       road_length, price):
-    ongrid_power = float(ongrid_power)/10
+    ongrid_power = float(ongrid_power) / 10
     print("ongrid_power")
     print(ongrid_power)
     project_capacity = float(project_capacity)
@@ -72,12 +72,12 @@ def energy_saving_cal(ongrid_power, project_capacity, TurbineCapacity, Grade, ho
                               main_transformer_capacity / 10 * road_length
     # 运行期能耗指标分析
     total_loss = main_transformer_loss + box_transformer_loss + reactive_compensation + electrical_circuit_loss + 105
-    coal = round_up(total_loss * 0.32, 2)
+    coal = round_up(total_loss * 0.32 * 10, 2)
     coal_year = round_up(coal + 6.518, 2)
     print("coal_year")
     print(coal_year)
     gas = 4.43
-    unit_energy = round_up(coal_year / ongrid_power,2)
+    unit_energy = round_up(coal_year / ongrid_power*100, 2)
     unit_energy_price = round_up(coal_year / price / ongrid_power * 1000)
     rate_electrical = round_up(total_loss / ongrid_power * 100)
 
@@ -108,10 +108,10 @@ def energy_saving_cal(ongrid_power, project_capacity, TurbineCapacity, Grade, ho
 
 def energy_using_cal(sum_EarthStoneBalance_excavation, sum_EarthStoneBalance_back_fill, Concrete_words,
                      Reinforcement):
-    sum_EarthStoneBalance_excavation = float(sum_EarthStoneBalance_excavation)/10000
-    sum_EarthStoneBalance_back_fill = float(sum_EarthStoneBalance_back_fill)/10000
+    sum_EarthStoneBalance_excavation = float(sum_EarthStoneBalance_excavation) / 10000
+    sum_EarthStoneBalance_back_fill = float(sum_EarthStoneBalance_back_fill) / 10000
     Concrete_words = float(Concrete_words) / 10000
-    Reinforcement = float(Reinforcement)/10000
+    Reinforcement = float(Reinforcement)
 
     # 混凝土
     Concrete_water = round_up(Concrete_words * 0.25 * 10000)
@@ -121,7 +121,7 @@ def energy_using_cal(sum_EarthStoneBalance_excavation, sum_EarthStoneBalance_bac
 
     # 钢筋
     Reinforcement_electrical = round_up(Reinforcement * 119.75 / 10000)
-    Reinforcement_oil = round_up(Reinforcement * 0.99 * 1000)
+    Reinforcement_oil = round_up(Reinforcement * 0.99 / 1000)
     Reinforcement_gas = round_up(Reinforcement * 3.01 / 1000)
 
     # 土石方开挖
@@ -142,7 +142,8 @@ def energy_using_cal(sum_EarthStoneBalance_excavation, sum_EarthStoneBalance_bac
         "土石方回填_柴油": sum_EarthStoneBalance_back_fill_oil,
         "合计_水": round_up(Concrete_water + 8000 + 4800),
         "合计_电": round_up(Concrete_electrical + Reinforcement_electrical),
-        "合计_柴油": round_up(Concrete_oil + Reinforcement_oil + sum_EarthStoneBalance_excavation_oil + sum_EarthStoneBalance_back_fill_oil),
+        "合计_柴油": round_up(
+            Concrete_oil + Reinforcement_oil + sum_EarthStoneBalance_excavation_oil + sum_EarthStoneBalance_back_fill_oil),
         "合计_汽油": round_up(Concrete_gas + Reinforcement_gas)
 
     }
