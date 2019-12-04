@@ -7,6 +7,38 @@ from RoundUp import round_up
 from odoo import models, fields, api
 import global_dict as gl
 
+
+class auto_word_civil_geology(models.Model):
+    _name = 'auto_word_civil.geology'
+    _description = 'Civil geology'
+    _rec_name = 'project_id'
+    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    version_id = fields.Char(u'版本', required=True, default="1.0")
+    regional_geology = fields.Char(u'区域地质构造')
+    neotectonic_movements_earthquakes = fields.Char(u'新构造运动及地震')
+    topographical_evaluation = fields.Char(u'地形地貌评价')
+    formation_evaluation = fields.Char(u'地层岩性评价')
+
+    bad_geology_special_rock = fields.Char(u'不良地质作用与特殊性岩土')
+
+    evaluation_stability_site = fields.Char(u'建筑地基评价工程场地稳定性评价')
+    evaluation_building_foundation = fields.Char(u'建筑地基评价')
+
+    ground_motion_parameters = fields.Char(u'地震动参数')
+    stability_suitability = fields.Char(u'场地的稳定性与适宜性')
+    construction_water = fields.Char(u'施工用水及生活用水水源调查及评价')
+    natural_building_material = fields.Char(u'天然建筑材料')
+    engineering_hydrogeology = fields.Char(u'工程水文地质')
+
+    conclusion = fields.Char(u'结论和建议')
+
+    def civil_geology_generate(self):
+        pass
+
+    def submit_civil_geology(self):
+        pass
+
+
 class auto_word_civil_design_safety_standard(models.Model):
     _name = 'auto_word_civil.design_safety_standard'
     _description = 'Civil Design Safety Standard'

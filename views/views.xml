@@ -143,13 +143,21 @@
       <field name="res_model">auto_word_wind.res</field>
       <field name="view_mode">tree,form</field>
     </record>
-    <!--<record model="ir.actions.act_window" id="auto_word_civil_information_menu">-->
-      <!--<field name="name">土建信息</field>-->
-      <!--<field name="res_model">auto_word.civil</field>-->
-      <!--<field name="view_mode">tree,form</field>-->
-    <!--</record>-->
+    <record model="ir.actions.act_window" id="auto_word_civil_information_menu">
+      <field name="name">土建信息</field>
+      <field name="res_model">auto_word.civil</field>
+      <field name="view_mode">form,tree</field>
+    </record>
 
-电气
+  <!--工程地质    -->
+    <record model="ir.actions.act_window" id="auto_word_civil_geology_act_window">
+      <field name="name">工程地质</field>
+      <field name="res_model">auto_word_civil.geology</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+<!--电气-->
       <record model="ir.actions.act_window" id="auto_word_boxvoltagetype_act_window">
           <field name="name">箱式变电站数据</field>
           <field name="res_model">auto_word_electrical.boxvoltagetype</field>
@@ -314,12 +322,16 @@
         <menuitem name="方案比选" id="auto_word_wind_chapter5_3_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_3_act_window"/>
         <menuitem name="发电量估算" id="auto_word_wind_chapter5_4_menu" parent="auto_word_wind_chapter5_menu" action="auto_word_wind_chapter5_4_act_window"/>
 
-    <menuitem name="电气部分" id="auto_word_electric" parent="auto_word.menu_root" sequence="3"/>
+    <menuitem name="地质部分" id="auto_word_geology" parent="auto_word.menu_root" sequence="3"/>
+        <menuitem name="地质详情" id="auto_word_civil_geology_detail" parent="auto_word_geology"
+                action="auto_word_civil_geology_act_window" sequence="1" />
+
+    <menuitem name="电气部分" id="auto_word_electric" parent="auto_word.menu_root" sequence="5"/>
       <!--<menuitem name="风机设备选型布置及发电量估算" id="auto_word_wind_chapter5_menu" parent="auto_word_wind"/>-->
         <menuitem name="电气一、二次" id="auto_word_electric_chapter6_3_menu" parent="auto_word_electric" action="auto_word_wind_electric_chapter6_3_act_window"/>
         <menuitem name="集电线路" id="auto_word_electric_chapter6_6_menu" parent="auto_word_electric" action="auto_word_wind_electric_chapter6_6_act_window"/>
 
-    <menuitem name="土建部分" id="auto_word_civil" parent="auto_word.menu_root" sequence="4"/>
+    <menuitem name="土建部分" id="auto_word_civil" parent="auto_word.menu_root" sequence="6"/>
         <menuitem name="土建详情" id="auto_word_civil_detail_list" parent="auto_word_civil"
                 action="auto_word_civil_act_window" sequence="1" />
         <menuitem name="设计安全标准" id="auto_word_civil_DesignSafetyStandard_list" parent="auto_word_civil"
