@@ -60,6 +60,8 @@ class auto_word_civil_design_safety_standard(models.Model):
         self.civil_id.BuildingYardLevel = self.BuildingYardLevel
         self.civil_id.BuildingYardLevel_word = self.BuildingYardLevel_word
 
+        self.civil_id.ProjectLevel = self.ProjectLevel
+
         self.civil_id.project_id.ProjectLevel_all = self
         return True
 
@@ -89,6 +91,7 @@ def civil_generate_docx_dict(self):
     dict_8 = get_dict_8(np, dict_keys)
     dict8 = generate_civil_dict(**dict_8)
     dict5 = eval(self.project_id.Dict_5_Final)
+    dict1 = eval(self.project_id.Dict_x)
 
 
     dict_8_word = {
@@ -120,8 +123,11 @@ def civil_generate_docx_dict(self):
         "总用地面积": self.land_area,
 
     }
+    print('dict_8_word')
+    print(dict_8_word)
+
     Dict_8_Final = dict(dict_8_word, **dict8)
-    Dict8 = dict(dict_8_word, **dict8, **dict5)
+    Dict8 = dict(dict_8_word, **dict8, **dict5,**dict1)
 
     for key, value in Dict_8_Final.items():
         gl.set_value(key, value)

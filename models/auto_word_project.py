@@ -310,6 +310,8 @@ class auto_word_project(models.Model):
     Dict_12_Final = fields.Char(string=u'字典12')
     Dict_13_Final = fields.Char(string=u'字典13')
 
+
+
     def merge_project(self):
 
         Dict_x = dict_project(self)
@@ -370,44 +372,44 @@ class auto_word_project(models.Model):
         # combine_all_docx(Pathoutputx,files,Pathoutput)
 
     def button_project(self):
-        Dict_x = dict_project(self)
+        self.Dict_x = dict_project(self)
 
-        chapter_number = 'x'
-        project_path = self.env['auto_word.project'].project_path + str(chapter_number)
-        suffix_in = ".xls"
-        suffix_out = ".docx"
-        name_first, file_second, name_second = "", "", ""
-        outputfile = 'result_chapter' + str(chapter_number) + suffix_out
-        model_name = 'cr' + str(chapter_number) + suffix_out
-        # Pathinput = os.path.join(project_path, '%s') % inputfile
-        Pathoutput = os.path.join(project_path, '%s') % outputfile
-
-        generate_docx(Dict_x, project_path, model_name, outputfile)
-
-        # ###########################
-
-        reportfile_name = open(file=Pathoutput, mode='rb')
-        byte = reportfile_name.read()
-        reportfile_name.close()
-        if (str(self.report_attachment_id_output1) == 'ir.attachment()'):
-            Attachments = self.env['ir.attachment']
-            print('开始创建新纪录1')
-            New = Attachments.create({
-                'name': self.project_name + '可研报告章节chapter' + str(chapter_number) + '下载页',
-                'datas_fname': self.project_name + '可研报告章节chapter' + str(chapter_number) + '.docx',
-                'datas': base64.standard_b64encode(byte),
-                'display_name': self.project_name + '可研报告章节',
-                'create_date': fields.date.today(),
-                'public': True,  # 此处需设置为true 否则attachments.read  读不到
-            })
-            print('已创建新纪录：', New)
-            print('new dataslen：', len(New.datas))
-            self.report_attachment_id_output1 = New
-        else:
-            self.report_attachment_id_output1.datas = base64.standard_b64encode(byte)
-
-        return True
-
+        # chapter_number = 'x'
+        # project_path = self.env['auto_word.project'].project_path + str(chapter_number)
+        # suffix_in = ".xls"
+        # suffix_out = ".docx"
+        # name_first, file_second, name_second = "", "", ""
+        # outputfile = 'result_chapter' + str(chapter_number) + suffix_out
+        # model_name = 'cr' + str(chapter_number) + suffix_out
+        # # Pathinput = os.path.join(project_path, '%s') % inputfile
+        # Pathoutput = os.path.join(project_path, '%s') % outputfile
+        #
+        # generate_docx(Dict_x, project_path, model_name, outputfile)
+        #
+        # # ###########################
+        #
+        # reportfile_name = open(file=Pathoutput, mode='rb')
+        # byte = reportfile_name.read()
+        # reportfile_name.close()
+        # if (str(self.report_attachment_id_output1) == 'ir.attachment()'):
+        #     Attachments = self.env['ir.attachment']
+        #     print('开始创建新纪录1')
+        #     New = Attachments.create({
+        #         'name': self.project_name + '可研报告章节chapter' + str(chapter_number) + '下载页',
+        #         'datas_fname': self.project_name + '可研报告章节chapter' + str(chapter_number) + '.docx',
+        #         'datas': base64.standard_b64encode(byte),
+        #         'display_name': self.project_name + '可研报告章节',
+        #         'create_date': fields.date.today(),
+        #         'public': True,  # 此处需设置为true 否则attachments.read  读不到
+        #     })
+        #     print('已创建新纪录：', New)
+        #     print('new dataslen：', len(New.datas))
+        #     self.report_attachment_id_output1 = New
+        # else:
+        #     self.report_attachment_id_output1.datas = base64.standard_b64encode(byte)
+        #
+        # return True
+        #
 
 class auto_word_null_project(models.Model):
     _name = 'auto_word_null.project'

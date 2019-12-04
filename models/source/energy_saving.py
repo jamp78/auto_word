@@ -141,7 +141,7 @@ def energy_using_cal(sum_EarthStoneBalance_excavation, sum_EarthStoneBalance_bac
         "土石方开挖_柴油": sum_EarthStoneBalance_excavation_oil,
         "土石方回填_柴油": sum_EarthStoneBalance_back_fill_oil,
         "合计_水": round_up(Concrete_water + 8000 + 4800),
-        "合计_电": round_up(Concrete_electrical + Reinforcement_electrical),
+        "合计_电": round_up(Concrete_electrical + Reinforcement_electrical+11.68+27.20),
         "合计_柴油": round_up(
             Concrete_oil + Reinforcement_oil + sum_EarthStoneBalance_excavation_oil + sum_EarthStoneBalance_back_fill_oil),
         "合计_汽油": round_up(Concrete_gas + Reinforcement_gas)
