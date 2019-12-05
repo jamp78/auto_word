@@ -21,7 +21,6 @@ def cal_wind_result(self):
     for i in range(0, len(self.select_turbine_ids)):
         tur_name.append(self.select_turbine_ids[i].name_tur)
 
-    print(tur_name)
     self.path_images = self.env['auto_word.project'].path_images_chapter_5
 
     case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
@@ -150,9 +149,15 @@ def cal_wind_result(self):
         result_dict = {'number': tur_id_dict[i], 'cols': result[i]}
         result_list.append(result_dict)
     context['result_list'] = result_list
-    dict5 = doc_5.generate_wind_dict(tur_name, self.path_images)
 
-    dict_5_word = {
+    self.dict_1_word_post = self.project_id.dict_1_word_post
+    print("check")
+    print( eval(self.dict_1_word_post))
+    if len( eval(self.dict_1_word_post)) == 0:
+        print("please check 项目资料")
+
+    dict5 = doc_5.generate_wind_dict(tur_name, self.path_images)
+    dict_5_word_part = {
         "叶轮直径words": rotor_diameter_dict_words,
         "方案数": len(rotor_diameter_dict),
         "最终方案": self.recommend_id.case_name,
@@ -178,6 +183,7 @@ def cal_wind_result(self):
         "发电部分投资e": investment_dict,
         "单位度电投资e": investment_unit_dict,
     }
+    #提交的生成chapter5的dict
     dict_5_suggestion_word = {
         "山地类型": self.TerrainType,
         "海拔高程": self.Elevation_words,
@@ -231,16 +237,15 @@ def cal_wind_result(self):
         '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
         '限制性因素': self.project_id.limited_words,
     }
-    Dict_5 = dict(dict_5_word, **dict5, **context, **dict_5_suggestion_word)
-    Dict_5_Final = dict_5_suggestion_word
+    dict_5_word = dict(dict_5_word_part, **dict5, **context, **dict_5_suggestion_word)
 
-    print("dict_5_suggestion_word")
-    print(Dict_5)
-    for key, value in Dict_5.items():
+    #生成chapter5 所需要的总的dict
+    dict_5_words = dict(dict_5_word, ** eval(self.dict_1_word_post))
+
+    for key, value in dict_5_word.items():
         gl.set_value(key, value)
 
-    print(gl.get_value("东经"))
-    return Dict_5, Dict_5_Final
+    return dict_5_words, dict_5_suggestion_word
 
 
 class auto_word_wind(models.Model):
@@ -248,6 +253,11 @@ class auto_word_wind(models.Model):
     _description = 'Wind energy input'
     _rec_name = 'content_id'
 
+
+    #提交
+    dict_5_word_post = fields.Char(u'字典5_提交')
+    #提取
+    dict_1_word_post = fields.Char(u'字典1_提交')
     # 项目参数
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', default="1.0", required=True)
@@ -333,7 +343,7 @@ class auto_word_wind(models.Model):
     rate = fields.Float(string=u'折减率', readonly=True, compute='_compute_compare_case')
 
     path_images = fields.Char(u'图片路径')
-    Dict_5_Final = fields.Char(u'字典5_')
+
 
     # --------结果文件---------
     png_list = []
@@ -446,14 +456,14 @@ class auto_word_wind(models.Model):
         self.project_id.weak = self.weak
         self.project_id.Hour_words = self.hours_year
         self.project_id.TurbineCapacity = self.TurbineCapacity_suggestion
-        self.project_id.Dict_5_Final = self.Dict_5_Final
+        self.project_id.dict_5_word_post = self.dict_5_word_post
         self.project_id.area_words = self.area_words
 
         self.project_id.project_capacity = self.project_capacity
 
     def wind_generate(self):
-        Dict_5, Dict_5_Final = cal_wind_result(self)
-        self.Dict_5_Final = Dict_5_Final
+        dict_5_words, dict_5_word_post = cal_wind_result(self)
+        self.dict_5_word_post = dict_5_word_post
 
         for re in self.report_attachment_id2:
             imgdata = base64.standard_b64decode(re.datas)
@@ -473,7 +483,7 @@ class auto_word_wind(models.Model):
                 f.close()
             self.png_list.append(t)
 
-        doc_5.generate_wind_docx1(Dict_5, self.path_images, self.png_list)
+        doc_5.generate_wind_docx1(dict_5_words, self.path_images, self.png_list)
         ###########################
 
         reportfile_name = open(file=os.path.join(self.path_images, '%s.docx') % 'result_chapter5',

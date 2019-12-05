@@ -22,8 +22,8 @@
         <field name="arch" type="xml">
             <form string="">
                 <header>
-                    <!--<button name="button_project" type="object" groups="auto_word.project_group_user"-->
-                            <!--string="生成报告"/>-->
+                    <button name="button_project" type="object" groups="auto_word.project_group_user"
+                            string="提交信息"/>
                     <button name="merge_project" type="object" groups="auto_word.project_group_user"
                             string="合并报告"/>
                 </header>

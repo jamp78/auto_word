@@ -32,7 +32,24 @@ def generate_docx(Dict, path_images, model_name, outputfile):
     tpl.save(save_path)
 
 
-def dict_project(self):
+def dict_project_1(self):
+    dict_1_word = {
+        "概述": self.summary_txt,
+        "风电场名称": self.Farm_words,
+        "建设地点": self.Location_words,
+        "项目大区": self.company_id.name,
+        "相对高差": self.Relative_height_difference_words,
+    }
+
+    for key, value in dict_1_word.items():
+        gl.set_value(key, value)
+
+
+    return dict_1_word
+
+
+def dict_project_x(self):
+    dict_1_word = dict_project_1(self)
     mei_t = round_up(float(self.ongrid_power) / 10 * 2.29 / 7151.69)
     s02 = round_up(float(self.ongrid_power) / 10 * 1716.41 / 7151.69)
     n02 = round_up(float(self.ongrid_power) / 10 * 858.2 / 7151.69)
@@ -47,7 +64,7 @@ def dict_project(self):
     elif float(self.project_capacity) < 50:
         self.environmental_protection_investment = '50'
 
-    self.capacity_suggestion=float(self.TurbineCapacity)*1000
+    self.capacity_suggestion = float(self.TurbineCapacity) * 1000
     self.capacity_coefficient = round_up(float(self.Hour_words) / 8760)
 
     # self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
@@ -58,13 +75,6 @@ def dict_project(self):
 
     dict_14_2 = energy_using_cal(self.excavation, self.backfill, self.Concrete_words, self.Reinforcement)
 
-    dict_1_word = {
-        "概述": self.summary_txt,
-        "风电场名称": self.Farm_words,
-        "建设地点": self.Location_words,
-        "项目大区": self.company_id.name,
-        "相对高差": self.Relative_height_difference_words,
-    }
     dict_1_res_word = {
 
         "标煤": mei_t,
@@ -75,8 +85,8 @@ def dict_project(self):
         "水土保持": self.conservation_water_soil,
     }
 
-    Dict_x_Final = dict(dict_1_word, **dict_1_res_word, **dict_14_1, **dict_14_2)
-    for key, value in Dict_x_Final.items():
+    Dict_x_rest = dict(dict_1_res_word, **dict_14_1, **dict_14_2)
+    for key, value in Dict_x_rest.items():
         gl.set_value(key, value)
 
     Dict_x = gl._global_dict
@@ -177,7 +187,7 @@ class auto_word_project(models.Model):
     weak = fields.Char(u'尾流衰减', default="待提交")
     PWDLevel = fields.Char(u'风功率密度等级', default="待提交", readonly=True)
 
-    main_wind_direction=fields.Char(u'主风向', default="待提交", readonly=True)
+    main_wind_direction = fields.Char(u'主风向', default="待提交", readonly=True)
     summary_txt = fields.Char(u'概述', default="待提交", required=True)
 
     wind_time_txt = fields.Char(u'选取时段', default="待提交", readonly=True)
@@ -304,18 +314,20 @@ class auto_word_project(models.Model):
     land_area = fields.Char(string=u'总用地面积')
     farm_speed_range_words = fields.Char(string=u'平均风速区间')
 
-    Dict_5_Final = fields.Char(string=u'字典5')
-    Dict_8_Final = fields.Char(string=u'字典8_9')
+
+    dict_1_word_post = fields.Char(string=u'字典1')
+
+
+    dict_3_word_post = fields.Char(string=u'字典3')
+    dict_5_word_post = fields.Char(string=u'字典5')
+    dict_8_word_post = fields.Char(string=u'字典8_9')
+    dict_12_word_post = fields.Char(string=u'字典12')
+    dict_13_word_post = fields.Char(string=u'字典13')
+
     Dict_x = fields.Char(string=u'字典x')
-
-    Dict_12_Final = fields.Char(string=u'字典12')
-    Dict_13_Final = fields.Char(string=u'字典13')
-
-
-
     def merge_project(self):
 
-        Dict_x = dict_project(self)
+        Dict_x = dict_project_x(self)
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
@@ -373,6 +385,8 @@ class auto_word_project(models.Model):
         # combine_all_docx(Pathoutputx,files,Pathoutput)
 
     def button_project(self):
+        self.dict_1_word_post = dict_project_1(self)
+
         # self.Dict_x = dict_project(self)
 
         # chapter_number = 'x'
@@ -411,6 +425,7 @@ class auto_word_project(models.Model):
         #
         return True
         #
+
 
 class auto_word_null_project(models.Model):
     _name = 'auto_word_null.project'

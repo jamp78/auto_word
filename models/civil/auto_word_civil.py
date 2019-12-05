@@ -33,12 +33,17 @@ class auto_word_civil_geology(models.Model):
     conclusion = fields.Char(u'结论和建议')
 
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告地质章节')
-
-
+    # 提交
+    dict_3_word_post = fields.Char(u'字典3_提交')
+    # 提取
+    dict_1_word_post = fields.Char(u'字典1_提交')
+    dict_5_word_post = fields.Char(u'字典5_提交')
 
     def civil_geology_generate(self):
-        dict1 = eval(self.project_id.Dict_x)
-        Dict3 = {
+        self.dict_1_word_post = eval(self.project_id.dict_1_word_post)
+        self.dict_5_word_post = eval(self.project_id.dict_5_word_post)
+
+        dict_3_word = {
             '区域地质构造': self.regional_geology,
             '新构造运动及地震': self.neotectonic_movements_earthquakes,
             '地形地貌评价': self.topographical_evaluation,
@@ -56,10 +61,15 @@ class auto_word_civil_geology(models.Model):
             '结论和建议': self.conclusion,
         }
 
-        Dict_3_Final = dict(Dict3, **dict1)
+        self.dict_3_word_post = dict_3_word
+
+        dict_3_words = dict(dict_3_word, **eval(self.dict_1_word_post), **eval(self.dict_5_word_post))
+
+        for key, value in dict_3_word.items():
+            gl.set_value(key, value)
 
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
-        generate_civil_docx(Dict_3_Final, path_chapter_8,'cr3','result_chapter3')
+        generate_civil_docx(dict_3_words, path_chapter_8, 'cr3', 'result_chapter3')
         reportfile_name = open(
             file=os.path.join(path_chapter_8, '%s.docx') % 'result_chapter3',
             mode='rb')
@@ -91,11 +101,8 @@ class auto_word_civil_geology(models.Model):
         print('new datas len：', len(self.report_attachment_id.datas))
         return True
 
-
-
-
     def submit_civil_geology(self):
-
+        self.project_id.dict_3_word_post = self.dict_3_word_post
         return True
 
 
@@ -159,16 +166,13 @@ class auto_word_civil_design_safety_standard(models.Model):
 
 
 def civil_generate_docx_dict(self):
-
-
-
     self.line_data = [float(self.line_1), float(self.line_2)]
     self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
     self.road_stone_ratio = 10 - self.road_earthwork_ratio
 
     self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
     list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
-            self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, float(self.TurbineCapacity) ,
+            self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, float(self.TurbineCapacity),
             self.road_earthwork_ratio / 10,
             self.road_stone_ratio / 10, self.project_id.Status, self.project_id.Grade, self.project_id.Capacity,
             self.TerrainType,
@@ -187,7 +191,6 @@ def civil_generate_docx_dict(self):
     dict8 = generate_civil_dict(**dict_8)
     dict5 = eval(self.project_id.Dict_5_Final)
     dict1 = eval(self.project_id.Dict_x)
-
 
     dict_8_word = {
         # 设计安全标准
@@ -222,12 +225,12 @@ def civil_generate_docx_dict(self):
     print(dict_8_word)
 
     Dict_8_Final = dict(dict_8_word, **dict8)
-    Dict8 = dict(dict_8_word, **dict8, **dict5,**dict1)
+    Dict8 = dict(dict_8_word, **dict8, **dict5, **dict1)
 
     for key, value in Dict_8_Final.items():
         gl.set_value(key, value)
 
-    return Dict8,Dict_8_Final
+    return Dict8, Dict_8_Final
 
 
 class auto_word_civil(models.Model):
@@ -259,7 +262,6 @@ class auto_word_civil(models.Model):
     road_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=False, default=8)
-
 
     TerrainType = fields.Char(u'山地类型', readonly=True)
     road_1_num = fields.Float(u'改扩建道路', required=False, default=5)
@@ -398,7 +400,7 @@ class auto_word_civil(models.Model):
         projectname.C80SecondaryGrouting = self.C80SecondaryGrouting
         projectname.stake_number = self.stake_number
 
-        Dict8,Dict_8_Final = civil_generate_docx_dict(self)
+        Dict8, Dict_8_Final = civil_generate_docx_dict(self)
         projectname.Dict_8_Final = Dict_8_Final
         projectname.BasicType = Dict8['基础形式']
         projectname.FloorRadiusR = Dict8['基础底面圆直径']
@@ -409,7 +411,7 @@ class auto_word_civil(models.Model):
 
         projectname.temporary_land_area = Dict8['合计亩_临时用地面积']
         projectname.permanent_land_area = Dict8['合计亩_永久用地面积']
-        projectname.land_area=self.land_area
+        projectname.land_area = self.land_area
 
         projectname.excavation = Dict8['合计_开挖']
         projectname.backfill = Dict8['合计_回填']
@@ -440,7 +442,7 @@ class auto_word_civil(models.Model):
         self.TurbineCapacity = projectname.TurbineCapacity
         self.TerrainType = projectname.TerrainType
 
-        Dict8,Dict_8_Final = civil_generate_docx_dict(self)
+        Dict8, Dict_8_Final = civil_generate_docx_dict(self)
         self.EarthExcavation_WindResource = Dict8['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = Dict8['石方开挖_风机_numbers']
         self.EarthWorkBackFill_WindResource = Dict8['土石方回填_风机_numbers']
@@ -478,9 +480,9 @@ class auto_word_civil(models.Model):
 
     #   生成报告
     def civil_generate(self):
-        Dict8,Dict_8_Final = civil_generate_docx_dict(self)
+        Dict8, Dict_8_Final = civil_generate_docx_dict(self)
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
-        generate_civil_docx(Dict8, path_chapter_8,'cr8','result_chapter8')
+        generate_civil_docx(Dict8, path_chapter_8, 'cr8', 'result_chapter8')
         reportfile_name = open(
             file=os.path.join(path_chapter_8, '%s.docx') % 'result_chapter8',
             mode='rb')
