@@ -185,6 +185,7 @@ def cal_wind_result(self):
         "北纬": self.Lat_words,
         "风场面积": self.area_words,
 
+        '推荐机型': self.name_tur_suggestion,
         '推荐机组数量': self.turbine_numbers_suggestion,
         '推荐单机容量': self.TurbineCapacity_suggestion,
         "推荐叶轮直径": self.rotor_diameter_suggestion,

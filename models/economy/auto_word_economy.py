@@ -122,7 +122,7 @@ def cal_economy_result(self):
 
         print(self.project_id.Dict_5_Final)
         dict5 = eval(self.project_id.Dict_5_Final)
-        dict8 = eval(self.project_id.Dict_8_Final)
+        # dict8 = eval(self.project_id.Dict_8_Final)
 
         if chapter_number == 12:
             col_name_0 = ['设备', '单位', '设备价', '备注']
@@ -232,8 +232,8 @@ def cal_economy_result(self):
                 if str(dictMerged['result_list12_6'][i]['cols'][0]) == '建设期利息':
                     self.interest_construction_loans_12 = str(dictMerged['result_list12_6'][i]['cols'][2])
 
-                if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组设备价格':
-                    self.investment_turbines_kws = str(dictMerged['result_list12_6'][i]['cols'][6])
+                # if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组设备价格':
+                #     self.investment_turbines_kws = str(dictMerged['result_list12_6'][i]['cols'][6])
                 if str(dictMerged['result_list12_6'][i]['cols'][3]) == '塔筒(架)设备价格':
                     self.Tower_cost_words = str(dictMerged['result_list12_6'][i]['cols'][6])
                 if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组基础造价':
@@ -367,7 +367,9 @@ def cal_economy_result(self):
                 "单位度电投资": self.unit_cost_words,
             }
 
-            Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word, **dict5, **dict8)
+            Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word, **dict5,
+                          # **dict8
+                          )
             Dict_12_Final = dict(dict_12_word, **dict_12_res_word, **dictMerged)
             for key, value in Dict_12_Final.items():
                 gl.set_value(key, value)
@@ -498,7 +500,8 @@ def cal_economy_result(self):
             }
 
             Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word, **dict5,
-                          **dict8)
+                          # **dict8
+                          )
             Dict_13_Final = dict(dictMerged, **dict_13_res_word)
 
             for key, value in Dict_13_Final.items():
@@ -612,7 +615,7 @@ class auto_word_economy(models.Model):
     Farm_words = fields.Char(string=u'风电场名称')
     Location_words = fields.Char(string=u'建设地点')
     company_id = fields.Char(string=u'项目大区')
-    investment_turbines_kws = fields.Char(string=u'风电机组单位造价', readonly=True)
+    investment_turbines_kws = fields.Char(string=u'风电机组单位造价')
     Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='待提交')
     infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='待提交')
     unit_cost_words = fields.Char(string=u'单位度电投资', default='待提交')

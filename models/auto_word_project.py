@@ -47,7 +47,7 @@ def dict_project(self):
     elif float(self.project_capacity) < 50:
         self.environmental_protection_investment = '50'
 
-    self.TurbineCapacity = float(self.capacity_suggestion) / 1000
+    self.capacity_suggestion=float(self.TurbineCapacity)*1000
     self.capacity_coefficient = round_up(float(self.Hour_words) / 8760)
 
     # self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
@@ -117,15 +117,15 @@ class auto_word_project(models.Model):
 
     # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
-    Farm_words = fields.Char(string=u'风电场名称')
-    Location_words = fields.Char(string=u'建设地点')
-    area_words = fields.Char(string=u'风场面积')
+    Farm_words = fields.Char(string=u'风电场名称', required=True)
+    Location_words = fields.Char(string=u'建设地点', required=True)
+    area_words = fields.Char(string=u'风场面积', required=True)
 
     order_number = fields.Char(u'项目编号')
     active = fields.Boolean(u'续存？', default=True)
     date_start = fields.Date(u'项目启动日期', default=fields.date.today())
     date_end = fields.Date(u'项目要求完成日期', default=fields.date.today() + datetime.timedelta(days=10))
-    company_id = fields.Many2one('res.company', string=u'项目大区')
+    company_id = fields.Many2one('res.company', string=u'项目大区', required=True)
     contacts_ids = fields.Many2many('res.partner', string=u'项目联系人')
     favorite_user_ids = fields.Many2many('res.users', string=u'项目组成员')
     staff = fields.Integer(u'工程定员')
@@ -164,25 +164,26 @@ class auto_word_project(models.Model):
     note = fields.Char(string=u'备注', readonly=False)
     limited_words = fields.Char(u'限制性因素', required=False)
 
-    Lon_words = fields.Char(string=u'东经', default='待提交')
-    Lat_words = fields.Char(string=u'北纬', default='待提交')
-    Elevation_words = fields.Char(string=u'海拔高程', default='待提交')
-    Relative_height_difference_words = fields.Char(string=u'相对高差', default='待提交')
+    Lon_words = fields.Char(string=u'东经', default='待提交', required=True)
+    Lat_words = fields.Char(string=u'北纬', default='待提交', required=True)
+    Elevation_words = fields.Char(string=u'海拔高程', default='待提交', required=True)
+    Relative_height_difference_words = fields.Char(string=u'相对高差', default='待提交', required=True)
 
     Turbine_number_words = fields.Char(string=u'机组数量', default="待提交", readonly=True)  ######################
     Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)  ######################
     Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
 
-    ongrid_power = fields.Char(u'上网电量', default="待提交")
+    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True)
     weak = fields.Char(u'尾流衰减', default="待提交")
-    PWDLevel = fields.Char(u'风功率密度等级', default="待提交")
+    PWDLevel = fields.Char(u'风功率密度等级', default="待提交", readonly=True)
 
-    summary_txt = fields.Char(u'概述', default="待提交")
+    main_wind_direction=fields.Char(u'主风向', default="待提交", readonly=True)
+    summary_txt = fields.Char(u'概述', default="待提交", required=True)
 
-    wind_time_txt = fields.Char(u'选取时段', default="待提交")
-    wind_txt = fields.Char(u'风能信息', default="待提交")
-    wind_TI_txt = fields.Char(u'湍流信息', default="待提交")
-    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交")
+    wind_time_txt = fields.Char(u'选取时段', default="待提交", readonly=True)
+    wind_txt = fields.Char(u'风能信息', default="待提交", readonly=True)
+    wind_TI_txt = fields.Char(u'湍流信息', default="待提交", readonly=True)
+    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交", readonly=True)
 
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="0", readonly=True)
@@ -266,38 +267,38 @@ class auto_word_project(models.Model):
     Concrete_words = fields.Char(string=u'混凝土(万m³)', default='待提交')
 
     # 经评
-    capital_rate_12 = fields.Char(string=u'资本金比例')
+    capital_rate_12 = fields.Char(string=u'资本金比例', readonly=True)
 
-    static_investment_12 = fields.Char(string=u'静态总投资')
-    construction_assistance = fields.Char(string=u'施工辅助工程')
-    equipment_installation = fields.Char(string=u'设备及安装工程')
-    constructional_engineering = fields.Char(string=u'建筑工程')
-    other_expenses = fields.Char(string=u'其他费用')
-    static_investment_unit = fields.Char(string=u'单位千瓦静态投资')
+    static_investment_12 = fields.Char(string=u'静态总投资', readonly=True)
+    construction_assistance = fields.Char(string=u'施工辅助工程', readonly=True)
+    equipment_installation = fields.Char(string=u'设备及安装工程', readonly=True)
+    constructional_engineering = fields.Char(string=u'建筑工程', readonly=True)
+    other_expenses = fields.Char(string=u'其他费用', readonly=True)
+    static_investment_unit = fields.Char(string=u'单位千瓦静态投资', readonly=True)
 
-    domestic_bank_loan = fields.Char(string=u'国内银行贷款')
-    interest_construction_loans_12 = fields.Char(string=u'建设期贷款利息')
-    dynamic_investment_12 = fields.Char(string=u'动态总投资')
-    dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资')
+    domestic_bank_loan = fields.Char(string=u'国内银行贷款', readonly=True)
+    interest_construction_loans_12 = fields.Char(string=u'建设期贷款利息', readonly=True)
+    dynamic_investment_12 = fields.Char(string=u'动态总投资', readonly=True)
+    dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资', readonly=True)
 
-    static_investment_13 = fields.Char(string=u'静态总投资')
-    static_investment_unit = fields.Char(string=u'单位千瓦静态投资')
-    dynamic_investment_13 = fields.Char(string=u'动态总投资')
-    dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资')
-    Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率(%)')
-    Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率(%)')
-    Internal_financial_rate_capital = fields.Char(string=u'资本金税后内部收益率(%)')
-    payback_period = fields.Char(string=u'投资回收期(年)')
-    ROI_13 = fields.Char(string=u'总投资收益率(%)')
-    ROE_13 = fields.Char(string=u'资本金利润率(%)')
-    grid_price = fields.Char(string=u'上网电价')
+    static_investment_13 = fields.Char(string=u'静态总投资', readonly=True)
+    static_investment_unit = fields.Char(string=u'单位千瓦静态投资', readonly=True)
+    dynamic_investment_13 = fields.Char(string=u'动态总投资', readonly=True)
+    dynamic_investment_unit = fields.Char(string=u'单位千瓦动态投资', readonly=True)
+    Internal_financial_rate_before = fields.Char(string=u'税前财务收益率(%)', readonly=True)
+    Internal_financial_rate_after = fields.Char(string=u'税后财务收益率(%)', readonly=True)
+    Internal_financial_rate_capital = fields.Char(string=u'资本金税后收益率(%)', readonly=True)
+    payback_period = fields.Char(string=u'投资回收期(年)', readonly=True)
+    ROI_13 = fields.Char(string=u'总投资收益率(%)', readonly=True)
+    ROE_13 = fields.Char(string=u'资本金利润率(%)', readonly=True)
+    grid_price = fields.Char(string=u'上网电价', readonly=True)
 
     report_attachment_id_output1 = fields.Many2one('ir.attachment', string=u'可研报告章节-1')
 
-    conservation_water_soil = fields.Char(string=u'水土保持费用（万元）')
+    conservation_water_soil = fields.Char(string=u'水土保持费用（万元）', readonly=True)
     environmental_protection_investment = fields.Char(string=u'环境保护总投资（万元）')
     capacity_coefficient = fields.Char(string=u'容量系数')
-    IECLevel = fields.Char(string=u'IEC等级')
+    IECLevel = fields.Char(string=u'IEC等级', readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径')
     road_names = fields.Char(string=u'周边道路')
     land_area = fields.Char(string=u'总用地面积')
@@ -372,7 +373,7 @@ class auto_word_project(models.Model):
         # combine_all_docx(Pathoutputx,files,Pathoutput)
 
     def button_project(self):
-        self.Dict_x = dict_project(self)
+        # self.Dict_x = dict_project(self)
 
         # chapter_number = 'x'
         # project_path = self.env['auto_word.project'].project_path + str(chapter_number)
@@ -408,7 +409,7 @@ class auto_word_project(models.Model):
         # else:
         #     self.report_attachment_id_output1.datas = base64.standard_b64encode(byte)
         #
-        # return True
+        return True
         #
 
 class auto_word_null_project(models.Model):

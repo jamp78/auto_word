@@ -186,9 +186,9 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="project_id"/>
-                <!--<field name="version_id"/>-->
-                <!--<field name="write_date"/>-->
-                <!--<field name="write_uid"/>-->
+                <field name="version_id"/>
+                <field name="write_date"/>
+                <field name="write_uid"/>
             </tree>
 
         </field>
@@ -201,18 +201,64 @@
             <form string="Civil_geology">
                 <header>
                     <button name="civil_geology_generate" type="object" groups="auto_word.civil_group_user"
-                    string="生成报告"/>
+                            string="生成报告"/>
                     <button name="submit_civil_geology" type="object" groups="auto_word.civil_group_user"
-                    string="提交报告" confirm="是否确认提交该项目土建资料？"/>
+                            string="提交报告" confirm="是否确认提交该项目土建资料？"/>
                 </header>
                 <sheet>
-                    <group name="group_top">
-                        <group string="项目详情">
+                    <group name="group_top" string="项目详情">
+                        <group>
                             <field name="project_id"/>
+                        </group>
+                        <group>
                             <field name="version_id"/>
                         </group>
                     </group>
 
+                    <group name="group_top" string="区域地质与地震">
+                            <field name="regional_geology"/>
+                            <field name="neotectonic_movements_earthquakes"/>
+                    </group>
+
+                    <group name="group_top" string="场址地质条件与评价">
+                            <field name="topographical_evaluation"/>
+                            <field name="formation_evaluation"/>
+                    </group>
+
+                    <group>
+                        <field name="bad_geology_special_rock"/>
+                    </group>
+
+                    <group name="group_top" string="场址地质条件与评价">
+                            <field name="evaluation_stability_site"/>
+                            <field name="evaluation_building_foundation"/>
+                    </group>
+
+                    <group>
+                        <field name="ground_motion_parameters"/>
+                    </group>
+
+                    <group>
+                        <field name="stability_suitability"/>
+                    </group>
+
+                    <group>
+                        <field name="construction_water"/>
+                    </group>
+
+                    <group>
+                        <field name="natural_building_material"/>
+                    </group>
+                    <group>
+                        <field name="engineering_hydrogeology"/>
+                    </group>
+
+                    <group>
+                        <field name="conclusion"/>
+                    </group>
+                    <group>
+                        <field name="report_attachment_id"/>
+                    </group>
 
                 </sheet>
             </form>

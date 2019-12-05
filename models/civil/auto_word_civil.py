@@ -19,9 +19,9 @@ class auto_word_civil_geology(models.Model):
     topographical_evaluation = fields.Char(u'地形地貌评价')
     formation_evaluation = fields.Char(u'地层岩性评价')
 
-    bad_geology_special_rock = fields.Char(u'不良地质作用与特殊性岩土')
+    bad_geology_special_rock = fields.Char(u'不良地质作用')
 
-    evaluation_stability_site = fields.Char(u'建筑地基评价工程场地稳定性评价')
+    evaluation_stability_site = fields.Char(u'工程场地稳定性评价')
     evaluation_building_foundation = fields.Char(u'建筑地基评价')
 
     ground_motion_parameters = fields.Char(u'地震动参数')
@@ -32,11 +32,71 @@ class auto_word_civil_geology(models.Model):
 
     conclusion = fields.Char(u'结论和建议')
 
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告地质章节')
+
+
+
     def civil_geology_generate(self):
-        pass
+        dict1 = eval(self.project_id.Dict_x)
+        Dict3 = {
+            '区域地质构造': self.regional_geology,
+            '新构造运动及地震': self.neotectonic_movements_earthquakes,
+            '地形地貌评价': self.topographical_evaluation,
+            '地层岩性评价': self.formation_evaluation,
+            '不良地质作用': self.bad_geology_special_rock,
+
+            '工程场地稳定性评价': self.evaluation_stability_site,
+            '建筑地基评价': self.evaluation_building_foundation,
+            '地震动参数': self.ground_motion_parameters,
+            '场地的稳定性与适宜性': self.stability_suitability,
+
+            '施工用水及生活用水水源调查及评价': self.construction_water,
+            '天然建筑材料': self.natural_building_material,
+            '工程水文地质': self.engineering_hydrogeology,
+            '结论和建议': self.conclusion,
+        }
+
+        Dict_3_Final = dict(Dict3, **dict1)
+
+        path_chapter_8 = self.env['auto_word.project'].path_chapter_8
+        generate_civil_docx(Dict_3_Final, path_chapter_8,'cr3','result_chapter3')
+        reportfile_name = open(
+            file=os.path.join(path_chapter_8, '%s.docx') % 'result_chapter3',
+            mode='rb')
+        byte = reportfile_name.read()
+        reportfile_name.close()
+        print('file lenth=', len(byte))
+        base64.standard_b64encode(byte)
+        if (str(self.report_attachment_id) == 'ir.attachment()'):
+            Attachments = self.env['ir.attachment']
+            print('开始创建新纪录')
+            New = Attachments.create({
+                'name': self.project_id.project_name + '可研报告地质章节下载页',
+                'datas_fname': self.project_id.project_name + '可研报告地质章节.docx',
+                'datas': base64.standard_b64encode(byte),
+                'display_name': self.project_id.project_name + '可研报告地质章节',
+                'create_date': fields.date.today(),
+                'public': True,  # 此处需设置为true 否则attachments.read  读不到
+                # 'mimetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                # 'res_model': 'autoreport.project'
+                # 'res_field': 'report_attachment_id'
+            })
+            print('已创建新纪录：', New)
+            print('new dataslen：', len(New.datas))
+            self.report_attachment_id = New
+        else:
+            self.report_attachment_id.datas = base64.standard_b64encode(byte)
+
+        print('new attachment：', self.report_attachment_id)
+        print('new datas len：', len(self.report_attachment_id.datas))
+        return True
+
+
+
 
     def submit_civil_geology(self):
-        pass
+
+        return True
 
 
 class auto_word_civil_design_safety_standard(models.Model):
@@ -99,13 +159,16 @@ class auto_word_civil_design_safety_standard(models.Model):
 
 
 def civil_generate_docx_dict(self):
+
+
+
     self.line_data = [float(self.line_1), float(self.line_2)]
     self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
     self.road_stone_ratio = 10 - self.road_earthwork_ratio
 
     self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
     list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
-            self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, int(self.TurbineCapacity) / 1000,
+            self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, float(self.TurbineCapacity) ,
             self.road_earthwork_ratio / 10,
             self.road_stone_ratio / 10, self.project_id.Status, self.project_id.Grade, self.project_id.Capacity,
             self.TerrainType,
@@ -176,9 +239,10 @@ class auto_word_civil(models.Model):
     version_id = fields.Char(u'版本', required=True, default="1.0")
     road_names = fields.Char(string=u'周边道路')
     # 风能
-    turbine_numbers = fields.Char(u'机位数', readonly=True)
-    name_tur_suggestion = fields.Char(u'推荐机型型号', readonly=True)
+    turbine_numbers = fields.Char(u'推荐机组数量', readonly=True)
+    name_tur_suggestion = fields.Char(u'推荐机型', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
+    TurbineCapacity = fields.Char(string=u"风机容量", required=False, readonly=True)
 
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
     basic_type = fields.Selection(
@@ -196,7 +260,7 @@ class auto_word_civil(models.Model):
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"道路土方比", required=False, default=8)
 
-    TurbineCapacity = fields.Char(string=u"风机容量", required=False, readonly=True)
+
     TerrainType = fields.Char(u'山地类型', readonly=True)
     road_1_num = fields.Float(u'改扩建道路', required=False, default=5)
     road_2_num = fields.Float(u'进站道路', required=False, default=1.5)
@@ -373,7 +437,7 @@ class auto_word_civil(models.Model):
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
 
-        self.TurbineCapacity = projectname.capacity_suggestion
+        self.TurbineCapacity = projectname.TurbineCapacity
         self.TerrainType = projectname.TerrainType
 
         Dict8,Dict_8_Final = civil_generate_docx_dict(self)
@@ -416,7 +480,7 @@ class auto_word_civil(models.Model):
     def civil_generate(self):
         Dict8,Dict_8_Final = civil_generate_docx_dict(self)
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
-        generate_civil_docx(Dict8, path_chapter_8)
+        generate_civil_docx(Dict8, path_chapter_8,'cr8','result_chapter8')
         reportfile_name = open(
             file=os.path.join(path_chapter_8, '%s.docx') % 'result_chapter8',
             mode='rb')

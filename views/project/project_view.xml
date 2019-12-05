@@ -22,8 +22,8 @@
         <field name="arch" type="xml">
             <form string="">
                 <header>
-                     <button name="button_project" type="object" groups="auto_word.project_group_user"
-                            string="生成报告"/>
+                    <!--<button name="button_project" type="object" groups="auto_word.project_group_user"-->
+                            <!--string="生成报告"/>-->
                     <button name="merge_project" type="object" groups="auto_word.project_group_user"
                             string="合并报告"/>
                 </header>
@@ -34,29 +34,50 @@
                             <field name="Farm_words"/>
                             <field name="Location_words"/>
                             <field name="company_id" options="{'no_create_edit': 1}"/>
-                            <field name="TerrainType"/>
-                            <field name="road_names"/>
                             <field name="Elevation_words"/>
-                            <field name="Relative_height_difference_words"/>
-
                         </group>
-                        <group name="group_right">
 
+
+                        <group name="group_right">
                             <field name="Lon_words"/>
                             <field name="Lat_words"/>
                             <field name="area_words"/>
-                            <field name="turbine_numbers_suggestion"/>
-                            <field name="TurbineCapacity"/>
-                            <field name="project_capacity"/>
-                            <field name="ongrid_power"/>
-                            <field name="Hour_words"/>
+                            <field name="Relative_height_difference_words"/>
                         </group>
 
                     </group>
+
                     <group>
                         <field name="summary_txt"/>
-                        <field name="conservation_water_soil"/>
+
                     </group>
+                    <group name="group_right" string="风能资源">
+                            <group>
+                                <field name="name_tur_suggestion"/>
+                                <field name="turbine_numbers_suggestion"/>
+                                <field name="TurbineCapacity"/>
+                                <field name="project_capacity"/>
+                                <field name="ongrid_power"/>
+                                <field name="Hour_words"/>
+                            </group>
+                            <group>
+                                <field name="TerrainType"/>
+                                <field name="main_wind_direction"/>
+                                <field name="PWDLevel"/>
+                                <field name="IECLevel"/>
+                                <field name="max_wind_txt"/>
+                                <field name="hub_height_suggestion"/>
+                            </group>
+                    </group>
+
+                    <group>
+                        <field name="wind_time_txt"/>
+                        <field name="wind_txt"/>
+                        <field name="wind_TI_txt"/>
+                    </group>
+
+
+
                     <group name="group_sumbit" string="项目经济评价" col="3">
                         <group name="group_left">
                             <field name="static_investment_12"/>
@@ -64,13 +85,16 @@
                             <field name="equipment_installation"/>
                             <field name="constructional_engineering"/>
                             <field name="other_expenses"/>
-                            <field name="static_investment_unit"/>
+                            <field name="conservation_water_soil"/>
+
                         </group>
                         <group name="group_mid">
                             <field name="capital_rate_12"/>
                             <field name="interest_construction_loans_12"/>
                             <field name="dynamic_investment_12"/>
                             <field name="dynamic_investment_unit"/>
+                            <field name="static_investment_unit"/>
+                            <field name="grid_price"/>
                         </group>
 
                         <group name="group_right">
@@ -85,24 +109,7 @@
 
                     </group>
 
-                    <group name="group_right" string="风能资源">
-                        <field name="wind_time_txt"/>
-                        <field name="wind_txt"/>
-                        <field name="wind_TI_txt"/>
-                    </group>
-                    <group name="group_wind">
-                        <group>
-                            <field name="PWDLevel"/>
-                            <field name="IECLevel"/>
-                            <field name="max_wind_txt"/>
 
-                        </group>
-                        <group>
-                            <field name="name_tur_suggestion"/>
-                            <field name="turbine_numbers_suggestion"/>
-                            <field name="hub_height_suggestion"/>
-                        </group>
-                    </group>
                     <!--<group name="风机信息">-->
                     <!--<field name="select_turbine_ids"/>-->
                     <!--</group>-->
@@ -179,46 +186,46 @@
                         </group>
                     </group>
 
-                    <group name="group_road" string="投资明细">
-                        <group name="group_left">
-                            <field name="case_name"/>
-                            <field name="investment_E1"/>
-                            <field name="investment_E2"/>
-                            <field name="investment_E3"/>
-                            <field name="investment_E4"/>
-                        </group>
-                        <group name="group_right">
-                            <field name="investment_E5"/>
-                            <field name="investment_E6"/>
-                            <field name="investment_E7"/>
-                            <field name="investment"/>
-                            <field name="investment_unit"/>
-                        </group>
-                    </group>
+                    <!--<group name="group_road" string="投资明细">-->
+                        <!--<group name="group_left">-->
+                            <!--<field name="case_name"/>-->
+                            <!--<field name="investment_E1"/>-->
+                            <!--<field name="investment_E2"/>-->
+                            <!--<field name="investment_E3"/>-->
+                            <!--<field name="investment_E4"/>-->
+                        <!--</group>-->
+                        <!--<group name="group_right">-->
+                            <!--<field name="investment_E5"/>-->
+                            <!--<field name="investment_E6"/>-->
+                            <!--<field name="investment_E7"/>-->
+                            <!--<field name="investment"/>-->
+                            <!--<field name="investment_unit"/>-->
+                        <!--</group>-->
+                    <!--</group>-->
 
-                    <group string="盈利能力分析">
-                        <group name="group_top">
-                            <field name="static_investment_13"/>
-                            <field name="static_investment_unit"/>
-                            <separate/>
-                            <field name="Internal_financial_rate_before"/>
-                            <field name="Internal_financial_rate_after"/>
-                            <field name="Internal_financial_rate_capital"/>
+                    <!--<group string="盈利能力分析">-->
+                        <!--<group name="group_top">-->
+                            <!--<field name="static_investment_13"/>-->
+                            <!--<field name="static_investment_unit"/>-->
+                            <!--<separate/>-->
+                            <!--<field name="Internal_financial_rate_before"/>-->
+                            <!--<field name="Internal_financial_rate_after"/>-->
+                            <!--<field name="Internal_financial_rate_capital"/>-->
 
-                        </group>
-                        <group name="group_top">
-                            <field name="dynamic_investment_13"/>
-                            <field name="dynamic_investment_unit"/>
-                            <separate/>
-                            <field name="payback_period"/>
-                            <field name="ROI_13"/>
-                            <field name="ROE_13"/>
-                        </group>
-                    </group>
+                        <!--</group>-->
+                        <!--<group name="group_top">-->
+                            <!--<field name="dynamic_investment_13"/>-->
+                            <!--<field name="dynamic_investment_unit"/>-->
+                            <!--<separate/>-->
+                            <!--<field name="payback_period"/>-->
+                            <!--<field name="ROI_13"/>-->
+                            <!--<field name="ROE_13"/>-->
+                        <!--</group>-->
+                    <!--</group>-->
 
-                    <group name="group_mid" string="项目资料">
-                        <field name="message_main_attachment_id"/>
-                    </group>
+                    <!--<group name="group_mid" string="项目资料">-->
+                        <!--<field name="message_main_attachment_id"/>-->
+                    <!--</group>-->
                     <group name="group_bottom">
                         <field name="report_attachment_id_output1"/>
                     </group>
