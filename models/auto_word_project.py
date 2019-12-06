@@ -85,16 +85,16 @@ def dict_project_x(self):
         "水土保持": self.conservation_water_soil,
     }
 
-    Dict_x_rest = dict(dict_1_res_word, **dict_14_1, **dict_14_2)
-    for key, value in Dict_x_rest.items():
+    dict_x_rest = dict(dict_1_res_word, **dict_14_1, **dict_14_2)
+    for key, value in dict_x_rest.items():
         gl.set_value(key, value)
 
-    Dict_x = gl._global_dict
+    dict_x = gl._global_dict
 
     print('gl._global_dict')
     print(gl._global_dict)
 
-    return Dict_x
+    return dict_x
 
 
 # Filename_master is the name of the file you want to merge all the document into
@@ -324,10 +324,10 @@ class auto_word_project(models.Model):
     dict_12_word_post = fields.Char(string=u'字典12')
     dict_13_word_post = fields.Char(string=u'字典13')
 
-    Dict_x = fields.Char(string=u'字典x')
+    dict_x = fields.Char(string=u'字典x')
     def merge_project(self):
 
-        Dict_x = dict_project_x(self)
+        dict_x = dict_project_x(self)
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
@@ -338,7 +338,7 @@ class auto_word_project(models.Model):
         # Pathinput = os.path.join(project_path, '%s') % inputfile
         Pathoutput = os.path.join(project_path, '%s') % outputfile
 
-        generate_docx(Dict_x, project_path, model_name, outputfile)
+        generate_docx(dict_x, project_path, model_name, outputfile)
 
         # ###########################
 

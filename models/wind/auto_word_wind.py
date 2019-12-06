@@ -221,6 +221,7 @@ def cal_wind_result(self):
         'IEC等级': self.IECLevel,
         "风速区间": self.farm_speed_range_words,
 
+        "平均温度": self.Temperature_txt,
         "平均海拔": ave_elevation,
         "尾流后平均风速": ave_AverageWindSpeed_Weak,
         "平均发电量": ave_powerGeneration,
@@ -290,6 +291,9 @@ class auto_word_wind(models.Model):
     TerrainType = fields.Selection(
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
+
+####
+    Temperature_txt = fields.Char(u'平均温度', default="待提交")
 
     wind_time_txt = fields.Char(u'选取时段', default="待提交")
     wind_txt = fields.Char(u'风能信息', default="待提交")
