@@ -211,9 +211,14 @@ def cal_wind_result(self):
         "满发小时": ave_hours_year,
         "容量系数": capacity_coefficient,
         "风功率密度等级": self.PWDLevel,
-        "选取时段": self.wind_time_txt,
-        "风能信息": self.wind_txt,
-        "湍流信息": self.wind_TI_txt,
+
+        "风速信息": self.string_speed_words,
+        "选取时段": self.cft_time_words,
+        "湍流信息": self.cft_TI_words,
+        "风向信息": self.string_deg_words,
+        "测风塔数目": self.cft_number_words,
+        '测风塔名字': self.cft_name_words,
+
         "五十年一遇最大风速": self.max_wind_txt,
         "五十年一遇极大风速": extreme_wind,
         "折减率": self.project_id.rate,
@@ -231,9 +236,12 @@ def cal_wind_result(self):
         "尾流损失修正系数": ave_weak_res_xz,
         "尾流修正后的总理论发电量": total_powerGeneration_weak,
         "空气密度": self.air_density_words,
-        '测风塔名字': self.cft_name_words,
-        '测风塔风速信息': self.string_speed_words,
-        '测风塔风向信息': self.string_deg_words,
+
+
+
+
+
+
         'WTG数量': str(len(self.select_turbine_ids)),
         '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
         '限制性因素': self.project_id.limited_words,
@@ -295,15 +303,16 @@ class auto_word_wind(models.Model):
 ####
     Temperature_txt = fields.Char(u'平均温度', default="待提交")
 
-    wind_time_txt = fields.Char(u'选取时段', default="待提交")
-    wind_txt = fields.Char(u'风能信息', default="待提交")
-    wind_TI_txt = fields.Char(u'湍流信息', default="待提交")
     max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交")
 
     # --------测风信息---------
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
-    string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交", readonly=True)
-    string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交", readonly=True)
+    string_speed_words = fields.Char(string=u'风速信息', default="待提交", readonly=True)
+    string_deg_words = fields.Char(string=u'风向信息', default="待提交", readonly=True)
+    cft_number_words = fields.Char(string=u'测风塔数目', default="待提交", readonly=True)
+
+    cft_TI_words = fields.Char(string=u'湍流信息', default="待提交", readonly=True)
+    cft_time_words = fields.Char(string=u'选取时间段', default="待提交", readonly=True)
 
     note = fields.Char(string=u'备注', readonly=False)
 
@@ -424,9 +433,11 @@ class auto_word_wind(models.Model):
         self.project_id.farm_speed_range_words = self.farm_speed_range_words
         self.project_id.TerrainType = self.TerrainType
 
-        self.project_id.wind_time_txt = self.wind_time_txt
-        self.project_id.wind_txt = self.wind_txt
-        self.project_id.wind_TI_txt = self.wind_TI_txt
+        self.project_id.wind_time_txt = self.cft_time_words
+        self.project_id.wind_txt = self.string_speed_words
+        self.project_id.wind_TI_txt = self.cft_TI_words
+
+
         self.project_id.max_wind_txt = self.max_wind_txt
 
         if self.limited_1 == True:

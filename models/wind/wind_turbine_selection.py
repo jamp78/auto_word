@@ -14,6 +14,9 @@ class wind_cft_infor(models.Model):
     cft_deg_main = fields.Char(string=u'主风向')
     cft_deg_pwd_main = fields.Char(string=u'风能主风向')
 
+    cft_TI = fields.Char(string=u'湍流信息')
+    cft_time = fields.Char(string=u'选取时间段')
+
 
 class auto_word_wind_cft(models.Model):
     _name = 'auto_word_wind.cft'
@@ -25,6 +28,11 @@ class auto_word_wind_cft(models.Model):
     string_speed_words = fields.Char(string=u'测风塔选定风速结果', compute='_compute_cft')
     string_deg_words = fields.Char(string=u'测风塔选定风向结果', compute='_compute_cft')
     cft_name_words = fields.Char(string=u'测风塔名字', compute='_compute_cft')
+    cft_number_words = fields.Char(string=u'测风塔数目', compute='_compute_cft')
+
+    cft_TI_words = fields.Char(string=u'湍流信息', compute='_compute_cft')
+    cft_time_words = fields.Char(string=u'选取时间段', compute='_compute_cft')
+
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
 
     name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交",
@@ -47,12 +55,16 @@ class auto_word_wind_cft(models.Model):
                     name_tur_selection_words = name_tur_selection_word
 
             re.name_tur_selection = name_tur_selection_words
+
     @api.depends('select_cft_ids')
     def _compute_cft(self):
         for re in self:
             string_speed_words_final = ""
             string_deg_words_final = ""
             cft_name_words_final = ""
+            string_cft_TI_words_final=""
+            string_cft_time_words_final=""
+            self.cft_number_words = len(re.select_cft_ids)
             for i in range(0, len(re.select_cft_ids)):
                 re.cft_name = re.select_cft_ids[i].cft_name
                 re.cft_height = re.select_cft_ids[i].cft_height
@@ -60,23 +72,34 @@ class auto_word_wind_cft(models.Model):
                 re.cft_pwd = re.select_cft_ids[i].cft_pwd
                 re.cft_deg_main = re.select_cft_ids[i].cft_deg_main
                 re.cft_deg_pwd_main = re.select_cft_ids[i].cft_deg_pwd_main
-    
+
+                re.cft_TI = re.select_cft_ids[i].cft_TI
+                re.cft_time = re.select_cft_ids[i].cft_time
+
                 string_speed_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "m高度年平均风速为" + str(re.cft_speed) + \
                                     "m/s,风功率密度为" + str(re.cft_pwd) + "W/m²。"
                 string_speed_words_final = string_speed_word + string_speed_words_final
-    
+
                 string_deg_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "m测层风向" + str(re.cft_deg_main) + \
                                   "；主风能风向" + str(re.cft_deg_pwd_main) + "。"
                 string_deg_words_final = string_deg_word + string_deg_words_final
-                if i != len(re.select_cft_ids)-1:
+
+                string_cft_TI_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "m测层代表湍流强度" + str(re.cft_TI) + "。"
+                string_cft_TI_words_final = string_cft_TI_word + string_cft_TI_words_final
+
+                string_cft_time_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "选取" + str(re.cft_time) + "。"
+                string_cft_time_words_final = string_cft_time_word + string_cft_time_words_final
+
+                if i != len(re.select_cft_ids) - 1:
                     cft_name_words_final = re.cft_name + "/" + cft_name_words_final
                 else:
-                    cft_name_words_final = cft_name_words_final+re.cft_name
-    
+                    cft_name_words_final = cft_name_words_final + re.cft_name
+
             re.cft_name_words = cft_name_words_final
             re.string_speed_words = string_speed_words_final
             re.string_deg_words = string_deg_words_final
-
+            re.cft_TI_words = string_cft_TI_words_final
+            re.cft_time_words = string_cft_time_words_final
 
     def button_cft(self):
 
@@ -86,13 +109,18 @@ class auto_word_wind_cft(models.Model):
             re.project_id.select_turbine_ids = re.select_turbine_ids
             re.project_id.cft_name_words = re.cft_name_words
             re.project_id.name_tur_selection = re.name_tur_selection
+            re.project_id.cft_number_words = re.cft_number_words
 
-            re.env['auto_word.wind'].search([('project_id.project_name', '=', re.project_id.project_name)]).select_turbine_ids = re.select_turbine_ids
+            re.env['auto_word.wind'].search([('project_id.project_name', '=',
+                                              re.project_id.project_name)]).select_turbine_ids = re.select_turbine_ids
 
             # re.wind_id.select_turbine_ids=re.select_turbine_ids
             re.wind_id.cft_name_words = re.cft_name_words
-            re.wind_id.string_speed_words=re.string_speed_words
+            re.wind_id.string_speed_words = re.string_speed_words
             re.wind_id.string_deg_words = re.string_deg_words
+            re.wind_id.cft_number_words = re.cft_number_words
 
+            re.wind_id.cft_TI_words = re.cft_TI_words
+            re.wind_id.cft_time_words = re.cft_time_words
 
         return True

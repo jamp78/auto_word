@@ -11,6 +11,8 @@
                 <field name="cft_pwd"/>
                 <field name="cft_deg_main"/>
                 <field name="cft_deg_pwd_main"/>
+                <field name="cft_TI"/>
+                <field name="cft_time"/>
            </tree>
         </field>
     </record>
@@ -27,6 +29,8 @@
                     <field name="cft_pwd"/>
                     <field name="cft_deg_main"/>
                     <field name="cft_deg_pwd_main"/>
+                    <field name="cft_TI"/>
+                    <field name="cft_time"/>
                 </group>
             </form>
         </field>
@@ -40,8 +44,10 @@
                 <field name="project_id"/>
                 <field name="wind_id"/>
                 <field name="cft_name_words"/>
+                <field name="cft_time_words"/>
                 <field name="string_speed_words"/>
                 <field name="string_deg_words"/>
+                <field name="cft_TI_words"/>
                 <field name="select_cft_ids"/>
                 <field name="select_turbine_ids"/>
             </tree>
@@ -62,8 +68,10 @@
                     <field name="project_id"/>
                     <field name="wind_id"/>
                     <field name="cft_name_words"/>
+                    <field name="cft_time_words"/>
                     <field name="string_speed_words"/>
                     <field name="string_deg_words"/>
+                    <field name="cft_TI_words"/>
                     <field name="select_cft_ids"/>
                     <field name="select_turbine_ids"/>
                 </group>

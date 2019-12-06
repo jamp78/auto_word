@@ -242,6 +242,9 @@ class auto_word_civil(models.Model):
     _description = 'Civil input'
     _rec_name = 'project_id'
     # _inherit = ['auto_word_civil.windbase']
+    # 提交
+    dict_8_word_post = fields.Char(u'字典8_提交')
+
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
     road_names = fields.Char(string=u'周边道路')
@@ -426,6 +429,7 @@ class auto_word_civil(models.Model):
         projectname.line_2 = self.line_2
 
         projectname.civil_all = self
+        self.project_id.dict_8_word_post = self.dict_8_word_post
 
         return True
 
@@ -448,6 +452,8 @@ class auto_word_civil(models.Model):
         self.TerrainType = projectname.TerrainType
 
         dict_8_words, dict_8_word = civil_generate_docx_dict(self)
+        self.dict_8_word_post=dict_8_word
+
         self.EarthExcavation_WindResource = dict_8_words['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = dict_8_words['石方开挖_风机_numbers']
         self.EarthWorkBackFill_WindResource = dict_8_words['土石方回填_风机_numbers']

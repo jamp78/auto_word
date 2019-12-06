@@ -190,10 +190,15 @@ class auto_word_project(models.Model):
     main_wind_direction = fields.Char(u'主风向', default="待提交", readonly=True)
     summary_txt = fields.Char(u'概述', default="待提交", required=True)
 
-    wind_time_txt = fields.Char(u'选取时段', default="待提交", readonly=True)
-    wind_txt = fields.Char(u'风能信息', default="待提交", readonly=True)
-    wind_TI_txt = fields.Char(u'湍流信息', default="待提交", readonly=True)
     max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交", readonly=True)
+
+    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
+    string_speed_words = fields.Char(string=u'风速信息', default="待提交", readonly=True)
+    string_deg_words = fields.Char(string=u'风向信息', default="待提交", readonly=True)
+    cft_number_words = fields.Char(string=u'测风塔数目', default="待提交", readonly=True)
+
+    cft_TI_words = fields.Char(string=u'湍流信息', default="待提交", readonly=True)
+    cft_time_words = fields.Char(string=u'选取时间段', default="待提交", readonly=True)
 
     ###电气
     line_1 = fields.Char(u'线路总挖方', default="0", readonly=True)

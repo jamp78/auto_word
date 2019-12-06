@@ -120,9 +120,10 @@ def cal_economy_result(self):
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
 
-        print(self.project_id.Dict_5_Final)
-        dict5 = eval(self.project_id.Dict_5_Final)
-        # dict8 = eval(self.project_id.Dict_8_Final)
+        dict5 = eval(self.project_id.dict_5_word_post)
+        print('self.project_id.dict_8_word_post')
+        print(self.project_id.dict_8_word_post)
+        dict8 = eval(self.project_id.dict_8_word_post)
 
         if chapter_number == 12:
             col_name_0 = ['设备', '单位', '设备价', '备注']
@@ -368,7 +369,7 @@ def cal_economy_result(self):
             }
 
             Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word, **dict5,
-                          # **dict8
+                          **dict8
                           )
             Dict_12_Final = dict(dict_12_word, **dict_12_res_word, **dictMerged)
             for key, value in Dict_12_Final.items():
@@ -500,7 +501,7 @@ def cal_economy_result(self):
             }
 
             Dict13 = dict(dict_12_word, **dictMerged, **dict_13_res_word, **self.dict_12_res_word, **dict5,
-                          # **dict8
+                          **dict8
                           )
             Dict_13_Final = dict(dictMerged, **dict_13_res_word)
 

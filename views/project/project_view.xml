@@ -71,9 +71,11 @@
                     </group>
 
                     <group>
-                        <field name="wind_time_txt"/>
-                        <field name="wind_txt"/>
-                        <field name="wind_TI_txt"/>
+                        <field name="cft_name_words"/>
+                        <field name="cft_time_words"/>
+                        <field name="string_speed_words"/>
+                        <field name="string_deg_words"/>
+                        <field name="cft_TI_words"/>
                     </group>
 
 

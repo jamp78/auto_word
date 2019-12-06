@@ -59,13 +59,22 @@
                             <field name="PWDLevel"/>
                             <field name="max_wind_txt"/>
                         </group>
-                        <!--<field name="project_res" />-->
                     </group>
                     <group name="group_right" string="风能资源">
-                        <field name="wind_time_txt"/>
-                        <field name="wind_txt"/>
-                        <field name="wind_TI_txt"/>
+                        <group name="group_right">
+                            <field name="cft_name_words"/>
+                        </group>
+                        <group name="group_left">
+                            <field name="cft_number_words"/>
+                        </group>
                     </group>
+                    <group name="group_left">
+                        <field name="cft_time_words"/>
+                        <field name="string_speed_words"/>
+                        <field name="string_deg_words"/>
+                        <field name="cft_TI_words"/>
+                    </group>
+
                     <group string="限制性因素排查">
                         <group name="group_right">
                             <field name="limited_1"/>
@@ -76,16 +85,6 @@
                         </group>
                     </group>
 
-                    <group string="风资源相关信息">
-                        <group name="group_right">
-                            <field name="cft_name_words"/>
-                            <field name="string_speed_words"/>
-                        </group>
-                        <group name="group_left">
-
-                            <field name="string_deg_words"/>
-                        </group>
-                    </group>
 
                     <group string="机型推荐">
                         <group name="group_left">
