@@ -78,25 +78,8 @@ class auto_word_wind_turbines_compare(models.Model):
     #         re.weak = re.res_form.wake_average
     #         re.hub_height_suggestion = re.res_form.hub_height_calcuation
 
-    def wind_turbines_compare_form_submit(self):
-        for re in self:
-            re.content_id.rotor_diameter_case = re.rotor_diameter_case
-            re.env['auto_word.wind'].search([('project_id.project_name', '=',
-                                              re.project_id.project_name)]).recommend_id = re
 
-    def take_result_refresh(self):
-        for re in self:
-            re.jidian_air_wind = re.project_id.jidian_air_wind
-            re.jidian_cable_wind = re.project_id.jidian_cable_wind
-            re.investment_E4 = re.project_id.investment_E4
-
-            re.ongrid_power = re.res_form.ongrid_power_sum
-            re.hours_year = re.res_form.hours_year_average
-            re.weak = re.res_form.wake_average
-            re.hub_height_suggestion = re.res_form.hub_height_calcuation
-
-
-    def take_compare_result(self):
+    def cal_compare_result(self):
         investment_e1_sum, investment_e2_sum, investment_e3_sum = 0, 0, 0
         investment_e5_sum, investment_e6_sum = 0, 0
         for re in self:
@@ -285,8 +268,24 @@ class auto_word_wind_turbines_compare(models.Model):
 
             re.investment = RoundUp.round_up(re.investment_E1 + re.investment_E2 + re.investment_E3 + re.investment_E4 + \
                                              re.investment_E5 + re.investment_E6 + re.investment_E7)
-            # re.ongrid_power=re.res_form.ongrid_power_sum
 
             if re.ongrid_power != 0:
                 re.investment_unit = RoundUp.round_up3(
                     (re.investment / float(re.ongrid_power) * 10), 3)
+    def submit_turbines_compare(self):
+        for re in self:
+            re.content_id.rotor_diameter_case = re.rotor_diameter_case
+            re.env['auto_word.wind'].search([('project_id.project_name', '=',
+                                              re.project_id.project_name)]).recommend_id = re
+
+
+    def result_refresh(self):
+        for re in self:
+            re.jidian_air_wind = re.project_id.jidian_air_wind
+            re.jidian_cable_wind = re.project_id.jidian_cable_wind
+            re.investment_E4 = re.project_id.investment_E4
+
+            re.ongrid_power = re.res_form.ongrid_power_sum
+            re.hours_year = re.res_form.hours_year_average
+            re.weak = re.res_form.wake_average
+            re.hub_height_suggestion = re.res_form.hub_height_calcuation

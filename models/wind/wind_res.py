@@ -67,7 +67,7 @@ class auto_word_wind_res_form(models.Model):
     rate = fields.Float(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
 
-    case_name = fields.Char(u'方案名称(结果)', readonly=True)
+    case_name = fields.Char(u'方案名称(结果)', required=True)
     hub_height_calcuation = fields.Char(string=u'计算轮毂高度', readonly=True)
 
     ongrid_power_sum = fields.Char(u'上网电量(结果)', readonly=True)
@@ -115,7 +115,6 @@ class auto_word_wind_res_form(models.Model):
             re.ongrid_power_sum = round_up(Get_Sum(ongrid_power_list), 1)
             re.hours_year_average = round_up(Get_Average(hours_year_list), 1)
             re.wake_average = round_up(Get_Average(wake_list), 2)
-            re.case_name = re.auto_word_wind_res[0].case_name
 
             re.capacity_coefficient = round_up(float(re.hours_year_average) / 8760 * 100, 2)
             re.hub_height_calcuation = re.auto_word_wind_res[0].H
