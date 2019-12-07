@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b61773cf-16a4-4355-a7c1-a006fe9551bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter3.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter3.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx_final.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx_final.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -343,7 +335,7 @@
       <workItem from="1575673314089" duration="281000" />
       <workItem from="1575677878090" duration="231000" />
       <workItem from="1575678130056" duration="52000" />
-      <workItem from="1575678493393" duration="657000" />
+      <workItem from="1575678493393" duration="667000" />
     </task>
     <task id="LOCAL-00001" summary="home 20191124">
       <created>1574602904229</created>
@@ -408,11 +400,18 @@
       <option name="project" value="LOCAL" />
       <updated>1575678177342</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="home 20191207">
+      <created>1575679517903</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1575679517903</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45416000" />
+    <option name="totallyTimeSpent" value="45426000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -427,13 +426,13 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48427674" visible="true" weight="0.25" />
-      <window_info id="Structure" order="1" sideWeight="0.5157233" side_tool="true" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48481563" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" sideWeight="0.5151844" side_tool="true" visible="true" weight="0.25" />
       <window_info id="DB Browser" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.31019524" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989339" weight="0.31019524" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
