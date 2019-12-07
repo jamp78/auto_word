@@ -433,9 +433,9 @@ class auto_word_wind(models.Model):
         self.project_id.farm_speed_range_words = self.farm_speed_range_words
         self.project_id.TerrainType = self.TerrainType
 
-        self.project_id.wind_time_txt = self.cft_time_words
-        self.project_id.wind_txt = self.string_speed_words
-        self.project_id.wind_TI_txt = self.cft_TI_words
+        self.project_id.cft_time_words = self.cft_time_words
+        self.project_id.string_speed_words = self.string_speed_words
+        self.project_id.cft_TI_words = self.cft_TI_words
 
 
         self.project_id.max_wind_txt = self.max_wind_txt
