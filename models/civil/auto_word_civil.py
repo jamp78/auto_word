@@ -231,6 +231,10 @@ def civil_generate_docx_dict(self):
 
     dict_8_words = dict(dict_8_word, **dict5, **dict3, **dict1)
 
+    print("dict_8_word")
+    print(dict_8_words)
+    print("dict_8_word")
+
     for key, value in dict_8_word.items():
         gl.set_value(key, value)
 
