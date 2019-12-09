@@ -19,34 +19,33 @@
 
                         <group name="group_left">
                             <field name="project_id" />
-                            <field name="content_id" />
                         </group>
                         <group name="group_left">
-                            <field name="TerrainType_turbines_compare" />
-                         </group>
+                            <!--<field name="TerrainType_turbines_compare" />-->
+                            <field name="content_id" />
+                        </group>
                     </group>
                     <group name="group_mid">
                         <field name="case_ids" />
-
                     </group>
 
-                    <group name="group_mid">
-                        <group name="left">
-                            <field name="tower_weight" />
-                            <field name="turbine_numbers" />
-                            <field name="rotor_diameter_case" />
-                        </group>
-                        <group name="right">
-                            <field name="capacity" />
-                            <field name="farm_capacity" />
-                        </group>
-                    </group>
+                    <!--<group name="group_mid">-->
+                        <!--<group name="left">-->
+                            <!--<field name="tower_weight" />-->
+                            <!--<field name="turbine_numbers" />-->
+                            <!--<field name="rotor_diameter_case" />-->
+                        <!--</group>-->
+                        <!--<group name="right">-->
+                            <!--<field name="capacity" />-->
+                            <!--<field name="farm_capacity" />-->
+                        <!--</group>-->
+                    <!--</group>-->
 
                     <group name="group_mid">
                         <group name="left">
                             <field name="res_form" />
-                            <field name="WTG_name" />
-                            <field name="weak" />
+                            <field name="capacity" />
+                            <field name="farm_capacity" />
                         </group>
                         <group name="right">
                             <field name="hub_height_suggestion" />
@@ -58,7 +57,7 @@
                         <group name="group_left">
                             <field name="jidian_air_wind" />
                             <field name="jidian_cable_wind" />
-                            <field name="investment_turbines_kws" />
+                            <!--<field name="investment_turbines_kws" />-->
                             <field name="investment_E1" />
                             <field name="investment_E2" />
                             <field name="investment_E3" />

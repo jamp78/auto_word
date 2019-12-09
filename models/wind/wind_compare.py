@@ -23,7 +23,7 @@ class auto_word_wind_turbines_compare(models.Model):
     case_name = fields.Char(u'方案名称')
     ongrid_power = fields.Char(u'上网电量(结果)', readonly=False)
     hours_year = fields.Char(u'年发电小时数(结果)', readonly=False)
-    weak = fields.Char(u'尾流衰减(结果)', readonly=False)
+    weak = fields.Char(u'尾流衰减(结果)', readonly=True)
     hub_height_suggestion = fields.Char(string=u'推荐轮毂高度')
 
     # ongrid_power = fields.Char(u'上网电量(结果)', readonly=False, compute='_compute_ongrid_power')
@@ -33,16 +33,19 @@ class auto_word_wind_turbines_compare(models.Model):
 
     TerrainType_turbines_compare = fields.Char(string=u'山地类型')
 
-    jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
-    jidian_cable_wind = fields.Float(u'电缆长度', default=0, help='若不填写即采用电气集电线路')
+    # jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
+    # jidian_cable_wind = fields.Float(u'电缆长度', default=0, help='若不填写即采用电气集电线路')
+
+    jidian_air_wind = fields.Char(u'架空长度', readonly=True)
+    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True)
 
     case_ids = fields.Many2many('wind_turbines.case', string=u'方案机型')
     cal_id = fields.Selection([(0, u"线性"), (1, u"非线性")], string=u"采用算法")
 
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, default="0")
     name_tur = fields.Char(string=u'风机类型', readonly=True, default="待提交")
-    capacity = fields.Char(string=u'风机容量', readonly=True, default="1")
-    farm_capacity = fields.Char(string=u'装机容量', readonly=True, default="0")
+    capacity = fields.Char(string=u'风机容量', readonly=True)
+    farm_capacity = fields.Char(string=u'装机容量', readonly=True)
     tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
     rotor_diameter_case = fields.Char(string=u'叶轮直径', default="待提交")
 
@@ -56,8 +59,6 @@ class auto_word_wind_turbines_compare(models.Model):
     rated_power_suggestion = fields.Float(u'推荐额定功率', readonly=False)
     voltage_suggestion = fields.Float(u'推荐额定电压', readonly=False)
 
-
-
     investment_E1 = fields.Float(string=u'塔筒投资(万元)')
     investment_E2 = fields.Float(string=u'风机设备投资(万元)')
     investment_E3 = fields.Float(string=u'基础投资(万元)', required=False, )
@@ -65,7 +66,7 @@ class auto_word_wind_turbines_compare(models.Model):
     investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, )
     investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, )
     investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, )
-    investment_turbines_kws = fields.Char(u'风机kw投资', )
+    investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True)
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, )
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, )
 
@@ -78,8 +79,9 @@ class auto_word_wind_turbines_compare(models.Model):
     #         re.weak = re.res_form.wake_average
     #         re.hub_height_suggestion = re.res_form.hub_height_calcuation
 
-
     def cal_compare_result(self):
+        self.case_name=self.res_form.case_name
+
         investment_e1_sum, investment_e2_sum, investment_e3_sum = 0, 0, 0
         investment_e5_sum, investment_e6_sum = 0, 0
         for re in self:
@@ -112,6 +114,10 @@ class auto_word_wind_turbines_compare(models.Model):
                 re.farm_capacity = int(re.case_ids[i].turbine_numbers) * float(re.case_ids[i].capacity) + float(
                     re.farm_capacity)
 
+                print("investment_e1")
+                print(re.case_ids[i].tower_weight)
+                print(re.case_ids[i].turbine_numbers)
+                print(re.hub_height_suggestion)
                 investment_e1 = RoundUp.round_up(
                     re.case_ids[i].tower_weight * re.case_ids[i].turbine_numbers * 1.05 * int(
                         re.hub_height_suggestion) / 90)
@@ -272,12 +278,12 @@ class auto_word_wind_turbines_compare(models.Model):
             if re.ongrid_power != 0:
                 re.investment_unit = RoundUp.round_up3(
                     (re.investment / float(re.ongrid_power) * 10), 3)
+
     def submit_turbines_compare(self):
         for re in self:
             re.content_id.rotor_diameter_case = re.rotor_diameter_case
             re.env['auto_word.wind'].search([('project_id.project_name', '=',
                                               re.project_id.project_name)]).recommend_id = re
-
 
     def result_refresh(self):
         for re in self:

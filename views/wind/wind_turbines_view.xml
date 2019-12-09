@@ -77,8 +77,10 @@
             <tree>
                 <field name="name_tur"/>
                 <field name="capacity" />
-                <!--<field name="case_hub_height" />-->
+                <field name="rotor_diameter" />
+                <field name="rotor_swept_area" />
                 <field name="turbine_numbers" />
+
             </tree>
         </field>
     </record>
