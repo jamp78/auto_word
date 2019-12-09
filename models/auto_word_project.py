@@ -124,6 +124,7 @@ class auto_word_project(models.Model):
     economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_'
     path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
+    path_chapter_6 = r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6'
 
     # 项目字段
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
@@ -324,6 +325,8 @@ class auto_word_project(models.Model):
 
 
     dict_3_word_post = fields.Char(string=u'字典3')
+    dict_4_word_post = fields.Char(string=u'字典4')
+
     dict_5_word_post = fields.Char(string=u'字典5')
     dict_8_word_post = fields.Char(string=u'字典8_9')
     dict_12_word_post = fields.Char(string=u'字典12')

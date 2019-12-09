@@ -76,4 +76,58 @@
 
         </field>
     </record>
+
+
+    <record id="view_tree_electrical_infor" model="ir.ui.view">
+        <field name="name">Electrical_Information_tree</field>
+        <field name="model">auto_word_electrical.infor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name = "project_id"/>
+                <field name = "version_id"/>
+                <field name = "write_date"/>
+                <field name = "write_uid"/>
+            </tree>
+
+        </field>
+    </record>
+    <record id="view_form_electrical_infor" model="ir.ui.view">
+        <field name="name">Electrical_Information_Form</field>
+        <field name="model">auto_word_electrical.infor</field>
+        <field name="arch" type="xml">
+            <form string="Electrical">
+                <header>
+                 <button name="generate_electrical_infor" type="object" groups="auto_word.electrical_group_user"
+                           string="生成报告" />
+                  <button name="submit_electrical_infor" type="object"  groups="auto_word.electrical_group_user"
+                           string="提交报告" confirm="是否确认提交该项目电气资料？" />
+               </header>
+                <sheet>
+                    <group name="group_top">
+                         <group name="group_left">
+                            <field name="project_id" />
+                            <field name="booster_station_construction_site" />
+                         </group>
+                         <group name="group_right">
+                            <field name="version_id" />
+                          </group>
+                    </group>
+                    <group name="group_mid">
+                        <field name="socio_economic_infor" />
+                        <field name="energy_development_plan" />
+                        <field name="power_system_development_plan" />
+                        <field name="engineering_construction_necessity" />
+                        <field name="project_electrical_description" />
+                    </group>
+                   <group name="group_buttom">
+                        <field name="report_attachment_id" />
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+
+
 </odoo>

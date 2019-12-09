@@ -3,6 +3,89 @@
 from odoo import models, fields, api
 import doc_6
 import base64,os
+import global_dict as gl
+from doc_8 import generate_civil_dict, generate_civil_docx, get_dict_8
+
+class auto_word_electrical_infor(models.Model):
+    _name = 'auto_word_electrical.infor'
+    _description = 'electrical input infor'
+    _rec_name = 'project_id'
+    project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
+    version_id = fields.Char(u'版本', required=True, default="1.0")
+    booster_station_construction_site = fields.Char(u'升压站建设地点')
+
+    socio_economic_infor = fields.Char(u'社会经济概况')
+    energy_development_plan = fields.Char(u'能源发展规划')
+    power_system_development_plan = fields.Char(u'电力系统现状')
+    engineering_construction_necessity = fields.Char(u'工程建设的必要性')
+    project_electrical_description = fields.Char(u'项目电气描述')
+
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'工程任务和规模')
+
+    # 提交
+    dict_4_word_post = fields.Char(u'字典4_提交')
+    # 提取
+    dict_1_word_post = fields.Char(u'字典1_提交')
+    dict_5_word_post = fields.Char(u'字典5_提交')
+
+
+    def generate_electrical_infor(self):
+        self.dict_1_word_post = eval(self.project_id.dict_1_word_post)
+        self.dict_5_word_post = eval(self.project_id.dict_5_word_post)
+
+        dict_4_word = {
+            '升压站建设地点': self.booster_station_construction_site,
+            '社会经济概况': self.socio_economic_infor,
+            '能源发展规划': self.energy_development_plan,
+            '电力系统现状': self.power_system_development_plan,
+            '工程建设的必要性': self.engineering_construction_necessity,
+            '项目电气描述': self.project_electrical_description,
+        }
+
+        self.dict_4_word_post = dict_4_word
+
+        dict_4_words = dict(dict_4_word, **eval(self.dict_1_word_post), **eval(self.dict_5_word_post))
+
+        for key, value in dict_4_word.items():
+            gl.set_value(key, value)
+
+        path_chapter_6 = self.env['auto_word.project'].path_chapter_6
+        generate_civil_docx(dict_4_words, path_chapter_6, 'cr4', 'result_chapter4')
+        reportfile_name = open(
+            file=os.path.join(path_chapter_6, '%s.docx') % 'result_chapter4',
+            mode='rb')
+        byte = reportfile_name.read()
+        reportfile_name.close()
+        print('file lenth=', len(byte))
+        base64.standard_b64encode(byte)
+        if (str(self.report_attachment_id) == 'ir.attachment()'):
+            Attachments = self.env['ir.attachment']
+            print('开始创建新纪录')
+            New = Attachments.create({
+                'name': self.project_id.project_name + '可研报告工程规模章节下载页',
+                'datas_fname': self.project_id.project_name + '可研报告工程规模章节.docx',
+                'datas': base64.standard_b64encode(byte),
+                'display_name': self.project_id.project_name + '可研报告工程规模章节',
+                'create_date': fields.date.today(),
+                'public': True,  # 此处需设置为true 否则attachments.read  读不到
+                # 'mimetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                # 'res_model': 'autoreport.project'
+                # 'res_field': 'report_attachment_id'
+            })
+            print('已创建新纪录：', New)
+            print('new dataslen：', len(New.datas))
+            self.report_attachment_id = New
+        else:
+            self.report_attachment_id.datas = base64.standard_b64encode(byte)
+
+        print('new attachment：', self.report_attachment_id)
+        print('new datas len：', len(self.report_attachment_id.datas))
+        return True
+
+
+    def submit_electrical_infor(self):
+        self.project_id.dict_4_word_post = self.dict_4_word_post
+        return True
 
 
 class auto_word_electrical(models.Model):
