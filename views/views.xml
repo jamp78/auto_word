@@ -308,6 +308,7 @@
 
 
     <menuitem name="自动编制报告系统" id="auto_word.menu_root"/>
+    <!--<menuitem name="自动编制项目申请报告" id="auto_word.menu_root"/>-->
     -->
 
     <menuitem name="项目" id="auto_word_project" parent="auto_word.menu_root" sequence="1"/>
