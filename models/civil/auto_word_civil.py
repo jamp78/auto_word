@@ -225,15 +225,7 @@ def civil_generate_docx_dict(self):
 
     dict_8_word = dict(dict_8_word_part, **dict8)
 
-    print("dict_8_word")
-    print(dict_8_word)
-    print("dict_8_word")
-
     dict_8_words = dict(dict_8_word, **dict5, **dict3, **dict1)
-
-    print("dict_8_word")
-    print(dict_8_words)
-    print("dict_8_word")
 
     for key, value in dict_8_word.items():
         gl.set_value(key, value)
@@ -456,7 +448,7 @@ class auto_word_civil(models.Model):
         self.TerrainType = projectname.TerrainType
 
         dict_8_words, dict_8_word = civil_generate_docx_dict(self)
-        self.dict_8_word_post=dict_8_word
+        self.dict_8_word_post = dict_8_word
 
         self.EarthExcavation_WindResource = dict_8_words['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = dict_8_words['石方开挖_风机_numbers']

@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b61773cf-16a4-4355-a7c1-a006fe9551bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/导表/土建工程量_test.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/demo/导表/土建工程量_test.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/civil/auto_word_civil.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/auto_word_civil.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,26 +19,36 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="234" column="22" selection-start-line="234" selection-start-column="22" selection-end-line="234" selection-end-column="22" />
+            <state relative-caret-position="302">
+              <caret line="228" selection-start-line="228" selection-end-line="228" />
               <folding>
                 <element signature="e#25#95#0" expanded="true" />
                 <element signature="e#269#4345#0" />
                 <element signature="e#1506#4223#0" />
                 <element signature="e#4269#4345#0" />
                 <element signature="e#4412#7918#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/civil/chapter_8/RoadBasementDatabase.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="244" column="57" selection-start-line="244" selection-start-column="31" selection-end-line="244" selection-end-column="57" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#8259#8897#0" />
+                <element signature="e#8941#9391#0" />
+                <element signature="e#9651#10608#0" />
+                <element signature="e#11124#11165#0" />
+                <element signature="e#12011#12170#0" />
+                <element signature="e#12452#12592#0" />
+                <element signature="e#12691#12831#0" />
+                <element signature="e#15149#15155#0" />
+                <element signature="e#17033#17241#0" />
+                <element signature="e#17061#17241#0" />
+                <element signature="e#17368#17771#0" />
+                <element signature="e#17396#17771#0" />
+                <element signature="e#17809#20671#0" />
+                <element signature="e#23852#25534#0" />
+                <element signature="e#24426#25291#0" />
+                <element signature="e#24532#25161#0" />
+                <element signature="e#24901#24937#0" />
+                <element signature="e#25577#27023#0" />
+                <element signature="e#25843#26002#0" />
+                <element signature="e#26257#26416#0" />
+                <element signature="e#27069#27798#0" />
+                <element signature="e#27847#29111#0" />
               </folding>
             </state>
           </provider>
@@ -146,6 +153,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -164,18 +172,10 @@
               <item name="models" type="462c0819:PsiDirectoryNode" />
               <item name="civil" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
-              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="civil" type="462c0819:PsiDirectoryNode" />
-              <item name="chapter_8" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -284,7 +284,8 @@
       <workItem from="1575678130056" duration="52000" />
       <workItem from="1575678493393" duration="667000" />
       <workItem from="1575679560911" duration="115000" />
-      <workItem from="1575711510166" duration="2722000" />
+      <workItem from="1575711510166" duration="2748000" />
+      <workItem from="1575979776766" duration="1855000" />
     </task>
     <task id="LOCAL-00001" summary="home 20191124">
       <created>1574602904229</created>
@@ -370,11 +371,18 @@
       <option name="project" value="LOCAL" />
       <updated>1575712728982</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="home 20191207 发电量方案名称解决">
+      <created>1575714239363</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1575714239363</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48263000" />
+    <option name="totallyTimeSpent" value="50144000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -387,14 +395,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7011494" visible="true" weight="0.304371" />
-      <window_info id="Structure" order="1" sideWeight="0.29885057" side_tool="true" visible="true" weight="0.304371" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.60954446" visible="true" weight="0.21695095" />
+      <window_info active="true" id="Structure" order="1" sideWeight="0.39045554" side_tool="true" visible="true" weight="0.21695095" />
       <window_info id="DB Browser" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.52819955" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989339" weight="0.52819955" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -733,14 +742,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="234" column="22" selection-start-line="234" selection-start-column="22" selection-end-line="234" selection-end-column="22" />
+        <state relative-caret-position="302">
+          <caret line="228" selection-start-line="228" selection-end-line="228" />
           <folding>
             <element signature="e#25#95#0" expanded="true" />
             <element signature="e#269#4345#0" />
             <element signature="e#1506#4223#0" />
             <element signature="e#4269#4345#0" />
             <element signature="e#4412#7918#0" />
+            <element signature="e#8259#8897#0" />
+            <element signature="e#8941#9391#0" />
+            <element signature="e#9651#10608#0" />
+            <element signature="e#11124#11165#0" />
+            <element signature="e#12011#12170#0" />
+            <element signature="e#12452#12592#0" />
+            <element signature="e#12691#12831#0" />
+            <element signature="e#15149#15155#0" />
+            <element signature="e#17033#17241#0" />
+            <element signature="e#17061#17241#0" />
+            <element signature="e#17368#17771#0" />
+            <element signature="e#17396#17771#0" />
+            <element signature="e#17809#20671#0" />
+            <element signature="e#23852#25534#0" />
+            <element signature="e#24426#25291#0" />
+            <element signature="e#24532#25161#0" />
+            <element signature="e#24901#24937#0" />
+            <element signature="e#25577#27023#0" />
+            <element signature="e#25843#26002#0" />
+            <element signature="e#26257#26416#0" />
+            <element signature="e#27069#27798#0" />
+            <element signature="e#27847#29111#0" />
           </folding>
         </state>
       </provider>
