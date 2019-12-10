@@ -356,6 +356,7 @@ class auto_word_wind(models.Model):
     rate = fields.Float(string=u'折减率', readonly=True, compute='_compute_compare_case')
 
     path_images = fields.Char(u'图片路径')
+    tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
 
 
     # --------结果文件---------
@@ -404,10 +405,14 @@ class auto_word_wind(models.Model):
             re.capacity_coefficient = re.recommend_id.res_form.capacity_coefficient
             re.investment_turbines_kws = re.recommend_id.investment_turbines_kws
             re.ongrid_power = re.recommend_id.ongrid_power
+            re.tower_weight = re.recommend_id.tower_weight
+
 
     @api.multi
     def submit_wind(self):
         limited_str_1, limited_str_2, limited_str_3, limited_words = "", "", "", ""
+
+
         self.project_id.wind_attachment_ok = u"已提交,版本：" + self.version_id
         self.project_id.case_name = str(self.recommend_id.case_name)
         self.project_id.turbine_model_suggestion = self.recommend_id.WTG_name
@@ -425,8 +430,11 @@ class auto_word_wind(models.Model):
         self.project_id.investment_unit = self.recommend_id.investment_unit
         limited_str_0 = "本项目区域内存在部分限制性因素，需重点对"
         limited_str_2 = "等限制性因素进行排查。"
-        self.project_id.investment_turbines_kws = self.investment_turbines_kws
+        # self.project_id.investment_turbines_kws = self.investment_turbines_kws
 
+        self.project_id.tower_weight = self.tower_weight
+        print("self.project_id.tower_weight = self.tower_weight")
+        print(self.tower_weight)
         self.project_id.rate = self.rate
         self.project_id.IECLevel = self.IECLevel
         self.project_id.PWDLevel = self.PWDLevel
@@ -437,8 +445,8 @@ class auto_word_wind(models.Model):
         self.project_id.string_speed_words = self.string_speed_words
         self.project_id.cft_TI_words = self.cft_TI_words
 
-
         self.project_id.max_wind_txt = self.max_wind_txt
+
 
         if self.limited_1 == True:
             if self.limited_2 == False and self.limited_3 == False:

@@ -37,14 +37,14 @@
                             <field name="content_id"/>
                             <field name="version_id"/>
                             <field name="Location_words"/>
-                            <field name="company_id"/>
+                            <!--<field name="investment_turbines_kws"/>-->
+
                         </group>
                         <group name="group_top">
                             <field name="Lon_words"/>
                             <field name="Lat_words"/>
                             <field name="Elevation_words"/>
                             <field name="area_words"/>
-
                         </group>
                     </group>
 
@@ -57,10 +57,9 @@
                         <group name="group_top">
                             <field name="TurbineCapacity"/>
                             <field name="turbine_numbers_suggestion"/>
-                            <field name="investment_turbines_kws"/>
+                            <field name="project_capacity"/>
                         </group>
                         <group name="group_top">
-                            <field name="project_capacity"/>
                             <field name="ongrid_power"/>
                             <!--<field name="Hour_words"/>-->
                             <field name="Hour_words" attrs="{'invisible': [('Hour_words', '=', '0')]}" style='color:red'/>
@@ -88,7 +87,7 @@
                         <group name="group_top">
                             <field name="Project_time_words"/>
                             <field name="First_turbine_words"/>
-                            <field name="total_turbine_words"/>
+                            <!--<field name="total_turbine_words"/>-->
                             <field name="staff_words"/>
                         </group>
                         <group name="group_top">
