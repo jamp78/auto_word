@@ -105,7 +105,7 @@ class auto_word_electrical(models.Model):
     yjlv95 = fields.Float(u'直埋电缆（km）', required=False,default="8")
     yjv300 = fields.Float(u'直埋电缆（km）', required=False,default="1.5")
 
-    turbine_numbers = fields.Char(u'机位数', default="待提交", readonly=True)
+    turbine_numbers = fields.Char(u'推荐机组数量', default="待提交", readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型', default="待提交", readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
 

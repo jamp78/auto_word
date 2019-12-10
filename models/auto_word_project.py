@@ -163,7 +163,7 @@ class auto_word_project(models.Model):
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
     capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True)
 
-    investment_turbines_kws = fields.Char(u'风机kw投资')
+    investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True)
 
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
     name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
@@ -320,6 +320,8 @@ class auto_word_project(models.Model):
     land_area = fields.Char(string=u'总用地面积')
     farm_speed_range_words = fields.Char(string=u'平均风速区间')
 
+    tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
+    Project_time_words = fields.Char(string=u'施工总工期', default='12')
 
     dict_1_word_post = fields.Char(string=u'字典1')
 

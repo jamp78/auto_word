@@ -284,6 +284,8 @@ class auto_word_wind_turbines_compare(models.Model):
             re.content_id.rotor_diameter_case = re.rotor_diameter_case
             re.env['auto_word.wind'].search([('project_id.project_name', '=',
                                               re.project_id.project_name)]).recommend_id = re
+            re.content_id.tower_weight=re.tower_weight
+
 
     def result_refresh(self):
         for re in self:

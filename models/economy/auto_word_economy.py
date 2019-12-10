@@ -233,8 +233,8 @@ def cal_economy_result(self):
                 if str(dictMerged['result_list12_6'][i]['cols'][0]) == '建设期利息':
                     self.interest_construction_loans_12 = str(dictMerged['result_list12_6'][i]['cols'][2])
 
-                # if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组设备价格':
-                #     self.investment_turbines_kws = str(dictMerged['result_list12_6'][i]['cols'][6])
+                if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组设备价格':
+                    self.investment_turbines_kws = str(dictMerged['result_list12_6'][i]['cols'][6])
                 if str(dictMerged['result_list12_6'][i]['cols'][3]) == '塔筒(架)设备价格':
                     self.Tower_cost_words = str(dictMerged['result_list12_6'][i]['cols'][6])
                 if str(dictMerged['result_list12_6'][i]['cols'][3]) == '风电机组基础造价':
@@ -314,6 +314,16 @@ def cal_economy_result(self):
 
             self.Reinforcement = self.project_id.Reinforcement
 
+            if self.investment_turbines_kws == "-":
+                self.investment_turbines_kws = self.project_id.investment_turbines_kws
+            if self.unit_cost_words == "-":
+                self.unit_cost_words = round_up(float(self.dynamic_investment_12) / (float(self.ongrid_power) / 10), 2)
+            if self.Towter_weight_words == "-":
+                self.Towter_weight_words=float(self.project_id.tower_weight)*float(self.turbine_numbers_suggestion)
+
+            if self.Project_time_words=="-":
+                self.Project_time_words=12
+
             # self.EarthWorkBackFill_WindResource = self.project_id.EarthWorkBackFill_WindResource
             # self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
             #     self.project_id.StoneExcavation_WindResource), 2)
@@ -371,6 +381,7 @@ def cal_economy_result(self):
             Dict12 = dict(dict_12_word, **dictMerged, **dict_12_res_word, **dict5,
                           **dict8
                           )
+            print(Dict12)
             Dict_12_Final = dict(dict_12_word, **dict_12_res_word, **dictMerged)
             for key, value in Dict_12_Final.items():
                 gl.set_value(key, value)
@@ -591,15 +602,15 @@ class auto_word_economy(models.Model):
     temporary_land_words = fields.Char(string=u'临时用地', default='待提交')
 
     # 经评
-    Project_time_words = fields.Char(string=u'施工总工期', default='待提交')
+    Project_time_words = fields.Char(string=u'施工总工期', default='12')
     TurbineCapacity = fields.Char(string=u'单机容量', default="待提交", readonly=True)
-    project_capacity = fields.Char(string=u'装机容量')
+    project_capacity = fields.Char(string=u'装机容量', readonly=True)
     project_capacity_B = fields.Char(string=u'装机容量_B')
-    turbine_numbers_suggestion = fields.Char(string=u'机组数量')
+    turbine_numbers_suggestion = fields.Char(string=u'机组数量', readonly=True)
 
     Generating_capacity_words = fields.Char(string=u'年发电量', default="待提交", readonly=True)
     Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
-    ongrid_power = fields.Char(u'上网电量', default="待提交")
+    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True)
 
     Towter_weight_words = fields.Char(string=u'塔筒总重量（吨）', default='待提交')
     Earth_excavation_words = fields.Char(string=u'土石方开挖（m3）', default='待提交')
@@ -609,18 +620,18 @@ class auto_word_economy(models.Model):
 
     # 计划施工时间
     First_turbine_words = fields.Char(string=u'第一台机组发电工期', default='待提交')
-    total_turbine_words = fields.Char(string=u'总工期', default='待提交')
+    # total_turbine_words = fields.Char(string=u'总工期', default='12')
     staff_words = fields.Char(string=u'生产单位定员', default='待提交')
 
     # 项目状况
     Farm_words = fields.Char(string=u'风电场名称')
-    Location_words = fields.Char(string=u'建设地点')
-    company_id = fields.Char(string=u'项目大区')
+    Location_words = fields.Char(string=u'建设地点', readonly=True)
+    company_id = fields.Char(string=u'项目大区', readonly=True)
     investment_turbines_kws = fields.Char(string=u'风电机组单位造价')
     Tower_cost_words = fields.Char(string=u'塔筒（架）单位造价', default='待提交')
     infrastructure_cost_words = fields.Char(string=u'风电机组基础单价', default='待提交')
     unit_cost_words = fields.Char(string=u'单位度电投资', default='待提交')
-    area_words = fields.Char(string=u'风场面积')
+    area_words = fields.Char(string=u'风场面积', readonly=True)
 
     # 结果
     cost_time = fields.Char(string=u'价格日期')
@@ -641,7 +652,7 @@ class auto_word_economy(models.Model):
     equipment_installation = fields.Char(string=u'设备及安装工程')
     constructional_engineering = fields.Char(string=u'建筑工程')
     other_expenses = fields.Char(string=u'其他费用')
-    basic_funds= fields.Char(string=u'基本预备费')
+    basic_funds = fields.Char(string=u'基本预备费')
 
     static_investment_unit = fields.Char(string=u'单位千瓦静态投资')
 
@@ -668,11 +679,10 @@ class auto_word_economy(models.Model):
 
     repayment_period = fields.Char(string=u'还款期限_13')
     grid_price = fields.Char(string=u'上网电价_13')
-    profit_tax_investment_ratio=fields.Char(string=u'投资利税率')
+    profit_tax_investment_ratio = fields.Char(string=u'投资利税率')
     pre_tax_investment_net_value = fields.Char(string=u'税前项目投资财务净现值')
     tax_investment_net_value = fields.Char(string=u'税后项目投资财务净现值')
     asset_liability_ratio = fields.Char(string=u'资产负债率')
-
 
     Internal_financial_rate_before = fields.Char(string=u'税前财务内部收益率(%)')
     Internal_financial_rate_after = fields.Char(string=u'税后财务内部收益率(%)')
@@ -753,8 +763,11 @@ class auto_word_economy(models.Model):
         self.project_id.payback_period = self.payback_period
         self.project_id.ROI_13 = self.ROI_13
         self.project_id.ROE_13 = self.ROE_13
-        self.project_id.grid_price=self.grid_price
-        self.project_id.Concrete_words=self.Concrete_words
-        self.project_id.Reinforcement=self.Reinforcement
+        self.project_id.grid_price = self.grid_price
+        self.project_id.Concrete_words = self.Concrete_words
+        self.project_id.Reinforcement = self.Reinforcement
+
+        self.project_id.Project_time_words = self.Project_time_words
+
 
         return True
