@@ -262,32 +262,35 @@ def cal_economy_result(self):
 
             for i in range(0, len(dictMerged['result_list12_7'])):  # 工程总概算表 7
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '工程静态投资(一～五)部分合计':
-                    self.static_investment_12 = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '施工辅助工程':
+                    self.construction_assistance = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '设备及安装工程':
-                    self.equipment_installation = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '工程静态投资(一～五)部分合计':
+                    self.static_investment_12 = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '建筑工程':
-                    self.constructional_engineering = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '设备及安装工程':
+                    self.equipment_installation = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '其他费用':
-                    self.other_expenses = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '建筑工程':
+                    self.constructional_engineering = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '基本预备费':
-                    self.basic_funds = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '其他费用':
+                    self.other_expenses = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '建设期利息':
-                    self.interest_construction_loans_12 = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '基本预备费':
+                    self.basic_funds = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '工程总投资(一～七)部分合计':
-                    self.dynamic_investment_12 = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '建设期利息':
+                    self.interest_construction_loans_12 = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '单位千瓦静态投资(元/kW)':
-                    self.static_investment_unit = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '工程总投资(一～七)部分合计':
+                    self.dynamic_investment_12 = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-                if str(dictMerged['result_list12_7'][i]['cols'][1]) == '单位千瓦动态投资(元/kW)':
-                    self.dynamic_investment_unit = str(dictMerged['result_list12_7'][i]['cols'][5])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '单位千瓦静态投资(元/kW)':
+                    self.static_investment_unit = str(dictMerged['result_list12_7'][i]['cols'][4])
+                if str(dictMerged['result_list12_7'][i]['cols'][0]) == '单位千瓦动态投资(元/kW)':
+                    self.dynamic_investment_unit = str(dictMerged['result_list12_7'][i]['cols'][4])
+
 
             self.Farm_words = self.project_id.Farm_words
             self.Lon_words = self.project_id.Lon_words
@@ -319,14 +322,20 @@ def cal_economy_result(self):
             if self.unit_cost_words == "-":
                 self.unit_cost_words = round_up(float(self.dynamic_investment_12) / (float(self.ongrid_power) / 10), 2)
             if self.Towter_weight_words == "-":
-                self.Towter_weight_words=float(self.project_id.tower_weight)*float(self.turbine_numbers_suggestion)
+                self.Towter_weight_words = float(self.project_id.tower_weight) * float(self.turbine_numbers_suggestion)
 
-            if self.Project_time_words=="-":
-                self.Project_time_words=12
+            if self.Project_time_words == "-":
+                self.Project_time_words = 12
 
-            # self.EarthWorkBackFill_WindResource = self.project_id.EarthWorkBackFill_WindResource
-            # self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
-            #     self.project_id.StoneExcavation_WindResource), 2)
+            if self.EarthWorkBackFill_WindResource == "-":
+                # self.EarthWorkBackFill_WindResource = self.project_id.EarthWorkBackFill_WindResource
+                self.EarthWorkBackFill_WindResource = self.project_id.excavation
+
+            if self.Earth_excavation_words == "-":
+                # self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
+                #     self.project_id.StoneExcavation_WindResource), 2)
+                self.Earth_excavation_words = self.project_id.excavation
+
 
             self.Concrete_words = round_up(float(self.project_id.Volume) + float(
                 self.project_id.Cushion), 2)
@@ -751,7 +760,6 @@ class auto_word_economy(models.Model):
         self.project_id.domestic_bank_loan = self.domestic_bank_loan
         self.project_id.interest_construction_loans_12 = self.interest_construction_loans_12
         self.project_id.dynamic_investment_12 = self.dynamic_investment_12
-        self.project_id.dynamic_investment_unit = self.dynamic_investment_unit
 
         self.project_id.static_investment_13 = self.static_investment_13
         self.project_id.static_investment_unit = self.static_investment_unit
@@ -768,6 +776,5 @@ class auto_word_economy(models.Model):
         self.project_id.Reinforcement = self.Reinforcement
 
         self.project_id.Project_time_words = self.Project_time_words
-
 
         return True
