@@ -17,13 +17,14 @@
         <field name="arch" type="xml">
             <form string="Wind">
                 <header>
+                    <button name="economy_take" type="object" groups="auto_word.wind_group_user"
+                            string="提取" class="btn btn-info"/>
                     <button name="economy_generate" type="object" groups="auto_word.wind_group_user"
                             string="生成报告"/>
                     <button name="submit_economy" type="object" groups="auto_word.wind_group_user"
                             string="提交报告" confirm="是否确认提交该项目风资源资料？"/>
 
-                  <!--<button name="economy_refresh" type="object" groups="auto_word.wind_group_user"-->
-                           <!--string="刷新" class="btn btn-info"/>-->
+
 
                     <button name="action_get_attachment_economy_view" class="oe_stat_button" icon="fa-book" type="object">
                             <field name="attachment_number" widget="statinfo" string="附件上传"/>
@@ -86,14 +87,15 @@
                     <group string="经评结果">
                         <group name="group_top">
                             <field name="Project_time_words"/>
-                            <field name="First_turbine_words"/>
+                            <!--<field name="First_turbine_words"/>-->
                             <!--<field name="total_turbine_words"/>-->
                             <field name="staff_words"/>
+                            <field name="infrastructure_cost_words"/>
                         </group>
                         <group name="group_top">
                             <field name="Towter_weight_words"/>
                             <field name="Tower_cost_words"/>
-                            <field name="infrastructure_cost_words"/>
+                            <!--<field name="infrastructure_cost_words"/>-->
                             <field name="unit_cost_words"/>
                         </group>
                     </group>

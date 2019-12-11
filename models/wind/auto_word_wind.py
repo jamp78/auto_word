@@ -91,7 +91,7 @@ def cal_wind_result(self):
     ave_AverageWindSpeed_Weak = round_up(Get_Average(AverageWindSpeed_Weak_dict), 2)
     ave_powerGeneration = round_up(Get_Average(PowerGeneration_dict), 1)
     ave_weak_res = round_up(Get_Average(Weak_res_dict))
-    ave_weak_res_xz = 1 + ave_weak_res
+    ave_weak_res_xz = 100 + ave_weak_res
     ave_hours_year = round_up(Get_Average(hours_year_dict), 1)
     capacity_coefficient = round_up(ave_hours_year / 8760 * 100, 2)
     ave_ongrid_power = round_up(Get_Average(ongrid_power_dict), 1)

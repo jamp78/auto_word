@@ -87,7 +87,7 @@ class auto_word_wind_cft(models.Model):
                 string_cft_TI_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "m测层代表湍流强度" + str(re.cft_TI) + "。"
                 string_cft_TI_words_final = string_cft_TI_word + string_cft_TI_words_final
 
-                string_cft_time_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "选取" + str(re.cft_time) + "。"
+                string_cft_time_word = str(re.cft_name) + "测风塔" + str(re.cft_height) + "m选取" + str(re.cft_time) + "。"
                 string_cft_time_words_final = string_cft_time_word + string_cft_time_words_final
 
                 if i != len(re.select_cft_ids) - 1:
@@ -101,6 +101,8 @@ class auto_word_wind_cft(models.Model):
             re.cft_TI_words = string_cft_TI_words_final
             re.cft_time_words = string_cft_time_words_final
 
+        print('self.cft_time_words')
+        print(self.cft_time_words)
     def button_cft(self):
 
         for re in self:
