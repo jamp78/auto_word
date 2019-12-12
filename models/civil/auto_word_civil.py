@@ -220,6 +220,7 @@ def civil_generate_docx_dict(self):
         "合计亩_永久用地面积": self.permanent_land_area,
         "合计亩_临时用地面积": self.temporary_land_area,
         "总用地面积": self.land_area,
+        "运输车辆":self.cars
 
     }
 
@@ -310,51 +311,57 @@ class auto_word_civil(models.Model):
 
     # 土建结果
     # 风机基础工程数量表
-    EarthExcavation_WindResource = fields.Char(u'土方开挖（m3）')
-    StoneExcavation_WindResource = fields.Char(u'石方开挖（m3）')
-    EarthWorkBackFill_WindResource = fields.Char(u'土石方回填（m3）')
-    Volume = fields.Char(u'C40混凝土（m3）')
-    Cushion = fields.Char(u'C15混凝土（m3）')
-    Reinforcement = fields.Char(u'钢筋（t）')
+    EarthExcavation_WindResource = fields.Char(u'土方开挖（m3）', readonly=True)
+    StoneExcavation_WindResource = fields.Char(u'石方开挖（m3）', readonly=True)
+    EarthWorkBackFill_WindResource = fields.Char(u'土石方回填（m3）', readonly=True)
+    Volume = fields.Char(u'C40混凝土（m3）', readonly=True)
+    Cushion = fields.Char(u'C15混凝土（m3）', readonly=True)
+    Reinforcement = fields.Char(u'钢筋（t）', readonly=True)
     Based_Waterproof = fields.Char(u'基础防水', default=1)
     Settlement_Observation = fields.Char(u'沉降观测', default=4)
-    SinglePileLength = fields.Char(u'总预制桩长（m）')
-    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）')
-    C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）')
-    stake_number = fields.Char(u'单台风机桩根数（根）')
+    SinglePileLength = fields.Char(u'总预制桩长（m）', readonly=True)
+    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）', readonly=True)
+    C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）', readonly=True)
+    stake_number = fields.Char(u'单台风机桩根数（根）', readonly=True)
 
     # 土石方平衡表
 
-    turbine_foundation_box_voltage_excavation = fields.Char(u'开挖')
-    turbine_foundation_box_voltage_back_fill = fields.Char(u'回填')
-    turbine_foundation_box_voltage_spoil = fields.Char(u'弃土')
-    booster_station_engineering_excavation = fields.Char(u'开挖')
-    booster_station_engineering_back_fill = fields.Char(u'回填')
-    booster_station_engineering_spoil = fields.Char(u'弃土')
-    road_engineering_excavation = fields.Char(u'开挖')
-    road_engineering_back_fill = fields.Char(u'回填')
-    road_engineering_spoil = fields.Char(u'弃土')
-    hoisting_platform_excavation = fields.Char(u'开挖')
-    hoisting_platform_back_fill = fields.Char(u'回填')
-    hoisting_platform_spoil = fields.Char(u'弃土')
-    total_line_excavation = fields.Char(u'开挖')
-    total_line_back_fill = fields.Char(u'回填')
-    total_line_spoil = fields.Char(u'弃土')
-    sum_EarthStoneBalance_excavation = fields.Char(u'开挖')
-    sum_EarthStoneBalance_back_fill = fields.Char(u'回填')
-    sum_EarthStoneBalance_spoil = fields.Char(u'弃土')
+    turbine_foundation_box_voltage_excavation = fields.Char(u'开挖', readonly=True)
+    turbine_foundation_box_voltage_back_fill = fields.Char(u'回填', readonly=True)
+    turbine_foundation_box_voltage_spoil = fields.Char(u'弃土', readonly=True)
+    booster_station_engineering_excavation = fields.Char(u'开挖', readonly=True)
+    booster_station_engineering_back_fill = fields.Char(u'回填', readonly=True)
+    booster_station_engineering_spoil = fields.Char(u'弃土', readonly=True)
+    road_engineering_excavation = fields.Char(u'开挖', readonly=True)
+    road_engineering_back_fill = fields.Char(u'回填', readonly=True)
+    road_engineering_spoil = fields.Char(u'弃土', readonly=True)
+    hoisting_platform_excavation = fields.Char(u'开挖', readonly=True)
+    hoisting_platform_back_fill = fields.Char(u'回填', readonly=True)
+    hoisting_platform_spoil = fields.Char(u'弃土', readonly=True)
+    total_line_excavation = fields.Char(u'开挖', readonly=True)
+    total_line_back_fill = fields.Char(u'回填', readonly=True)
+    total_line_spoil = fields.Char(u'弃土', readonly=True)
+    sum_EarthStoneBalance_excavation = fields.Char(u'开挖', readonly=True)
+    sum_EarthStoneBalance_back_fill = fields.Char(u'回填', readonly=True)
+    sum_EarthStoneBalance_spoil = fields.Char(u'弃土', readonly=True)
 
-    temporary_land_area = fields.Char(u'临时用地面积（亩）')
-    permanent_land_area = fields.Char(u'永久用地面积（亩）')
-    land_area = fields.Char(u'总用地面积')
+    temporary_land_area = fields.Char(u'临时用地面积（亩）', readonly=True)
+    permanent_land_area = fields.Char(u'永久用地面积（亩）', readonly=True)
+    land_area = fields.Char(u'总用地面积', readonly=True)
 
+    cars = fields.Char(u'运输车辆', readonly=True, compute='_compute_terrain_type_words')
     @api.depends('TerrainType')
     def _compute_terrain_type_words(self):
         for re in self:
-            if re.TerrainType == "平原":
+            if re.TerrainType == "平原" or "缓坡" in re.TerrainType:
                 re.TerrainType_words = "地形较为平缓，不需要进行高边坡特别设计."
+                re.cars = "举升车运输技术上更为先进，较适合山地、重丘风场。因此，本风场建议叶片运输采用特种运输车辆。"
+                if re.TerrainType == "平原":
+                    re.cars="本风场建议叶片运输采用平板车。"
             else:
                 re.TerrainType_words = "山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计."
+                re.cars = "举升车运输技术上更为先进，较适合山地、重丘风场。因此，本风场建议叶片运输采用特种运输车辆。"
+
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num', 'TerrainType')
     def _compute_total_civil_length(self):

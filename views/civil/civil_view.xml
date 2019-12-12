@@ -70,7 +70,7 @@
                         <group name="group_right">
                             <field name="Reinforcement"/>
                             <field name="stake_number"/>
-                            <field name="SinglePileLength"/>
+                            <!--<field name="SinglePileLength"/>-->
                             <field name="M48PreStressedAnchor"/>
                         </group>
                     </group>
