@@ -41,10 +41,6 @@ def dict_project_1(self):
         "相对高差": self.Relative_height_difference_words,
     }
 
-    for key, value in dict_1_word.items():
-        gl.set_value(key, value)
-
-
     return dict_1_word
 
 
@@ -85,14 +81,14 @@ def dict_project_x(self):
         "水土保持": self.conservation_water_soil,
     }
 
-    dict_x_rest = dict(dict_1_res_word, **dict_14_1, **dict_14_2)
-    for key, value in dict_x_rest.items():
-        gl.set_value(key, value)
+    dict_x = dict(dict_1_word, **dict_1_res_word, **dict_14_1, **dict_14_2)
+    # for key, value in dict_x.items():
+    #     gl.set_value(key, value)
 
-    dict_x = gl._global_dict
-
-    print('gl._global_dict')
-    print(gl._global_dict)
+    # dict_x = gl._global_dict
+    #
+    # print('gl._global_dict')
+    # print(gl._global_dict)
 
     return dict_x
 
@@ -325,7 +321,6 @@ class auto_word_project(models.Model):
 
     dict_1_word_post = fields.Char(string=u'字典1')
 
-
     dict_3_word_post = fields.Char(string=u'字典3')
     dict_4_word_post = fields.Char(string=u'字典4')
 
@@ -334,10 +329,17 @@ class auto_word_project(models.Model):
     dict_12_word_post = fields.Char(string=u'字典12')
     dict_13_word_post = fields.Char(string=u'字典13')
 
+    Dict_12_Final = fields.Char(string=u'字典12')
+    Dict_13_Final = fields.Char(string=u'字典13')
+
     dict_x = fields.Char(string=u'字典x')
+
     def merge_project(self):
 
         dict_x = dict_project_x(self)
+        Dict_12_Final = eval(self.Dict_12_Final)
+        Dict_13_Final = eval(self.Dict_13_Final)
+        dict_x_all = dict(dict_x, **Dict_12_Final, **Dict_13_Final)
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
@@ -348,7 +350,7 @@ class auto_word_project(models.Model):
         # Pathinput = os.path.join(project_path, '%s') % inputfile
         Pathoutput = os.path.join(project_path, '%s') % outputfile
 
-        generate_docx(dict_x, project_path, model_name, outputfile)
+        generate_docx(dict_x_all, project_path, model_name, outputfile)
 
         # ###########################
 
@@ -374,67 +376,10 @@ class auto_word_project(models.Model):
 
         return True
 
-        # path_chapter_x = r'D:\GOdoo12_community\myaddons\auto_word\models\project\chapter_x'
-        # path_chapter_5 = r'D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5'
-        # path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
-        #
-        # suffix_out = ".docx"
-        # outputfilex = 'result_chapter' + str('x') + suffix_out
-        # outputfile5 = 'result_chapter' + str(5) + suffix_out
-        # outputfile8 = 'result_chapter' + str(8) + suffix_out
-        # outputfile9 = 'result_chapter' + str(9) + suffix_out
-        # outputfile = 'result_chapterx5' + suffix_out
-        #
-        # Pathoutputx = os.path.join(path_chapter_x, '%s') % outputfilex
-        # Pathoutput5 = os.path.join(path_chapter_5, '%s') % outputfile5
-        # Pathoutput8 = os.path.join(path_chapter_8, '%s') % outputfile8
-        # Pathoutput9 = os.path.join(path_chapter_8, '%s') % outputfile9
-        # Pathoutput = os.path.join(path_chapter_x, '%s') % outputfile
-        # files = [Pathoutputx,Pathoutput5]
-        #
-        # combine_all_docx(Pathoutputx,files,Pathoutput)
-
     def button_project(self):
         self.dict_1_word_post = dict_project_1(self)
 
-        # self.Dict_x = dict_project(self)
-
-        # chapter_number = 'x'
-        # project_path = self.env['auto_word.project'].project_path + str(chapter_number)
-        # suffix_in = ".xls"
-        # suffix_out = ".docx"
-        # name_first, file_second, name_second = "", "", ""
-        # outputfile = 'result_chapter' + str(chapter_number) + suffix_out
-        # model_name = 'cr' + str(chapter_number) + suffix_out
-        # # Pathinput = os.path.join(project_path, '%s') % inputfile
-        # Pathoutput = os.path.join(project_path, '%s') % outputfile
-        #
-        # generate_docx(Dict_x, project_path, model_name, outputfile)
-        #
-        # # ###########################
-        #
-        # reportfile_name = open(file=Pathoutput, mode='rb')
-        # byte = reportfile_name.read()
-        # reportfile_name.close()
-        # if (str(self.report_attachment_id_output1) == 'ir.attachment()'):
-        #     Attachments = self.env['ir.attachment']
-        #     print('开始创建新纪录1')
-        #     New = Attachments.create({
-        #         'name': self.project_name + '可研报告章节chapter' + str(chapter_number) + '下载页',
-        #         'datas_fname': self.project_name + '可研报告章节chapter' + str(chapter_number) + '.docx',
-        #         'datas': base64.standard_b64encode(byte),
-        #         'display_name': self.project_name + '可研报告章节',
-        #         'create_date': fields.date.today(),
-        #         'public': True,  # 此处需设置为true 否则attachments.read  读不到
-        #     })
-        #     print('已创建新纪录：', New)
-        #     print('new dataslen：', len(New.datas))
-        #     self.report_attachment_id_output1 = New
-        # else:
-        #     self.report_attachment_id_output1.datas = base64.standard_b64encode(byte)
-        #
         return True
-        #
 
 
 class auto_word_null_project(models.Model):

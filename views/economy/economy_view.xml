@@ -17,8 +17,8 @@
         <field name="arch" type="xml">
             <form string="Wind">
                 <header>
-                    <button name="economy_take" type="object" groups="auto_word.wind_group_user"
-                            string="提取" class="btn btn-info"/>
+                    <!--<button name="economy_take" type="object" groups="auto_word.wind_group_user"-->
+                            <!--string="提取" class="btn btn-info"/>-->
                     <button name="economy_generate" type="object" groups="auto_word.wind_group_user"
                             string="生成报告"/>
                     <button name="submit_economy" type="object" groups="auto_word.wind_group_user"

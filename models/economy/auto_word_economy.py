@@ -450,8 +450,6 @@ def cal_economy_result(self):
 
                 tabel_number = str(chapter_number) + '_' + str(i)
                 dict_content = get_dict_economy(tabel_number, col_name, data, sheet_name_array[i])
-                # Dict_head = get_dict_economy_head(col_name_array[i], sheet_name_array[i])
-                # Dict = dict(Dict_content, **Dict_head)
                 dictMerged.update(dict_content)
 
             self.static_investment_13 = str(dictMerged['result_list13_11'][5]['cols'][2])
