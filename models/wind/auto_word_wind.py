@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo import exceptions
 import base64, os
 import numpy as np
 import global_dict as gl
@@ -22,20 +23,34 @@ def cal_wind_result(self):
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
-    self.area_words = self.project_id.area_words
-
-    if self.max_wind_txt == "待提交":
+    # 检查填写内容
+    if self.max_wind_txt == "待提交" or self.max_wind_txt == "0":
         s = "五十年一遇最大风速"
         raise exceptions.Warning('请提交 --> %s 信息。' % s)
 
-    if self.Temperature_txt == "待提交":
+    if self.Temperature_txt == "待提交" or self.Temperature_txt == "0":
         s = "温度"
         raise exceptions.Warning('请提交 --> %s 信息。' % s)
+
+    if self.area_words == "待提交" or self.area_words == "0":
+        s = "风场面积"
+        raise exceptions.Warning('请提交 --> %s 信息。' % s)
+
 
     if self.cft_name_words == "待提交":
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击 --> 机组选型（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
+
+    if self.recommend_id.case_name == False:
+        s = "风能部分"
+        raise exceptions.Warning('请点选推荐方案，具体方案详情请点选 %s，并点击 --> 发电量估算（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
+    # 进行计算
     tur_name = []
+
+    self.Lat_words = self.project_id.Lat_words
+    self.Lon_words = self.project_id.Lon_words
     extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
 
     for i in range(0, len(self.select_turbine_ids)):
@@ -172,8 +187,8 @@ def cal_wind_result(self):
 
     self.dict_1_word_post = self.project_id.dict_1_word_post
     print("check")
-    print( eval(self.dict_1_word_post))
-    if len( eval(self.dict_1_word_post)) == 0:
+    print(eval(self.dict_1_word_post))
+    if len(eval(self.dict_1_word_post)) == 0:
         print("please check 项目资料")
 
     dict5 = doc_5.generate_wind_dict(tur_name, self.path_images)
@@ -203,12 +218,10 @@ def cal_wind_result(self):
         "发电部分投资e": investment_dict,
         "单位度电投资e": investment_unit_dict,
     }
-    #提交的生成chapter5的dict
+    # 提交的生成chapter5的dict
     dict_5_suggestion_word = {
         "山地类型": self.TerrainType,
         "海拔高程": self.Elevation_words,
-        "东经": self.Lon_words,
-        "北纬": self.Lat_words,
         "风场面积": self.area_words,
 
         '推荐机型': self.name_tur_suggestion,
@@ -257,19 +270,14 @@ def cal_wind_result(self):
         "尾流修正后的总理论发电量": total_powerGeneration_weak,
         "空气密度": self.air_density_words,
 
-
-
-
-
-
         'WTG数量': str(len(self.select_turbine_ids)),
         '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
         '限制性因素': self.project_id.limited_words,
     }
     dict_5_word = dict(dict_5_word_part, **dict5, **context, **dict_5_suggestion_word)
 
-    #生成chapter5 所需要的总的dict
-    dict_5_words = dict(dict_5_word, ** eval(self.dict_1_word_post))
+    # 生成chapter5 所需要的总的dict
+    dict_5_words = dict(dict_5_word, **eval(self.dict_1_word_post))
 
     for key, value in dict_5_word.items():
         gl.set_value(key, value)
@@ -282,10 +290,9 @@ class auto_word_wind(models.Model):
     _description = 'Wind energy input'
     _rec_name = 'content_id'
 
-
-    #提交
+    # 提交
     dict_5_word_post = fields.Char(u'字典5_提交')
-    #提取
+    # 提取
     dict_1_word_post = fields.Char(u'字典1_提交')
     # 项目参数
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
@@ -295,11 +302,11 @@ class auto_word_wind(models.Model):
 
     # --------风场信息---------
     # 风能
-    Lon_words = fields.Char(string=u'东经', default='111.334294', required=True)
-    Lat_words = fields.Char(string=u'北纬', default='23.132694', required=True)
+    Lon_words = fields.Char(string=u'东经', default="待提交", readonly=True)
+    Lat_words = fields.Char(string=u'北纬', default="待提交", readonly=True)
     Elevation_words = fields.Char(string=u'海拔高程', default='588m～852m', required=True)
     Relative_height_difference_words = fields.Char(string=u'相对高差', default='100m-218m', required=True)
-    area_words = fields.Char(string=u'风场面积')
+    area_words = fields.Char(string=u'风场面积', default="待提交", required=True)
     farm_speed_range_words = fields.Char(string=u'风速区间', default="5.2~6.4", required=True)
     air_density_words = fields.Char(string=u'空气密度', default="1.096", required=True)
     # 限制性因素
@@ -320,10 +327,9 @@ class auto_word_wind(models.Model):
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
 
-####
-    Temperature_txt = fields.Char(u'平均温度', default="待提交")
-
-    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交")
+    ####
+    Temperature_txt = fields.Char(u'平均温度', default="待提交", required=True)
+    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交", required=True)
 
     # --------测风信息---------
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
@@ -340,12 +346,12 @@ class auto_word_wind(models.Model):
     # --------机型推荐---------
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型', required=False)
     # --------方案比选---------
-    recommend_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'方案推荐', required=False)
+    recommend_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'推荐方案', required=False)
     case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案名称', required=False)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
-    turbine_numbers_suggestion = fields.Char(u'推荐机组数量', compute='_compute_compare_case', readonly=True)
-    hub_height_suggestion = fields.Char(u'推荐轮毂高度', compute='_compute_compare_case', readonly=True)
-    rotor_diameter_suggestion = fields.Char(string=u'推荐叶轮直径', readonly=True, default="待提交",
+    turbine_numbers_suggestion = fields.Char(u'机组数量', compute='_compute_compare_case', readonly=True)
+    hub_height_suggestion = fields.Char(u'轮毂高度', compute='_compute_compare_case', readonly=True)
+    rotor_diameter_suggestion = fields.Char(string=u'叶轮直径', readonly=True, default="待提交",
                                             compute='_compute_compare_case')
     TurbineCapacity_suggestion = fields.Char(string=u'推荐单机容量', readonly=True, default="待提交",
                                              compute='_compute_compare_case')
@@ -365,7 +371,7 @@ class auto_word_wind(models.Model):
                                          compute='_compute_compare_case')
     voltage_suggestion = fields.Char(string=u'推荐额定电压', readonly=True, default="待提交",
                                      compute='_compute_compare_case')
-    investment_turbines_kws = fields.Char(u'风机kW投资', compute='_compute_compare_case')
+    investment_turbines_kws = fields.Char(u'风机投资（KW）', compute='_compute_compare_case')
     project_capacity = fields.Char(string=u'装机容量', readonly=True, compute='_compute_compare_case', default="待提交")
     case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
 
@@ -373,11 +379,10 @@ class auto_word_wind(models.Model):
     weak = fields.Char(u'尾流衰减', default="待提交", readonly=True, compute='_compute_compare_case')
     hours_year = fields.Char(u'满发小时', default="待提交", readonly=True, compute='_compute_compare_case')
     capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True, compute='_compute_compare_case')
-    rate = fields.Float(string=u'折减率', readonly=True, compute='_compute_compare_case')
+    rate = fields.Char(string=u'风场折减',default="待提交", readonly=True, compute='_compute_compare_case')
 
     path_images = fields.Char(u'图片路径')
     tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
-
 
     # --------结果文件---------
     png_list = []
@@ -427,11 +432,9 @@ class auto_word_wind(models.Model):
             re.ongrid_power = re.recommend_id.ongrid_power
             re.tower_weight = re.recommend_id.tower_weight
 
-
     @api.multi
     def submit_wind(self):
         limited_str_1, limited_str_2, limited_str_3, limited_words = "", "", "", ""
-
 
         self.project_id.wind_attachment_ok = u"已提交,版本：" + self.version_id
         self.project_id.case_name = str(self.recommend_id.case_name)
@@ -466,7 +469,6 @@ class auto_word_wind(models.Model):
         self.project_id.cft_TI_words = self.cft_TI_words
 
         self.project_id.max_wind_txt = self.max_wind_txt
-
 
         if self.limited_1 == True:
             if self.limited_2 == False and self.limited_3 == False:

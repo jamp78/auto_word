@@ -22,16 +22,16 @@ class auto_word_wind_cft(models.Model):
     _name = 'auto_word_wind.cft'
     _description = 'Wind cft input'
     _rec_name = 'wind_id'
-    project_id = fields.Many2one('auto_word.project', string=u'项目名')
-    wind_id = fields.Many2one('auto_word.wind', string=u'章节分类')
+    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
+    wind_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
     version_id = fields.Char(u'版本', default="1.0")
-    string_speed_words = fields.Char(string=u'测风塔选定风速结果')
-    string_deg_words = fields.Char(string=u'测风塔选定风向结果')
-    cft_name_words = fields.Char(string=u'测风塔名字')
-    cft_number_words = fields.Char(string=u'测风塔数目')
+    string_speed_words = fields.Char(string=u'测风塔风速', default="待提交", readonly=True)
+    string_deg_words = fields.Char(string=u'测风塔风向', default="待提交", readonly=True)
+    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
+    cft_number_words = fields.Char(string=u'测风塔数目', default="待提交", readonly=True)
 
-    cft_TI_words = fields.Char(string=u'湍流信息')
-    cft_time_words = fields.Char(string=u'选取时间段')
+    cft_TI_words = fields.Char(string=u'湍流信息', default="待提交", readonly=True)
+    cft_time_words = fields.Char(string=u'选取时间段', default="待提交", readonly=True)
 
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
 
