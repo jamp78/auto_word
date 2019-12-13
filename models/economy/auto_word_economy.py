@@ -391,7 +391,7 @@ def cal_economy_result(self):
                           **dict8
                           )
             print(Dict12)
-            Dict_12_Final = dict(dict_12_word, **dict_12_res_word, **dictMerged)
+            Dict_12_Final = dict(dict_12_word, **dict_12_res_word)
             for key, value in Dict_12_Final.items():
                 gl.set_value(key, value)
 

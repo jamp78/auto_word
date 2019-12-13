@@ -334,12 +334,18 @@ class auto_word_project(models.Model):
 
     dict_x = fields.Char(string=u'字典x')
 
+
     def merge_project(self):
 
+        if self.Dict_12_Final==False:
+            # raise ValidationError('验证错误信息!')
+            raise exceptions.Warning('There are %d active tasks.' % self.Dict_12_Final)
         dict_x = dict_project_x(self)
-        Dict_12_Final = eval(self.Dict_12_Final)
-        Dict_13_Final = eval(self.Dict_13_Final)
-        dict_x_all = dict(dict_x, **Dict_12_Final, **Dict_13_Final)
+        dict_12_final = eval(self.Dict_12_Final)
+        print("dict_12_final")
+        print(dict_12_final)
+        dict_13_final = eval(self.Dict_13_Final)
+        dict_x_all = dict(dict_x, **dict_12_final, **dict_13_final)
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
