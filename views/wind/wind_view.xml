@@ -43,18 +43,16 @@
                             <field name="project_id"/>
                             <field name="version_id"/>
                             <field name="content_id"/>
-                            <field name="Lon_words"/>
-                            <field name="Lat_words"/>
-                            <field name="Lat_words" attrs="{'invisible': [('Lat_words', '&lt;', 30)]}" style='color:red'/>
+                            <field name="Temperature_txt"/>
+                            <field name="air_density_words"/>
+                            <!--<field name="Lat_words" attrs="{'invisible': [('Lat_words', '&lt;', 30)]}" style='color:red'/>-->
                             <field name="Elevation_words"/>
                             <field name="Relative_height_difference_words"/>
                         </group>
                         <group name="group_right">
                             <field name="TerrainType"/>
-                            <field name="Temperature_txt"/>
                             <field name="area_words"/>
                             <field name="farm_speed_range_words"/>
-                            <field name="air_density_words"/>
                             <field name="IECLevel"/>
                             <field name="PWDLevel"/>
                             <field name="max_wind_txt"/>
@@ -63,9 +61,12 @@
                     <group name="group_right" string="风能资源">
                         <group name="group_right">
                             <field name="cft_name_words"/>
+                            <field name="cft_number_words"/>
                         </group>
                         <group name="group_left">
-                            <field name="cft_number_words"/>
+
+                            <field name="Lon_words"/>
+                            <field name="Lat_words"/>
                         </group>
                     </group>
                     <group name="group_left">
@@ -90,27 +91,21 @@
                         <group name="group_left">
                             <field name="recommend_id"/>
                             <field name="name_tur_suggestion"/>
-                            <field name="investment_turbines_kws"/>
-                            <field name="rate"/>
+                            <field name="turbine_numbers_suggestion"/>
+                            <field name="project_capacity"/>
+                            <field name="hub_height_suggestion"/>
+                            <field name="rotor_diameter_suggestion"/>
                         </group>
                         <group name="group_right">
-                            <field name="ongrid_power"/>
                             <field name="weak"/>
+                            <field name="rate"/>
+                            <field name="ongrid_power"/>
                             <field name="hours_year"/>
                             <field name="capacity_coefficient"/>
+                            <field name="investment_turbines_kws"/>
                         </group>
                     </group>
 
-                    <group name="group_mid">
-                        <group name="group_left">
-                            <field name="hub_height_suggestion"/>
-                            <field name="project_capacity"/>
-                        </group>
-                        <group name="group_right">
-                            <field name="turbine_numbers_suggestion"/>
-                            <field name="rotor_diameter_suggestion"/>
-                        </group>
-                    </group>
                     <group string="方案比选">
                         <field name="case_names"/>
                     </group>

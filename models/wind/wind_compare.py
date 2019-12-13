@@ -253,6 +253,9 @@ class auto_word_wind_turbines_compare(models.Model):
             else:
                 re.TerrainType_turbines_compare = '山地'
 
+            if re.project_id.total_civil_length=="待提交":
+                re.project_id.total_civil_length=0
+
             if re.investment_E4 == 0:
                 if re.TerrainType_turbines_compare == "平原":
                     re.investment_E4 = float(re.project_id.total_civil_length) * 50
@@ -265,6 +268,12 @@ class auto_word_wind_turbines_compare(models.Model):
 
             re.investment_E5 = investment_e5_sum
             re.investment_E6 = investment_e6_sum
+
+            if re.project_id.jidian_air_wind=="待提交":
+                re.project_id.jidian_air_wind=0
+
+            if re.project_id.jidian_cable_wind=="待提交":
+                re.project_id.jidian_cable_wind=0
 
             if re.jidian_air_wind == 0 and re.jidian_cable_wind == 0:
                 re.investment_E7 = float(re.project_id.jidian_air_wind) * 40 + float(

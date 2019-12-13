@@ -39,6 +39,8 @@ def dict_project_1(self):
         "建设地点": self.Location_words,
         "项目大区": self.company_id.name,
         "相对高差": self.Relative_height_difference_words,
+        "东经": self.Lon_words,
+        "北纬": self.Lat_words,
     }
 
     return dict_1_word
@@ -126,7 +128,7 @@ class auto_word_project(models.Model):
     project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
     Farm_words = fields.Char(string=u'风电场名称', required=True)
     Location_words = fields.Char(string=u'建设地点', required=True)
-    area_words = fields.Char(string=u'风场面积', required=True)
+    area_words = fields.Char(string=u'风场面积', default="待提交", readonly=True)
 
     order_number = fields.Char(u'项目编号')
     active = fields.Boolean(u'续存？', default=True)
@@ -153,10 +155,10 @@ class auto_word_project(models.Model):
 
     ###风能
     project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)  ######################
-    name_tur_suggestion = fields.Char(u'风机推荐型号', default="待提交", readonly=True)
+    name_tur_suggestion = fields.Char(u'风机型号', default="待提交", readonly=True)
     name_tur_selection = fields.Char(u'风机比选型号', default="待提交", readonly=True)
-    turbine_numbers_suggestion = fields.Char(u'机组数量', default="0", readonly=True)
-    hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
+    turbine_numbers_suggestion = fields.Char(u'机组数量', default="待提交", readonly=True)
+    hub_height_suggestion = fields.Char(u'轮毂高度', default="待提交", readonly=True)
     capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True)
 
     investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True)
@@ -173,8 +175,8 @@ class auto_word_project(models.Model):
 
     Lon_words = fields.Char(string=u'东经', default='待提交', required=True)
     Lat_words = fields.Char(string=u'北纬', default='待提交', required=True)
-    Elevation_words = fields.Char(string=u'海拔高程', default='待提交', required=True)
-    Relative_height_difference_words = fields.Char(string=u'相对高差', default='待提交', required=True)
+    Elevation_words = fields.Char(string=u'海拔高程', default="待提交", readonly=True)
+    Relative_height_difference_words = fields.Char(string=u'相对高差', default="待提交", readonly=True)
 
     Turbine_number_words = fields.Char(string=u'机组数量', default="待提交", readonly=True)  ######################
     Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)  ######################
@@ -198,39 +200,39 @@ class auto_word_project(models.Model):
     cft_time_words = fields.Char(string=u'选取时间段', default="待提交", readonly=True)
 
     ###电气
-    line_1 = fields.Char(u'线路总挖方', default="0", readonly=True)
-    line_2 = fields.Char(u'线路总填方', default="0", readonly=True)
-    overhead_line = fields.Char(u'架空线路用地', default="0", readonly=True)
-    direct_buried_cable = fields.Char(u'直埋电缆用地', default="0", readonly=True)
-    overhead_line_num = fields.Char(u'架空线路塔基数量', default="0", readonly=True)
-    direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="0", readonly=True)
-    main_booster_station_num = fields.Char(u'主变数量', default="0", readonly=True)
+    line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
+    line_2 = fields.Char(u'线路总填方', default="待提交", readonly=True)
+    overhead_line = fields.Char(u'架空线路用地', default="待提交", readonly=True)
+    direct_buried_cable = fields.Char(u'直埋电缆用地', default="待提交", readonly=True)
+    overhead_line_num = fields.Char(u'架空线路塔基数量', default="待提交", readonly=True)
+    direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="待提交", readonly=True)
+    main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
 
     voltage_class = fields.Char(u'地形', default="待提交", readonly=True)
-    length_single_jL240 = fields.Char(u'单回线路JL/G1A-240/30长度（km）', default="0", readonly=True)
-    length_double_jL240 = fields.Char(u'双回线路JL/G1A-240/30长度（km）', default="0", readonly=True)
-    yjlv95 = fields.Char(u'直埋电缆YJLV22-26/35-3×95（km）', default="0", readonly=True)
-    yjv300 = fields.Char(u'直埋电缆YJV22-26/35-1×300（km）', default="0", readonly=True)
-    circuit_number = fields.Char(u'线路回路数', default="0", readonly=True)
+    length_single_jL240 = fields.Char(u'单回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
+    length_double_jL240 = fields.Char(u'双回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
+    yjlv95 = fields.Char(u'直埋电缆YJLV22-26/35-3×95（km）', default="待提交", readonly=True)
+    yjv300 = fields.Char(u'直埋电缆YJV22-26/35-1×300（km）', default="待提交", readonly=True)
+    circuit_number = fields.Char(u'线路回路数', default="待提交", readonly=True)
 
-    jidian_air_wind = fields.Char(u'架空长度', readonly=True, default="0")
-    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True, default="0")
+    jidian_air_wind = fields.Char(u'架空长度', readonly=True, default="待提交")
+    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True, default="待提交")
 
     ###土建
     road_1_num = fields.Char(u'改扩建进场道路', default="待提交", readonly=True)
     road_2_num = fields.Char(u'进站道路', default="待提交", readonly=True)
     road_3_num = fields.Char(u'新建施工检修道路', default="待提交", readonly=True)
-    total_civil_length = fields.Float(u'道路工程长度', default="0", readonly=True)
+    total_civil_length = fields.Char(u'道路工程长度', default="待提交", readonly=True)
 
     basic_type = fields.Char(u'基础形式', default="待提交", readonly=True)
     ultimate_load = fields.Char(u'极限载荷', default="待提交", readonly=True)
     fortification_intensity = fields.Char(u'设防烈度', default="待提交", readonly=True)
-    temporary_land_area = fields.Char(u'临时用地面积（亩）', default="0", readonly=True)
-    permanent_land_area = fields.Char(u'永久用地面积（亩）', default="0", readonly=True)
-    TurbineCapacity = fields.Char(u'风机容量', default="0", readonly=True)  ######################
-    excavation = fields.Char(u'总开挖量（m3）', default="0", readonly=True)
-    backfill = fields.Char(u'总回填量（m3）', default="0", readonly=True)
-    spoil = fields.Char(u'弃土量（m3）', default="0", readonly=True)
+    temporary_land_area = fields.Char(u'临时用地面积（亩）', default="待提交", readonly=True)
+    permanent_land_area = fields.Char(u'永久用地面积（亩）', default="待提交", readonly=True)
+    TurbineCapacity = fields.Char(u'单机容量', default="待提交", readonly=True)  ######################
+    excavation = fields.Char(u'总开挖量（m3）' , default="待提交", readonly=True)
+    backfill = fields.Char(u'总回填量（m3）', default="待提交", readonly=True)
+    spoil = fields.Char(u'弃土量（m3）', default="待提交", readonly=True)
 
     Status = fields.Char(u'升压站状态', default="待提交", readonly=True)
     Grade = fields.Char(u'升压站等级', default="待提交", readonly=True)
@@ -245,18 +247,18 @@ class auto_word_project(models.Model):
 
     # 土建结果
     # 风机基础工程数量表
-    EarthExcavation_WindResource = fields.Char(u'土方开挖（m3）')
-    StoneExcavation_WindResource = fields.Char(u'石方开挖（m3）')
-    EarthWorkBackFill_WindResource = fields.Char(u'土石方回填（m3）')
-    Volume = fields.Char(u'C40混凝土（m3）')
-    Cushion = fields.Char(u'C15混凝土（m3）')
-    Reinforcement = fields.Char(u'钢筋（t）')
+    EarthExcavation_WindResource = fields.Char(u'土方开挖（m3）', default="待提交", readonly=True)
+    StoneExcavation_WindResource = fields.Char(u'石方开挖（m3）', default="待提交", readonly=True)
+    EarthWorkBackFill_WindResource = fields.Char(u'土石方回填（m3）', default="待提交", readonly=True)
+    Volume = fields.Char(u'C40混凝土（m3）', default="待提交", readonly=True)
+    Cushion = fields.Char(u'C15混凝土（m3）', default="待提交", readonly=True)
+    Reinforcement = fields.Char(u'钢筋（t）', default="待提交", readonly=True)
     Based_Waterproof = fields.Char(u'基础防水', default=1)
     Settlement_Observation = fields.Char(u'沉降观测', default=4)
-    SinglePileLength = fields.Char(u'总预制桩长（m）')
-    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）')
-    C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）')
-    stake_number = fields.Char(u'单台风机桩根数（根）')
+    SinglePileLength = fields.Char(u'总预制桩长（m）', default="待提交", readonly=True)
+    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）', default="待提交", readonly=True)
+    C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）', default="待提交", readonly=True)
+    stake_number = fields.Char(u'单台风机桩根数（根）', default="待提交", readonly=True)
 
     BasicType = fields.Char(u'基础形式')
     FloorRadiusR = fields.Char(u'基础底面圆直径')
@@ -310,7 +312,7 @@ class auto_word_project(models.Model):
     conservation_water_soil = fields.Char(string=u'水土保持费用（万元）', readonly=True)
     environmental_protection_investment = fields.Char(string=u'环境保护总投资（万元）')
     capacity_coefficient = fields.Char(string=u'容量系数')
-    IECLevel = fields.Char(string=u'IEC等级', readonly=True)
+    IECLevel = fields.Char(string=u'IEC等级', default="待提交", readonly=True)
     rotor_diameter_suggestion = fields.Char(string=u'叶轮直径')
     road_names = fields.Char(string=u'周边道路')
     land_area = fields.Char(string=u'总用地面积')

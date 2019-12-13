@@ -13,7 +13,7 @@
                 <field name="cft_deg_pwd_main"/>
                 <field name="cft_TI"/>
                 <field name="cft_time"/>
-           </tree>
+            </tree>
         </field>
     </record>
 
@@ -59,10 +59,12 @@
         <field name="model">auto_word_wind.cft</field>
         <field name="arch" type="xml">
             <form>
-            <header>
-                <button name="button_cft" type="object" groups="auto_word.wind_group_user"
+                <header>
+                    <button name="compute_cft" type="object" groups="auto_word.wind_group_user"
+                            string="计算"/>
+                    <button name="button_cft" type="object" groups="auto_word.wind_group_user"
                             string="提交结果"/>
-            </header>
+                </header>
 
                 <group string="测风塔信息">
                     <field name="project_id"/>
