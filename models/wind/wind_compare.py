@@ -36,8 +36,8 @@ class auto_word_wind_turbines_compare(models.Model):
     # jidian_air_wind = fields.Float(u'架空长度', default=0, help='若不填写即采用电气集电线路')
     # jidian_cable_wind = fields.Float(u'电缆长度', default=0, help='若不填写即采用电气集电线路')
 
-    jidian_air_wind = fields.Char(u'架空长度', readonly=True)
-    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True)
+    jidian_air_wind = fields.Char(u'架空长度', default="待提交", readonly=True)
+    jidian_cable_wind = fields.Char(u'电缆长度', default="待提交", readonly=True)
 
     case_ids = fields.Many2many('wind_turbines.case', string=u'方案机型')
     cal_id = fields.Selection([(0, u"线性"), (1, u"非线性")], string=u"采用算法")
@@ -275,7 +275,7 @@ class auto_word_wind_turbines_compare(models.Model):
             if re.project_id.jidian_cable_wind=="待提交":
                 re.project_id.jidian_cable_wind=0
 
-            if re.jidian_air_wind == 0 and re.jidian_cable_wind == 0:
+            if re.jidian_air_wind == "待提交" and re.jidian_cable_wind == "待提交":
                 re.investment_E7 = float(re.project_id.jidian_air_wind) * 40 + float(
                     re.project_id.jidian_cable_wind) * 50
             else:
@@ -287,6 +287,10 @@ class auto_word_wind_turbines_compare(models.Model):
             if re.ongrid_power != 0:
                 re.investment_unit = RoundUp.round_up3(
                     (re.investment / float(re.ongrid_power) * 10), 3)
+            re.ongrid_power = re.res_form.ongrid_power_sum
+            re.hours_year = re.res_form.hours_year_average
+            re.weak = re.res_form.wake_average
+            re.hub_height_suggestion = re.res_form.hub_height_calcuation
 
     def submit_turbines_compare(self):
         for re in self:
