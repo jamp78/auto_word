@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b61773cf-16a4-4355-a7c1-a006fe9551bd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/wind_compare.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/wind_compare.py" afterDir="false" />
-    </list>
+    <list default="true" id="b61773cf-16a4-4355-a7c1-a006fe9551bd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,7 +334,7 @@
       <workItem from="1576105396057" duration="633000" />
       <workItem from="1576156165899" duration="1760000" />
       <workItem from="1576194160536" duration="157000" />
-      <workItem from="1576236857038" duration="2550000" />
+      <workItem from="1576236857038" duration="2767000" />
     </task>
     <task id="LOCAL-00001" summary="home 20191124">
       <created>1574602904229</created>
@@ -465,11 +462,18 @@
       <option name="project" value="LOCAL" />
       <updated>1576194292145</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="home 20191207 发电量方案名称解决">
+      <created>1576245548411</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1576245548411</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60291000" />
+    <option name="totallyTimeSpent" value="60508000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -483,13 +487,13 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6015152" visible="true" weight="0.1924307" />
-      <window_info id="Structure" order="1" sideWeight="0.39848486" side_tool="true" visible="true" weight="0.1924307" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.60195225" visible="true" weight="0.1924307" />
+      <window_info id="Structure" order="1" sideWeight="0.39804772" side_tool="true" visible="true" weight="0.1924307" />
       <window_info id="DB Browser" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.28416485" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989339" weight="0.28416485" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
