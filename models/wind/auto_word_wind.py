@@ -15,6 +15,26 @@ from RoundUp import round_up, Get_Average, Get_Sum
 
 
 def cal_wind_result(self):
+    self.dict_1_word_post = self.project_id.dict_1_word_post
+    print("check dict_1_word_post")
+    print(self.dict_1_word_post)
+    if self.dict_1_word_post == False:
+        s = "项目"
+        raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
+    self.area_words = self.project_id.area_words
+
+    if self.max_wind_txt == "待提交":
+        s = "五十年一遇最大风速"
+        raise exceptions.Warning('请提交 --> %s 信息。' % s)
+
+    if self.Temperature_txt == "待提交":
+        s = "温度"
+        raise exceptions.Warning('请提交 --> %s 信息。' % s)
+
+    if self.cft_name_words == "待提交":
+        s = "风能部分"
+        raise exceptions.Warning('请点选 %s，并点击 --> 机组选型（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
     tur_name = []
     extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
 

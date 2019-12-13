@@ -25,13 +25,13 @@ class auto_word_wind_cft(models.Model):
     project_id = fields.Many2one('auto_word.project', string=u'项目名')
     wind_id = fields.Many2one('auto_word.wind', string=u'章节分类')
     version_id = fields.Char(u'版本', default="1.0")
-    string_speed_words = fields.Char(string=u'测风塔选定风速结果', compute='_compute_cft')
-    string_deg_words = fields.Char(string=u'测风塔选定风向结果', compute='_compute_cft')
-    cft_name_words = fields.Char(string=u'测风塔名字', compute='_compute_cft')
-    cft_number_words = fields.Char(string=u'测风塔数目', compute='_compute_cft')
+    string_speed_words = fields.Char(string=u'测风塔选定风速结果')
+    string_deg_words = fields.Char(string=u'测风塔选定风向结果')
+    cft_name_words = fields.Char(string=u'测风塔名字')
+    cft_number_words = fields.Char(string=u'测风塔数目')
 
-    cft_TI_words = fields.Char(string=u'湍流信息', compute='_compute_cft')
-    cft_time_words = fields.Char(string=u'选取时间段', compute='_compute_cft')
+    cft_TI_words = fields.Char(string=u'湍流信息')
+    cft_time_words = fields.Char(string=u'选取时间段')
 
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
 
@@ -56,8 +56,8 @@ class auto_word_wind_cft(models.Model):
 
             re.name_tur_selection = name_tur_selection_words
 
-    @api.depends('select_cft_ids')
-    def _compute_cft(self):
+    # @api.depends('select_cft_ids')
+    def compute_cft(self):
         for re in self:
             string_speed_words_final = ""
             string_deg_words_final = ""
