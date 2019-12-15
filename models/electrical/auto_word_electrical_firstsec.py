@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo import exceptions
 import doc_6
 import base64, os
 from docxtpl import DocxTemplate
@@ -18,7 +19,25 @@ def generate_electrical_docx(Dict, path_images, model_name, outputfile):
     tpl.save(save_path)
 
 
-def get_dict_electrical_firstsec(index, col_name, data, sheet_name_array):
+def get_dict_electrical_firstsec(self,index, col_name, data, sheet_name_array):
+    self.dict_1_word_post = self.project_id.dict_1_word_post
+    self.dict_4_word_post = self.project_id.dict_4_word_post
+    self.dict_5_word_post = self.project_id.dict_5_word_post
+    print("check dict_1_word_post")
+    print(self.dict_1_word_post)
+    if self.dict_1_word_post == False:
+        s = "项目"
+        raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+    if self.dict_4_word_post == False:
+        s = "电器部分"
+        raise exceptions.Warning('请点选 %s，并点击电气详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
+    if self.dict_5_word_post == False:
+        s = "风能部分"
+        raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
+
+
     result_dict, context = {}, {}
     result_list = []
 
@@ -60,11 +79,19 @@ class auto_word_electrical_firstsec(models.Model):
     _name = 'auto_word_electrical.firstsec'
     _description = 'electrical input'
     _rec_name = 'project_id'
+
+    # 提交
+    dict_6_word_post = fields.Char(u'字典8_提交')
+    # 提取
+    dict_1_word_post = fields.Char(u'字典1_提交')
+    dict_4_word_post = fields.Char(u'字典4_提交')
+    dict_5_word_post = fields.Char(u'字典5_提交')
+
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    report_attachment_id_input = fields.Many2many('ir.attachment', string=u'电气一次提资')
+    report_attachment_id_input = fields.Many2many('ir.attachment', string=u'电气提资')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
-
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气成果')
     ####升压站
     Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
     Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
@@ -120,15 +147,7 @@ class auto_word_electrical_firstsec(models.Model):
                 name_first = t
                 file_exist = True
 
-            # if '电气一次' in t:
-            #     xlsdata_first = base64.standard_b64decode(re.datas)
-            #     name_first = t
-            #     file_first = True
-            #
-            # elif '电气二次' in t:
-            #     xlsdata_second = base64.standard_b64decode(re.datas)
-            #     name_second = t
-            #     file_second = True
+
         if file_exist == True:
             electrical_path = self.env['auto_word.project'].path_images_chapter_6
             suffix_in = ".xls"
@@ -200,7 +219,7 @@ class auto_word_electrical_firstsec(models.Model):
                 data = data.replace(np.nan, '-', regex=True)
                 col_name_array.append(col_name)
                 tabel_number = str(chapter_number) + '_' + str(i)
-                dict_content = get_dict_electrical_firstsec(tabel_number, col_name_array[i], data, sheet_name_array[i])
+                dict_content = get_dict_electrical_firstsec(self,tabel_number, col_name_array[i], data, sheet_name_array[i])
 
                 dictMerged.update(dict_content)
 
@@ -212,11 +231,49 @@ class auto_word_electrical_firstsec(models.Model):
                 '热镀锌扁钢': str(dictMerged['result_list6_1'][47]['cols'][1]),
                 '热镀锌角钢': str(dictMerged['result_list6_1'][48]['cols'][1]),
             }
-            print(dictMerged)
-            Dict6 = dict(dictMerged, **dict_6_res_word)
-            generate_electrical_docx(Dict6, electrical_path, model_name, outputfile)
-            return
 
+
+
+            # 提交的生成chapter6的dict
+            dict_6_word = dict(dictMerged, **dict_6_res_word)
+            print('dict_6_word')
+            print(dict_6_word)
+            # 生成chapter6 所需要的总的dict
+            dict_6_words = dict(dict_6_word, **eval(self.dict_1_word_post),
+                                **eval(self.dict_4_word_post), **eval(self.dict_5_word_post))
+
+            generate_electrical_docx(dict_6_words, electrical_path, model_name, outputfile)
+            ###########################
+
+            reportfile_name = open(file=os.path.join(electrical_path, '%s.docx') % 'result_chapter6',
+                                   mode='rb')
+            byte = reportfile_name.read()
+            reportfile_name.close()
+            print('file lenth=', len(byte))
+            base64.standard_b64encode(byte)
+            if (str(self.report_attachment_id) == 'ir.attachment()'):
+                Attachments = self.env['ir.attachment']
+                print('开始创建新纪录')
+                New = Attachments.create({
+                    'name': self.project_id.project_name + '可研报告电气章节下载页',
+                    'datas_fname': self.project_id.project_name + '可研报告电气章节.docx',
+                    'datas': base64.standard_b64encode(byte),
+                    'display_name': self.project_id.project_name + '可研报告电气章节',
+                    'create_date': fields.date.today(),
+                    'public': True,  # 此处需设置为true 否则attachments.read  读不到
+                    # 'mimetype': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    # 'res_model': 'autoreport.project'
+                    # 'res_field': 'report_attachment_id'
+                })
+                print('已创建新纪录：', New)
+                print('new dataslen：', len(New.datas))
+                self.report_attachment_id = New
+            else:
+                self.report_attachment_id.datas = base64.standard_b64encode(byte)
+
+            print('new attachment：', self.report_attachment_id)
+            print('new datas len：', len(self.report_attachment_id.datas))
+            return True
     @api.multi
     def action_get_attachment_electrical_firstsec_view(self):
         """附件上传动作视图"""
@@ -258,9 +315,6 @@ class auto_word_electrical_firstsec(models.Model):
         self.TypeID_ccgistype = self.ccgistype.TypeID
         self.TypeID_ccmtlvtype = self.ccmtlvtype.TypeID
 
-        print("looooo")
-        print(self.project_id.turbine_numbers_suggestion)
-
         dict6 = doc_6.generate_electrical_TypeID_dict(
             TypeID_boxvoltagetype=self.TypeID_boxvoltagetype,
             TypeID_maintransformertype=self.TypeID_maintransformertype,
@@ -293,7 +347,6 @@ class auto_word_electrical_firstsec(models.Model):
             turbine_numbers=self.project_id.turbine_numbers_suggestion
         )
 
-        print(dict6)
 
 
 # 2箱式变电站

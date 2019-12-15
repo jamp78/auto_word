@@ -85,7 +85,9 @@
                     <group name="group_bot">
                         <field name="report_attachment_id_input"/>
                     </group>
-
+                    <group name="group_bot">
+                        <field name="report_attachment_id"/>
+                    </group>
                 </sheet>
 
             </form>
