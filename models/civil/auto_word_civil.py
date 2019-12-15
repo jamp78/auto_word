@@ -5,6 +5,7 @@ import base64, os
 import numpy
 from RoundUp import round_up
 from odoo import models, fields, api
+from odoo import exceptions
 import global_dict as gl
 
 
@@ -166,6 +167,23 @@ class auto_word_civil_design_safety_standard(models.Model):
 
 
 def civil_generate_docx_dict(self):
+    self.dict_1_word_post = self.project_id.dict_1_word_post
+    self.dict_3_word_post = self.project_id.dict_3_word_post
+    self.dict_5_word_post = self.project_id.dict_5_word_post
+    print("check dict_1_word_post")
+    print(self.dict_1_word_post)
+    if self.dict_1_word_post == False:
+        s = "项目"
+        raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+    if self.dict_5_word_post == False:
+        s = "风能部分"
+        raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
+    if self.project_id.dict_3_word_post == False:
+        self.dict_3_word_post={}
+    else:
+        self.dict_3_word_post = eval(self.project_id.dict_3_word_post)
+
     self.line_data = [float(self.line_1), float(self.line_2)]
     self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
     self.road_stone_ratio = 10 - self.road_earthwork_ratio
@@ -187,11 +205,13 @@ def civil_generate_docx_dict(self):
                  'Grade', 'Capacity', 'TerrainType', 'numbers_list_road', 'overhead_line', 'direct_buried_cable',
                  'line_data', 'main_booster_station_num', 'overhead_line_num', 'direct_buried_cable_num']
 
+
+
     dict_8 = get_dict_8(np, dict_keys)
     dict8 = generate_civil_dict(**dict_8)
-    dict5 = eval(self.project_id.dict_5_word_post)
-    dict3 = eval(self.project_id.dict_3_word_post)
-    dict1 = eval(self.project_id.dict_1_word_post)
+    dict5 = eval(self.dict_5_word_post)
+    dict3 = eval(self.dict_3_word_post)
+    dict1 = eval(self.dict_1_word_post)
 
     dict_8_word_part = {
         # 设计安全标准
@@ -241,6 +261,10 @@ class auto_word_civil(models.Model):
     # _inherit = ['auto_word_civil.windbase']
     # 提交
     dict_8_word_post = fields.Char(u'字典8_提交')
+    # 提取
+    dict_1_word_post = fields.Char(u'字典1_提交')
+    dict_3_word_post = fields.Char(u'字典3_提交')
+    dict_5_word_post = fields.Char(u'字典5_提交')
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
@@ -439,14 +463,36 @@ class auto_word_civil(models.Model):
     #   计算
     def cal_civil(self):
         projectname = self.project_id
+
+        if projectname.turbine_numbers_suggestion == "待提交":
+            s = "风能部分"
+            raise exceptions.Warning('请完成 %s，并点击 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+        if projectname.main_booster_station_num == "待提交":
+            s = "电器一次、二次部分"
+            raise exceptions.Warning('请完成 %s，并点击 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
+        if projectname.direct_buried_cable_num == "待提交" or projectname.overhead_line_num == "待提交":
+            s = "电器集电线路部分"
+            raise exceptions.Warning('请完成 %s，并点击 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
         self.turbine_numbers = projectname.turbine_numbers_suggestion
         self.name_tur_suggestion = projectname.name_tur_suggestion
         self.hub_height_suggestion = projectname.hub_height_suggestion
         self.ProjectLevel_all = self.env['auto_word_civil.design_safety_standard'].search(
             [('civil_id.project_id.project_name', '=', self.project_id.project_name)])
 
-        self.line_1 = projectname.line_1
-        self.line_2 = projectname.line_2
+        if projectname.line_1 == "待提交":
+            self.line_1=0
+        else:
+            self.line_1 = projectname.line_1
+
+        if projectname.line_2 == "待提交":
+            self.line_2=0
+        else:
+            self.line_2 = projectname.line_2
+
+
+
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num

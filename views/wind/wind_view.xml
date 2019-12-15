@@ -110,9 +110,9 @@
                         <field name="case_names"/>
                     </group>
 
-                    <group string="方案结果">
-                        <field name="auto_word_wind_res"/>
-                    </group>
+                    <!--<group string="方案结果">-->
+                        <!--<field name="auto_word_wind_res"/>-->
+                    <!--</group>-->
 
 
 

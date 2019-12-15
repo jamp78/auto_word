@@ -243,7 +243,7 @@ class auto_word_project(models.Model):
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
     ProjectLevel_all = fields.Many2one('auto_word_civil.design_safety_standard', string=u'项目工程等别')
 
-    civil_all = fields.Many2one('auto_word.civil', string=u'详细用量表')
+    civil_all = fields.Many2one('auto_word.civil', string=u'详细用量表', readonly=True)
 
     # 土建结果
     # 风机基础工程数量表

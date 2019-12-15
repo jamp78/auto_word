@@ -41,6 +41,9 @@ def cal_wind_result(self):
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击 --> 机组选型（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
+    self.Lat_words = self.project_id.Lat_words
+    self.Lon_words = self.project_id.Lon_words
+    extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
 
     if self.recommend_id.case_name == False:
         s = "风能部分"
@@ -49,9 +52,7 @@ def cal_wind_result(self):
     # 进行计算
     tur_name = []
 
-    self.Lat_words = self.project_id.Lat_words
-    self.Lon_words = self.project_id.Lon_words
-    extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
+
 
     for i in range(0, len(self.select_turbine_ids)):
         tur_name.append(self.select_turbine_ids[i].name_tur)
@@ -81,7 +82,8 @@ def cal_wind_result(self):
     ave_AverageWindSpeed_Weak, total_powerGeneration, total_ongrid_power, total_powerGeneration_weak = 0, 0, 0, 0
 
     # 结果 Dict
-    for re in self.auto_word_wind_res:
+
+    for re in self.recommend_id.res_form.auto_word_wind_res:
         project_id_input_dict.append(re.project_id_input)
         Turbine_dict.append(re.Turbine)
         tur_id_dict.append(re.tur_id)
@@ -254,7 +256,7 @@ def cal_wind_result(self):
 
         "五十年一遇最大风速": self.max_wind_txt,
         "五十年一遇极大风速": extreme_wind,
-        "折减率": self.project_id.rate,
+        "折减率": self.rate,
         "折减率备注": self.project_id.note,
         'IEC等级': self.IECLevel,
         "风速区间": self.farm_speed_range_words,
@@ -386,7 +388,7 @@ class auto_word_wind(models.Model):
 
     # --------结果文件---------
     png_list = []
-    auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=False)
+    # auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=False)
     file_excel_path = fields.Char(u'文件路径')
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
     report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
@@ -423,7 +425,7 @@ class auto_word_wind(models.Model):
             re.three_second_maximum_suggestion = re.recommend_id.three_second_maximum_suggestion
             re.rated_power_suggestion = re.recommend_id.rated_power_suggestion
             re.voltage_suggestion = re.recommend_id.voltage_suggestion
-            re.auto_word_wind_res = re.recommend_id.res_form.auto_word_wind_res
+            # re.auto_word_wind_res = re.recommend_id.res_form.auto_word_wind_res
             re.weak = re.recommend_id.weak
             re.hours_year = re.recommend_id.hours_year
             re.rate = re.recommend_id.res_form.rate
@@ -435,7 +437,7 @@ class auto_word_wind(models.Model):
     @api.multi
     def submit_wind(self):
         limited_str_1, limited_str_2, limited_str_3, limited_words = "", "", "", ""
-
+        self.project_id.rate = self.rate
         self.project_id.wind_attachment_ok = u"已提交,版本：" + self.version_id
         self.project_id.case_name = str(self.recommend_id.case_name)
         self.project_id.turbine_model_suggestion = self.recommend_id.WTG_name

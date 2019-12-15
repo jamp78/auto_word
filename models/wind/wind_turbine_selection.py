@@ -124,5 +124,7 @@ class auto_word_wind_cft(models.Model):
 
             re.wind_id.cft_TI_words = re.cft_TI_words
             re.wind_id.cft_time_words = re.cft_time_words
+            re.wind_id.Lat_words = re.project_id.Lat_words
+            re.wind_id.Lon_words = re.project_id.Lon_words
 
         return True

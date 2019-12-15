@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo import exceptions
 import base64, os
 from docxtpl import DocxTemplate
 import pandas as pd
@@ -64,6 +65,22 @@ def generate_economy_docx(Dict, path_images, model_name, outputfile):
 
 
 def cal_economy_result(self):
+    self.dict_1_word_post = self.project_id.dict_1_word_post
+    self.dict_5_word_post = self.project_id.dict_5_word_post
+    self.dict_8_word_post = self.project_id.dict_8_word_post
+
+    print("check dict_1_word_post")
+    print(self.dict_1_word_post)
+    if self.dict_1_word_post == False:
+        s = "项目"
+        raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+    if self.dict_5_word_post == False:
+        s = "风能部分"
+        raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+    if self.dict_8_word_post == False:
+        s = "土建部分"
+        raise exceptions.Warning('请点选 %s，并点击土建详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
     # 风能
     dictMerged, dictMerged_rows, Dict, dict_content, dict_head = {}, [], {}, {}, {}
     global file_first
@@ -120,10 +137,8 @@ def cal_economy_result(self):
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
 
-        dict5 = eval(self.project_id.dict_5_word_post)
-        print('self.project_id.dict_8_word_post')
-        print(self.project_id.dict_8_word_post)
-        dict8 = eval(self.project_id.dict_8_word_post)
+        dict5 = eval(self.dict_5_word_post)
+        dict8 = eval(self.dict_8_word_post)
 
         if chapter_number == 12:
             col_name_0 = ['设备', '单位', '设备价', '备注']
@@ -582,9 +597,16 @@ class auto_word_economy(models.Model):
     _description = 'economy res'
     _rec_name = 'content_id'
     # 项目参数
+
+    # 提交
+    dict_12_word_post = fields.Char(u'字典8_提交')
+    # 提取
+    dict_1_word_post = fields.Char(u'字典1_提交')
+    dict_5_word_post = fields.Char(u'字典5_提交')
+    dict_8_word_post = fields.Char(u'字典8_提交')
+
+
     Pathoutput = fields.Char(u'输出路径')
-    # Dict_12_Final = fields.Char(string=u'字典12')
-    # Dict_13_Final = fields.Char(string=u'字典13')
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Selection([("风能", u"风能"), ("电气", u"电气"), ("土建", u"土建"),

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo import exceptions
 import doc_6
 import base64,os
 import global_dict as gl
@@ -131,6 +132,16 @@ class auto_word_electrical(models.Model):
 
     @api.multi
     def take_electrical_result(self):
+
+        projectname = self.project_id
+        self.turbine_numbers = projectname.turbine_numbers_suggestion
+        self.name_tur_suggestion = projectname.name_tur_suggestion
+        self.hub_height_suggestion = projectname.hub_height_suggestion
+
+        if projectname.turbine_numbers_suggestion == "待提交":
+            s = "风能部分"
+            raise exceptions.Warning('请完成 %s，并点击 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+
         args = [self.length_single_jL240, self.length_double_jL240, self.yjlv95, self.yjv300,
                 int(self.turbine_numbers), self.circuit_number]
         dict6 = doc_6.generate_electrical_dict(self.voltage_class, args)
