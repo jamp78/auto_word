@@ -233,7 +233,6 @@ class auto_word_electrical_firstsec(models.Model):
             }
 
 
-
             # 提交的生成chapter6的dict
             dict_6_word = dict(dictMerged, **dict_6_res_word)
             print('dict_6_word')

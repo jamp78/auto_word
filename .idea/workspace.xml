@@ -3,24 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b61773cf-16a4-4355-a7c1-a006fe9551bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/加载数据库/风能/windres2.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/demo/加载数据库/风能/windres2.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/auto_word_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/auto_word_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/auto_word_civil.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/auto_word_civil.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/civil/chapter_8/result_chapter8.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/auto_word_economy.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/auto_word_economy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_12/result_chapter12.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_12/可研概算.xls" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_12/可研概算.xls" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_13/result_chapter13.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/economy/chapter_13/经济评价.xls" beforeDir="false" afterPath="$PROJECT_DIR$/models/economy/chapter_13/经济评价.xls" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/electrical/auto_word_electrical.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/electrical/auto_word_electrical.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/electrical/chapter_6/result_chapter6.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/electrical/chapter_6/result_chapter6.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx_final.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/project/chapter_x/result_chapterx_final.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/auto_word_wind.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/auto_word_wind.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/efficiency.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/powers.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/chapter_5/result_chapter5.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wind/wind_turbine_selection.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/wind/wind_turbine_selection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/wind/wind_view.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/wind/wind_view.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/electrical/auto_word_electrical_firstsec.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/electrical/auto_word_electrical_firstsec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/electrical/chapter_6/cr6.docx" beforeDir="false" afterPath="$PROJECT_DIR$/models/electrical/chapter_6/cr6.docx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,15 +13,30 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/auto_word$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1576406996081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../.." />
+    <SUITE FILE_PATH="coverage/auto_word$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1576412895895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../.." />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/wind/auto_word_wind.py">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="222" column="4" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="24" />
+              <folding>
+                <element signature="e#25#61#0" expanded="true" />
+                <element signature="e#9490#10403#0" />
+                <element signature="e#10458#12410#0" />
+                <element signature="e#26264#26829#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/models/electrical/auto_word_electrical_firstsec.py">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="193">
-              <caret line="427" column="35" selection-start-line="427" selection-start-column="17" selection-end-line="427" selection-end-column="35" />
+              <caret line="233" lean-forward="true" selection-start-line="233" selection-end-line="233" />
               <folding>
                 <element signature="e#25#61#0" expanded="true" />
               </folding>
@@ -45,11 +44,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/wind/wind_view.xml">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/electrical/auto_word_electrical.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+            <state relative-caret-position="173">
+              <caret line="94" column="28" selection-start-line="94" selection-start-column="28" selection-end-line="94" selection-end-column="28" />
+              <folding>
+                <element signature="e#25#61#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -57,8 +59,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="171" column="8" selection-start-line="171" selection-start-column="4" selection-end-line="171" selection-end-column="8" />
+            <state relative-caret-position="90">
+              <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="261" selection-start-line="261" selection-end-line="266" selection-end-column="45" />
+              <folding>
+                <element signature="e#25#95#0" expanded="true" />
+                <element signature="e#297#4373#0" />
+                <element signature="e#4440#7946#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -95,16 +111,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>First_turbine_words</find>
-      <find>dictMerged</find>
-      <find>测风塔风速信息</find>
-      <find>选取时间段</find>
-      <find>air_density_words</find>
-      <find>cft_time_words</find>
-      <find>ave_weak_res_xz</find>
-      <find>dict_13_final</find>
-      <find>name_tur</find>
-      <find>ongrid_power</find>
       <find>架空长度</find>
       <find>investment_E3</find>
       <find>road_1_num</find>
@@ -123,8 +129,18 @@
       <find>re.content_id.rate</find>
       <find>dict_1_word_post</find>
       <find>折减率</find>
-      <find>rate</find>
       <find>auto_word_wind_res</find>
+      <find>reportfile_name</find>
+      <find>rate</find>
+      <find>electrical_path</find>
+      <find>工程任务和规模</find>
+      <find>doc_4</find>
+      <find>report_attachment_id</find>
+      <find>get_dict_electrical_firstsec</find>
+      <find>self.env['auto_word.project']</find>
+      <find>generate_electrical_docx</find>
+      <find>path_images</find>
+      <find>主变压器数量</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;</replace>
@@ -170,6 +186,8 @@
         <option value="$PROJECT_DIR$/models/economy/auto_word_economy.py" />
         <option value="$PROJECT_DIR$/models/wind/auto_word_wind.py" />
         <option value="$PROJECT_DIR$/views/wind/wind_view.xml" />
+        <option value="$PROJECT_DIR$/views/electrical/electrical_firstsec_view.xml" />
+        <option value="$PROJECT_DIR$/models/electrical/auto_word_electrical_firstsec.py" />
       </list>
     </option>
   </component>
@@ -208,12 +226,6 @@
               <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
               <item name="auto_word" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
-              <item name="economy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
-              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
               <item name="electrical" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -226,6 +238,12 @@
               <item name="auto_word" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="economy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="auto_word" type="b2602c69:ProjectViewProjectNode" />
+              <item name="auto_word" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="electrical" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -348,7 +366,7 @@
       <workItem from="1576194160536" duration="157000" />
       <workItem from="1576236857038" duration="2767000" />
       <workItem from="1576279538682" duration="487000" />
-      <workItem from="1576376466643" duration="9120000" />
+      <workItem from="1576376466643" duration="14562000" />
     </task>
     <task id="LOCAL-00001" summary="home 20191124">
       <created>1574602904229</created>
@@ -497,11 +515,25 @@
       <option name="project" value="LOCAL" />
       <updated>1576280023571</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="home 20191207 发电量方案名称解决">
+      <created>1576408004650</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1576408004650</updated>
+    </task>
+    <task id="LOCAL-00023" summary="home 20191207 发电量方案名称解决">
+      <created>1576419611004</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1576419611004</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70115000" />
+    <option name="totallyTimeSpent" value="75557000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -516,13 +548,13 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5984849" visible="true" weight="0.19669509" />
-      <window_info id="Structure" order="1" sideWeight="0.40151516" side_tool="true" visible="true" weight="0.19669509" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.59978306" visible="true" weight="0.19669509" />
+      <window_info id="Structure" order="1" sideWeight="0.4002169" side_tool="true" visible="true" weight="0.19669509" />
       <window_info id="DB Browser" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989339" visible="true" weight="0.28416485" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989339" weight="0.28416485" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -595,13 +627,6 @@
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/electrical/auto_word_electrical_firstsec.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="292" column="27" selection-start-line="292" selection-start-column="12" selection-end-line="292" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -778,16 +803,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/electrical/auto_word_electrical.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#25#61#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/economy/auto_word_economy.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
@@ -797,20 +812,6 @@
             <element signature="e#275#1414#0" />
             <element signature="e#1470#1670#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="7" selection-start-line="7" selection-end-line="7" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="171" column="8" selection-start-line="171" selection-start-column="4" selection-end-line="171" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -831,10 +832,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/wind/auto_word_wind.py">
+    <entry file="file://$PROJECT_DIR$/views/electrical/electrical_firstsec_view.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="427" column="35" selection-start-line="427" selection-start-column="17" selection-end-line="427" selection-end-column="35" />
+        <state relative-caret-position="370">
+          <caret line="89" column="28" selection-start-line="89" selection-start-column="28" selection-end-line="89" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/auto_word_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/civil/auto_word_civil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="261" selection-start-line="261" selection-end-line="266" selection-end-column="45" />
+          <folding>
+            <element signature="e#25#95#0" expanded="true" />
+            <element signature="e#297#4373#0" />
+            <element signature="e#4440#7946#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/electrical/auto_word_electrical.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="94" column="28" selection-start-line="94" selection-start-column="28" selection-end-line="94" selection-end-column="28" />
           <folding>
             <element signature="e#25#61#0" expanded="true" />
           </folding>
@@ -844,7 +871,30 @@
     <entry file="file://$PROJECT_DIR$/views/wind/wind_view.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="301">
-          <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+          <caret line="116" selection-start-line="116" selection-end-line="116" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/wind/auto_word_wind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="222" column="4" selection-start-line="222" selection-start-column="4" selection-end-line="222" selection-end-column="24" />
+          <folding>
+            <element signature="e#25#61#0" expanded="true" />
+            <element signature="e#9490#10403#0" />
+            <element signature="e#10458#12410#0" />
+            <element signature="e#26264#26829#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/electrical/auto_word_electrical_firstsec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="233" lean-forward="true" selection-start-line="233" selection-end-line="233" />
+          <folding>
+            <element signature="e#25#61#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
