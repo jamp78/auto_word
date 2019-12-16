@@ -8,7 +8,7 @@ from docxtpl import DocxTemplate
 import pandas as pd
 import numpy as np
 from RoundUp import round_up
-
+import math
 
 def generate_electrical_docx(Dict, path_images, model_name, outputfile):
     filename_box = [model_name, outputfile]
@@ -23,19 +23,22 @@ def get_dict_electrical_firstsec(self,index, col_name, data, sheet_name_array):
     self.dict_1_word_post = self.project_id.dict_1_word_post
     self.dict_4_word_post = self.project_id.dict_4_word_post
     self.dict_5_word_post = self.project_id.dict_5_word_post
+    self.dict_6_jidian_word_post = self.project_id.dict_6_jidian_word_post
     print("check dict_1_word_post")
     print(self.dict_1_word_post)
     if self.dict_1_word_post == False:
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
     if self.dict_4_word_post == False:
-        s = "电器部分"
+        s = "电气部分"
         raise exceptions.Warning('请点选 %s，并点击电气详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
+    if self.dict_6_jidian_word_post == False:
+        s = "电气部分"
+        raise exceptions.Warning('请点选 %s，并点击集电线路 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
     if self.dict_5_word_post == False:
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-
 
 
     result_dict, context = {}, {}
@@ -113,6 +116,11 @@ class auto_word_electrical_firstsec(models.Model):
     Numbers_ccgistype = fields.Integer(string='导体选择1数量', default="0")
     Numbers_ccmtlvtype = fields.Integer(string='导体选择2数量', default="0")
 
+    p1 = fields.Integer(string='P1', default="0")
+    p2 = fields.Integer(string='P2', default="0")
+    p3 = fields.Integer(string='P3', default="0")
+    sum_p = fields.Integer(string='sum_p', default="0")
+    sum_pp = fields.Integer(string='sum_pp', default="0")
 
     boxvoltagetype = fields.Many2one('auto_word_electrical.boxvoltagetype', string='箱式变电站型号', required=False)
     maintransformertype = fields.Many2one('auto_word_electrical.maintransformertype', string='主变压器型号', required=False)
@@ -179,9 +187,11 @@ class auto_word_electrical_firstsec(models.Model):
             pd.set_option('display.max_columns', None)
             pd.set_option('display.max_rows', None)
 
-            sheet_name_array = ['01站用电负荷表', '02电气一次主要设备及材料表', '03电气二次设备主要材料清单', '04通信部分材料清单']
+            sheet_name_array = ['01站用电负荷表', '02电气一次主要设备及材料表', '03电气二次设备主要材料清单', '04通信部分材料清单'
+                                ,'消防措施', '消防灭火系统主要设备材料表'
+                                ]
             for i in range(0, len(sheet_name_array)):
-                if i == 0:
+                if i == 0 or i==4 or i==5:
                     data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
                                          skip_footer=2)
                     col_name = data.columns.tolist()
@@ -223,6 +233,18 @@ class auto_word_electrical_firstsec(models.Model):
 
                 dictMerged.update(dict_content)
 
+            for i in range(0, len(dictMerged['result_list6_0'])):
+                print(str(dictMerged['result_list6_0'][i]['cols'][0]))
+                if str(dictMerged['result_list6_0'][i]['cols'][0]) == '室外消防水泵':
+                    self.p1 = str(dictMerged['result_list6_0'][i+1]['cols'][3])
+                if str(dictMerged['result_list6_0'][i]['cols'][0]) == '厨房动力':
+                    self.p2 = str(dictMerged['result_list6_0'][i+1]['cols'][3])
+                if str(dictMerged['result_list6_0'][i]['cols'][0]) == '户外照明':
+                    self.p3 = str(dictMerged['result_list6_0'][i+1]['cols'][3])
+
+
+            self.sum_p=0.85*float(self.p1)+float(self.p2)+float(self.p3)
+            self.sum_pp=math.ceil(self.sum_p/100)*100
             print(str(dictMerged['result_list6_1'][48]['cols'][1]))
 
             dict_6_res_word = {
@@ -230,6 +252,14 @@ class auto_word_electrical_firstsec(models.Model):
                 '站用电负荷表说明_2': str('2、设备楼空调机为冷暖型。'),
                 '热镀锌扁钢': str(dictMerged['result_list6_1'][47]['cols'][1]),
                 '热镀锌角钢': str(dictMerged['result_list6_1'][48]['cols'][1]),
+                'p1':self.p1,
+                'p2': self.p2,
+                'p3': self.p3,
+                'sum_p': self.sum_p,
+                'sum_pp': self.sum_pp,
+                "升压站等级": self.Grade,
+                "升压站数量": self.Numbers_maintransformertype,
+                "升压站容量": self.Capacity,
             }
 
 
@@ -239,7 +269,7 @@ class auto_word_electrical_firstsec(models.Model):
             print(dict_6_word)
             # 生成chapter6 所需要的总的dict
             dict_6_words = dict(dict_6_word, **eval(self.dict_1_word_post),
-                                **eval(self.dict_4_word_post), **eval(self.dict_5_word_post))
+                                **eval(self.dict_4_word_post), **eval(self.dict_5_word_post),**eval(self.dict_6_jidian_word_post))
 
             generate_electrical_docx(dict_6_words, electrical_path, model_name, outputfile)
             ###########################

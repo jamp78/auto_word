@@ -331,7 +331,7 @@
 
     <menuitem name="电气部分" id="auto_word_electric" parent="auto_word.menu_root" sequence="7"/>
       <!--<menuitem name="风机设备选型布置及发电量估算" id="auto_word_wind_chapter5_menu" parent="auto_word_wind"/>-->
-        <menuitem name="电气详细" id="auto_word_electric_chapter4_menu" parent="auto_word_electric" action="auto_word_wind_electric_infor_act_window" sequence="1"/>
+        <menuitem name="电气详情" id="auto_word_electric_chapter4_menu" parent="auto_word_electric" action="auto_word_wind_electric_infor_act_window" sequence="1"/>
         <menuitem name="电气一、二次" id="auto_word_electric_chapter6_3_menu" parent="auto_word_electric" action="auto_word_wind_electric_chapter6_3_act_window"/>
         <menuitem name="集电线路" id="auto_word_electric_chapter6_6_menu" parent="auto_word_electric" action="auto_word_wind_electric_chapter6_6_act_window"/>
 

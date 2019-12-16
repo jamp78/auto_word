@@ -59,17 +59,18 @@ def energy_saving_cal(ongrid_power, project_capacity, TurbineCapacity, Grade, ho
     else:
         box_transformer_capacity = TurbineCapacity
 
-    B = ongrid_power / 2 / main_transformer_capacity / 0.95 / 8000 * 10
-    main_transformer_loss = (p0 * 8000 + pk * B * B * hours) / 10000 * numbers
+    if main_transformer_capacity!=0:
+        B = ongrid_power / 2 / main_transformer_capacity / 0.95 / 8000 * 10
+        main_transformer_loss = (p0 * 8000 + pk * B * B * hours) / 10000 * numbers
 
-    B = ongrid_power / turbine_numbers / box_transformer_capacity / 0.95 / 8000 * 10
-    box_transformer_loss = (p0_box * 8000 + pk_box * B * B * hours) / 10000 * turbine_numbers
+        B = ongrid_power / turbine_numbers / box_transformer_capacity / 0.95 / 8000 * 10
+        box_transformer_loss = (p0_box * 8000 + pk_box * B * B * hours) / 10000 * turbine_numbers
 
-    # 无功补偿
-    reactive_compensation = main_transformer_capacity * 0.25 * 0.008 * hours / 10
-    # 集电线路
-    electrical_circuit_loss = 0.005 * hours / 1000 * main_transformer_capacity * \
-                              main_transformer_capacity / 10 * road_length
+        # 无功补偿
+        reactive_compensation = main_transformer_capacity * 0.25 * 0.008 * hours / 10
+        # 集电线路
+        electrical_circuit_loss = 0.005 * hours / 1000 * main_transformer_capacity * \
+                                  main_transformer_capacity / 10 * road_length
     # 运行期能耗指标分析
     total_loss = main_transformer_loss + box_transformer_loss + reactive_compensation + electrical_circuit_loss + 105
     coal = round_up(total_loss * 0.32 * 10, 2)
@@ -82,6 +83,7 @@ def energy_saving_cal(ongrid_power, project_capacity, TurbineCapacity, Grade, ho
     rate_electrical = round_up(total_loss / ongrid_power * 100)
 
     dict_14_1 = {
+        "箱变_容量": box_transformer_capacity*1000,
         "箱变_年耗": round_up(box_transformer_loss, 2),
         "箱变_年耗_占比": round_up(box_transformer_loss / total_loss * 100, 2),
         "集电线路_年耗": round_up(electrical_circuit_loss),

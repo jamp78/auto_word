@@ -468,11 +468,11 @@ class auto_word_civil(models.Model):
             s = "风能部分"
             raise exceptions.Warning('请完成 %s，并点击 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
         if projectname.main_booster_station_num == "待提交":
-            s = "电器一次、二次部分"
+            s = "电一次、二次部分"
             raise exceptions.Warning('请完成 %s，并点击 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
         if projectname.direct_buried_cable_num == "待提交" or projectname.overhead_line_num == "待提交":
-            s = "电器集电线路部分"
+            s = "电气集电线路部分"
             raise exceptions.Warning('请完成 %s，并点击 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
         self.turbine_numbers = projectname.turbine_numbers_suggestion

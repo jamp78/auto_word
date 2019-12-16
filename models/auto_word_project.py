@@ -305,7 +305,7 @@ class auto_word_project(models.Model):
     payback_period = fields.Char(string=u'投资回收期(年)', readonly=True)
     ROI_13 = fields.Char(string=u'总投资收益率(%)', readonly=True)
     ROE_13 = fields.Char(string=u'资本金利润率(%)', readonly=True)
-    grid_price = fields.Char(string=u'上网电价', readonly=True)
+    grid_price = fields.Char(string=u'上网电价', required=True)
 
     report_attachment_id_output1 = fields.Many2one('ir.attachment', string=u'可研报告章节-1')
 
@@ -327,6 +327,8 @@ class auto_word_project(models.Model):
     dict_4_word_post = fields.Char(string=u'字典4')
 
     dict_5_word_post = fields.Char(string=u'字典5')
+    dict_6_jidian_word_post = fields.Char(u'字典6_jidian_提交')
+
     dict_8_word_post = fields.Char(string=u'字典8_9')
     dict_12_word_post = fields.Char(string=u'字典12')
     dict_13_word_post = fields.Char(string=u'字典13')
@@ -385,7 +387,7 @@ class auto_word_project(models.Model):
         return True
 
     def button_project(self):
-        self.dict_1_word_post = dict_project_1(self)
+        self.dict_1_word_post = dict_project_x(self)
 
         return True
 

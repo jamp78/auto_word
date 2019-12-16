@@ -493,6 +493,9 @@ def cal_economy_result(self):
             self.repayment_period = str(dictMerged['result_list13_11'][11]['cols'][2])
             self.grid_price = str(dictMerged['result_list13_11'][26]['cols'][2])
 
+            print("self.grid_price")
+            print(self.grid_price)
+
             self.Internal_financial_rate_before = str(dictMerged['result_list13_10'][13]['cols'][2])
             self.Internal_financial_rate_after = str(dictMerged['result_list13_10'][14]['cols'][2])
             self.Internal_financial_rate_capital = str(dictMerged['result_list13_10'][17]['cols'][2])

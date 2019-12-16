@@ -15,7 +15,12 @@ class auto_word_wind_turbines_compare(models.Model):
     _inherit = ['wind_turbines.case']
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
-    content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
+    content_id = fields.Many2one('auto_word.wind', string=u'章节分类')
+                                 # , required=True, readonly=True)
+                                 # domain=lambda self: [('project_id.project_name', '=', self.project_id.project_name)]
+
+
+
     res_form = fields.Many2one('auto_word_wind_res.form', string=u'上传电量', required=False)
     # civil_id = fields.Many2one('auto_word.civil', string=u'项目名', required=True)
 
@@ -78,6 +83,13 @@ class auto_word_wind_turbines_compare(models.Model):
     #         re.hours_year = re.res_form.hours_year_average
     #         re.weak = re.res_form.wake_average
     #         re.hub_height_suggestion = re.res_form.hub_height_calcuation
+
+    @api.onchange('project_id')
+    def onchange_project_id(self):
+        self.content_id = self.content_id.search([('project_id.project_name', '=',
+                                              self.project_id.project_name)])
+
+
 
     def cal_compare_result(self):
         self.case_name=self.res_form.case_name
@@ -276,8 +288,11 @@ class auto_word_wind_turbines_compare(models.Model):
                 re.project_id.jidian_cable_wind=0
 
             if re.jidian_air_wind == "待提交" and re.jidian_cable_wind == "待提交":
-                re.investment_E7 = float(re.project_id.jidian_air_wind) * 40 + float(
-                    re.project_id.jidian_cable_wind) * 50
+                re.jidian_air_wind= re.project_id.jidian_air_wind
+                re.jidian_cable_wind = re.project_id.jidian_cable_wind
+
+                re.investment_E7 = float(re.jidian_air_wind) * 40 + float(
+                    re.jidian_cable_wind) * 50
             else:
                 re.investment_E7 = float(re.jidian_air_wind) * 40 + float(re.jidian_cable_wind) * 50
 

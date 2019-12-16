@@ -114,6 +114,7 @@ def generate_electrical_dict(project_chapter6_type, args):
     args_chapter6_01_name = ['钢芯铝绞线']
     args_chapter6_01_type = ['LGJ_240_30']
 
+
     for i in range(0, len(args_chapter6_01_name)):
         if args_chapter6_01_name[i] == '钢芯铝绞线':
             print("---------线材:钢芯铝绞线--------")
@@ -166,36 +167,72 @@ def generate_electrical_dict(project_chapter6_type, args):
         key_dict = args_chapter6_03_type[i]
         if key_dict == 'J2_24':
             value_dict = str(project03.used_numbers_single_J2_24)
+            value_dict_kg = float(str(project03.used_numbers_single_J2_24))*6.8
+            key_dict_kg=key_dict+"_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
+
         if key_dict == 'J4_24':
             value_dict = str(project03.used_numbers_single_J4_24)
+            value_dict_kg = float(str(project03.used_numbers_single_J4_24)) * 8.5
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
+
         if key_dict == 'FS_18':
             value_dict = str(project03.used_numbers_single_FS_18)
+            value_dict_kg = float(str(project03.used_numbers_single_FS_18)) * 7
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
+            print("Dict_6[key_dict_kg]")
+            print(Dict_6[key_dict_kg])
+            print(key_dict_kg)
         if key_dict == 'Z2_30':
             value_dict = str(project03.used_numbers_single_Z2_30)
+            value_dict_kg = float(str(project03.used_numbers_single_Z2_30)) * 5.5
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
         if key_dict == 'ZK_42':
             value_dict = str(project03.used_numbers_single_ZK_42)
+            value_dict_kg = float(str(project03.used_numbers_single_ZK_42)) * 8.5
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
         if key_dict == 'SJ2_24':
             value_dict = str(project03.used_numbers_double_SJ2_24)
+            value_dict_kg = float(str(project03.used_numbers_double_SJ2_24)) * 12.5
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
         if key_dict == 'SJ4_24':
             value_dict = str(project03.used_numbers_double_SJ4_24)
+            value_dict_kg = float(str(project03.used_numbers_double_SJ4_24)) * 17
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
         if key_dict == 'SZ2_30':
             value_dict = str(project03.used_numbers_double_SZ2_30)
+            value_dict_kg = float(str(project03.used_numbers_double_SZ2_30)) * 6.5
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
         if key_dict == 'SZK_42':
             value_dict = str(project03.used_numbers_double_SZK_42)
+            value_dict_kg = float(str(project03.used_numbers_double_SZK_42)) * 10
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
         if key_dict == '角钢':
             value_dict = str(project03.used_numbers_angle_steel)
+            value_dict_kg = float(str(project03.used_numbers_angle_steel)) * 0.5
+            key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
+            Dict_6[key_dict_kg] = value_dict_kg
 
     Dict_6['铁塔合计'] = str(project03.sum_used_numbers)
+    Dict_6['铁塔合计_kg'] = str(project03.sum_tower_number_weight)
 
     print("---------铁塔生成完毕--------")
 

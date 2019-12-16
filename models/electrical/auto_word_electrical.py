@@ -101,6 +101,10 @@ class auto_word_electrical(models.Model):
     # yjlv95 = fields.Float(u'直埋电缆YJLV22-26/35-3×95（km）', required=False,default="8")
     # yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=False,default="1.5")
 
+    # 提交
+    dict_6_jidian_word_post = fields.Char(u'字典6_jidian_提交')
+
+
     length_single_jL240 = fields.Float(u'单回线路长度（km）', required=False,default="19")
     length_double_jL240 = fields.Float(u'双回线路长度（km）', required=False,default="22")
     yjlv95 = fields.Float(u'直埋电缆（km）', required=False,default="8")
@@ -121,7 +125,7 @@ class auto_word_electrical(models.Model):
     direct_buried_cable_num = fields.Float(u'直埋电缆长度', required=False,default="3.2")
 
     #风能
-    jidian_air_wind = fields.Float(u'架空长度', required=False,default="74.2")
+    jidian_air_wind = fields.Float(u'架空长度', required=False)
     jidian_cable_wind = fields.Float(u'电缆长度', required=False,default="3.2")
 
 
@@ -132,7 +136,7 @@ class auto_word_electrical(models.Model):
 
     @api.multi
     def take_electrical_result(self):
-
+        self.jidian_air_wind=self.length_single_jL240+self.length_double_jL240
         projectname = self.project_id
         self.turbine_numbers = projectname.turbine_numbers_suggestion
         self.name_tur_suggestion = projectname.name_tur_suggestion
@@ -158,9 +162,15 @@ class auto_word_electrical(models.Model):
                 int(self.turbine_numbers), self.circuit_number]
         dict6=doc_6.generate_electrical_dict(self.voltage_class, args)
         dict_6_word = {
-            "机位数": self.turbine_numbers,
+            # "机位数": self.turbine_numbers,
+            "线路回路数": self.circuit_number,
+            "电缆长度":self.jidian_cable_wind,
+            "单回线路长度":self.length_single_jL240,
+            "双回线路长度": self.length_double_jL240,
+
         }
         Dict6 = dict(dict_6_word, **dict6)
+        self.dict_6_jidian_word_post=Dict6
 
         path_images_chapter_6=self.env['auto_word.project'].path_images_chapter_6
         doc_6.generate_electrical_docx(Dict6, path_images_chapter_6)
@@ -222,6 +232,7 @@ class auto_word_electrical(models.Model):
         projectname.jidian_air_wind = self.jidian_air_wind
         projectname.jidian_cable_wind = self.jidian_cable_wind
 
+        projectname.dict_6_jidian_word_post = self.dict_6_jidian_word_post
         return True
 
     def electrical_refresh(self):
