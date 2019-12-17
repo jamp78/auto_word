@@ -105,10 +105,10 @@ class auto_word_electrical(models.Model):
     dict_6_jidian_word_post = fields.Char(u'字典6_jidian_提交')
 
 
-    length_single_jL240 = fields.Float(u'单回线路长度（km）', required=False,default="19")
-    length_double_jL240 = fields.Float(u'双回线路长度（km）', required=False,default="22")
-    yjlv95 = fields.Float(u'直埋电缆（km）', required=False,default="8")
-    yjv300 = fields.Float(u'直埋电缆（km）', required=False,default="1.5")
+    length_single_jL240 = fields.Float(u'单回线路长度（km）', required=False,default="25.3")
+    length_double_jL240 = fields.Float(u'双回线路长度（km）', required=False,default="23.6")
+    yjlv95 = fields.Float(u'直埋电缆YJLV22-26/35-3×95（km）', required=False,default="1.55")
+    yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=False,default="3")
 
     turbine_numbers = fields.Char(u'推荐机组数量', default="待提交", readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型', default="待提交", readonly=True)
