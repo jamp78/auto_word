@@ -306,7 +306,6 @@ def cal_economy_result(self):
                 if str(dictMerged['result_list12_7'][i]['cols'][0]) == '单位千瓦动态投资(元/kW)':
                     self.dynamic_investment_unit = str(dictMerged['result_list12_7'][i]['cols'][4])
 
-
             self.Farm_words = self.project_id.Farm_words
             self.Lon_words = self.project_id.Lon_words
             self.Lat_words = self.project_id.Lat_words
@@ -350,7 +349,6 @@ def cal_economy_result(self):
                 # self.Earth_excavation_words = round_up(float(self.project_id.EarthExcavation_WindResource) + float(
                 #     self.project_id.StoneExcavation_WindResource), 2)
                 self.Earth_excavation_words = self.project_id.excavation
-
 
             self.Concrete_words = round_up(float(self.project_id.Volume) + float(
                 self.project_id.Cushion), 2)
@@ -607,7 +605,6 @@ class auto_word_economy(models.Model):
     dict_1_word_post = fields.Char(u'字典1_提交')
     dict_5_word_post = fields.Char(u'字典5_提交')
     dict_8_word_post = fields.Char(u'字典8_提交')
-
 
     Pathoutput = fields.Char(u'输出路径')
 
