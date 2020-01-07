@@ -10,7 +10,7 @@ def get_dict(np, dict_keys):
     dict = {}
     for i in range(0, len(dict_keys)):
         key_dict = dict_keys[i]
-        value_dict = np[:, i]
+        value_dict = np[:, i].tolist()
         dict[key_dict] = value_dict
         # gl.set_value(key_dict, value_dict)
     return dict
@@ -68,7 +68,6 @@ def write_context_numbers(dict, *context_keys, numbers):
 # chapter 5
 # turbine_list = ['GW3.3-155', 'MY2.5-145', 'GW3.0-140', 'GW3.4-140', 'GW2.5-140']
 # tur_np, power_np, efficiency_np = connect_sql_chapter5(*turbine_list)  # 一会儿注释connect_sql_chapter5
-# print(tur_np)
 # dict_keys_chapter5 = ['型号ID', '机组类型', '功率', '叶片数', '风轮直径', '扫风面积', '轮毂高度',
 #                       '功率调节', '切入风速', '切出风速', '额定风速', '发电机型式', '额定功率', '电压', '频率',
 #                       '塔架型式', '塔筒重量', '主制动系统', '第二制动', '3秒最大值']
@@ -76,7 +75,6 @@ def write_context_numbers(dict, *context_keys, numbers):
 #                          '切出风速', '额定风速', '发电机型式', '额定功率', '电压', '主制动系统', '第二制动']
 # Dict_5 = get_dict(tur_np, dict_keys_chapter5)
 # context = write_context(Dict_5, *context_keys_chapter5)
-# print(context)
 # chapter 8
 # args_chapter8 = {'foundation_type': '扩展基础', 'max_load': 110000}
 # sql_foundation, key_vaule = foundation_args_chapter8(**args_chapter8)
@@ -96,4 +94,4 @@ def write_context_numbers(dict, *context_keys, numbers):
 # context['基础防水numbers'] = 1 * numbers
 # context['沉降观测'] = 4
 # context['沉降观测numbers'] = 4 * numbers
-# print(context)
+

@@ -18,7 +18,6 @@ def get_dict_economy(index, col_name, data, sheet_name_array):
     result_list_name = 'result_list' + str(index)
     context[result_labels_name] = col_name
     data_np = np.array(data)
-    # print(data_np.shape[0], sheet_name_array)
     for i in range(0, data_np.shape[0]):
         key = str(data_np[i, 0])
 
@@ -66,7 +65,7 @@ def generate_economy_docx(Dict, path_images, model_name, outputfile):
 
 def cal_economy_result(self):
     self.dict_1_word_post = self.project_id.dict_1_word_post
-    self.dict_5_word_post = self.project_id.dict_5_word_post
+    self.dict_5_submit_word = self.project_id.dict_5_submit_word
     self.dict_8_word_post = self.project_id.dict_8_word_post
 
     print("check dict_1_word_post")
@@ -74,7 +73,7 @@ def cal_economy_result(self):
     if self.dict_1_word_post == False:
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-    if self.dict_5_word_post == False:
+    if self.dict_5_submit_word == False:
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
     if self.dict_8_word_post == False:
@@ -100,7 +99,6 @@ def cal_economy_result(self):
             xlsdata_second = base64.standard_b64decode(re.datas)
             name_second = t
             file_second = True
-            print(name_second)
     for chapter_number in range(12, 14):
         if file_first == False:
             return
@@ -137,7 +135,7 @@ def cal_economy_result(self):
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
 
-        dict5 = eval(self.dict_5_word_post)
+        dict5 = eval(self.dict_5_submit_word)
         dict8 = eval(self.dict_8_word_post)
 
         if chapter_number == 12:
@@ -178,7 +176,7 @@ def cal_economy_result(self):
                                 # '主要材料预算价格计算表', '混凝土材料单价计算表'
                                 ]
             for i in range(0, len(sheet_name_array)):
-                print(sheet_name_array[i], i)
+                # print(sheet_name_array[i], i)
                 if i == 9 or i == 12:
                     data = pd.read_excel(Pathinput, header=2, sheet_name=sheet_name_array[i],
                                          # usecols=col_name_array[i]
@@ -491,9 +489,6 @@ def cal_economy_result(self):
             self.repayment_period = str(dictMerged['result_list13_11'][11]['cols'][2])
             self.grid_price = str(dictMerged['result_list13_11'][26]['cols'][2])
 
-            print("self.grid_price")
-            print(self.grid_price)
-
             self.Internal_financial_rate_before = str(dictMerged['result_list13_10'][13]['cols'][2])
             self.Internal_financial_rate_after = str(dictMerged['result_list13_10'][14]['cols'][2])
             self.Internal_financial_rate_capital = str(dictMerged['result_list13_10'][17]['cols'][2])
@@ -548,8 +543,6 @@ def cal_economy_result(self):
         reportfile_name = open(file=self.Pathoutput, mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()
-        print("file_second")
-        print(file_second)
         if (chapter_number == 12):
             if (str(self.report_attachment_id_output12) == 'ir.attachment()'):
                 Attachments = self.env['ir.attachment']
@@ -566,8 +559,6 @@ def cal_economy_result(self):
                 print('new dataslen：', len(New.datas))
                 self.report_attachment_id_output12 = New
             else:
-                print('chapter_number')
-                print(chapter_number)
                 self.report_attachment_id_output12.datas = base64.standard_b64encode(byte)
         elif (chapter_number == 13 and file_second == True):
             if (str(self.report_attachment_id_output13) == 'ir.attachment()'):
@@ -603,7 +594,7 @@ class auto_word_economy(models.Model):
     dict_12_word_post = fields.Char(u'字典8_提交')
     # 提取
     dict_1_word_post = fields.Char(u'字典1_提交')
-    dict_5_word_post = fields.Char(u'字典5_提交')
+    dict_5_submit_word = fields.Char(u'字典5_提交')
     dict_8_word_post = fields.Char(u'字典8_提交')
 
     Pathoutput = fields.Char(u'输出路径')
@@ -724,7 +715,6 @@ class auto_word_economy(models.Model):
         Dict_12_Final, Dict_13_Final = cal_economy_result(self)
         self.project_id.Dict_12_Final = Dict_12_Final
         self.project_id.Dict_13_Final = Dict_13_Final
-
         return True
 
     @api.multi
@@ -755,7 +745,7 @@ class auto_word_economy(models.Model):
         self.area_words = self.project_id.area_words
         self.company_id = self.project_id.company_id.name
 
-        self.Farm_capacity_words = self.project_id.project_capacity
+        self.project_capacity = self.project_id.project_capacity
         self.ongrid_power = self.project_id.ongrid_power
         self.Hour_words = self.project_id.Hour_words
 

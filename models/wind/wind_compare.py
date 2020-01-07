@@ -126,10 +126,6 @@ class auto_word_wind_turbines_compare(models.Model):
                 re.farm_capacity = int(re.case_ids[i].turbine_numbers) * float(re.case_ids[i].capacity) + float(
                     re.farm_capacity)
 
-                print("investment_e1")
-                print(re.case_ids[i].tower_weight)
-                print(re.case_ids[i].turbine_numbers)
-                print(re.hub_height_suggestion)
                 investment_e1 = RoundUp.round_up(
                     re.case_ids[i].tower_weight * re.case_ids[i].turbine_numbers * 1.05 * int(
                         re.hub_height_suggestion) / 90)

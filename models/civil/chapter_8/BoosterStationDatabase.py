@@ -61,8 +61,7 @@ class BoosterStationDatabase:
             self.earth_excavation_booster_station = self.slope_area * 3 * self.road_basic_earthwork_ratio
             self.stone_excavation_booster_station = self.slope_area * 3 * self.road_basic_stone_ratio
             self.earthwork_back_fill_booster_station = self.slope_area * 0.5
-        print("mmmmmmmmmmmmmmmmmmmmmmmm")
-        print(self.data_booster_station.index[0])
+
 
         self.c30_booster_station = self.data_booster_station.at[self.data_booster_station.index[0], 'C30Concrete']
 
@@ -125,11 +124,9 @@ class BoosterStationDatabase:
 #
 # project03 = BoosterStationDatabase()
 # data = project03.extraction_data_booster_station('新建', 110, 100)
-# print(data)
 # data_cal = project03.excavation_cal_booster_station(data,0.8, 0.2, '陡坡低山')
 #
 # Dict = round_dict(project03.generate_dict_booster_station(data_cal))
-# print(Dict)
 # filename_box = ['cr8', 'result_chapter8']
 # save_path = r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8'
 # read_path = os.path.join(save_path, '%s.docx') % filename_box[0]

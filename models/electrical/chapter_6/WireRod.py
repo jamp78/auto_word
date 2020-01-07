@@ -10,7 +10,6 @@ class WireRod(ElectricalCircuit):
     """
 
     def __init__(self, *value_list):
-        # print(value_list)
         ElectricalCircuit.__init__(self, *value_list)
         self.aluminium_cable_steel_reinforced_type = ''
         self.aluminium_cable_steel_reinforced_length = 0
@@ -38,9 +37,7 @@ class WireRod(ElectricalCircuit):
 # project_chapter6_type = ['山地']
 # project02 = WireRod(project_chapter6_type, 19, 22, 8, 1.5, 40, 6)
 # project02.aluminium_cable_steel_reinforced("LGJ_240_30")
-# print(project02.aluminium_cable_steel_reinforced_length_weight)
 #
 # project_chapter6_type = ['平地']
 # project02 = WireRod(project_chapter6_type, 25.3, 23.6, 1.55, 3, 31, 5)
 # project02.aluminium_cable_steel_reinforced("LGJ_240_30")
-# print(project02.aluminium_cable_steel_reinforced_length_weight)

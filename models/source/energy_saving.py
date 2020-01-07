@@ -7,7 +7,7 @@ def energy_saving_cal(ongrid_power, project_capacity, TurbineCapacity, Grade, ho
     print("ongrid_power")
     print(ongrid_power)
     project_capacity = float(project_capacity)
-    TurbineCapacity = float(TurbineCapacity)
+    TurbineCapacity = float(TurbineCapacity)/1000
     Grade = float(Grade)
     hours = float(hours)
     turbine_numbers = float(turbine_numbers)

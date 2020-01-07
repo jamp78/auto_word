@@ -71,7 +71,6 @@ def round_dict_numbers(dic, tur_num,keep_num):
 # result = str(2.55).strip()
 # index_dec = result.find('.')
 # a = result[index_dec + 1:]
-# print(result, index_dec, a)
 # 最大数
 def Get_Max(list):
     return max(list)

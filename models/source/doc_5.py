@@ -31,12 +31,10 @@ def generate_wind_dict(tur_name, path_images):
 
     print("---------开始 chapter 5--------")
     # chapter 5
-
     Dict_5 = generate_dict.get_dict(data_tur_np, dict_keys_chapter5)
-    print(Dict_5)
     Dict = generate_dict.write_context(Dict_5, *context_keys_chapter5)
-
-
+    # print("机组选型")
+    # print(Dict)
     return Dict
 
 
@@ -58,9 +56,6 @@ def generate_wind_docx1(Dict, path_images,png_list):
     filename_box = ['cr5', 'result_chapter5']
     read_path = os.path.join(path_images, '%s.docx') % filename_box[0]
     save_path = os.path.join(path_images, '%s.docx') % filename_box[1]
-
-    print("Patt")
-    print(read_path)
     tpl = DocxTemplate(read_path)
     png_box = ('powers', 'efficiency')
     for i in range(0, 2):

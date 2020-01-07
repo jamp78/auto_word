@@ -2,7 +2,7 @@ import os
 from docxtpl import DocxTemplate
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/electrical/chapter_6")))
-print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/electrical/chapter_6")))
+# print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/electrical/chapter_6")))
 
 from WireRod import WireRod
 from ElectricalInsulator import ElectricalInsulator
@@ -185,9 +185,7 @@ def generate_electrical_dict(project_chapter6_type, args):
             key_dict_kg = key_dict + "_kg"
             Dict_6[key_dict] = value_dict
             Dict_6[key_dict_kg] = value_dict_kg
-            print("Dict_6[key_dict_kg]")
-            print(Dict_6[key_dict_kg])
-            print(key_dict_kg)
+
         if key_dict == 'Z2_30':
             value_dict = str(project03.used_numbers_single_Z2_30)
             value_dict_kg = float(str(project03.used_numbers_single_Z2_30)) * 5.5

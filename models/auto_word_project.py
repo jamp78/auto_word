@@ -11,14 +11,6 @@ from energy_saving import energy_saving_cal, energy_using_cal
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/wind")))
-import auto_word_wind
-
-import win32com.client as win32
-import pythoncom
-
-# from docx import Document
-# from docxcompose.composer import Composer
-# from docx import Document as Document_compose
 
 gl._init()
 
@@ -48,13 +40,14 @@ def dict_project_1(self):
 
 def dict_project_x(self):
     dict_1_word = dict_project_1(self)
+
+    #"标煤","SO2","NOx","CO2"
     mei_t = round_up(float(self.ongrid_power) / 10 * 2.29 / 7151.69)
     s02 = round_up(float(self.ongrid_power) / 10 * 1716.41 / 7151.69)
     n02 = round_up(float(self.ongrid_power) / 10 * 858.2 / 7151.69)
     c02 = round_up(float(self.ongrid_power) / 10 * 5.71 / 7151.69)
 
-    # extreme_wind = round_up(float(self.max_wind_txt) * 1.4)
-
+    #"环境保护总投资"
     if float(self.project_capacity) >= 100:
         self.environmental_protection_investment = '170'
     elif float(self.project_capacity) < 100 and float(self.project_capacity) >= 50:
@@ -62,15 +55,11 @@ def dict_project_x(self):
     elif float(self.project_capacity) < 50:
         self.environmental_protection_investment = '50'
 
-    self.capacity_suggestion = float(self.TurbineCapacity) * 1000
+    #节能及消耗
     self.capacity_coefficient = round_up(float(self.Hour_words) / 8760)
-
-    # self.land_area = float(self.permanent_land_area) + float(self.temporary_land_area)
-
-    dict_14_1 = energy_saving_cal(self.ongrid_power, self.project_capacity, self.TurbineCapacity, self.Grade,
+    dict_14_1 = energy_saving_cal(self.ongrid_power, self.project_capacity, self.capacity_suggestion, self.Grade,
                                   self.Hour_words,
                                   self.turbine_numbers_suggestion, self.total_civil_length, self.grid_price)
-
     dict_14_2 = energy_using_cal(self.excavation, self.backfill, self.Concrete_words, self.Reinforcement)
 
     dict_1_res_word = {
@@ -84,33 +73,9 @@ def dict_project_x(self):
     }
 
     dict_x = dict(dict_1_word, **dict_1_res_word, **dict_14_1, **dict_14_2)
-    # for key, value in dict_x.items():
-    #     gl.set_value(key, value)
-
-    # dict_x = gl._global_dict
-    #
-    # print('gl._global_dict')
-    # print(gl._global_dict)
 
     return dict_x
 
-
-# Filename_master is the name of the file you want to merge all the document into
-# files_list is a list containing all the filename of the docx file to be merged
-# def combine_all_docx(filename_master,files_list,Pathoutput):
-#     number_of_sections=len(files_list)
-#     master = Document_compose(filename_master)
-#     composer = Composer(master)
-#     for i in range(0, number_of_sections):
-#         doc_temp = Document_compose(files_list[i])
-#         composer.append(doc_temp)
-#     composer.save(Pathoutput)
-# For Example
-# filename_master="file1.docx"
-# files_list=["file2.docx","file3.docx","file4.docx",file5.docx"]
-# Calling the function
-# combine_all_docx(filename_master,files_list)
-# This function will combine all the document in the array files_list into the file1.docx and save the merged document into combined_file.docx
 
 class auto_word_project(models.Model):
     _name = 'auto_word.project'
@@ -118,29 +83,46 @@ class auto_word_project(models.Model):
     _rec_name = 'project_name'
     path_images_chapter_2 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_2"
     path_images_chapter_5 = r"D:\GOdoo12_community\myaddons\auto_word\models\wind\chapter_5"
+    path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
     project_path = r'D:\GOdoo12_community\myaddons\auto_word\models\project\chapter_'
     economy_path = r'D:\GOdoo12_community\myaddons\auto_word\models\economy\chapter_'
-    path_images_chapter_6 = r"D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6"
-    path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
     path_chapter_6 = r'D:\GOdoo12_community\myaddons\auto_word\models\electrical\chapter_6'
+    path_chapter_8 = r'D:\GOdoo12_community\myaddons\auto_word\models\civil\chapter_8'
 
     # 项目字段
-    project_name = fields.Char(u'项目名', required=True, write=['auto_word.project_group_user'])
+    project_name = fields.Char(u'项目名称', required=True, write=['auto_word.project_group_user'])
     Farm_words = fields.Char(string=u'风电场名称', required=True)
     Location_words = fields.Char(string=u'建设地点', required=True)
-    area_words = fields.Char(string=u'风场面积', default="待提交", readonly=True)
+    company_id = fields.Many2one('res.company', string=u'项目大区', required=True)
+    Relative_height_difference_words = fields.Char(string=u'相对高差', default="待提交", readonly=True)
+    Lon_words = fields.Char(string=u'东经', default='待提交', required=True)
+    Lat_words = fields.Char(string=u'北纬', default='待提交', required=True)
 
+    #其他相关信息###############
     order_number = fields.Char(u'项目编号')
     active = fields.Boolean(u'续存？', default=True)
     date_start = fields.Date(u'项目启动日期', default=fields.date.today())
     date_end = fields.Date(u'项目要求完成日期', default=fields.date.today() + datetime.timedelta(days=10))
-    company_id = fields.Many2one('res.company', string=u'项目大区', required=True)
     contacts_ids = fields.Many2many('res.partner', string=u'项目联系人')
     favorite_user_ids = fields.Many2many('res.users', string=u'项目组成员')
     staff = fields.Integer(u'工程定员')
     message_main_attachment_id = fields.Many2many('ir.attachment', string=u'任务资料')
 
-    # 文件情况
+    ####用版本来进行控制###########
+    # 文件提交情况
+    dict_1_word_post = fields.Char(string=u'字典1')
+    dict_3_word_post = fields.Char(string=u'字典3')
+    dict_4_word_post = fields.Char(string=u'字典4')
+    dict_5_submit_word = fields.Char(string=u'字典5')
+    dict_6_jidian_word_post = fields.Char(u'字典6_jidian_提交')
+    dict_8_word_post = fields.Char(string=u'字典8_9')
+    dict_12_word_post = fields.Char(string=u'字典12')
+    dict_13_word_post = fields.Char(string=u'字典13')
+    Dict_12_Final = fields.Char(string=u'字典12')
+    Dict_13_Final = fields.Char(string=u'字典13')
+
+    dict_x = fields.Char(string=u'字典x')
+
     wind_attachment_id = fields.Many2one('auto_word.wind', string=u'风能数据', groups='auto_word.wind_group_user')
     wind_attachment_ok = fields.Char(u'风能数据', default="待提交", readonly=True)
     electrical_attachment_id = fields.Many2one('auto_word.electrical', string=u'电气数据',
@@ -153,99 +135,110 @@ class auto_word_project(models.Model):
     economic_attachment_ok = fields.Char(u'经评数据', default="待提交", readonly=True)
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告成果')
 
-    ###风能
-    project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)  ######################
+    ###################################
+    ###   风能   ######################
+    ###包含第二章和第五章################
+    ##################################
+    project_capacity = fields.Char(u'项目容量', default="待提交", readonly=True)
     name_tur_suggestion = fields.Char(u'风机型号', default="待提交", readonly=True)
-    name_tur_selection = fields.Char(u'风机比选型号', default="待提交", readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机组数量', default="待提交", readonly=True)
     hub_height_suggestion = fields.Char(u'轮毂高度', default="待提交", readonly=True)
-    capacity_suggestion = fields.Char(string=u'单机容量建议(kW)', readonly=True)
+    capacity_suggestion = fields.Char(string=u'单机容量', readonly=True)
 
     investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True)
 
+    #第2章##################
+    summary_txt = fields.Char(u'概述', default="待提交", required=True)
+    PWDLevel = fields.Char(u'风功率密度等级', default="待提交", readonly=True)
+    main_wind_direction = fields.Char(u'主风向', default="待提交", readonly=True)
+    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交", readonly=True)
+    Elevation_words = fields.Char(string=u'海拔高程', default="待提交", readonly=True)
+    area_words = fields.Char(string=u'风场面积', default="待提交", readonly=True)
+
+    #第5章##################
     select_turbine_ids = fields.Many2many('auto_word_wind.turbines', string=u'机组选型')
     name_tur_selection = fields.Char(string=u'风机比选型号', readonly=True, default="待提交")
     turbine_model_suggestion = fields.Char(string=u'风机比选型号_WTG', readonly=True, default="待提交")
-    string_speed_words = fields.Char(string=u'测风塔选定风速结果', default="待提交")
-    string_deg_words = fields.Char(string=u'测风塔选定风向结果', default="待提交")
-    cft_name_words = fields.Char(string=u'测风塔名字', default="待提交")
-    rate = fields.Char(string=u'折减率', readonly=False)
-    note = fields.Char(string=u'备注', readonly=False)
-    limited_words = fields.Char(u'限制性因素', required=False)
 
-    Lon_words = fields.Char(string=u'东经', default='待提交', required=True)
-    Lat_words = fields.Char(string=u'北纬', default='待提交', required=True)
-    Elevation_words = fields.Char(string=u'海拔高程', default="待提交", readonly=True)
-    Relative_height_difference_words = fields.Char(string=u'相对高差', default="待提交", readonly=True)
-
-    Turbine_number_words = fields.Char(string=u'机组数量', default="待提交", readonly=True)  ######################
-    Farm_capacity_words = fields.Char(string=u'装机容量', default="待提交", readonly=True)  ######################
-    Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
-
-    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True)
-    weak = fields.Char(u'尾流衰减', default="待提交")
-    PWDLevel = fields.Char(u'风功率密度等级', default="待提交", readonly=True)
-
-    main_wind_direction = fields.Char(u'主风向', default="待提交", readonly=True)
-    summary_txt = fields.Char(u'概述', default="待提交", required=True)
-
-    max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交", readonly=True)
 
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
+    cft_number_words = fields.Char(string=u'测风塔数目', default="待提交", readonly=True)
     string_speed_words = fields.Char(string=u'风速信息', default="待提交", readonly=True)
     string_deg_words = fields.Char(string=u'风向信息', default="待提交", readonly=True)
-    cft_number_words = fields.Char(string=u'测风塔数目', default="待提交", readonly=True)
-
     cft_TI_words = fields.Char(string=u'湍流信息', default="待提交", readonly=True)
     cft_time_words = fields.Char(string=u'选取时间段', default="待提交", readonly=True)
 
-    ###电气
+    weak = fields.Char(u'尾流衰减', default="待提交")
+    rate = fields.Char(string=u'折减率', readonly=False)
+    note = fields.Char(string=u'备注', readonly=False)
+    limited_words = fields.Char(u'限制性因素', required=False)
+    Hour_words = fields.Char(string=u'满发小时', default="待提交", readonly=True)
+    ongrid_power = fields.Char(u'上网电量', default="待提交", readonly=True)
+
+    case_name = fields.Char(u'方案名', readonly=True, default="待提交")
+    investment_E1 = fields.Char(u'塔筒投资(万元)', readonly=True, default="0")
+    investment_E2 = fields.Char(u'风机设备投资(万元)', readonly=True, default="0")
+    investment_E3 = fields.Char(u'基础投资(万元)', readonly=True, default="0")
+    investment_E4 = fields.Char(u'道路投资(万元)', readonly=True, default="0")
+    investment_E5 = fields.Char(u'吊装费用(万元)', readonly=True, default="0")
+    investment_E6 = fields.Char(u'箱变投资(万元)', readonly=True, default="0")
+    investment_E7 = fields.Char(u'集电线路(万元)', readonly=True, default="0")
+    investment = fields.Char(u'发电部分投资(万元)', readonly=True, default="0")
+    investment_unit = fields.Char(u'单位度电投资(万元)', readonly=True, default="0")
+
+    ###################################
+    ###   电气   ######################
+    ###包含第二章和第五章################
+    ##################################
+
+    voltage_class = fields.Char(u'地形', default="待提交", readonly=True)
+
     line_1 = fields.Char(u'线路总挖方', default="待提交", readonly=True)
     line_2 = fields.Char(u'线路总填方', default="待提交", readonly=True)
     overhead_line = fields.Char(u'架空线路用地', default="待提交", readonly=True)
     direct_buried_cable = fields.Char(u'直埋电缆用地', default="待提交", readonly=True)
     overhead_line_num = fields.Char(u'架空线路塔基数量', default="待提交", readonly=True)
     direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="待提交", readonly=True)
-    main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
-
-    voltage_class = fields.Char(u'地形', default="待提交", readonly=True)
     length_single_jL240 = fields.Char(u'单回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
     length_double_jL240 = fields.Char(u'双回线路JL/G1A-240/30长度（km）', default="待提交", readonly=True)
     yjlv95 = fields.Char(u'直埋电缆YJLV22-26/35-3×95（km）', default="待提交", readonly=True)
     yjv300 = fields.Char(u'直埋电缆YJV22-26/35-1×300（km）', default="待提交", readonly=True)
+
     circuit_number = fields.Char(u'线路回路数', default="待提交", readonly=True)
+    jidian_air_wind = fields.Char(u'架空长度',  default="待提交", readonly=True)
+    jidian_cable_wind = fields.Char(u'电缆长度', default="待提交", readonly=True)
+    main_booster_station_num = fields.Char(u'主变数量', default="待提交", readonly=True)
 
-    jidian_air_wind = fields.Char(u'架空长度', readonly=True, default="待提交")
-    jidian_cable_wind = fields.Char(u'电缆长度', readonly=True, default="待提交")
+    ###################################
+    ###   土建   ######################
+    ###包含第二章和第五章################
+    ##################################
+    civil_all = fields.Many2one('auto_word.civil', string=u'详细用量表', readonly=True)
+    ProjectLevel_all = fields.Many2one('auto_word_civil.design_safety_standard', string=u'项目工程等别')
+    ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
 
-    ###土建
+    # 风机参数 #############
+    TerrainType = fields.Char(u'山地类型', default="待提交", readonly=True)
+    basic_type = fields.Char(u'基础形式', default="待提交", readonly=True)
+    ultimate_load = fields.Char(u'极限载荷', default="待提交", readonly=True)
+    fortification_intensity = fields.Char(u'设防烈度', default="待提交", readonly=True)
+    FloorRadiusR = fields.Char(u'基础底面圆直径')
+    H1 = fields.Char(u'基础底板外缘高度')
+    R2 = fields.Char(u'台柱圆直径')
+    H2 = fields.Char(u'基础底板圆台高度')
+    H3 = fields.Char(u'台柱高度')
+
+    # 电气参数 #############
+    Status = fields.Char(u'升压站状态', default="待提交", readonly=True)
+    Grade = fields.Char(u'升压站等级', default="待提交", readonly=True)
+    Capacity = fields.Char(u'升压站容量', default="待提交", readonly=True)
+
+    # 道路参数 #############
     road_1_num = fields.Char(u'改扩建进场道路', default="待提交", readonly=True)
     road_2_num = fields.Char(u'进站道路', default="待提交", readonly=True)
     road_3_num = fields.Char(u'新建施工检修道路', default="待提交", readonly=True)
     total_civil_length = fields.Char(u'道路工程长度', default="待提交", readonly=True)
 
-    basic_type = fields.Char(u'基础形式', default="待提交", readonly=True)
-    ultimate_load = fields.Char(u'极限载荷', default="待提交", readonly=True)
-    fortification_intensity = fields.Char(u'设防烈度', default="待提交", readonly=True)
-    temporary_land_area = fields.Char(u'临时用地面积（亩）', default="待提交", readonly=True)
-    permanent_land_area = fields.Char(u'永久用地面积（亩）', default="待提交", readonly=True)
-    TurbineCapacity = fields.Char(u'单机容量', default="待提交", readonly=True)  ######################
-    excavation = fields.Char(u'总开挖量（m3）' , default="待提交", readonly=True)
-    backfill = fields.Char(u'总回填量（m3）', default="待提交", readonly=True)
-    spoil = fields.Char(u'弃土量（m3）', default="待提交", readonly=True)
-
-    Status = fields.Char(u'升压站状态', default="待提交", readonly=True)
-    Grade = fields.Char(u'升压站等级', default="待提交", readonly=True)
-    Capacity = fields.Char(u'升压站容量', default="待提交", readonly=True)
-
-    TerrainType = fields.Char(u'山地类型', default="待提交", readonly=True)
-
-    ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
-    ProjectLevel_all = fields.Many2one('auto_word_civil.design_safety_standard', string=u'项目工程等别')
-
-    civil_all = fields.Many2one('auto_word.civil', string=u'详细用量表', readonly=True)
-
-    # 土建结果
     # 风机基础工程数量表
     EarthExcavation_WindResource = fields.Char(u'土方开挖（m3）', default="待提交", readonly=True)
     StoneExcavation_WindResource = fields.Char(u'石方开挖（m3）', default="待提交", readonly=True)
@@ -259,28 +252,19 @@ class auto_word_project(models.Model):
     M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）', default="待提交", readonly=True)
     C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）', default="待提交", readonly=True)
     stake_number = fields.Char(u'单台风机桩根数（根）', default="待提交", readonly=True)
-
-    BasicType = fields.Char(u'基础形式')
-    FloorRadiusR = fields.Char(u'基础底面圆直径')
-    H1 = fields.Char(u'基础底板外缘高度')
-    R2 = fields.Char(u'台柱圆直径')
-    H2 = fields.Char(u'基础底板圆台高度')
-    H3 = fields.Char(u'台柱高度')
-
-    case_name = fields.Char(u'方案名', readonly=True, default="待提交")
-    investment_E1 = fields.Char(u'塔筒投资(万元)', readonly=True, default="0")
-    investment_E2 = fields.Char(u'风机设备投资(万元)', readonly=True, default="0")
-    investment_E3 = fields.Char(u'基础投资(万元)', readonly=True, default="0")
-    investment_E4 = fields.Char(u'道路投资(万元)', readonly=True, default="0")
-    investment_E5 = fields.Char(u'吊装费用(万元)', readonly=True, default="0")
-    investment_E6 = fields.Char(u'箱变投资(万元)', readonly=True, default="0")
-    investment_E7 = fields.Char(u'集电线路(万元)', readonly=True, default="0")
-    investment = fields.Char(u'发电部分投资(万元)', readonly=True, default="0")
-    investment_unit = fields.Char(u'单位度电投资(万元)', readonly=True, default="0")
-
     Concrete_words = fields.Char(string=u'混凝土(万m³)', default='待提交')
 
-    # 经评
+    # 结果用量参数 #############
+    temporary_land_area = fields.Char(u'临时用地面积（亩）', default="待提交", readonly=True)
+    permanent_land_area = fields.Char(u'永久用地面积（亩）', default="待提交", readonly=True)
+    excavation = fields.Char(u'总开挖量（m3）', default="待提交", readonly=True)
+    backfill = fields.Char(u'总回填量（m3）', default="待提交", readonly=True)
+    spoil = fields.Char(u'弃土量（m3）', default="待提交", readonly=True)
+
+    ###################################
+    ###   经评   ######################
+    ###包含第十二章和第十三章#############
+    ##################################
     capital_rate_12 = fields.Char(string=u'资本金比例', readonly=True)
 
     static_investment_12 = fields.Char(string=u'静态总投资', readonly=True)
@@ -321,35 +305,29 @@ class auto_word_project(models.Model):
     tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
     Project_time_words = fields.Char(string=u'施工总工期', default='12')
 
-    dict_1_word_post = fields.Char(string=u'字典1')
-
-    dict_3_word_post = fields.Char(string=u'字典3')
-    dict_4_word_post = fields.Char(string=u'字典4')
-
-    dict_5_word_post = fields.Char(string=u'字典5')
-    dict_6_jidian_word_post = fields.Char(u'字典6_jidian_提交')
-
-    dict_8_word_post = fields.Char(string=u'字典8_9')
-    dict_12_word_post = fields.Char(string=u'字典12')
-    dict_13_word_post = fields.Char(string=u'字典13')
-
-    Dict_12_Final = fields.Char(string=u'字典12')
-    Dict_13_Final = fields.Char(string=u'字典13')
-
-    dict_x = fields.Char(string=u'字典x')
-
 
     def merge_project(self):
+        print("check dict_5_submit_word")
+        if self.dict_5_submit_word == False:
+            # raise ValidationError('验证错误信息!')
+            raise exceptions.Warning('风能章节没有生成')
 
-        if self.Dict_12_Final==False:
+        print(self.dict_5_submit_word)
+        print("dict_5_submit_word 已读取")
+
+        if self.Dict_12_Final == False:
             # raise ValidationError('验证错误信息!')
             raise exceptions.Warning('There are %d active tasks.' % self.Dict_12_Final)
         dict_x = dict_project_x(self)
+        dict_5_submit_word = eval(self.dict_5_submit_word)
         dict_12_final = eval(self.Dict_12_Final)
+
         print("dict_12_final")
         print(dict_12_final)
         dict_13_final = eval(self.Dict_13_Final)
-        dict_x_all = dict(dict_x, **dict_12_final, **dict_13_final)
+        dict_x_all = dict(dict_x, **dict_5_submit_word, **dict_12_final, **dict_13_final)
+        print("dict_x_all")
+        print(dict_x_all)
         chapter_number = 'x'
         project_path = self.env['auto_word.project'].project_path + str(chapter_number)
         suffix_in = ".xls"
@@ -387,8 +365,7 @@ class auto_word_project(models.Model):
         return True
 
     def button_project(self):
-        self.dict_1_word_post = dict_project_x(self)
-
+        self.dict_1_word_post = dict_project_1(self)
         return True
 
 

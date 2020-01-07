@@ -174,7 +174,7 @@ class auto_word_electrical_firstsec(models.Model):
                 #     f.write(xlsdata_second)
                 f.close()
             else:
-                print(Pathinput + " already existed.")
+                # print(Pathinput + " already existed.")
                 os.remove(Pathinput)
                 f = open(Pathinput, 'wb+')
                 f.write(xlsdata)
@@ -223,9 +223,6 @@ class auto_word_electrical_firstsec(models.Model):
                                     string_number = number[0] + "-" + str(number_add)
                                     Judging = number[0]
                                     data.ix[modifier_number_list[j], 0] = string_number
-                        print(data)
-                        #
-                print(i)
                 data = data.replace(np.nan, '-', regex=True)
                 col_name_array.append(col_name)
                 tabel_number = str(chapter_number) + '_' + str(i)
@@ -234,7 +231,6 @@ class auto_word_electrical_firstsec(models.Model):
                 dictMerged.update(dict_content)
 
             for i in range(0, len(dictMerged['result_list6_0'])):
-                print(str(dictMerged['result_list6_0'][i]['cols'][0]))
                 if str(dictMerged['result_list6_0'][i]['cols'][0]) == '室外消防水泵':
                     self.p1 = str(dictMerged['result_list6_0'][i+1]['cols'][3])
                 if str(dictMerged['result_list6_0'][i]['cols'][0]) == '厨房动力':
@@ -245,7 +241,6 @@ class auto_word_electrical_firstsec(models.Model):
 
             self.sum_p=0.85*float(self.p1)+float(self.p2)+float(self.p3)
             self.sum_pp=math.ceil(self.sum_p/100)*100
-            print(str(dictMerged['result_list6_1'][48]['cols'][1]))
 
             dict_6_res_word = {
                 '站用电负荷表说明_1': str('1、综合楼空调机为单冷型，该负荷仅在夏季使用；'),
@@ -278,7 +273,6 @@ class auto_word_electrical_firstsec(models.Model):
                                    mode='rb')
             byte = reportfile_name.read()
             reportfile_name.close()
-            print('file lenth=', len(byte))
             base64.standard_b64encode(byte)
             if (str(self.report_attachment_id) == 'ir.attachment()'):
                 Attachments = self.env['ir.attachment']

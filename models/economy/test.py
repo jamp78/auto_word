@@ -51,7 +51,7 @@ sheet_name_array = ['工程总概算表', '施工辅助工程概算表', '设备
                     '混凝土材料单价计算表']
 dictMerged, Dict = {}, {}
 for i in range(0, len(sheet_name_array)):
-    print(sheet_name_array[i], i)
+    # print(sheet_name_array[i], i)
     if i == 2 or i == 5 or i == 9 or i == 10 or i == 11:
         data = pd.read_excel(Pathinput, header=2, sheet_name=sheet_name_array[i], usecols=col_name_array[i])
 
@@ -62,4 +62,3 @@ for i in range(0, len(sheet_name_array)):
     data = data.replace(np.nan, '-', regex=True)
     Dict = get_dict_economy(data, sheet_name_array[i])
     dictMerged.update(Dict)
-print(dictMerged)

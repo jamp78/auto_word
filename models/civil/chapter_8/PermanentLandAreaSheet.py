@@ -50,7 +50,7 @@ class PermanentLandAreaSheet(WindResourceDatabase, BoxVoltageDatabase, BoosterSt
 # project08.extraction_data_permanent_land_area()
 #
 # Dict = round_dict(project08.generate_dict_permanent_land_area())
-# print(Dict)
+
 # filename_box = ["cr8", "result_chapter8"]
 # save_path = r"C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8"
 # read_path = os.path.join(save_path, "%s.docx") % filename_box[0]

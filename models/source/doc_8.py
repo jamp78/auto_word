@@ -17,7 +17,6 @@ def get_dict(np, dict_keys):
     dict = {}
     for i in range(0, len(dict_keys)):
         key_dict = dict_keys[i]
-        print(key_dict, np[:, i])
         value_dict = np[:, i]
         dict[key_dict] = value_dict
     return dict
@@ -77,9 +76,6 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     Dict3 = RoundUp.round_dict(project10.generate_dict_booster_station(data_cal))
     # ==============================================
     # numbers_list_road = [5, 1.5, 10, 15]
-    print("~~~~~~~~~~~~~~~@@@!!!!")
-
-    print(TerrainType)
     data_1, data_2, data_3, data_4 = project10.extraction_data_road_basement(TerrainType)
     data_ca1, data_ca2, data_ca3, data_ca4 = \
         project10.excavation_cal_road_basement(data_1, data_2, data_3, data_4, road_earthwork_ratio,

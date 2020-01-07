@@ -126,8 +126,6 @@ class ElectricalInsulator(TowerType):
 #                              tower_foot_distance_list)
 # project02.electrical_insulator_model(project_chapter6_type, electrical_insulator_name_list,
 #                                      electrical_insulator_type_list)
-# print(project02.used_numbers_FXBW4_35_70, project02.used_numbers_U70BP_146D, project02.used_numbers_FPQ_35_4T16,
-#       project02.used_numbers_YH5WZ_51_134, project02.tur_number, project02.line_loop_number)
 #
 # project_chapter6_type = ['平地']
 # project02 = ElectricalInsulator(project_chapter6_type, 25.3, 23.6, 1.55, 3, 31, 5)
@@ -136,5 +134,4 @@ class ElectricalInsulator(TowerType):
 #
 # project02.electrical_insulator_model(project_chapter6_type, electrical_insulator_name_list,
 #                                      electrical_insulator_type_list)
-# print(project02.used_numbers_FXBW4_35_70, project02.used_numbers_U70BP_146D, project02.used_numbers_FPQ_35_4T16,
-#       project02.used_numbers_YH5WZ_51_134, project02.tur_number, project02.line_loop_number)
+

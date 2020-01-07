@@ -9,7 +9,7 @@ from array import array
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
-print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
+# print(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/source")))
 
 import doc_5
 from RoundUp import round_up, Get_Average, Get_Sum
@@ -18,13 +18,14 @@ from RoundUp import round_up, Get_Average, Get_Sum
 def cal_wind_result(self):
     self.dict_1_word_post = self.project_id.dict_1_word_post
     print("check dict_1_word_post")
-    print(self.dict_1_word_post)
     if self.dict_1_word_post == False:
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-
+    print(self.dict_1_word_post)
+    print("dict_1_word_post 已读取")
     # 检查填写内容
     if self.max_wind_txt == "待提交" or self.max_wind_txt == "0":
+
         s = "五十年一遇最大风速"
         raise exceptions.Warning('请提交 --> %s 信息。' % s)
 
@@ -35,7 +36,6 @@ def cal_wind_result(self):
     if self.area_words == "待提交" or self.area_words == "0":
         s = "风场面积"
         raise exceptions.Warning('请提交 --> %s 信息。' % s)
-
 
     if self.cft_name_words == "待提交":
         s = "风能部分"
@@ -51,8 +51,6 @@ def cal_wind_result(self):
 
     # 进行计算
     tur_name = []
-
-
 
     for i in range(0, len(self.select_turbine_ids)):
         tur_name.append(self.select_turbine_ids[i].name_tur)
@@ -183,15 +181,9 @@ def cal_wind_result(self):
 
     context['result_labels'] = result_lables_chapter5
     for i in range(0, len(result)):
-        result_dict = {'number': tur_id_dict[i], 'cols': result[i]}
+        result_dict = {'number': tur_id_dict[i], 'cols': result[i].tolist()}
         result_list.append(result_dict)
     context['result_list'] = result_list
-
-    self.dict_1_word_post = self.project_id.dict_1_word_post
-    print("check")
-    print(eval(self.dict_1_word_post))
-    if len(eval(self.dict_1_word_post)) == 0:
-        print("please check 项目资料")
 
     dict5 = doc_5.generate_wind_dict(tur_name, self.path_images)
     dict_5_word_part = {
@@ -276,15 +268,16 @@ def cal_wind_result(self):
         '推荐风机型号_WTG': self.project_id.turbine_model_suggestion,
         '限制性因素': self.project_id.limited_words,
     }
-    dict_5_word = dict(dict_5_word_part, **dict5, **context, **dict_5_suggestion_word)
+
+    dict_5_submit_word = dict(dict_5_word_part,**dict5, **context, **dict_5_suggestion_word)
 
     # 生成chapter5 所需要的总的dict
-    dict_5_words = dict(dict_5_word, **eval(self.dict_1_word_post))
+    dict_5_words = dict(dict_5_submit_word, **eval(self.dict_1_word_post))
 
-    for key, value in dict_5_word.items():
-        gl.set_value(key, value)
+    # for key, value in dict_5_word.items():
+    #     gl.set_value(key, value)
 
-    return dict_5_words, dict_5_suggestion_word
+    return dict_5_words, dict_5_submit_word
 
 
 class auto_word_wind(models.Model):
@@ -293,7 +286,7 @@ class auto_word_wind(models.Model):
     _rec_name = 'content_id'
 
     # 提交
-    dict_5_word_post = fields.Char(u'字典5_提交')
+    dict_5_submit_word = fields.Char(u'字典5_提交')
     # 提取
     dict_1_word_post = fields.Char(u'字典1_提交')
     # 项目参数
@@ -458,8 +451,6 @@ class auto_word_wind(models.Model):
         # self.project_id.investment_turbines_kws = self.investment_turbines_kws
 
         self.project_id.tower_weight = self.tower_weight
-        print("self.project_id.tower_weight = self.tower_weight")
-        print(self.tower_weight)
         self.project_id.rate = self.rate
         self.project_id.IECLevel = self.IECLevel
         self.project_id.PWDLevel = self.PWDLevel
@@ -503,14 +494,16 @@ class auto_word_wind(models.Model):
         self.project_id.weak = self.weak
         self.project_id.Hour_words = self.hours_year
         self.project_id.TurbineCapacity = self.TurbineCapacity_suggestion
-        self.project_id.dict_5_word_post = self.dict_5_word_post
+        self.project_id.dict_5_submit_word = self.dict_5_submit_word
         self.project_id.area_words = self.area_words
-
         self.project_id.project_capacity = self.project_capacity
 
+
     def wind_generate(self):
-        dict_5_words, dict_5_word_post = cal_wind_result(self)
-        self.dict_5_word_post = dict_5_word_post
+        dict_5_words, dict_5_submit_word = cal_wind_result(self)
+        # print("生成")
+        # print(dict_5_words)
+        self.dict_5_submit_word = dict_5_submit_word
 
         for re in self.report_attachment_id2:
             imgdata = base64.standard_b64decode(re.datas)
@@ -537,7 +530,7 @@ class auto_word_wind(models.Model):
                                mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()
-        print('file lenth=', len(byte))
+        # print('file lenth=', len(byte))
         base64.standard_b64encode(byte)
         if (str(self.report_attachment_id) == 'ir.attachment()'):
             Attachments = self.env['ir.attachment']
@@ -561,6 +554,10 @@ class auto_word_wind(models.Model):
 
         print('new attachment：', self.report_attachment_id)
         print('new datas len：', len(self.report_attachment_id.datas))
+
+
+        print("生成的dict_5_submit_word")
+        print(self.dict_5_submit_word)
         return True
 
     @api.multi

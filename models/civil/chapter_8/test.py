@@ -9,6 +9,5 @@ dic = {
 }
 
 c = cal(b=1, a=2)
-print(c)
 d = cal(**dic)
-print(d)
+

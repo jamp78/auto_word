@@ -85,7 +85,6 @@ class TemporaryLandAreaSheet(ConstructionLandUseSummary, PermanentLandAreaSheet,
 # project09.extraction_data_temporary_land_area(numbers_list_road, overhead_line, direct_buried_cable)
 #
 # Dict = round_dict(project09.generate_dict_temporary_land_area())
-# print(Dict)
 # filename_box = ["cr8", "result_chapter8"]
 # save_path = r"C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_8"
 # read_path = os.path.join(save_path, "%s.docx") % filename_box[0]

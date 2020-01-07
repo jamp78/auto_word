@@ -11,9 +11,6 @@ def generate_images(save_path, power_np, efficiency_np):
     png_box = ('powers', 'efficiency')
 
     # tur_np, power_np, efficiency_np = connect_sql(*turbine_list)
-    print("power_np")
-    print(power_np)
-    print(efficiency_np)
 
     speed = np.zeros(power_np.shape[1] - 6)  # 标注
     for i in range(0, power_np.shape[1] - 6):  # 标注
@@ -25,10 +22,7 @@ def generate_images(save_path, power_np, efficiency_np):
     efficiency = efficiency_np[:, 2: (efficiency_np.shape[1] - 4)].astype('float32')  # 标注
     turbine_power_model = power_np[:, 1]
     turbine_efficiency_model = efficiency_np[:, 1]
-    print(turbine_power_model,turbine_power_model.shape)
     # figure power
-    print(speed,power)
-    print(speed.shape, power.shape)
     plt.figure(figsize=(5.6, 3.15))
     for i in range(len(power)):
         plt.plot(speed, power[i], label=turbine_power_model[i])
@@ -37,7 +31,6 @@ def generate_images(save_path, power_np, efficiency_np):
     plt.xlabel("Wind speed")
     plt.ylabel("Power")
     new_ticks = np.linspace(0, 4000, 9)
-    print(new_ticks)
     plt.yticks(new_ticks)
     plt.legend(loc='lower right')
     plt.subplots_adjust(left=0.115, right=0.965, wspace=0.200, hspace=0.200, bottom=0.145, top=0.96)
@@ -52,11 +45,9 @@ def generate_images(save_path, power_np, efficiency_np):
     plt.xlabel("Wind speed")
     plt.ylabel("efficiency")
     new_ticks = np.linspace(3, 20, 18)
-    print(new_ticks)
     plt.xticks(new_ticks)
 
     new_ticks = np.linspace(0, 0.5, 11)
-    print(new_ticks)
     plt.yticks(new_ticks)
     plt.legend(loc='upper right')
     plt.subplots_adjust(left=0.115, right=0.965, wspace=0.200, hspace=0.200, bottom=0.145, top=0.96)
@@ -64,5 +55,4 @@ def generate_images(save_path, power_np, efficiency_np):
 
 
 # save_path = r'C:\Users\Administrator\PycharmProjects\Odoo_addons_NB\autocrword\models\chapter_5'
-# print(data_power_np,data_efficiency_np)
 # generate_images(save_path, data_power_np, data_efficiency_np)
