@@ -16,13 +16,13 @@ from RoundUp import round_up, Get_Average, Get_Sum
 
 
 def cal_wind_result(self):
-    self.dict_1_word_post = self.project_id.dict_1_word_post
-    print("check dict_1_word_post")
-    if self.dict_1_word_post == False:
+    self.dict_1_submit_word = self.project_id.dict_1_submit_word
+    print("check dict_1_submit_word")
+    if self.dict_1_submit_word == False:
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-    print(self.dict_1_word_post)
-    print("dict_1_word_post 已读取")
+    print(self.dict_1_submit_word)
+    print("dict_1_submit_word 已读取")
     # 检查填写内容
     if self.max_wind_txt == "待提交" or self.max_wind_txt == "0":
 
@@ -55,7 +55,7 @@ def cal_wind_result(self):
     for i in range(0, len(self.select_turbine_ids)):
         tur_name.append(self.select_turbine_ids[i].name_tur)
 
-    self.path_images = self.env['auto_word.project'].path_images_chapter_5
+    self.path_images = self.env['auto_word.project'].path_chapter_5
 
     case_name_dict, name_tur_dict, turbine_numbers_dict, capacity_dict = [], [], [], []
     farm_capacity_dict, rotor_diameter_dict, tower_weight_dict = [], [], []
@@ -272,7 +272,7 @@ def cal_wind_result(self):
     dict_5_submit_word = dict(dict_5_word_part,**dict5, **context, **dict_5_suggestion_word)
 
     # 生成chapter5 所需要的总的dict
-    dict_5_words = dict(dict_5_submit_word, **eval(self.dict_1_word_post))
+    dict_5_words = dict(dict_5_submit_word, **eval(self.dict_1_submit_word))
 
     # for key, value in dict_5_word.items():
     #     gl.set_value(key, value)
@@ -288,7 +288,7 @@ class auto_word_wind(models.Model):
     # 提交
     dict_5_submit_word = fields.Char(u'字典5_提交')
     # 提取
-    dict_1_word_post = fields.Char(u'字典1_提交')
+    dict_1_submit_word = fields.Char(u'字典1_提交')
     # 项目参数
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', default="1.0", required=True)

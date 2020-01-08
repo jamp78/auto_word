@@ -24,15 +24,15 @@ class auto_word_electrical_infor(models.Model):
     report_attachment_id = fields.Many2one('ir.attachment', string=u'工程任务和规模')
 
     # 提交
-    dict_4_word_post = fields.Char(u'字典4_提交')
+    dict_4_submit_word = fields.Char(u'字典4_提交')
     # 提取
-    dict_1_word_post = fields.Char(u'字典1_提交')
-    dict_5_word_post = fields.Char(u'字典5_提交')
+    dict_1_submit_word = fields.Char(u'字典1_提交')
+    dict_5_submit_word = fields.Char(u'字典5_提交')
 
 
     def generate_electrical_infor(self):
-        self.dict_1_word_post = eval(self.project_id.dict_1_word_post)
-        self.dict_5_word_post = eval(self.project_id.dict_5_word_post)
+        self.dict_1_submit_word = eval(self.project_id.dict_1_submit_word)
+        self.dict_5_submit_word = eval(self.project_id.dict_5_submit_word)
 
         dict_4_word = {
             '升压站建设地点': self.booster_station_construction_site,
@@ -43,9 +43,9 @@ class auto_word_electrical_infor(models.Model):
             '项目电气描述': self.project_electrical_description,
         }
 
-        self.dict_4_word_post = dict_4_word
+        self.dict_4_submit_word = dict_4_word
 
-        dict_4_words = dict(dict_4_word, **eval(self.dict_1_word_post), **eval(self.dict_5_word_post))
+        dict_4_words = dict(dict_4_word, **eval(self.dict_1_submit_word), **eval(self.dict_5_submit_word))
 
         for key, value in dict_4_word.items():
             gl.set_value(key, value)
@@ -85,7 +85,7 @@ class auto_word_electrical_infor(models.Model):
 
 
     def submit_electrical_infor(self):
-        self.project_id.dict_4_word_post = self.dict_4_word_post
+        self.project_id.dict_4_submit_word = self.dict_4_submit_word
         return True
 
 
@@ -102,7 +102,7 @@ class auto_word_electrical(models.Model):
     # yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=False,default="1.5")
 
     # 提交
-    dict_6_jidian_word_post = fields.Char(u'字典6_jidian_提交')
+    dict_6_jidian_submit_word = fields.Char(u'字典6_jidian_提交')
 
 
     length_single_jL240 = fields.Float(u'单回线路长度（km）', required=False,default="25.3")
@@ -170,13 +170,13 @@ class auto_word_electrical(models.Model):
 
         }
         Dict6 = dict(dict_6_word, **dict6)
-        self.dict_6_jidian_word_post=Dict6
+        self.dict_6_jidian_submit_word=Dict6
 
-        path_images_chapter_6=self.env['auto_word.project'].path_images_chapter_6
-        doc_6.generate_electrical_docx(Dict6, path_images_chapter_6)
+        path_chapter_6=self.env['auto_word.project'].path_chapter_6
+        doc_6.generate_electrical_docx(Dict6, path_chapter_6)
 
         reportfile_name = open(
-            file=os.path.join(path_images_chapter_6, '%s.docx') % 'result_chapter6',
+            file=os.path.join(path_chapter_6, '%s.docx') % 'result_chapter6',
             mode='rb')
         byte = reportfile_name.read()
         reportfile_name.close()
@@ -232,7 +232,7 @@ class auto_word_electrical(models.Model):
         projectname.jidian_air_wind = self.jidian_air_wind
         projectname.jidian_cable_wind = self.jidian_cable_wind
 
-        projectname.dict_6_jidian_word_post = self.dict_6_jidian_word_post
+        projectname.dict_6_jidian_submit_word = self.dict_6_jidian_submit_word
         return True
 
     def electrical_refresh(self):

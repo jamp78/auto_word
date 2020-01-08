@@ -64,19 +64,19 @@ def generate_economy_docx(Dict, path_images, model_name, outputfile):
 
 
 def cal_economy_result(self):
-    self.dict_1_word_post = self.project_id.dict_1_word_post
+    self.dict_1_submit_word = self.project_id.dict_1_submit_word
     self.dict_5_submit_word = self.project_id.dict_5_submit_word
-    self.dict_8_word_post = self.project_id.dict_8_word_post
+    self.dict_8_submit_word = self.project_id.dict_8_submit_word
 
-    print("check dict_1_word_post")
-    print(self.dict_1_word_post)
-    if self.dict_1_word_post == False:
+    print("check dict_1_submit_word")
+    print(self.dict_1_submit_word)
+    if self.dict_1_submit_word == False:
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
     if self.dict_5_submit_word == False:
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-    if self.dict_8_word_post == False:
+    if self.dict_8_submit_word == False:
         s = "土建部分"
         raise exceptions.Warning('请点选 %s，并点击土建详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
@@ -136,7 +136,7 @@ def cal_economy_result(self):
         pd.set_option('display.max_rows', None)
 
         dict5 = eval(self.dict_5_submit_word)
-        dict8 = eval(self.dict_8_word_post)
+        dict8 = eval(self.dict_8_submit_word)
 
         if chapter_number == 12:
             col_name_0 = ['设备', '单位', '设备价', '备注']
@@ -591,11 +591,11 @@ class auto_word_economy(models.Model):
     # 项目参数
 
     # 提交
-    dict_12_word_post = fields.Char(u'字典8_提交')
+    dict_12_submit_word = fields.Char(u'字典8_提交')
     # 提取
-    dict_1_word_post = fields.Char(u'字典1_提交')
+    dict_1_submit_word = fields.Char(u'字典1_提交')
     dict_5_submit_word = fields.Char(u'字典5_提交')
-    dict_8_word_post = fields.Char(u'字典8_提交')
+    dict_8_submit_word = fields.Char(u'字典8_提交')
 
     Pathoutput = fields.Char(u'输出路径')
 
@@ -635,6 +635,7 @@ class auto_word_economy(models.Model):
     Towter_weight_words = fields.Char(string=u'塔筒总重量（吨）', default='待提交')
     Earth_excavation_words = fields.Char(string=u'土石方开挖（m3）', default='待提交')
     EarthWorkBackFill_WindResource = fields.Char(string=u'土石方回填（m3）', default='待提交')
+
     Concrete_words = fields.Char(string=u'混凝土(万m³)', default='待提交')
     Reinforcement = fields.Char(string=u'钢筋(吨)', default='待提交')
 

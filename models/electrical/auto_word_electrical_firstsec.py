@@ -20,23 +20,23 @@ def generate_electrical_docx(Dict, path_images, model_name, outputfile):
 
 
 def get_dict_electrical_firstsec(self,index, col_name, data, sheet_name_array):
-    self.dict_1_word_post = self.project_id.dict_1_word_post
-    self.dict_4_word_post = self.project_id.dict_4_word_post
-    self.dict_5_word_post = self.project_id.dict_5_word_post
-    self.dict_6_jidian_word_post = self.project_id.dict_6_jidian_word_post
-    print("check dict_1_word_post")
-    print(self.dict_1_word_post)
-    if self.dict_1_word_post == False:
+    self.dict_1_submit_word = self.project_id.dict_1_submit_word
+    self.dict_4_submit_word = self.project_id.dict_4_submit_word
+    self.dict_5_submit_word = self.project_id.dict_5_submit_word
+    self.dict_6_jidian_submit_word = self.project_id.dict_6_jidian_submit_word
+    print("check dict_1_submit_word")
+    print(self.dict_1_submit_word)
+    if self.dict_1_submit_word == False:
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-    if self.dict_4_word_post == False:
+    if self.dict_4_submit_word == False:
         s = "电气部分"
         raise exceptions.Warning('请点选 %s，并点击电气详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-    if self.dict_6_jidian_word_post == False:
+    if self.dict_6_jidian_submit_word == False:
         s = "电气部分"
         raise exceptions.Warning('请点选 %s，并点击集电线路 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
-    if self.dict_5_word_post == False:
+    if self.dict_5_submit_word == False:
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
@@ -84,11 +84,11 @@ class auto_word_electrical_firstsec(models.Model):
     _rec_name = 'project_id'
 
     # 提交
-    dict_6_word_post = fields.Char(u'字典8_提交')
+    dict_6_submit_word = fields.Char(u'字典8_提交')
     # 提取
-    dict_1_word_post = fields.Char(u'字典1_提交')
-    dict_4_word_post = fields.Char(u'字典4_提交')
-    dict_5_word_post = fields.Char(u'字典5_提交')
+    dict_1_submit_word = fields.Char(u'字典1_提交')
+    dict_4_submit_word = fields.Char(u'字典4_提交')
+    dict_5_submit_word = fields.Char(u'字典5_提交')
 
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
@@ -157,7 +157,7 @@ class auto_word_electrical_firstsec(models.Model):
 
 
         if file_exist == True:
-            electrical_path = self.env['auto_word.project'].path_images_chapter_6
+            electrical_path = self.env['auto_word.project'].path_chapter_6
             suffix_in = ".xls"
             suffix_out = ".docx"
             inputfile = name_first + suffix_in
@@ -260,11 +260,9 @@ class auto_word_electrical_firstsec(models.Model):
 
             # 提交的生成chapter6的dict
             dict_6_word = dict(dictMerged, **dict_6_res_word)
-            print('dict_6_word')
-            print(dict_6_word)
             # 生成chapter6 所需要的总的dict
-            dict_6_words = dict(dict_6_word, **eval(self.dict_1_word_post),
-                                **eval(self.dict_4_word_post), **eval(self.dict_5_word_post),**eval(self.dict_6_jidian_word_post))
+            dict_6_words = dict(dict_6_word, **eval(self.dict_1_submit_word),
+                                **eval(self.dict_4_submit_word), **eval(self.dict_5_submit_word),**eval(self.dict_6_jidian_submit_word))
 
             generate_electrical_docx(dict_6_words, electrical_path, model_name, outputfile)
             ###########################

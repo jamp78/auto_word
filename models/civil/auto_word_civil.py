@@ -35,14 +35,14 @@ class auto_word_civil_geology(models.Model):
 
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告地质章节')
     # 提交
-    dict_3_word_post = fields.Char(u'字典3_提交')
+    dict_3_submit_word = fields.Char(u'字典3_提交')
     # 提取
-    dict_1_word_post = fields.Char(u'字典1_提交')
-    dict_5_word_post = fields.Char(u'字典5_提交')
+    dict_1_submit_word = fields.Char(u'字典1_提交')
+    dict_5_submit_word = fields.Char(u'字典5_提交')
 
     def civil_geology_generate(self):
-        self.dict_1_word_post = eval(self.project_id.dict_1_word_post)
-        self.dict_5_word_post = eval(self.project_id.dict_5_word_post)
+        self.dict_1_submit_word = eval(self.project_id.dict_1_submit_word)
+        self.dict_5_submit_word = eval(self.project_id.dict_5_submit_word)
 
         dict_3_word = {
             '区域地质构造': self.regional_geology,
@@ -62,9 +62,9 @@ class auto_word_civil_geology(models.Model):
             '结论和建议': self.conclusion,
         }
 
-        self.dict_3_word_post = dict_3_word
+        self.dict_3_submit_word = dict_3_word
 
-        dict_3_words = dict(dict_3_word, **eval(self.dict_1_word_post), **eval(self.dict_5_word_post))
+        dict_3_words = dict(dict_3_word, **eval(self.dict_1_submit_word), **eval(self.dict_5_submit_word))
 
         for key, value in dict_3_word.items():
             gl.set_value(key, value)
@@ -103,7 +103,7 @@ class auto_word_civil_geology(models.Model):
         return True
 
     def submit_civil_geology(self):
-        self.project_id.dict_3_word_post = self.dict_3_word_post
+        self.project_id.dict_3_submit_word = self.dict_3_submit_word
         return True
 
 
@@ -167,22 +167,22 @@ class auto_word_civil_design_safety_standard(models.Model):
 
 
 def civil_generate_docx_dict(self):
-    self.dict_1_word_post = self.project_id.dict_1_word_post
-    self.dict_3_word_post = self.project_id.dict_3_word_post
-    self.dict_5_word_post = self.project_id.dict_5_word_post
-    print("check dict_1_word_post")
-    print(self.dict_1_word_post)
-    if self.dict_1_word_post == False:
+    self.dict_1_submit_word = self.project_id.dict_1_submit_word
+    self.dict_3_submit_word = self.project_id.dict_3_submit_word
+    self.dict_5_submit_word = self.project_id.dict_5_submit_word
+    print("check dict_1_submit_word")
+    print(self.dict_1_submit_word)
+    if self.dict_1_submit_word == False:
         s = "项目"
         raise exceptions.Warning('请点选 %s，并点击 --> 分发信息（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-    if self.dict_5_word_post == False:
+    if self.dict_5_submit_word == False:
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
-    if self.project_id.dict_3_word_post == False:
-        self.dict_3_word_post={}
+    if self.project_id.dict_3_submit_word == False:
+        self.dict_3_submit_word={}
     else:
-        self.dict_3_word_post = eval(self.project_id.dict_3_word_post)
+        self.dict_3_submit_word = eval(self.project_id.dict_3_submit_word)
 
     self.line_data = [float(self.line_1), float(self.line_2)]
     self.basic_stone_ratio = 10 - self.basic_earthwork_ratio
@@ -209,9 +209,9 @@ def civil_generate_docx_dict(self):
 
     dict_8 = get_dict_8(np, dict_keys)
     dict8 = generate_civil_dict(**dict_8)
-    dict5 = eval(self.dict_5_word_post)
-    dict3 = eval(self.dict_3_word_post)
-    dict1 = eval(self.dict_1_word_post)
+    dict5 = eval(self.dict_5_submit_word)
+    dict3 = eval(self.dict_3_submit_word)
+    dict1 = eval(self.dict_1_submit_word)
 
     dict_8_word_part = {
         # 设计安全标准
@@ -260,11 +260,11 @@ class auto_word_civil(models.Model):
     _rec_name = 'project_id'
     # _inherit = ['auto_word_civil.windbase']
     # 提交
-    dict_8_word_post = fields.Char(u'字典8_提交')
+    dict_8_submit_word = fields.Char(u'字典8_提交')
     # 提取
-    dict_1_word_post = fields.Char(u'字典1_提交')
-    dict_3_word_post = fields.Char(u'字典3_提交')
-    dict_5_word_post = fields.Char(u'字典5_提交')
+    dict_1_submit_word = fields.Char(u'字典1_提交')
+    dict_3_submit_word = fields.Char(u'字典3_提交')
+    dict_5_submit_word = fields.Char(u'字典5_提交')
 
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
@@ -456,7 +456,7 @@ class auto_word_civil(models.Model):
         projectname.line_2 = self.line_2
 
         projectname.civil_all = self
-        self.project_id.dict_8_word_post = self.dict_8_word_post
+        self.project_id.dict_8_submit_word = self.dict_8_submit_word
 
         return True
 
@@ -501,7 +501,7 @@ class auto_word_civil(models.Model):
         self.TerrainType = projectname.TerrainType
 
         dict_8_words, dict_8_word = civil_generate_docx_dict(self)
-        self.dict_8_word_post = dict_8_word
+        self.dict_8_submit_word = dict_8_word
 
         self.EarthExcavation_WindResource = dict_8_words['土方开挖_风机_numbers']
         self.StoneExcavation_WindResource = dict_8_words['石方开挖_风机_numbers']
