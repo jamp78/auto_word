@@ -322,7 +322,6 @@ class auto_word_wind(models.Model):
         [("平原", u"平原"), ("丘陵", u"丘陵"), ("缓坡低山", u"缓坡低山"), ("陡坡低山", u"陡坡低山"), ("缓坡中山", u"缓坡中山"),
          ("陡坡中山", u"陡坡中山"), ("缓坡高山", u"缓坡高山"), ("陡坡高山", u"陡坡高山")], string=u"山地类型", required=True)
 
-    ####
     Temperature_txt = fields.Char(u'平均温度', default="待提交", required=True)
     max_wind_txt = fields.Char(u'50年一遇最大风速', default="待提交", required=True)
 
