@@ -16,7 +16,7 @@
                 <field name="Y"/>
                 <field name="Z"/>
                 <field name="H"/>
-                <field name="turbine_capacity_each"/>
+                <field name="TurbineCapacity"/>
                 <!--<field name="Latitude"/>-->
                 <!--<field name="Longitude"/>-->
                 <!--<field name="WeibullA"/>-->

@@ -49,10 +49,10 @@ class auto_word_wind_res(models.Model):
     NextDeg = fields.Char(string=u'最近相邻风机的方位角', readonly=False)
     Sectors = fields.Char(string=u'扇区数量', readonly=False)
 
-    turbine_capacity_each = fields.Float(string=u'风机容量', readonly=False)
+    TurbineCapacity = fields.Float(string=u'风机容量', readonly=False)
     rate = fields.Float(string=u'折减率', readonly=False)
     ongrid_power = fields.Float(string=u'上网电量', readonly=False)
-    hours_year = fields.Float(string=u'年发电小时数', readonly=False)
+    hours_year = fields.Float(string=u'满发小时', readonly=False)
 
 
 class auto_word_wind_res_form(models.Model):
@@ -63,6 +63,7 @@ class auto_word_wind_res_form(models.Model):
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
 
+    # --------结果参数---------
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
     rate = fields.Float(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
@@ -70,9 +71,9 @@ class auto_word_wind_res_form(models.Model):
     case_name = fields.Char(u'方案名称(结果)', required=True)
     hub_height_calcuation = fields.Char(string=u'计算轮毂高度', readonly=True)
 
-    ongrid_power_sum = fields.Char(u'上网电量(结果)', readonly=True)
-    hours_year_average = fields.Char(u'年发电小时数(结果)', readonly=True)
-    wake_average = fields.Char(u'尾流(结果)', readonly=True)
+    ongrid_power_sum = fields.Char(u'上网电量', readonly=True)
+    hours_year_average = fields.Char(u'满发小时', readonly=True)
+    wake_average = fields.Char(u'尾流', readonly=True)
     capacity_coefficient = fields.Char(u'容量系数', readonly=True)
 
     @api.multi
@@ -101,10 +102,10 @@ class auto_word_wind_res_form(models.Model):
                     re.rate=re.auto_word_wind_res[0].rate
                     vaule.ongrid_power = float(vaule.PowerGeneration_Weak) * vaule.rate
                     vaule.hours_year = float(
-                        vaule.PowerGeneration_Weak) * vaule.rate / vaule.turbine_capacity_each * 1000
+                        vaule.PowerGeneration_Weak) * vaule.rate / vaule.TurbineCapacity * 1000
                 else:
                     vaule.ongrid_power = float(vaule.PowerGeneration_Weak) * re.rate
-                    vaule.hours_year = float(vaule.PowerGeneration_Weak) * re.rate / vaule.turbine_capacity_each * 1000
+                    vaule.hours_year = float(vaule.PowerGeneration_Weak) * re.rate / vaule.TurbineCapacity * 1000
 
                 print(vaule.hours_year)
 

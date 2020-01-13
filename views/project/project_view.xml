@@ -60,7 +60,7 @@
                         <group>
                             <field name="name_tur_suggestion"/>
                             <field name="hub_height_suggestion"/>
-                            <field name="TurbineCapacity"/>
+                            <field name="capacity_suggestion"/>
                             <field name="turbine_numbers_suggestion"/>
                             <field name="project_capacity"/>
 

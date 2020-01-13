@@ -25,7 +25,6 @@ def cal_wind_result(self):
     print("dict_1_submit_word 已读取")
     # 检查填写内容
     if self.max_wind_txt == "待提交" or self.max_wind_txt == "0":
-
         s = "五十年一遇最大风速"
         raise exceptions.Warning('请提交 --> %s 信息。' % s)
 
@@ -269,7 +268,7 @@ def cal_wind_result(self):
         '限制性因素': self.project_id.limited_words,
     }
 
-    dict_5_submit_word = dict(dict_5_word_part,**dict5, **context, **dict_5_suggestion_word)
+    dict_5_submit_word = dict(dict_5_word_part, **dict5, **context, **dict_5_suggestion_word)
 
     # 生成chapter5 所需要的总的dict
     dict_5_words = dict(dict_5_submit_word, **eval(self.dict_1_submit_word))
@@ -327,13 +326,11 @@ class auto_word_wind(models.Model):
 
     # --------测风信息---------
     cft_name_words = fields.Char(string=u'测风塔名字', default="待提交", readonly=True)
+    cft_number_words = fields.Char(string=u'测风塔数目', default="待提交", readonly=True)
     string_speed_words = fields.Char(string=u'风速信息', default="待提交", readonly=True)
     string_deg_words = fields.Char(string=u'风向信息', default="待提交", readonly=True)
-    cft_number_words = fields.Char(string=u'测风塔数目', default="待提交", readonly=True)
-
     cft_TI_words = fields.Char(string=u'湍流信息', default="待提交", readonly=True)
     cft_time_words = fields.Char(string=u'选取时间段', default="待提交", readonly=True)
-
     note = fields.Char(string=u'备注', readonly=False)
 
     # ####################################功能模块########################
@@ -342,6 +339,7 @@ class auto_word_wind(models.Model):
     # --------方案比选---------
     recommend_id = fields.Many2one('auto_word_wind_turbines.compare', string=u'推荐方案', required=False)
     case_names = fields.Many2many('auto_word_wind_turbines.compare', string=u'方案名称', required=False)
+    case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型', compute='_compute_compare_case', readonly=True)
     turbine_numbers_suggestion = fields.Char(u'机组数量', compute='_compute_compare_case', readonly=True)
     hub_height_suggestion = fields.Char(u'轮毂高度', compute='_compute_compare_case', readonly=True)
@@ -367,26 +365,24 @@ class auto_word_wind(models.Model):
                                      compute='_compute_compare_case')
     investment_turbines_kws = fields.Char(u'风机投资（KW）', compute='_compute_compare_case')
     project_capacity = fields.Char(string=u'装机容量', readonly=True, compute='_compute_compare_case', default="待提交")
-    case_number = fields.Char(string=u'方案数', default="待提交", readonly=True)
 
     ongrid_power = fields.Char(u'上网电量', readonly=True, compute='_compute_compare_case')
     weak = fields.Char(u'尾流衰减', default="待提交", readonly=True, compute='_compute_compare_case')
     hours_year = fields.Char(u'满发小时', default="待提交", readonly=True, compute='_compute_compare_case')
     capacity_coefficient = fields.Char(u'容量系数', default="待提交", readonly=True, compute='_compute_compare_case')
-    rate = fields.Char(string=u'风场折减',default="待提交", readonly=True, compute='_compute_compare_case')
-
-    path_images = fields.Char(u'图片路径')
-    tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
+    rate = fields.Char(string=u'风场折减', default="待提交", readonly=True, compute='_compute_compare_case')
+    tower_weight = fields.Char(string=u'塔筒重量', default="待提交", readonly=True, compute='_compute_compare_case')
 
     # --------结果文件---------
-    png_list = []
     # auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=False)
+    path_images = fields.Char(u'图片路径')
     file_excel_path = fields.Char(u'文件路径')
     report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告风能章节')
     report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
 
     # 机型结果
+    png_list = []
     project_id_input_dict, case_name_dict, Turbine_dict, tur_id_dict = [], [], [], []
     X_dict, Y_dict, Z_dict, H_dict, Latitude_dict, Longitude_dict, TrustCoefficient_dict = [], [], [], [], [], [], []
     WeibullA_dict, WeibullK_dict, EnergyDensity_dict, PowerGeneration_dict = [], [], [], []
@@ -497,7 +493,6 @@ class auto_word_wind(models.Model):
         self.project_id.area_words = self.area_words
         self.project_id.project_capacity = self.project_capacity
 
-
     def wind_generate(self):
         dict_5_words, dict_5_submit_word = cal_wind_result(self)
         # print("生成")
@@ -553,7 +548,6 @@ class auto_word_wind(models.Model):
 
         print('new attachment：', self.report_attachment_id)
         print('new datas len：', len(self.report_attachment_id.datas))
-
 
         print("生成的dict_5_submit_word")
         print(self.dict_5_submit_word)
