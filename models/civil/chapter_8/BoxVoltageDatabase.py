@@ -21,7 +21,7 @@ class BoxVoltageDatabase:
         self.c35_box_voltage_numbers, self.c15_box_voltage_numbers, self.reinforcement_box_voltage_numbers = 0, 0, 0
 
     def extraction_data_box_voltage(self, turbine_capacity):
-        self.TurbineCapacity = str(int(turbine_capacity*1000))
+        self.TurbineCapacity = str(int(turbine_capacity))
         # col_name = ["TurbineCapacity", "ConvertStation", "Long", "Width", "High", "WallThickness", "HighPressure",
         #             "C35ConcreteTop", "C15Cushion", "MU10Brick", "Reinforcement", "Area"]
         # self.DataBoxVoltage = pd.read_excel(

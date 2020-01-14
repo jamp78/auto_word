@@ -64,13 +64,13 @@ class auto_word_wind_res_form(models.Model):
     content_id = fields.Many2one('auto_word.wind', string=u'章节分类', required=True)
 
     # --------结果参数---------
+    case_name = fields.Char(u'方案名称(结果)', required=True)
     auto_word_wind_res = fields.Many2many('auto_word_wind.res', string=u'机位结果', required=True)
     rate = fields.Float(string=u'折减率', readonly=False)
     note = fields.Char(string=u'备注', readonly=False)
 
-    case_name = fields.Char(u'方案名称(结果)', required=True)
-    hub_height_calcuation = fields.Char(string=u'计算轮毂高度', readonly=True)
 
+    hub_height_calcuation = fields.Char(string=u'计算轮毂高度', readonly=True)
     ongrid_power_sum = fields.Char(u'上网电量', readonly=True)
     hours_year_average = fields.Char(u'满发小时', readonly=True)
     wake_average = fields.Char(u'尾流', readonly=True)

@@ -37,22 +37,23 @@ class auto_word_wind_turbines_compare(models.Model):
     # --------风电参数---------
     case_ids = fields.Many2many('wind_turbines.case', string=u'方案机型')
     cal_id = fields.Selection([(0, u"线性"), (1, u"非线性")], string=u"采用算法")
+
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, default="0")
-    name_tur = fields.Char(string=u'风机类型', readonly=True, default="待提交")
-    TurbineCapacity = fields.Char(string=u'风机容量', readonly=True)
     farm_capacity = fields.Char(string=u'装机容量', readonly=True)
-    tower_weight = fields.Char(string=u'塔筒重量', default="待提交")
-    rotor_diameter_case = fields.Char(string=u'叶轮直径', default="待提交")
 
-    rotor_swept_area_suggestion = fields.Char(string=u'推荐扫风面积', default="待提交")
-    blade_number_suggestion = fields.Char(string=u'推荐叶片数', default="待提交")
+    name_tur_words = fields.Char(string=u'风机类型', readonly=True, default="待提交")
+    capacity_words = fields.Char(string=u'风机容量', readonly=True, default="待提交")
+    tower_weight_words = fields.Char(string=u'塔筒重量', readonly=True, default="待提交")
+    rotor_diameter_words = fields.Char(string=u'叶轮直径',readonly=True, default="待提交")
+    rotor_swept_area_words = fields.Char(string=u'扫风面积',readonly=True, default="待提交")
+    blade_number_words = fields.Char(string=u'叶片数',readonly=True, default="待提交")
 
-    cut_in_wind_speed_suggestion = fields.Float(u'推荐切入风速', readonly=False)
-    cut_out_wind_speed_suggestion = fields.Float(u'推荐切出风速', readonly=False)
-    rated_wind_speed_suggestion = fields.Float(u'推荐额定风速', readonly=False)
-    three_second_maximum_suggestion = fields.Char(u'推荐生存风速', readonly=False)
-    rated_power_suggestion = fields.Float(u'推荐额定功率', readonly=False)
-    voltage_suggestion = fields.Float(u'推荐额定电压', readonly=False)
+    cut_in_wind_speed_words = fields.Float(u'切入风速', readonly=False)
+    cut_out_wind_speed_words = fields.Float(u'切出风速', readonly=False)
+    rated_wind_speed_words = fields.Float(u'额定风速', readonly=False)
+    three_second_maximum_words = fields.Char(u'生存风速', readonly=False)
+    rated_power_words = fields.Float(u'额定功率', readonly=False)
+    voltage_words = fields.Float(u'额定电压', readonly=False)
 
     # --------经评参数---------
     investment_E1 = fields.Float(string=u'塔筒投资(万元)')
@@ -62,7 +63,7 @@ class auto_word_wind_turbines_compare(models.Model):
     investment_E5 = fields.Float(string=u'吊装费用(万元)', readonly=True, )
     investment_E6 = fields.Float(string=u'箱变投资(万元)', readonly=True, )
     investment_E7 = fields.Float(string=u'集电线路(万元)', readonly=True, )
-    investment_turbines_kws = fields.Char(u'风机kw投资', readonly=True)
+    investment_turbines_kw_words = fields.Char(u'风机kw投资', readonly=True)
     investment = fields.Float(string=u'发电部分投资(万元)', readonly=True, )
     investment_unit = fields.Float(string=u'单位度电投资', readonly=True, )
 
@@ -171,8 +172,8 @@ class auto_word_wind_turbines_compare(models.Model):
                         name_tur_words = name_tur_word + "/" + name_tur_words
                         capacity_words = capacity_word + "/" + capacity_words
 
-                        rotor_swept_area_suggestion_word = rotor_swept_area_suggestion_word + "/" + rotor_swept_area_suggestion_word
-                        blade_number_suggestion_word = blade_number_suggestion_word + "/" + blade_number_suggestion_word
+                        rotor_swept_area_word = rotor_swept_area_suggestion_word + "/" + rotor_swept_area_suggestion_word
+                        blade_number_word = blade_number_suggestion_word + "/" + blade_number_suggestion_word
 
                         cut_in_wind_speed_word = cut_in_wind_speed_word + "/" + cut_in_wind_speed_word
                         cut_out_wind_speed_word = cut_out_wind_speed_word + "/" + cut_out_wind_speed_word
@@ -188,8 +189,8 @@ class auto_word_wind_turbines_compare(models.Model):
                         name_tur_words = name_tur_words + name_tur_word
                         capacity_words = capacity_words + capacity_word
 
-                        rotor_swept_area_suggestion_words = rotor_swept_area_suggestion_words + rotor_swept_area_suggestion_word
-                        blade_number_suggestion_words = blade_number_suggestion_words + blade_number_suggestion_word
+                        rotor_swept_area_words = rotor_swept_area_words + rotor_swept_area_word
+                        blade_number_words = blade_number_words + blade_number_word
 
                         cut_in_wind_speed_words = cut_in_wind_speed_word + cut_in_wind_speed_words
                         cut_out_wind_speed_words = cut_out_wind_speed_word + cut_out_wind_speed_words
@@ -204,8 +205,8 @@ class auto_word_wind_turbines_compare(models.Model):
                     investment_turbines_kw_words = investment_turbines_kw_word
                     capacity_words = capacity_word
                     name_tur_words = name_tur_word
-                    rotor_swept_area_suggestion_words = rotor_swept_area_suggestion_word
-                    blade_number_suggestion_words = blade_number_suggestion_word
+                    rotor_swept_area_words = rotor_swept_area_word
+                    blade_number_words = blade_number_word
 
                     cut_in_wind_speed_words = cut_in_wind_speed_word
                     cut_out_wind_speed_words = cut_out_wind_speed_word
@@ -214,21 +215,21 @@ class auto_word_wind_turbines_compare(models.Model):
                     rated_power_words = rated_power_word
                     voltage_words = voltage_word
 
-            re.name_tur = name_tur_words
-            re.capacity = capacity_words
-            re.tower_weight = tower_weight_words
-            re.rotor_diameter_case = rotor_diameter_words
-            re.rotor_swept_area_suggestion = rotor_swept_area_suggestion_words
-            re.blade_number_suggestion = blade_number_suggestion_words
+            re.name_tur_words = name_tur_words
+            re.capacity_words = capacity_words
+            re.tower_weight_words = tower_weight_words
+            re.rotor_diameter_words = rotor_diameter_words
+            re.rotor_swept_area_words = rotor_swept_area_words
+            re.blade_number_words = blade_number_words
 
-            re.cut_in_wind_speed_suggestion = cut_in_wind_speed_words
-            re.cut_out_wind_speed_suggestion = cut_out_wind_speed_words
-            re.rated_wind_speed_suggestion = rated_wind_speed_words
-            re.three_second_maximum_suggestion = three_second_maximum_words
-            re.rated_power_suggestion = rated_power_words
-            re.voltage_suggestion = voltage_words
+            re.cut_in_wind_speed_words = cut_in_wind_speed_words
+            re.cut_out_wind_speed_words = cut_out_wind_speed_words
+            re.rated_wind_speed_words = rated_wind_speed_words
+            re.three_second_maximum_words = three_second_maximum_words
+            re.rated_power_words = rated_power_words
+            re.voltage_words = voltage_words
 
-            re.investment_turbines_kws = investment_turbines_kw_words
+            re.investment_turbines_kw_words = investment_turbines_kw_words
 
             re.farm_capacity = round_up(float(re.farm_capacity) / 1000, 2)
             re.investment_E1 = investment_e1_sum

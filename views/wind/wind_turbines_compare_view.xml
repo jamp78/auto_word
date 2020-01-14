@@ -45,7 +45,7 @@
                     <group name="group_mid">
                         <group name="left">
                             <field name="res_form" />
-                            <field name="TurbineCapacity" />
+                            <field name="capacity_words" />
                             <field name="farm_capacity" />
                         </group>
                         <group name="right">

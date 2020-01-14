@@ -112,7 +112,6 @@ class auto_word_civil_design_safety_standard(models.Model):
     _description = 'Civil Design Safety Standard'
     _rec_name = 'civil_id'
     civil_id = fields.Many2one('auto_word.civil', string=u'项目名称', required=False)
-    # civil_id = fields.Many2one('auto_word.project', string=u'项目名称', required=True)
 
     ProjectLevel = fields.Selection([("I", u"I"), ("II", u"II"), ("III", u"III")],
                                     string=u"项目工程等别", default="I")
@@ -163,8 +162,60 @@ class auto_word_civil_design_safety_standard(models.Model):
         self.civil_id.ProjectLevel = self.ProjectLevel
 
         self.civil_id.project_id.ProjectLevel_all = self
+        self.civil_id.is_dict_8_word_part=True
+
         return True
 
+class civil_windbase(models.Model):
+    _name = 'auto_word_civil.windbase'
+    _description = 'Civil windbase'
+    _rec_name = 'BasicType'
+    FortificationIntensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=True)
+    BearingCapacity = fields.Selection(
+        [(60, "60"), (80, "80"), (100, "100"), (120, "120"), (140, "140"), (160, "160"), (180, "180"), (200, "200"),
+         (220, "220"), (240, "240"), (260, "260")], string=u"地基承载力(kpa)", required=True)
+    BasicType = fields.Selection(
+        [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
+        string=u'基础形式', required=True)
+    UltimateLoad = fields.Selection(
+        [(50000, "50000"), (60000, "60000"), (70000, "70000"), (80000, "80000"), (90000, "90000"),
+         (100000, "100000"), (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=True)
+    FloorRadiusR = fields.Float(u'底板半径R')
+    R1 = fields.Float(u'棱台顶面半径R1')
+    R2 = fields.Float(u'台柱半径R2')
+    H1 = fields.Float(u'底板外缘高度H1')
+    H2 = fields.Float(u'底板棱台高度H2')
+    H3 = fields.Float(u'台柱高度H3')
+    PileDiameter = fields.Float(u'桩直径')
+    Number = fields.Float(u'根数')
+    Length = fields.Float(u'长度')
+    SinglePileLength = fields.Float(u'单台总桩长')
+    Area = fields.Float(u'面积m²')
+    Volume = fields.Float(u'体积m³')
+    Cushion = fields.Float(u'垫层')
+    M48PreStressedAnchor = fields.Float(u'M48预应力锚栓（m)')
+    C80SecondaryGrouting = fields.Float(u'C80二次灌浆')
+
+class civil_convertbase(models.Model):
+    _name = 'auto_word_civil.convertbase'
+    _description = 'Civil ConvertBase'
+    _rec_name = 'TurbineCapacity'
+    TurbineCapacity = fields.Char(string=u"风机容量", required=True)
+
+    ConvertStation = fields.Selection(
+        [(2200, "2200"), (2500, "2500"), (2750, "2750"), (3300, "3300"), (3520, "3520"), (4000, "4000")],
+        string=u"箱变容量", required=True)
+
+    Long = fields.Float(u'长')
+    Width = fields.Float(u'宽')
+    High = fields.Float(u'高')
+    WallThickness = fields.Float(u'壁厚')
+    HighPressure = fields.Float(u'压顶高')
+    C35ConcreteTop = fields.Float(u'C35混凝土压顶')
+    C15Cushion = fields.Float(u'C15垫层')
+    MU10Brick = fields.Float(u'MU10砖')
+    Reinforcement = fields.Float(u'钢筋')
+    Area = fields.Float(u'面积')
 
 def civil_generate_docx_dict(self):
     self.dict_1_submit_word = self.project_id.dict_1_submit_word
@@ -179,8 +230,12 @@ def civil_generate_docx_dict(self):
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
 
+    if self.is_dict_8_word_part == False:
+        s = "土建部分"
+        raise exceptions.Warning('请点选 %s，并点击 --> 设计安全标准。' % (s))
+
     if self.project_id.dict_3_submit_word == False:
-        self.dict_3_submit_word={}
+        self.dict_3_submit_word = {}
     else:
         self.dict_3_submit_word = eval(self.project_id.dict_3_submit_word)
 
@@ -189,7 +244,7 @@ def civil_generate_docx_dict(self):
     self.road_stone_ratio = 10 - self.road_earthwork_ratio
 
     self.numbers_list_road = [self.road_1_num, self.road_2_num, self.road_3_num, int(self.turbine_numbers)]
-    list = [int(self.turbine_numbers), self.basic_type, self.ultimate_load, self.fortification_intensity,
+    list = [int(self.turbine_numbers), self.BasicType, self.UltimateLoad, self.FortificationIntensity,
             self.basic_earthwork_ratio / 10, self.basic_stone_ratio / 10, float(self.TurbineCapacity),
             self.road_earthwork_ratio / 10,
             self.road_stone_ratio / 10, self.project_id.Status, self.project_id.Grade, self.project_id.Capacity,
@@ -199,13 +254,11 @@ def civil_generate_docx_dict(self):
             float(self.main_booster_station_num),
             float(self.overhead_line_num), float(self.direct_buried_cable_num)]
     np = numpy.array(list)
-    dict_keys = ['turbine_numbers', 'basic_type', 'ultimate_load', 'fortification_intensity',
+    dict_keys = ['turbine_numbers', 'BasicType', 'UltimateLoad', 'FortificationIntensity',
                  'basic_earthwork_ratio',
                  'basic_stone_ratio', 'TurbineCapacity', 'road_earthwork_ratio', 'road_stone_ratio', 'Status',
                  'Grade', 'Capacity', 'TerrainType', 'numbers_list_road', 'overhead_line', 'direct_buried_cable',
                  'line_data', 'main_booster_station_num', 'overhead_line_num', 'direct_buried_cable_num']
-
-
 
     dict_8 = get_dict_8(np, dict_keys)
     dict8 = generate_civil_dict(**dict_8)
@@ -240,7 +293,7 @@ def civil_generate_docx_dict(self):
         "合计亩_永久用地面积": self.permanent_land_area,
         "合计亩_临时用地面积": self.temporary_land_area,
         "总用地面积": self.land_area,
-        "运输车辆":self.cars
+        "运输车辆": self.cars
 
     }
 
@@ -258,7 +311,8 @@ class auto_word_civil(models.Model):
     _name = 'auto_word.civil'
     _description = 'Civil input'
     _rec_name = 'project_id'
-    # _inherit = ['auto_word_civil.windbase']
+    _inherit = ['auto_word_civil.design_safety_standard','auto_word_civil.windbase','auto_word_civil.convertbase']
+
     # 提交
     dict_8_submit_word = fields.Char(u'字典8_提交')
     # 提取
@@ -266,24 +320,26 @@ class auto_word_civil(models.Model):
     dict_3_submit_word = fields.Char(u'字典3_提交')
     dict_5_submit_word = fields.Char(u'字典5_提交')
 
+    # --------项目参数---------
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    road_names = fields.Char(string=u'周边道路')
-    # 风能
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
+    is_dict_8_word_part = fields.Boolean("dict_8_word_part?", default=False)
+
+    # --------风能参数---------
     turbine_numbers = fields.Char(u'推荐机组数量', readonly=True)
     name_tur_suggestion = fields.Char(u'推荐机型', readonly=True)
     hub_height_suggestion = fields.Char(u'推荐轮毂高度', readonly=True)
     TurbineCapacity = fields.Char(string=u"风机容量", required=False, readonly=True)
-
-    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告土建章节')
-    basic_type = fields.Selection(
-        [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
-        string=u'基础形式', required=False, default="扩展基础")
-    ultimate_load = fields.Selection(
-        [(50000, "50000"), (60000, "60000"), (70000, "70000"), (80000, "80000"), (90000, "90000"), (100000, "100000"),
-         (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=False, default=70000)
-    fortification_intensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=False,
-                                               default=7)
+    # --------土建参数---------
+    # fortification_intensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=False,
+    #                                            default=7)
+    # basic_type = fields.Selection(
+    #     [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
+    #     string=u'基础形式', required=False, default="扩展基础")
+    # ultimate_load = fields.Selection(
+    #     [(50000, "50000"), (60000, "60000"), (70000, "70000"), (80000, "80000"), (90000, "90000"), (100000, "100000"),
+    #      (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=False, default=70000)
     basic_earthwork_ratio = fields.Selection(
         [(0, "0"), (1, "10%"), (2, "20%"), (3, "30%"), (4, "40%"), (5, "50%"), (6, "60%"), (7, "70%"),
          (8, "80%"), (9, "90%"), (1, '100%')], string=u"基础土方比", required=False, default=8)
@@ -297,10 +353,7 @@ class auto_word_civil(models.Model):
     road_3_num = fields.Float(u'新建施工检修道路', required=False, default=10)
     total_civil_length = fields.Float(compute='_compute_total_civil_length', string=u'道路工程长度')
 
-    investment_E4 = fields.Float(compute='_compute_total_civil_length', string=u'道路投资(万元)')
-
-    ####线路
-
+    # --------电气参数---------
     line_1 = fields.Float(u'线路总挖方', required=False, default="15000")
     line_2 = fields.Float(u'线路总填方', required=False, default="10000")
     overhead_line = fields.Float(u'架空线路用地', required=False, default="1500")
@@ -310,42 +363,43 @@ class auto_word_civil(models.Model):
     direct_buried_cable_num = fields.Char(u'直埋电缆长度', default="0", readonly=True)
     main_booster_station_num = fields.Char(u'主变数量', default="0", readonly=True)
 
-    ####设计安全标准
+    # --------经评参数---------
+    investment_E4 = fields.Float(compute='_compute_total_civil_length', string=u'道路投资(万元)')
 
+    # --------设计安全标准---------
     ProjectLevel = fields.Char(u'项目工程等别', default="待提交", readonly=True)
 
     ProjectLevel_all = fields.Many2one('auto_word_civil.design_safety_standard', string=u'项目工程等别')
-
-    ProjectSize = fields.Char(u'工程规模', default="待提交", readonly=True)
-    BuildingLevel = fields.Char(u'建筑物级别', default="待提交", readonly=True)
-    EStructuralSafetyLevel = fields.Char(u'变电站结构安全等级', default="待提交", readonly=True)
-    TStructuralSafetyLevel = fields.Char(u'风机结构安全等级', default="待提交", readonly=True)
-
-    FloodDesignLevel = fields.Char(u'洪水设计标准', default="待提交", readonly=True)
-    ReFloodDesignLevel = fields.Char(u'重现期洪水位', default="待提交", readonly=True)
     TerrainType_words = fields.Char(u'地形描述', default="待提交", readonly=True, compute='_compute_terrain_type_words')
 
-    TurbineTowerDesignLevel = fields.Char(u'机组塔架地基设计级别', default="待提交", readonly=True)
+    # ProjectSize = fields.Char(u'工程规模', default="待提交", readonly=True)
+    # BuildingLevel = fields.Char(u'建筑物级别', default="待提交", readonly=True)
+    # EStructuralSafetyLevel = fields.Char(u'变电站结构安全等级', default="待提交", readonly=True)
+    # TStructuralSafetyLevel = fields.Char(u'风机结构安全等级', default="待提交", readonly=True)
+    #
+    # FloodDesignLevel = fields.Char(u'洪水设计标准', default="待提交", readonly=True)
+    # ReFloodDesignLevel = fields.Char(u'重现期洪水位', default="待提交", readonly=True)
 
-    BuildingEarthquakeDesignLevel = fields.Char(u'建筑物抗震设防类别', default="待提交", readonly=True)
-    DesignEarthquakeLevel = fields.Char(u'设计地震分组', default="待提交", readonly=True)
-    Earthquake_g = fields.Char(u'设计基本地震加速度值', default="待提交", readonly=True)
-    BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
-    BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
+    # TurbineTowerDesignLevel = fields.Char(u'机组塔架地基设计级别', default="待提交", readonly=True)
+    # BuildingEarthquakeDesignLevel = fields.Char(u'建筑物抗震设防类别', default="待提交", readonly=True)
+    # DesignEarthquakeLevel = fields.Char(u'设计地震分组', default="待提交", readonly=True)
+    # Earthquake_g = fields.Char(u'设计基本地震加速度值', default="待提交", readonly=True)
+    # BuildingYardLevel = fields.Char(u'建筑物场地类别', default="待提交", readonly=True)
+    # BuildingYardLevel_word = fields.Char(u'建筑物场地抗震类别', default="待提交", readonly=True)
 
     # 土建结果
     # 风机基础工程数量表
     EarthExcavation_WindResource = fields.Char(u'土方开挖（m3）', readonly=True)
     StoneExcavation_WindResource = fields.Char(u'石方开挖（m3）', readonly=True)
     EarthWorkBackFill_WindResource = fields.Char(u'土石方回填（m3）', readonly=True)
-    Volume = fields.Char(u'C40混凝土（m3）', readonly=True)
-    Cushion = fields.Char(u'C15混凝土（m3）', readonly=True)
-    Reinforcement = fields.Char(u'钢筋（t）', readonly=True)
+    # Volume = fields.Char(u'C40混凝土（m3）', readonly=True)
+    # Cushion = fields.Char(u'C15混凝土（m3）', readonly=True)
+    # Reinforcement = fields.Char(u'钢筋（t）', readonly=True)
     Based_Waterproof = fields.Char(u'基础防水', default=1)
     Settlement_Observation = fields.Char(u'沉降观测', default=4)
-    SinglePileLength = fields.Char(u'总预制桩长（m）', readonly=True)
-    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）', readonly=True)
-    C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）', readonly=True)
+    # SinglePileLength = fields.Char(u'总预制桩长（m）', readonly=True)
+    # M48PreStressedAnchor = fields.Char(u'M48预应力锚栓（m）', readonly=True)
+    # C80SecondaryGrouting = fields.Char(u'C80二次灌浆（m3）', readonly=True)
     stake_number = fields.Char(u'单台风机桩根数（根）', readonly=True)
 
     # 土石方平衡表
@@ -372,8 +426,9 @@ class auto_word_civil(models.Model):
     temporary_land_area = fields.Char(u'临时用地面积（亩）', readonly=True)
     permanent_land_area = fields.Char(u'永久用地面积（亩）', readonly=True)
     land_area = fields.Char(u'总用地面积', readonly=True)
-
+    road_names = fields.Char(string=u'周边道路')
     cars = fields.Char(u'运输车辆', readonly=True, compute='_compute_terrain_type_words')
+
     @api.depends('TerrainType')
     def _compute_terrain_type_words(self):
         for re in self:
@@ -381,11 +436,10 @@ class auto_word_civil(models.Model):
                 re.TerrainType_words = "地形较为平缓，不需要进行高边坡特别设计."
                 re.cars = "举升车运输技术上更为先进，较适合山地、重丘风场。因此，本风场建议叶片运输采用特种运输车辆。"
                 if re.TerrainType == "平原":
-                    re.cars="本风场建议叶片运输采用平板车。"
+                    re.cars = "本风场建议叶片运输采用平板车。"
             else:
                 re.TerrainType_words = "山地起伏较大，基础周边可能会形成高边坡，需要进行高边坡特别设计."
                 re.cars = "举升车运输技术上更为先进，较适合山地、重丘风场。因此，本风场建议叶片运输采用特种运输车辆。"
-
 
     @api.depends('road_1_num', 'road_2_num', 'road_3_num', 'TerrainType')
     def _compute_total_civil_length(self):
@@ -412,9 +466,9 @@ class auto_word_civil(models.Model):
         projectname.total_civil_length = self.total_civil_length
         projectname.investment_E4 = self.investment_E4
 
-        projectname.basic_type = self.basic_type
-        projectname.ultimate_load = self.ultimate_load
-        projectname.fortification_intensity = self.fortification_intensity
+        projectname.basic_type = self.BasicType
+        projectname.ultimate_load = self.UltimateLoad
+        projectname.fortification_intensity = self.FortificationIntensity
         projectname.basic_earthwork_ratio = str(self.basic_earthwork_ratio * 10) + "%"
         projectname.basic_stone_ratio = str(self.basic_stone_ratio * 10) + "%"
         projectname.road_earthwork_ratio = str(self.road_earthwork_ratio * 10) + "%"
@@ -434,23 +488,25 @@ class auto_word_civil(models.Model):
         projectname.C80SecondaryGrouting = self.C80SecondaryGrouting
         projectname.stake_number = self.stake_number
 
-        dict_8_words, dict_8_word = civil_generate_docx_dict(self)
+        # dict_8_words, dict_8_word = civil_generate_docx_dict(self)
 
-        projectname.dict_8_word = dict_8_word
-        projectname.BasicType = dict_8_words['基础形式']
-        projectname.FloorRadiusR = dict_8_words['基础底面圆直径']
-        projectname.H1 = dict_8_words['基础底板外缘高度']
-        projectname.R2 = dict_8_words['台柱圆直径']
-        projectname.H2 = dict_8_words['基础底板圆台高度']
-        projectname.H3 = dict_8_words['台柱高度']
+        if self.dict_8_submit_word == False:
+            raise exceptions.Warning('请先点击 --> 计算按钮')
 
-        projectname.temporary_land_area = dict_8_words['合计亩_临时用地面积']
-        projectname.permanent_land_area = dict_8_words['合计亩_永久用地面积']
+        projectname.BasicType = self.dict_8_submit_word['基础形式']
+        projectname.FloorRadiusR = self.dict_8_submit_word['基础底面圆直径']
+        projectname.H1 = self.dict_8_submit_word['基础底板外缘高度']
+        projectname.R2 = self.dict_8_submit_word['台柱圆直径']
+        projectname.H2 = self.dict_8_submit_word['基础底板圆台高度']
+        projectname.H3 = self.dict_8_submit_word['台柱高度']
+
+        projectname.temporary_land_area = self.dict_8_submit_word['合计亩_临时用地面积']
+        projectname.permanent_land_area = self.dict_8_submit_word['合计亩_永久用地面积']
         projectname.land_area = self.land_area
 
-        projectname.excavation = dict_8_words['合计_开挖']
-        projectname.backfill = dict_8_words['合计_回填']
-        projectname.spoil = dict_8_words['合计_弃土']
+        projectname.excavation = self.dict_8_submit_word['合计_开挖']
+        projectname.backfill = self.dict_8_submit_word['合计_回填']
+        projectname.spoil = self.dict_8_submit_word['合计_弃土']
 
         projectname.line_1 = self.line_1
         projectname.line_2 = self.line_2
@@ -482,22 +538,20 @@ class auto_word_civil(models.Model):
             [('civil_id.project_id.project_name', '=', self.project_id.project_name)])
 
         if projectname.line_1 == "待提交":
-            self.line_1=0
+            self.line_1 = 0
         else:
             self.line_1 = projectname.line_1
 
         if projectname.line_2 == "待提交":
-            self.line_2=0
+            self.line_2 = 0
         else:
             self.line_2 = projectname.line_2
-
-
 
         self.overhead_line_num = projectname.overhead_line_num
         self.direct_buried_cable_num = projectname.direct_buried_cable_num
         self.main_booster_station_num = projectname.main_booster_station_num
 
-        self.TurbineCapacity = projectname.TurbineCapacity
+        self.TurbineCapacity = projectname.capacity_suggestion
         self.TerrainType = projectname.TerrainType
 
         dict_8_words, dict_8_word = civil_generate_docx_dict(self)
@@ -575,57 +629,7 @@ class auto_word_civil(models.Model):
         return True
 
 
-class civil_windbase(models.Model):
-    _name = 'auto_word_civil.windbase'
-    _description = 'Civil windbase'
-    _rec_name = 'BasicType'
-    FortificationIntensity = fields.Selection([(6, "6"), (7, "7"), (8, "8"), (9, "9")], string=u"设防烈度", required=True)
-    BearingCapacity = fields.Selection(
-        [(60, "60"), (80, "80"), (100, "100"), (120, "120"), (140, "140"), (160, "160"), (180, "180"), (200, "200"),
-         (220, "220"), (240, "240"), (260, "260")], string=u"地基承载力(kpa)", required=True)
-    BasicType = fields.Selection(
-        [('扩展基础', u'扩展基础'), ('预制桩承台基础', u'预制桩承台基础'), ('灌注桩承台基础', u'灌注桩承台基础'), ('复合地基', u'复合地基')],
-        string=u'基础形式', required=True)
-    UltimateLoad = fields.Selection(
-        [(50000, "50000"), (60000, "60000"), (70000, "70000"), (80000, "80000"), (90000, "90000"),
-         (100000, "100000"), (110000, "110000"), (120000, "120000")], string=u"极限载荷", required=True)
-    FloorRadiusR = fields.Float(u'底板半径R')
-    R1 = fields.Float(u'棱台顶面半径R1')
-    R2 = fields.Float(u'台柱半径R2')
-    H1 = fields.Float(u'底板外缘高度H1')
-    H2 = fields.Float(u'底板棱台高度H2')
-    H3 = fields.Float(u'台柱高度H3')
-    PileDiameter = fields.Float(u'桩直径')
-    Number = fields.Float(u'根数')
-    Length = fields.Float(u'长度')
-    SinglePileLength = fields.Float(u'单台总桩长')
-    Area = fields.Float(u'面积m²')
-    Volume = fields.Float(u'体积m³')
-    Cushion = fields.Float(u'垫层')
-    M48PreStressedAnchor = fields.Float(u'M48预应力锚栓（m)')
-    C80SecondaryGrouting = fields.Float(u'C80二次灌浆')
 
-
-class civil_convertbase(models.Model):
-    _name = 'auto_word_civil.convertbase'
-    _description = 'Civil ConvertBase'
-    _rec_name = 'TurbineCapacity'
-    TurbineCapacity = fields.Char(string=u"风机容量", required=True)
-
-    ConvertStation = fields.Selection(
-        [(2200, "2200"), (2500, "2500"), (2750, "2750"), (3300, "3300"), (3520, "3520"), (4000, "4000")],
-        string=u"箱变容量", required=True)
-
-    Long = fields.Float(u'长')
-    Width = fields.Float(u'宽')
-    High = fields.Float(u'高')
-    WallThickness = fields.Float(u'壁厚')
-    HighPressure = fields.Float(u'压顶高')
-    C35ConcreteTop = fields.Float(u'C35混凝土压顶')
-    C15Cushion = fields.Float(u'C15垫层')
-    MU10Brick = fields.Float(u'MU10砖')
-    Reinforcement = fields.Float(u'钢筋')
-    Area = fields.Float(u'面积')
 
 
 class civil_boosterstation(models.Model):
@@ -720,22 +724,22 @@ class auto_word_civil_road4(models.Model):
     TurfSlopeProtection_4 = fields.Float(u'草皮护坡')
 
 
-class auto_word_windresourcedatabase(models.Model):
-    _name = 'auto_word_civil.windresourcedatabase'
-    _description = 'WindResourceDatabase'
-    _rec_name = 'project_id'
-
-    project_id = fields.Many2one('auto_word.project', string=u'项目名', required=False)
-    EarthExcavation_WindResource = fields.Char(u'土方开挖')
-    StoneExcavation_WindResource = fields.Char(u'石方开挖')
-    EarthWorkBackFill_WindResource = fields.Char(u'土石方回填')
-
-    Volume = fields.Char(u'C40混凝土')
-    Cushion = fields.Char(u'C15混凝土')
-    Reinforcement = fields.Char(u'钢筋')
-    Based_Waterproof = fields.Char(u'基础防水', default=1)
-    Settlement_Observation = fields.Char(u'沉降观测', default=4)
-
-    SinglePileLength = fields.Char(u'预制桩长')
-    M48PreStressedAnchor = fields.Char(u'M48预应力锚栓')
-    C80SecondaryGrouting = fields.Char(u'C80二次灌浆')
+# class auto_word_windresourcedatabase(models.Model):
+#     _name = 'auto_word_civil.windresourcedatabase'
+#     _description = 'WindResourceDatabase'
+#     _rec_name = 'project_id'
+#
+#     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=False)
+#     EarthExcavation_WindResource = fields.Char(u'土方开挖')
+#     StoneExcavation_WindResource = fields.Char(u'石方开挖')
+#     EarthWorkBackFill_WindResource = fields.Char(u'土石方回填')
+#
+#     Volume = fields.Char(u'C40混凝土')
+#     Cushion = fields.Char(u'C15混凝土')
+#     Reinforcement = fields.Char(u'钢筋')
+#     Based_Waterproof = fields.Char(u'基础防水', default=1)
+#     Settlement_Observation = fields.Char(u'沉降观测', default=4)
+#
+#     SinglePileLength = fields.Char(u'预制桩长')
+#     M48PreStressedAnchor = fields.Char(u'M48预应力锚栓')
+#     C80SecondaryGrouting = fields.Char(u'C80二次灌浆')

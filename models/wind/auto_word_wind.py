@@ -381,7 +381,8 @@ class auto_word_wind(models.Model):
     report_attachment_id2 = fields.Many2many('ir.attachment', string=u'图片')
     attachment_number = fields.Integer(compute='_compute_attachment_number', string='Number of Attachments')
 
-    # 机型结果
+
+    # ############################################################
     png_list = []
     project_id_input_dict, case_name_dict, Turbine_dict, tur_id_dict = [], [], [], []
     X_dict, Y_dict, Z_dict, H_dict, Latitude_dict, Longitude_dict, TrustCoefficient_dict = [], [], [], [], [], [], []
@@ -403,22 +404,22 @@ class auto_word_wind(models.Model):
             re.hub_height_suggestion = re.recommend_id.hub_height_suggestion
             re.turbine_numbers_suggestion = re.recommend_id.turbine_numbers
             re.project_capacity = re.recommend_id.farm_capacity
-            re.rotor_diameter_suggestion = re.recommend_id.rotor_diameter_case
+            re.rotor_diameter_suggestion = re.recommend_id.rotor_diameter_words
             re.TurbineCapacity_suggestion = float(re.recommend_id.capacity) / 1000
-            re.rotor_swept_area_suggestion = re.recommend_id.rotor_swept_area_suggestion
-            re.blade_number_suggestion = re.recommend_id.blade_number_suggestion
-            re.cut_in_wind_speed_suggestion = re.recommend_id.cut_in_wind_speed_suggestion
-            re.cut_out_wind_speed_suggestion = re.recommend_id.cut_out_wind_speed_suggestion
-            re.rated_wind_speed_suggestion = re.recommend_id.rated_wind_speed_suggestion
-            re.three_second_maximum_suggestion = re.recommend_id.three_second_maximum_suggestion
-            re.rated_power_suggestion = re.recommend_id.rated_power_suggestion
-            re.voltage_suggestion = re.recommend_id.voltage_suggestion
+            re.rotor_swept_area_suggestion = re.recommend_id.rotor_swept_area_words
+            re.blade_number_suggestion = re.recommend_id.blade_number_words
+            re.cut_in_wind_speed_suggestion = re.recommend_id.cut_in_wind_speed_words
+            re.cut_out_wind_speed_suggestion = re.recommend_id.cut_out_wind_speed_words
+            re.rated_wind_speed_suggestion = re.recommend_id.rated_wind_speed_words
+            re.three_second_maximum_suggestion = re.recommend_id.three_second_maximum_words
+            re.rated_power_suggestion = re.recommend_id.rated_power_words
+            re.voltage_suggestion = re.recommend_id.voltage_words
             # re.auto_word_wind_res = re.recommend_id.res_form.auto_word_wind_res
             re.weak = re.recommend_id.weak
             re.hours_year = re.recommend_id.hours_year
             re.rate = re.recommend_id.res_form.rate
             re.capacity_coefficient = re.recommend_id.res_form.capacity_coefficient
-            re.investment_turbines_kws = re.recommend_id.investment_turbines_kws
+            re.investment_turbines_kws = re.recommend_id.investment_turbines_kw_words
             re.ongrid_power = re.recommend_id.ongrid_power
             re.tower_weight = re.recommend_id.tower_weight
 

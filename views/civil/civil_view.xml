@@ -40,9 +40,9 @@
                             <!--<field name="total_civil_length"/>-->
                         </group>
                         <group name="group_mid">
-                            <field name="basic_type"/>
-                            <field name="ultimate_load"/>
-                            <field name="fortification_intensity"/>
+                            <field name="BasicType"/>
+                            <field name="UltimateLoad"/>
+                            <field name="FortificationIntensity"/>
 
                         </group>
                         <group name="group_right">

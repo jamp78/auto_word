@@ -385,3 +385,9 @@ class auto_word_project(models.Model):
 class auto_word_null_project(models.Model):
     _name = 'auto_word_null.project'
     _description = 'null Project'
+
+#参考
+# re.env['auto_word_wind_turbines.compare'].compare_id = re
+# re.compare_id.case_name = re.auto_word_wind_res[0].case_name
+# re.compare_id.ongrid_power = re.ongrid_power_sum
+# re.compare_id.hours_year = re.hours_year_average

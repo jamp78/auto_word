@@ -38,7 +38,7 @@ def get_dict_8(np, dict_keys):
     return dict
 
 
-def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, fortification_intensity=0,
+def generate_civil_dict(turbine_numbers=0, BasicType='', UltimateLoad=0, FortificationIntensity=0,
                         basic_earthwork_ratio=0, basic_stone_ratio=0, TurbineCapacity=0, road_earthwork_ratio=0,
                         road_stone_ratio=0, Status='', Grade=0, Capacity=0, TerrainType='', numbers_list_road=[],
                         overhead_line=0, direct_buried_cable=0, line_data=[], main_booster_station_num=0,
@@ -47,15 +47,15 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     Doc_word = {
         'turbine_numbers': turbine_numbers,
         'TurbineCapacity': TurbineCapacity,
-        'fortification_intensity': fortification_intensity,
+        'fortification_intensity': FortificationIntensity,
         '风电场总装机容量': TurbineCapacity * turbine_numbers,
         '变电站电压等级': Grade
     }
 
     project10 = MainConstructionQuantitySummarySheet()
     # data1 = project10.extraction_data_wind_resource(basic_type='扩展基础', ultimate_load=70000, fortification_intensity=7)
-    data1 = project10.extraction_data_wind_resource(basic_type=basic_type, ultimate_load=ultimate_load,
-                                                    fortification_intensity=fortification_intensity)
+    data1 = project10.extraction_data_wind_resource(basic_type=BasicType, ultimate_load=UltimateLoad,
+                                                    fortification_intensity=FortificationIntensity)
     data_cal1 = project10.excavation_cal_wind_resource(data1, basic_earthwork_ratio, basic_stone_ratio, turbine_numbers)
 
     dict1_01,dict1_02=project10.generate_dict_wind_resource(data_cal1, turbine_numbers)
@@ -65,6 +65,9 @@ def generate_civil_dict(turbine_numbers=0, basic_type='', ultimate_load=0, forti
     Dict1 = dict(Dict1, **dict1_02)
     # ==============================================
     data2 = project10.extraction_data_box_voltage(TurbineCapacity)
+    print("*"*100)
+    print(TurbineCapacity)
+    print(data2)
 
     data_cal2 = project10.excavation_cal_box_voltage(data2, basic_earthwork_ratio, basic_stone_ratio, turbine_numbers)
     dict_box_voltage = project10.generate_dict_box_voltage(data_cal2, turbine_numbers)
