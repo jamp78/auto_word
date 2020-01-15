@@ -13,8 +13,12 @@ class auto_word_civil_geology(models.Model):
     _name = 'auto_word_civil.geology'
     _description = 'Civil geology'
     _rec_name = 'project_id'
+
+    # --------项目参数---------
     project_id = fields.Many2one('auto_word.project', string=u'项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告地质章节')
+    # --------地质参数---------
     regional_geology = fields.Char(u'区域地质构造')
     neotectonic_movements_earthquakes = fields.Char(u'新构造运动及地震')
     topographical_evaluation = fields.Char(u'地形地貌评价')
@@ -33,7 +37,7 @@ class auto_word_civil_geology(models.Model):
 
     conclusion = fields.Char(u'结论和建议')
 
-    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告地质章节')
+
     # 提交
     dict_3_submit_word = fields.Char(u'字典3_提交')
     # 提取
@@ -162,9 +166,10 @@ class auto_word_civil_design_safety_standard(models.Model):
         self.civil_id.ProjectLevel = self.ProjectLevel
 
         self.civil_id.project_id.ProjectLevel_all = self
-        self.civil_id.is_dict_8_word_part=True
+        self.civil_id.is_dict_8_word_part = True
 
         return True
+
 
 class civil_windbase(models.Model):
     _name = 'auto_word_civil.windbase'
@@ -196,6 +201,7 @@ class civil_windbase(models.Model):
     M48PreStressedAnchor = fields.Float(u'M48预应力锚栓（m)')
     C80SecondaryGrouting = fields.Float(u'C80二次灌浆')
 
+
 class civil_convertbase(models.Model):
     _name = 'auto_word_civil.convertbase'
     _description = 'Civil ConvertBase'
@@ -216,6 +222,7 @@ class civil_convertbase(models.Model):
     MU10Brick = fields.Float(u'MU10砖')
     Reinforcement = fields.Float(u'钢筋')
     Area = fields.Float(u'面积')
+
 
 def civil_generate_docx_dict(self):
     self.dict_1_submit_word = self.project_id.dict_1_submit_word
@@ -304,17 +311,21 @@ def civil_generate_docx_dict(self):
     for key, value in dict_8_word.items():
         gl.set_value(key, value)
 
-    return dict_8_words, dict_8_word
+    self.dict_8_submit_word=dict_8_word
+    self.dict_8_submit_words = dict_8_words
+
+    return True
 
 
 class auto_word_civil(models.Model):
     _name = 'auto_word.civil'
     _description = 'Civil input'
     _rec_name = 'project_id'
-    _inherit = ['auto_word_civil.design_safety_standard','auto_word_civil.windbase','auto_word_civil.convertbase']
+    _inherit = ['auto_word_civil.design_safety_standard', 'auto_word_civil.windbase', 'auto_word_civil.convertbase']
 
     # 提交
     dict_8_submit_word = fields.Char(u'字典8_提交')
+    dict_8_submit_words = fields.Char(u'字典8_提交s')
     # 提取
     dict_1_submit_word = fields.Char(u'字典1_提交')
     dict_3_submit_word = fields.Char(u'字典3_提交')
@@ -488,25 +499,24 @@ class auto_word_civil(models.Model):
         projectname.C80SecondaryGrouting = self.C80SecondaryGrouting
         projectname.stake_number = self.stake_number
 
-        # dict_8_words, dict_8_word = civil_generate_docx_dict(self)
-
         if self.dict_8_submit_word == False:
             raise exceptions.Warning('请先点击 --> 计算按钮')
 
-        projectname.BasicType = self.dict_8_submit_word['基础形式']
-        projectname.FloorRadiusR = self.dict_8_submit_word['基础底面圆直径']
-        projectname.H1 = self.dict_8_submit_word['基础底板外缘高度']
-        projectname.R2 = self.dict_8_submit_word['台柱圆直径']
-        projectname.H2 = self.dict_8_submit_word['基础底板圆台高度']
-        projectname.H3 = self.dict_8_submit_word['台柱高度']
+        dict_8_submit_word=eval(self.dict_8_submit_word)
+        projectname.BasicType = dict_8_submit_word['基础形式']
+        projectname.FloorRadiusR = dict_8_submit_word['基础底面圆直径']
+        projectname.H1 = dict_8_submit_word['基础底板外缘高度']
+        projectname.R2 = dict_8_submit_word['台柱圆直径']
+        projectname.H2 = dict_8_submit_word['基础底板圆台高度']
+        projectname.H3 = dict_8_submit_word['台柱高度']
 
-        projectname.temporary_land_area = self.dict_8_submit_word['合计亩_临时用地面积']
-        projectname.permanent_land_area = self.dict_8_submit_word['合计亩_永久用地面积']
+        projectname.temporary_land_area = dict_8_submit_word['合计亩_临时用地面积']
+        projectname.permanent_land_area = dict_8_submit_word['合计亩_永久用地面积']
         projectname.land_area = self.land_area
 
-        projectname.excavation = self.dict_8_submit_word['合计_开挖']
-        projectname.backfill = self.dict_8_submit_word['合计_回填']
-        projectname.spoil = self.dict_8_submit_word['合计_弃土']
+        projectname.excavation = dict_8_submit_word['合计_开挖']
+        projectname.backfill = dict_8_submit_word['合计_回填']
+        projectname.spoil = dict_8_submit_word['合计_弃土']
 
         projectname.line_1 = self.line_1
         projectname.line_2 = self.line_2
@@ -554,49 +564,52 @@ class auto_word_civil(models.Model):
         self.TurbineCapacity = projectname.capacity_suggestion
         self.TerrainType = projectname.TerrainType
 
-        dict_8_words, dict_8_word = civil_generate_docx_dict(self)
-        self.dict_8_submit_word = dict_8_word
+        civil_generate_docx_dict(self)
 
-        self.EarthExcavation_WindResource = dict_8_words['土方开挖_风机_numbers']
-        self.StoneExcavation_WindResource = dict_8_words['石方开挖_风机_numbers']
-        self.EarthWorkBackFill_WindResource = dict_8_words['土石方回填_风机_numbers']
-        self.Volume = dict_8_words['C40混凝土_风机_numbers']
-        self.Cushion = dict_8_words['C15混凝土_风机_numbers']
-        self.Reinforcement = dict_8_words['钢筋_风机_numbers']
-        self.SinglePileLength = dict_8_words['预制桩长_风机_numbers']
-        self.M48PreStressedAnchor = dict_8_words['M48预应力锚栓_风机_numbers']
-        self.C80SecondaryGrouting = dict_8_words['C80二次灌浆_风机_numbers']
-        self.stake_number = dict_8_words['单台风机桩根数_风机']
+        if self.dict_8_submit_words == False:
+            raise exceptions.Warning('计算出错，请查询填写参数是否正确' % (s))
+        dict_8_submit_words=eval(self.dict_8_submit_words)
 
-        self.turbine_foundation_box_voltage_excavation = dict_8_words['风机基础及箱变_开挖']
-        self.turbine_foundation_box_voltage_back_fill = dict_8_words['风机基础及箱变_回填']
-        self.turbine_foundation_box_voltage_spoil = dict_8_words['风机基础及箱变_弃土']
-        self.booster_station_engineering_excavation = dict_8_words['升压站工程_开挖']
-        self.booster_station_engineering_back_fill = dict_8_words['升压站工程_回填']
-        self.booster_station_engineering_spoil = dict_8_words['升压站工程_弃土']
+        self.EarthExcavation_WindResource = dict_8_submit_words['土方开挖_风机_numbers']
+        self.StoneExcavation_WindResource = dict_8_submit_words['石方开挖_风机_numbers']
+        self.EarthWorkBackFill_WindResource = dict_8_submit_words['土石方回填_风机_numbers']
+        self.Volume = dict_8_submit_words['C40混凝土_风机_numbers']
+        self.Cushion = dict_8_submit_words['C15混凝土_风机_numbers']
+        self.Reinforcement = dict_8_submit_words['钢筋_风机_numbers']
+        self.SinglePileLength = dict_8_submit_words['预制桩长_风机_numbers']
+        self.M48PreStressedAnchor = dict_8_submit_words['M48预应力锚栓_风机_numbers']
+        self.C80SecondaryGrouting = dict_8_submit_words['C80二次灌浆_风机_numbers']
+        self.stake_number = dict_8_submit_words['单台风机桩根数_风机']
 
-        self.road_engineering_excavation = dict_8_words['道路工程_开挖']
-        self.road_engineering_back_fill = dict_8_words['道路工程_回填']
-        self.road_engineering_spoil = dict_8_words['道路工程_弃土']
-        self.hoisting_platform_excavation = dict_8_words['吊装平台_开挖']
-        self.hoisting_platform_back_fill = dict_8_words['吊装平台_回填']
-        self.hoisting_platform_spoil = dict_8_words['吊装平台_弃土']
-        self.total_line_excavation = dict_8_words['集电线路_开挖']
-        self.total_line_back_fill = dict_8_words['集电线路_回填']
-        self.total_line_spoil = dict_8_words['集电线路_弃土']
-        self.sum_EarthStoneBalance_excavation = dict_8_words['合计_开挖']
-        self.sum_EarthStoneBalance_back_fill = dict_8_words['合计_回填']
-        self.sum_EarthStoneBalance_spoil = dict_8_words['合计_弃土']
+        self.turbine_foundation_box_voltage_excavation = dict_8_submit_words['风机基础及箱变_开挖']
+        self.turbine_foundation_box_voltage_back_fill = dict_8_submit_words['风机基础及箱变_回填']
+        self.turbine_foundation_box_voltage_spoil = dict_8_submit_words['风机基础及箱变_弃土']
+        self.booster_station_engineering_excavation = dict_8_submit_words['升压站工程_开挖']
+        self.booster_station_engineering_back_fill = dict_8_submit_words['升压站工程_回填']
+        self.booster_station_engineering_spoil = dict_8_submit_words['升压站工程_弃土']
 
-        self.temporary_land_area = dict_8_words['合计亩_临时用地面积']
-        self.permanent_land_area = dict_8_words['合计亩_永久用地面积']
+        self.road_engineering_excavation = dict_8_submit_words['道路工程_开挖']
+        self.road_engineering_back_fill = dict_8_submit_words['道路工程_回填']
+        self.road_engineering_spoil = dict_8_submit_words['道路工程_弃土']
+        self.hoisting_platform_excavation = dict_8_submit_words['吊装平台_开挖']
+        self.hoisting_platform_back_fill = dict_8_submit_words['吊装平台_回填']
+        self.hoisting_platform_spoil = dict_8_submit_words['吊装平台_弃土']
+        self.total_line_excavation = dict_8_submit_words['集电线路_开挖']
+        self.total_line_back_fill = dict_8_submit_words['集电线路_回填']
+        self.total_line_spoil = dict_8_submit_words['集电线路_弃土']
+        self.sum_EarthStoneBalance_excavation = dict_8_submit_words['合计_开挖']
+        self.sum_EarthStoneBalance_back_fill = dict_8_submit_words['合计_回填']
+        self.sum_EarthStoneBalance_spoil = dict_8_submit_words['合计_弃土']
+
+        self.temporary_land_area = dict_8_submit_words['合计亩_临时用地面积']
+        self.permanent_land_area = dict_8_submit_words['合计亩_永久用地面积']
         self.land_area = round_up(float(self.permanent_land_area) + float(self.temporary_land_area), 2)
 
     #   生成报告
     def civil_generate(self):
-        dict_8_words, dict_8_word = civil_generate_docx_dict(self)
+        # dict_8_words, dict_8_word = civil_generate_docx_dict(self)
         path_chapter_8 = self.env['auto_word.project'].path_chapter_8
-        generate_civil_docx(dict_8_words, path_chapter_8, 'cr8', 'result_chapter8')
+        generate_civil_docx(eval(self.dict_8_submit_words), path_chapter_8, 'cr8', 'result_chapter8')
         reportfile_name = open(
             file=os.path.join(path_chapter_8, '%s.docx') % 'result_chapter8',
             mode='rb')
@@ -627,9 +640,6 @@ class auto_word_civil(models.Model):
         print('new attachment：', self.report_attachment_id)
         print('new datas len：', len(self.report_attachment_id.datas))
         return True
-
-
-
 
 
 class civil_boosterstation(models.Model):
@@ -722,7 +732,6 @@ class auto_word_civil_road4(models.Model):
     StoneMasonryDrainageDitch_4 = fields.Float(u'浆砌石排水沟')
     MortarStoneProtectionSlope_4 = fields.Float(u'M7.5浆砌片石护坡')
     TurfSlopeProtection_4 = fields.Float(u'草皮护坡')
-
 
 # class auto_word_windresourcedatabase(models.Model):
 #     _name = 'auto_word_civil.windresourcedatabase'
