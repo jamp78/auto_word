@@ -125,7 +125,9 @@ class auto_word_project(models.Model):
     dict_3_submit_word = fields.Char(string=u'字典3')
     dict_4_submit_word = fields.Char(string=u'字典4')
     dict_5_submit_word = fields.Char(string=u'字典5')
-    dict_6_jidian_submit_word = fields.Char(u'字典6_集电_提交')
+
+    dict_6_jidian_submit_word= fields.Char(string=u'字典_6_集电')
+    dict_6_submit_word = fields.Char(string=u'字典6')
     dict_8_submit_word = fields.Char(string=u'字典8_9')
     dict_12_submit_word = fields.Char(string=u'字典12')
     dict_13_submit_word = fields.Char(string=u'字典13')

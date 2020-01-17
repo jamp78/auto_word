@@ -10,6 +10,7 @@ import numpy as np
 from RoundUp import round_up
 import math
 
+
 def generate_electrical_docx(Dict, path_images, model_name, outputfile):
     filename_box = [model_name, outputfile]
     read_path = os.path.join(path_images, '%s') % filename_box[0]
@@ -19,7 +20,7 @@ def generate_electrical_docx(Dict, path_images, model_name, outputfile):
     tpl.save(save_path)
 
 
-def get_dict_electrical_firstsec(self,index, col_name, data, sheet_name_array):
+def get_dict_electrical_firstsec(self, index, col_name, data, sheet_name_array):
     self.dict_1_submit_word = self.project_id.dict_1_submit_word
     self.dict_4_submit_word = self.project_id.dict_4_submit_word
     self.dict_5_submit_word = self.project_id.dict_5_submit_word
@@ -39,7 +40,6 @@ def get_dict_electrical_firstsec(self,index, col_name, data, sheet_name_array):
     if self.dict_5_submit_word == False:
         s = "风能部分"
         raise exceptions.Warning('请点选 %s，并点击风能详情 --> 提交报告（%s 位于软件上方，自动编制报告系统右侧）。' % (s, s))
-
 
     result_dict, context = {}, {}
     result_list = []
@@ -100,7 +100,7 @@ class auto_word_electrical_firstsec(models.Model):
     Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
     Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
 
-    Numbers_boxvoltagetype = fields.Integer(string='箱式变电站数量',default="0")
+    Numbers_boxvoltagetype = fields.Integer(string='箱式变电站数量', default="0")
     Numbers_maintransformertype = fields.Integer(string='主变压器数量', default="0")
     Numbers_v110kvswitchgeartype = fields.Integer(string='110kV配电装置数量', default="0")
     Numbers_v110kvarrestertype = fields.Integer(string='110kV避雷器型号数量', default="0")
@@ -123,7 +123,8 @@ class auto_word_electrical_firstsec(models.Model):
 
     boxvoltagetype = fields.Many2one('auto_word_electrical.boxvoltagetype', string='箱式变电站型号', required=False)
     maintransformertype = fields.Many2one('auto_word_electrical.maintransformertype', string='主变压器型号', required=False)
-    v110kvswitchgeartype = fields.Many2one('auto_word_electrical.110kvswitchgeartype', string='110kV配电装置型号', required=False)
+    v110kvswitchgeartype = fields.Many2one('auto_word_electrical.110kvswitchgeartype', string='110kV配电装置型号',
+                                           required=False)
     v110kvarrestertype = fields.Many2one('auto_word_electrical.110kvarrestertype', string='110kV避雷器型号', required=False)
     v35kvtictype = fields.Many2one('auto_word_electrical.35kvtictype', string='35kV风机进线柜型号', required=False)
     v35kvmtovctype = fields.Many2one('auto_word_electrical.35kvmtovctype', string='35kV主变出线柜型号', required=False)
@@ -153,7 +154,6 @@ class auto_word_electrical_firstsec(models.Model):
                 xlsdata = base64.standard_b64decode(re.datas)
                 name_first = t
                 file_exist = True
-
 
         if file_exist == True:
             electrical_path = self.env['auto_word.project'].path_chapter_6
@@ -187,10 +187,10 @@ class auto_word_electrical_firstsec(models.Model):
             pd.set_option('display.max_rows', None)
 
             sheet_name_array = ['01站用电负荷表', '02电气一次主要设备及材料表', '03电气二次设备主要材料清单', '04通信部分材料清单'
-                                ,'消防措施', '消防灭火系统主要设备材料表'
+                , '消防措施', '消防灭火系统主要设备材料表'
                                 ]
             for i in range(0, len(sheet_name_array)):
-                if i == 0 or i==4 or i==5:
+                if i == 0 or i == 4 or i == 5:
                     data = pd.read_excel(Pathinput, header=0, sheet_name=sheet_name_array[i],
                                          skip_footer=2)
                     col_name = data.columns.tolist()
@@ -225,28 +225,28 @@ class auto_word_electrical_firstsec(models.Model):
                 data = data.replace(np.nan, '-', regex=True)
                 col_name_array.append(col_name)
                 tabel_number = str(chapter_number) + '_' + str(i)
-                dict_content = get_dict_electrical_firstsec(self,tabel_number, col_name_array[i], data, sheet_name_array[i])
+                dict_content = get_dict_electrical_firstsec(self, tabel_number, col_name_array[i], data,
+                                                            sheet_name_array[i])
 
                 dictMerged.update(dict_content)
 
             for i in range(0, len(dictMerged['result_list6_0'])):
                 if str(dictMerged['result_list6_0'][i]['cols'][0]) == '室外消防水泵':
-                    self.p1 = str(dictMerged['result_list6_0'][i+1]['cols'][3])
+                    self.p1 = str(dictMerged['result_list6_0'][i + 1]['cols'][3])
                 if str(dictMerged['result_list6_0'][i]['cols'][0]) == '厨房动力':
-                    self.p2 = str(dictMerged['result_list6_0'][i+1]['cols'][3])
+                    self.p2 = str(dictMerged['result_list6_0'][i + 1]['cols'][3])
                 if str(dictMerged['result_list6_0'][i]['cols'][0]) == '户外照明':
-                    self.p3 = str(dictMerged['result_list6_0'][i+1]['cols'][3])
+                    self.p3 = str(dictMerged['result_list6_0'][i + 1]['cols'][3])
 
-
-            self.sum_p=0.85*float(self.p1)+float(self.p2)+float(self.p3)
-            self.sum_pp=math.ceil(self.sum_p/100)*100
+            self.sum_p = 0.85 * float(self.p1) + float(self.p2) + float(self.p3)
+            self.sum_pp = math.ceil(self.sum_p / 100) * 100
 
             dict_6_res_word = {
                 '站用电负荷表说明_1': str('1、综合楼空调机为单冷型，该负荷仅在夏季使用；'),
                 '站用电负荷表说明_2': str('2、设备楼空调机为冷暖型。'),
                 '热镀锌扁钢': str(dictMerged['result_list6_1'][47]['cols'][1]),
                 '热镀锌角钢': str(dictMerged['result_list6_1'][48]['cols'][1]),
-                'p1':self.p1,
+                'p1': self.p1,
                 'p2': self.p2,
                 'p3': self.p3,
                 'sum_p': self.sum_p,
@@ -256,12 +256,14 @@ class auto_word_electrical_firstsec(models.Model):
                 "升压站容量": self.Capacity,
             }
 
-
             # 提交的生成chapter6的dict
             dict_6_word = dict(dictMerged, **dict_6_res_word)
             # 生成chapter6 所需要的总的dict
             dict_6_words = dict(dict_6_word, **eval(self.dict_1_submit_word),
-                                **eval(self.dict_4_submit_word), **eval(self.dict_5_submit_word),**eval(self.dict_6_jidian_submit_word))
+                                **eval(self.dict_4_submit_word), **eval(self.dict_5_submit_word),
+                                **eval(self.dict_6_jidian_submit_word))
+
+            self.dict_6_submit_word = dict_6_word
 
             generate_electrical_docx(dict_6_words, electrical_path, model_name, outputfile)
             ###########################
@@ -294,6 +296,7 @@ class auto_word_electrical_firstsec(models.Model):
             print('new attachment：', self.report_attachment_id)
             print('new datas len：', len(self.report_attachment_id.datas))
             return True
+
     @api.multi
     def action_get_attachment_electrical_firstsec_view(self):
         """附件上传动作视图"""
@@ -314,11 +317,11 @@ class auto_word_electrical_firstsec(models.Model):
             expense.attachment_number = attachment.get(expense.id, 0)
 
     def submit_electrical_firstsec(self):
-        self.project_id.Status=self.Status
+        self.project_id.Status = self.Status
         self.project_id.Grade = self.Grade
         self.project_id.Capacity = self.Capacity
         self.project_id.main_booster_station_num = self.Numbers_maintransformertype
-
+        self.project_id.dict_6_submit_word = self.dict_6_submit_word
 
         self.TypeID_boxvoltagetype = self.boxvoltagetype.TypeID
         self.TypeID_maintransformertype = self.maintransformertype.TypeID
@@ -366,7 +369,6 @@ class auto_word_electrical_firstsec(models.Model):
             Numbers_ccmtlvtype=self.Numbers_ccmtlvtype,
             turbine_numbers=self.project_id.turbine_numbers_suggestion
         )
-
 
 
 # 2箱式变电站
