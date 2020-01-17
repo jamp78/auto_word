@@ -13,8 +13,8 @@ class auto_word_electrical_infor(models.Model):
     _rec_name = 'project_id'
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    booster_station_construction_site = fields.Char(u'升压站建设地点')
 
+    booster_station_construction_site = fields.Char(u'升压站建设地点')
     socio_economic_infor = fields.Char(u'社会经济概况')
     energy_development_plan = fields.Char(u'能源发展规划')
     power_system_development_plan = fields.Char(u'电力系统现状')
@@ -95,44 +95,29 @@ class auto_word_electrical(models.Model):
     _rec_name = 'project_id'
     project_id = fields.Many2one('auto_word.project', string='项目名', required=True)
     version_id = fields.Char(u'版本', required=True, default="1.0")
-    voltage_class = fields.Selection([(0, u"平原"), (1, u"山地")], string=u"地形", required=False)
-    # length_single_jL240 = fields.Float(u'单回线路JL/G1A-240/30长度（km）', required=False,default="19")
-    # length_double_jL240 = fields.Float(u'双回线路JL/G1A-240/30长度（km）', required=False,default="22")
-    # yjlv95 = fields.Float(u'直埋电缆YJLV22-26/35-3×95（km）', required=False,default="8")
-    # yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=False,default="1.5")
+    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气集电线路章节')
 
     # 提交
     dict_6_jidian_submit_word = fields.Char(u'字典6_jidian_提交')
 
-
+    voltage_class = fields.Selection([(0, u"平原"), (1, u"山地")], string=u"地形", required=False)
     length_single_jL240 = fields.Float(u'单回线路长度（km）', required=False,default="25.3")
     length_double_jL240 = fields.Float(u'双回线路长度（km）', required=False,default="23.6")
     yjlv95 = fields.Float(u'直埋电缆YJLV22-26/35-3×95（km）', required=False,default="1.55")
     yjv300 = fields.Float(u'直埋电缆YJV22-26/35-1×300（km）', required=False,default="3")
-
-    turbine_numbers = fields.Char(u'推荐机组数量', default="待提交", readonly=True)
-    name_tur_suggestion = fields.Char(u'推荐机型', default="待提交", readonly=True)
-    hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
-
-    circuit_number = fields.Integer(u'线路回路数', required=False,default="6")
-    report_attachment_id = fields.Many2one('ir.attachment', string=u'可研报告电气章节')
-    #
+    jidian_air_wind = fields.Float(u'架空长度', required=False)
+    jidian_cable_wind = fields.Float(u'电缆长度', required=False,default="3.2")
     line_1 = fields.Float(u'线路总挖方', required=False,default="15000")
     line_2 = fields.Float(u'线路总填方', required=False,default="10000")
-    # overhead_line = fields.Float(u'架空线路用地', required=False,default="1500")
-    # direct_buried_cable = fields.Float(u'直埋电缆用地', required=False,default="3000")
     overhead_line_num = fields.Float(u'架空线路塔基数量', required=False,default="20")
     direct_buried_cable_num = fields.Float(u'直埋电缆长度', required=False,default="3.2")
 
     #风能
-    jidian_air_wind = fields.Float(u'架空长度', required=False)
-    jidian_cable_wind = fields.Float(u'电缆长度', required=False,default="3.2")
+    turbine_numbers = fields.Char(u'推荐机组数量', default="待提交", readonly=True)
+    name_tur_suggestion = fields.Char(u'推荐机型', default="待提交", readonly=True)
+    hub_height_suggestion = fields.Char(u'推荐轮毂高度', default="待提交", readonly=True)
+    circuit_number = fields.Integer(u'线路回路数', required=False,default="6")
 
-
-    # @api.depends('length_singlejL240', 'length_doublejL240')
-    # def _compute_total_length(self):
-    #     for re in self:
-    #         re.total_length = re.length_singlejL240 + re.length_doublejL240 * 2
 
     @api.multi
     def take_electrical_result(self):

@@ -84,7 +84,7 @@ class auto_word_electrical_firstsec(models.Model):
     _rec_name = 'project_id'
 
     # 提交
-    dict_6_submit_word = fields.Char(u'字典8_提交')
+    dict_6_submit_word = fields.Char(u'字典6_提交')
     # 提取
     dict_1_submit_word = fields.Char(u'字典1_提交')
     dict_4_submit_word = fields.Char(u'字典4_提交')
@@ -99,7 +99,6 @@ class auto_word_electrical_firstsec(models.Model):
     Status = fields.Selection([("新建", u"新建"), ("利用原有", u"利用原有")], string=u"升压站状态", default="新建")
     Grade = fields.Selection([(110, "110"), (220, "220")], string=u"升压站等级", default=110)
     Capacity = fields.Selection([(50, "50"), (100, "100"), (150, "150"), (200, "200")], string=u"升压站容量", default=100)
-
 
     Numbers_boxvoltagetype = fields.Integer(string='箱式变电站数量',default="0")
     Numbers_maintransformertype = fields.Integer(string='主变压器数量', default="0")
