@@ -11,10 +11,10 @@ from energy_saving import energy_saving_cal, energy_using_cal
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../GOdoo12_community/myaddons/auto_word/models/wind")))
-
 gl._init()
 
 
+# 生成docx方法
 def generate_docx(Dict, path_images, model_name, outputfile):
     filename_box = [model_name, outputfile]
     read_path = os.path.join(path_images, '%s') % filename_box[0]
@@ -24,6 +24,7 @@ def generate_docx(Dict, path_images, model_name, outputfile):
     tpl.save(save_path)
 
 
+# 字典doc_1
 def dict_project_1(self):
     dict_1_word = {
         "概述": self.summary_txt,
@@ -37,6 +38,7 @@ def dict_project_1(self):
     return dict_1_word
 
 
+# 字典doc_x(小章节字典)
 def dict_project_x(self):
     dict_1_word = dict_project_1(self)
 
@@ -126,7 +128,7 @@ class auto_word_project(models.Model):
     dict_4_submit_word = fields.Char(string=u'字典4')
     dict_5_submit_word = fields.Char(string=u'字典5')
 
-    dict_6_jidian_submit_word= fields.Char(string=u'字典_6_集电')
+    dict_6_jidian_submit_word = fields.Char(string=u'字典_6_集电')
     dict_6_submit_word = fields.Char(string=u'字典6')
     dict_8_submit_word = fields.Char(string=u'字典8_9')
     dict_12_submit_word = fields.Char(string=u'字典12')
@@ -314,7 +316,7 @@ class auto_word_project(models.Model):
 
     def merge_project(self):
         print("check dict_word")
-        dict_x = dict_project_x(self)
+        self.dict_x = dict_project_x(self)
         if self.dict_x == False:
             raise exceptions.Warning('综述章节没有生成')
         elif self.dict_3_submit_word == False:
@@ -340,7 +342,7 @@ class auto_word_project(models.Model):
         dict_12_submit_word = eval(self.dict_12_submit_word)
         dict_13_submit_word = eval(self.dict_13_submit_word)
 
-        dict_x_all = dict(dict_x, **dict_3_submit_word, **dict_4_submit_word,
+        dict_x_all = dict(self.dict_x, **dict_3_submit_word, **dict_4_submit_word,
                           **dict_5_submit_word, **dict_6_jidian_submit_word, **dict_8_submit_word,
                           **dict_12_submit_word, **dict_13_submit_word)
         chapter_number = 'x'
@@ -388,7 +390,7 @@ class auto_word_null_project(models.Model):
     _name = 'auto_word_null.project'
     _description = 'null Project'
 
-#参考
+# 参考
 # re.env['auto_word_wind_turbines.compare'].compare_id = re
 # re.compare_id.case_name = re.auto_word_wind_res[0].case_name
 # re.compare_id.ongrid_power = re.ongrid_power_sum

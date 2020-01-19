@@ -140,7 +140,7 @@ def cal_wind_result(self):
         turbine_numbers_dict.append(self.case_names[i].turbine_numbers)
         capacity_dict.append(self.case_names[i].capacity)
         farm_capacity_dict.append(self.case_names[i].farm_capacity)
-        rotor_diameter_dict.append(self.case_names[i].rotor_diameter_case)
+        rotor_diameter_dict.append(self.case_names[i].rotor_diameter_words)
         case_hub_height_dict.append(self.case_names[i].hub_height_suggestion)
         power_generation_dict.append(self.case_names[i].ongrid_power)
         weak_dict.append(self.case_names[i].weak)
@@ -155,7 +155,7 @@ def cal_wind_result(self):
         investment_E7_dict.append(str(self.case_names[i].investment_E7))
         investment_dict.append(str(self.case_names[i].investment))
         investment_unit_dict.append(str(self.case_names[i].investment_unit))
-        investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kws))
+        investment_turbines_kws_dict.append(str(self.case_names[i].investment_turbines_kw_words))
 
     rotor_diameter_dict_words_only = list(set(rotor_diameter_dict))
     print(rotor_diameter_dict_words)
@@ -400,7 +400,7 @@ class auto_word_wind(models.Model):
     @api.depends('recommend_id')
     def _compute_compare_case(self):
         for re in self:
-            re.name_tur_suggestion = re.recommend_id.name_tur
+            re.name_tur_suggestion = re.recommend_id.name_tur_words
             re.hub_height_suggestion = re.recommend_id.hub_height_suggestion
             re.turbine_numbers_suggestion = re.recommend_id.turbine_numbers
             re.project_capacity = re.recommend_id.farm_capacity
@@ -432,7 +432,7 @@ class auto_word_wind(models.Model):
         self.project_id.turbine_model_suggestion = self.recommend_id.WTG_name
         self.project_id.turbine_numbers_suggestion = self.recommend_id.turbine_numbers
         self.project_id.hub_height_suggestion = self.recommend_id.hub_height_suggestion
-        self.project_id.name_tur_suggestion = self.recommend_id.name_tur
+        self.project_id.name_tur_suggestion = self.recommend_id.name_tur_words
         self.project_id.investment_E1 = self.recommend_id.investment_E1
         self.project_id.investment_E2 = self.recommend_id.investment_E2
         self.project_id.investment_E3 = self.recommend_id.investment_E3

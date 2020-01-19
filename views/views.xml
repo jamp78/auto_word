@@ -343,9 +343,9 @@
 
 
       <!--<menuitem name="风机设备选型布置及发电量估算" id="auto_word_wind_chapter5_menu" parent="auto_word_wind"/>-->
-        <menuitem name="风机基础、箱变基础及集电线路基础设计" id="auto_word_civil_chapter8_3_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_3_act_window"/>
-        <menuitem name="变电站设计" id="auto_word_civil_chapter8_4_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_4_act_window"/>
-        <menuitem name="道路设计" id="auto_word_civil_chapter8_5_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_5_act_window"/>
+        <!--<menuitem name="风机基础、箱变基础及集电线路基础设计" id="auto_word_civil_chapter8_3_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_3_act_window"/>-->
+        <!--<menuitem name="变电站设计" id="auto_word_civil_chapter8_4_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_4_act_window"/>-->
+        <!--<menuitem name="道路设计" id="auto_word_civil_chapter8_5_menu" parent="auto_word_civil" action="auto_word_wind_civil_chapter8_5_act_window"/>-->
 
 
     <menuitem name="风场信息" id="auto_word_wind_turbines_menu" parent="auto_word.menu_root" sequence="13"/>

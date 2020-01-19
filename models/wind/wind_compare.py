@@ -41,7 +41,7 @@ class auto_word_wind_turbines_compare(models.Model):
     turbine_numbers = fields.Char(string=u'风机数量', readonly=True, default="0")
     farm_capacity = fields.Char(string=u'装机容量', readonly=True)
 
-    name_tur_words = fields.Char(string=u'风机类型', readonly=True, default="待提交")
+    name_tur_words = fields.Char(string=u'风机型号', readonly=True, default="待提交")
     capacity_words = fields.Char(string=u'风机容量', readonly=True, default="待提交")
     tower_weight_words = fields.Char(string=u'塔筒重量', readonly=True, default="待提交")
     rotor_diameter_words = fields.Char(string=u'叶轮直径',readonly=True, default="待提交")
@@ -88,8 +88,8 @@ class auto_word_wind_turbines_compare(models.Model):
             re.farm_capacity = 0
             for i in range(0, len(re.case_ids)):
 
-                rotor_swept_area_suggestion_word = str(re.case_ids[i].rotor_swept_area)
-                blade_number_suggestion_word = str(re.case_ids[i].blade_number)
+                rotor_swept_area_word = str(re.case_ids[i].rotor_swept_area)
+                blade_number_word = str(re.case_ids[i].blade_number)
                 cut_in_wind_speed_word = str(re.case_ids[i].cut_in_wind_speed)
                 cut_out_wind_speed_word = str(re.case_ids[i].cut_out_wind_speed)
                 rated_wind_speed_word = str(re.case_ids[i].rated_wind_speed)
@@ -172,8 +172,8 @@ class auto_word_wind_turbines_compare(models.Model):
                         name_tur_words = name_tur_word + "/" + name_tur_words
                         capacity_words = capacity_word + "/" + capacity_words
 
-                        rotor_swept_area_word = rotor_swept_area_suggestion_word + "/" + rotor_swept_area_suggestion_word
-                        blade_number_word = blade_number_suggestion_word + "/" + blade_number_suggestion_word
+                        rotor_swept_area_word = rotor_swept_area_word + "/" + rotor_swept_area_word
+                        blade_number_word = blade_number_word + "/" + blade_number_word
 
                         cut_in_wind_speed_word = cut_in_wind_speed_word + "/" + cut_in_wind_speed_word
                         cut_out_wind_speed_word = cut_out_wind_speed_word + "/" + cut_out_wind_speed_word
@@ -287,7 +287,7 @@ class auto_word_wind_turbines_compare(models.Model):
 
     def submit_turbines_compare(self):
         for re in self:
-            re.content_id.rotor_diameter_case = re.rotor_diameter_case
+            re.content_id.rotor_diameter_case = re.rotor_diameter_words
             re.env['auto_word.wind'].search([('project_id.project_name', '=',
                                               re.project_id.project_name)]).recommend_id = re
             re.content_id.tower_weight = re.tower_weight
